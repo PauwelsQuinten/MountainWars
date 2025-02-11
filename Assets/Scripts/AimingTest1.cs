@@ -23,11 +23,6 @@ public class AimingTest1 : MonoBehaviour
 
     private void Update()
     {
-        float power = Vector2.Distance(Vector2.zero, _actionReference.action.ReadValue<Vector2>());
-        Debug.Log($"raw {power}");
-        power = _PowerScaleMultiplier.Evaluate(power);
-        Debug.Log($"changed{power}");
-
         float currentY = _actionReference.action.ReadValue<Vector2>().y;
 
         if (currentY < 0)
@@ -56,8 +51,9 @@ public class AimingTest1 : MonoBehaviour
         DetermineSide();
         float power = Vector2.Distance(Vector2.zero, _lowestVector);
         
-        power = _PowerScaleMultiplier.Evaluate(power) * 10;
-        Debug.Log($"Start height:{_height}, direction: {_direction}, Power: {power}");
+        power = _PowerScaleMultiplier.Evaluate(power);
+        power = Mathf.Clamp01(power);
+        Debug.Log($"Start height:{_height}, direction: {_direction}, Power: {power * 10}");
         _lowestPoint = 0;
         _highestPoint = 0;
         _lowestVector = Vector2.zero;
