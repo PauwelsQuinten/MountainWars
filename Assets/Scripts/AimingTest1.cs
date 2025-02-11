@@ -18,6 +18,7 @@ public class AimingTest1 : MonoBehaviour
     private Vector2 _highestVector;
     private Direction _direction;
     private Height _height = Height.Middle;
+    private Test2Directions _testDirection;
 
     private bool _powerSelected;
 
@@ -73,6 +74,17 @@ public class AimingTest1 : MonoBehaviour
         if (aimAngle > 90 - _angleMargins && aimAngle < 90 + _angleMargins)
         {
             _direction = Direction.Middle;
+
+            switch (_height) 
+            {
+                case Height.Middle:
+                    _testDirection = Test2Directions.
+                    break;
+                case Height.Upper:
+                    break;
+                case Height.Lower:
+                    break;
+            }
             return;
         }
         if (aimAngle > 45 - _angleMargins && aimAngle < 45 + _angleMargins)
