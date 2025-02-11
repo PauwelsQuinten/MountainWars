@@ -7,6 +7,11 @@ public class AimingTest1 : MonoBehaviour
 {
     [SerializeField, Range(1f, 20f)]
     private float _angleMargins = 15f;
+    [SerializeField]
+    private InputActionReference _actionReference;
+    [SerializeField]
+    private AnimationCurve _PowerScaleMultiplier;
+
     private float _lowestPoint;
     private Vector2 _lowestVector;
     private float _highestPoint;
@@ -16,16 +21,21 @@ public class AimingTest1 : MonoBehaviour
 
     private bool _powerSelected;
 
-    public void Aim(InputAction.CallbackContext ctx)
+    private void Update()
     {
-        float currentY = ctx.ReadValue<Vector2>().y;
+        float power = Vector2.Distance(Vector2.zero, _actionReference.action.ReadValue<Vector2>());
+        Debug.Log($"raw {power}");
+        power = _PowerScaleMultiplier.Evaluate(power);
+        Debug.Log($"changed{power}");
+
+        float currentY = _actionReference.action.ReadValue<Vector2>().y;
 
         if (currentY < 0)
         {
             if (currentY < _lowestPoint)
             {
                 _lowestPoint = currentY;
-                _lowestVector = ctx.ReadValue<Vector2>();
+                _lowestVector = _actionReference.action.ReadValue<Vector2>();
             }
             else _powerSelected = true;
         }
@@ -35,16 +45,19 @@ public class AimingTest1 : MonoBehaviour
             if (currentY > _highestPoint)
             {
                 _highestPoint = currentY;
-                _highestVector = ctx.ReadValue<Vector2>();
+                _highestVector = _actionReference.action.ReadValue<Vector2>();
             }
-            else if(_powerSelected) Attack();
+            else if (_powerSelected) Attack();
         }
     }
 
     private void Attack()
     {
         DetermineSide();
-        Debug.Log($"{_height}, {_direction}");
+        float power = Vector2.Distance(Vector2.zero, _lowestVector);
+        
+        power = _PowerScaleMultiplier.Evaluate(power) * 10;
+        Debug.Log($"Start height:{_height}, direction: {_direction}, Power: {power}");
         _lowestPoint = 0;
         _highestPoint = 0;
         _lowestVector = Vector2.zero;
