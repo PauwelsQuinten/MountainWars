@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="766a9715-31b3-4479-9cf0-c70e7ba75ea4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/Resources/FMODStudioSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/Resources/FMODStudioSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioPlayer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioPlayer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestScript.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestScript.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +21,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestScript.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/AudioTestPlayer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/FMODAudioManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -95,6 +100,9 @@
       <updated>1739203956811</updated>
       <workItem from="1739203958523" duration="357000" />
       <workItem from="1739204936264" duration="950000" />
+      <workItem from="1739283474177" duration="24000" />
+      <workItem from="1739283546849" duration="3454000" />
+      <workItem from="1739287483922" duration="3967000" />
     </task>
     <servers />
   </component>
