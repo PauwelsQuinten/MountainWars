@@ -19,7 +19,7 @@ public class AimingInput : MonoBehaviour
     private InputAction rightBlockAction;
     private InputAction AimFeet;
     private CharacterController characterController;
-    [SerializeField] GameObject arrow;
+    [SerializeField] HitDetection _hitDetector;
 
     private Vector2 _direction;
     private Vector2 _moveDirection;
@@ -31,8 +31,6 @@ public class AimingInput : MonoBehaviour
     private AttackStance stanceState = AttackStance.Torso;
 
     [SerializeField] private float _speed = 10.0f;
-    [SerializeField] private TextMeshPro _texMessage;
-    [SerializeField] private TextMeshPro _txtActionPower;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
@@ -52,7 +50,7 @@ public class AimingInput : MonoBehaviour
         //_input.Player.Move.performed += OnMove;
         //_input.Player.Move.canceled += OnMove;
         _input.Enable();
-        characterController = GetComponent<CharacterController>();
+        //characterController = GetComponent<CharacterController>();
         moveAction = _input.FindAction("Move");
         AimAction = _input.FindAction("Look");
         AimHead = _input.Player.Stab1;
@@ -74,13 +72,13 @@ public class AimingInput : MonoBehaviour
 
     private void Update()
     {
-        arrow.transform.localScale *= (0.990f );
+        //arrow.transform.localScale *= (0.990f );
 
 
         AnalogAiming();
 
         _moveDirection = moveAction.ReadValue<Vector2>();
-        characterController.Move(_moveDirection * _speed * Time.deltaTime);
+        //characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
 
     private void AnalogAiming()
@@ -118,8 +116,8 @@ public class AimingInput : MonoBehaviour
                         _isStab = true;
                         slashState = ((int) slashState < 0)? slashState + 180 : slashState - 180;
                         Debug.Log($"Hight : {stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
-                        RotateArrow();
                         state = SlashState.Rest;
+                        _hitDetector.GetHitPos(slashState, stanceState, _isStab);
                         return;
                     }
                     _isStab = false;
@@ -157,7 +155,8 @@ public class AimingInput : MonoBehaviour
                     }
                      //SLASH!!!!
                     Debug.Log($"{stanceState} in direction {slashState} with power: {_chargeUpTime}");
-                    RotateArrow();
+                    _hitDetector.GetHitPos(slashState, stanceState, _isStab);
+                    //RotateArrow();
                     state = SlashState.Rest;
                 }
                 break;
@@ -201,47 +200,6 @@ public class AimingInput : MonoBehaviour
             return true;
         }
         return false;
-
-    }
-
-    private void RotateArrow()
-    {
-        arrow.transform.localScale = Vector3.one;
-
-        string attack = _isStab ? "Stab" : "Slash";
-        _texMessage.text = slashState.ToString();
-        string text = $"{attack} Aim at {stanceState} with power: {_chargeUpTime:F2}";
-        _txtActionPower.text = text;
-        switch (slashState)
-        {
-            case SlashDirection.LeftUp:
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;
-            case SlashDirection.RightUp: 
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;     
-            case SlashDirection.LeftDown:
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;
-            case SlashDirection.RightDown: 
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;     
-            case SlashDirection.LeftToRight:
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;
-            case SlashDirection.RightToLeft: 
-                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
-                break;     
-            case SlashDirection.StraightDown:
-                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
-                break;
-            case SlashDirection.Upper:
-                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
-                break;
-            default:
-                break;
-        }
-        
 
     }
 }
