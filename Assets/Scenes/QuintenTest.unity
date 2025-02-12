@@ -1240,6 +1240,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+=======
+>>>>>>> Stashed changes
 --- !u!1 &1729508554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,6 +1255,8 @@ GameObject:
   - component: {fileID: 1729508555}
 <<<<<<< Updated upstream
   - component: {fileID: 1729508558}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
