@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -11,6 +12,10 @@ public class AimingTest1 : MonoBehaviour
     private InputActionReference _actionReference;
     [SerializeField]
     private AnimationCurve _PowerScaleMultiplier;
+    [SerializeField]
+    private GameObject _visualization;
+    [SerializeField]
+    private TextMeshPro _visualText;
 
     private float _lowestPoint;
     private Vector2 _lowestVector;
@@ -50,11 +55,12 @@ public class AimingTest1 : MonoBehaviour
     private void Attack()
     {
         DetermineSide();
+        SetVisual();
         float power = Vector2.Distance(Vector2.zero, _lowestVector);
         
         power = _PowerScaleMultiplier.Evaluate(power);
         power = Mathf.Clamp01(power);
-        Debug.Log($"Start height:{_height}, direction: {_direction}, Power: {power * 10}");
+        Debug.Log($"direction: {_testDirection}, Power: {power * 10}");
         _lowestPoint = 0;
         _highestPoint = 0;
         _lowestVector = Vector2.zero;
@@ -80,10 +86,10 @@ public class AimingTest1 : MonoBehaviour
                 case Height.Middle:
                     break;
                 case Height.Upper:
-                    _testDirection = Test2Directions.UpDown;
+                    _testDirection = Test2Directions.DownUp;
                     break;
                 case Height.Lower:
-                    _testDirection = Test2Directions.DownUp;
+                    _testDirection = Test2Directions.UpDown;
                     break;
             }
             return;
@@ -135,6 +141,50 @@ public class AimingTest1 : MonoBehaviour
     {
         if (!ctx.performed) return;
         _height = Height.Lower;
+    }
+
+    private void SetVisual()
+    {
+        switch(_testDirection)
+        {
+            case Test2Directions.UpDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 180);
+                break;
+            case Test2Directions.UpLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
+                break;
+            case Test2Directions.UpRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
+                break;
+            case Test2Directions.LeftUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
+                break;
+            case Test2Directions.LeftRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 90);
+                break;
+            case Test2Directions.LeftDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
+                break;
+            case Test2Directions.DownUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 0);
+                break;
+            case Test2Directions.DownLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
+                break;
+            case Test2Directions.DownRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
+                break;
+            case Test2Directions.RightUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -45);
+                break;
+            case Test2Directions.RightLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -90);
+                break;
+            case Test2Directions.RightDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
+                break;
+        }
+        _visualText.text = _testDirection.ToString();
     }
 }
 

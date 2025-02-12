@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,10 @@ public class AimingTest2 : MonoBehaviour
     private float _power = 10f;
     [SerializeField]
     private InputActionReference _powerMultiplier;
+    [SerializeField]
+    private GameObject _visualization;
+    [SerializeField]
+    private TextMeshPro _visualText;
 
     private Test2Directions _direction;
     private List<Buttons> _buttonsPressed = new List<Buttons>();
@@ -22,6 +27,8 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.North);
 
         CheckButon();
+        SetVisual();
+        Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
     public void EastButtonPressed(InputAction.CallbackContext ctx)
@@ -31,6 +38,8 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.East);
 
         CheckButon();
+        SetVisual();
+        Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
     public void SouthButtonPressed(InputAction.CallbackContext ctx)
@@ -40,6 +49,8 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.South);
 
         CheckButon();
+        SetVisual();
+        Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
     public void WestButtonPressed(InputAction.CallbackContext ctx)
@@ -49,6 +60,8 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.West);
 
         CheckButon();
+        SetVisual();
+        Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
     private void CheckButon()
@@ -138,7 +151,50 @@ public class AimingTest2 : MonoBehaviour
 
         StopCoroutine(DoTimer(0.2f));
         _buttonsPressed.Clear();
-        Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
+    }
+
+    private void SetVisual()
+    {
+        switch (_direction)
+        {
+            case Test2Directions.UpDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 180);
+                break;
+            case Test2Directions.UpLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
+                break;
+            case Test2Directions.UpRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
+                break;
+            case Test2Directions.LeftUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -45);
+                break;
+            case Test2Directions.LeftRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -90);
+                break;
+            case Test2Directions.LeftDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
+                break;
+            case Test2Directions.DownUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 0);
+                break;
+            case Test2Directions.DownLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
+                break;
+            case Test2Directions.DownRight:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, -45);
+                break;
+            case Test2Directions.RightUp:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
+                break;
+            case Test2Directions.RightLeft:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 90);
+                break;
+            case Test2Directions.RightDown:
+                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
+                break;
+        }
+        _visualText.text = _direction.ToString();
     }
 
     private IEnumerator DoTimer(float timer)
