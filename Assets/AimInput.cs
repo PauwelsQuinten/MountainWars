@@ -162,6 +162,78 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aiming"",
+                    ""type"": ""Value"",
+                    ""id"": ""6fb07406-378f-4dea-91c4-6230a82e1ac7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SelectUpper"",
+                    ""type"": ""Button"",
+                    ""id"": ""974f8fff-3736-4bfb-a177-994e794924b6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectLower"",
+                    ""type"": ""Button"",
+                    ""id"": ""20e4ff11-59eb-4673-b5c5-f61b6c4a9599"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0a410b3-ab5e-4af5-8654-a1cd5471a637"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""abad2743-6ac8-4966-a8c1-bf6ffc0ede59"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""e85d28c7-8b5e-4ef6-aed2-0daf34ef1db2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""791e1527-e03e-4a4f-8901-bb461c6f8e92"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""512f1529-b6f6-4e0d-b0a5-c23eb21657ef"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -311,7 +383,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -1065,6 +1137,14 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Slash = m_Player.FindAction("Slash", throwIfNotFound: true);
         m_Player_Stab = m_Player.FindAction("Stab", throwIfNotFound: true);
+        m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
+        m_Player_SelectUpper = m_Player.FindAction("SelectUpper", throwIfNotFound: true);
+        m_Player_SelectLower = m_Player.FindAction("SelectLower", throwIfNotFound: true);
+        m_Player_ButtonUp = m_Player.FindAction("ButtonUp", throwIfNotFound: true);
+        m_Player_ButtonDown = m_Player.FindAction("ButtonDown", throwIfNotFound: true);
+        m_Player_ButtonRight = m_Player.FindAction("ButtonRight", throwIfNotFound: true);
+        m_Player_ButtonLeft = m_Player.FindAction("ButtonLeft", throwIfNotFound: true);
+        m_Player_Power = m_Player.FindAction("Power", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1166,6 +1246,14 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Slash;
     private readonly InputAction m_Player_Stab;
+    private readonly InputAction m_Player_Aiming;
+    private readonly InputAction m_Player_SelectUpper;
+    private readonly InputAction m_Player_SelectLower;
+    private readonly InputAction m_Player_ButtonUp;
+    private readonly InputAction m_Player_ButtonDown;
+    private readonly InputAction m_Player_ButtonRight;
+    private readonly InputAction m_Player_ButtonLeft;
+    private readonly InputAction m_Player_Power;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1209,6 +1297,38 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Stab".
         /// </summary>
         public InputAction @Stab => m_Wrapper.m_Player_Stab;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Aiming".
+        /// </summary>
+        public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUpper".
+        /// </summary>
+        public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectLower".
+        /// </summary>
+        public InputAction @SelectLower => m_Wrapper.m_Player_SelectLower;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonUp".
+        /// </summary>
+        public InputAction @ButtonUp => m_Wrapper.m_Player_ButtonUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonDown".
+        /// </summary>
+        public InputAction @ButtonDown => m_Wrapper.m_Player_ButtonDown;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonRight".
+        /// </summary>
+        public InputAction @ButtonRight => m_Wrapper.m_Player_ButtonRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonLeft".
+        /// </summary>
+        public InputAction @ButtonLeft => m_Wrapper.m_Player_ButtonLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Power".
+        /// </summary>
+        public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1259,6 +1379,30 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Stab.started += instance.OnStab;
             @Stab.performed += instance.OnStab;
             @Stab.canceled += instance.OnStab;
+            @Aiming.started += instance.OnAiming;
+            @Aiming.performed += instance.OnAiming;
+            @Aiming.canceled += instance.OnAiming;
+            @SelectUpper.started += instance.OnSelectUpper;
+            @SelectUpper.performed += instance.OnSelectUpper;
+            @SelectUpper.canceled += instance.OnSelectUpper;
+            @SelectLower.started += instance.OnSelectLower;
+            @SelectLower.performed += instance.OnSelectLower;
+            @SelectLower.canceled += instance.OnSelectLower;
+            @ButtonUp.started += instance.OnButtonUp;
+            @ButtonUp.performed += instance.OnButtonUp;
+            @ButtonUp.canceled += instance.OnButtonUp;
+            @ButtonDown.started += instance.OnButtonDown;
+            @ButtonDown.performed += instance.OnButtonDown;
+            @ButtonDown.canceled += instance.OnButtonDown;
+            @ButtonRight.started += instance.OnButtonRight;
+            @ButtonRight.performed += instance.OnButtonRight;
+            @ButtonRight.canceled += instance.OnButtonRight;
+            @ButtonLeft.started += instance.OnButtonLeft;
+            @ButtonLeft.performed += instance.OnButtonLeft;
+            @ButtonLeft.canceled += instance.OnButtonLeft;
+            @Power.started += instance.OnPower;
+            @Power.performed += instance.OnPower;
+            @Power.canceled += instance.OnPower;
         }
 
         /// <summary>
@@ -1294,6 +1438,30 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Stab.started -= instance.OnStab;
             @Stab.performed -= instance.OnStab;
             @Stab.canceled -= instance.OnStab;
+            @Aiming.started -= instance.OnAiming;
+            @Aiming.performed -= instance.OnAiming;
+            @Aiming.canceled -= instance.OnAiming;
+            @SelectUpper.started -= instance.OnSelectUpper;
+            @SelectUpper.performed -= instance.OnSelectUpper;
+            @SelectUpper.canceled -= instance.OnSelectUpper;
+            @SelectLower.started -= instance.OnSelectLower;
+            @SelectLower.performed -= instance.OnSelectLower;
+            @SelectLower.canceled -= instance.OnSelectLower;
+            @ButtonUp.started -= instance.OnButtonUp;
+            @ButtonUp.performed -= instance.OnButtonUp;
+            @ButtonUp.canceled -= instance.OnButtonUp;
+            @ButtonDown.started -= instance.OnButtonDown;
+            @ButtonDown.performed -= instance.OnButtonDown;
+            @ButtonDown.canceled -= instance.OnButtonDown;
+            @ButtonRight.started -= instance.OnButtonRight;
+            @ButtonRight.performed -= instance.OnButtonRight;
+            @ButtonRight.canceled -= instance.OnButtonRight;
+            @ButtonLeft.started -= instance.OnButtonLeft;
+            @ButtonLeft.performed -= instance.OnButtonLeft;
+            @ButtonLeft.canceled -= instance.OnButtonLeft;
+            @Power.started -= instance.OnPower;
+            @Power.performed -= instance.OnPower;
+            @Power.canceled -= instance.OnPower;
         }
 
         /// <summary>
@@ -1650,6 +1818,62 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnStab(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aiming" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAiming(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUpper" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUpper(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectLower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectLower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonDown(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Power" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPower(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

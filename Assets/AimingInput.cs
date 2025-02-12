@@ -25,30 +25,19 @@ public class AimingInput : MonoBehaviour
 
     private void OnEnable()
     {
-        //_input.Player.Move.performed += OnMove;
-        //_input.Player.Move.canceled += OnMove;
         _input.Enable();
         moveAction = _input.FindAction("Look");
-        //moveAction = _input.Player.Look;
     }
 
     private void OnDisable()
     {
-        //_input.Player.Move.performed -= OnMove;
-       // _input.Player.Move.canceled -= OnMove;
         _input.Disable();
-    }
-
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        //_direction = context.ReadValue<Vector2>();
     }
 
     private void Update()
     {
         _direction = moveAction.ReadValue<Vector2>();
         float newLength = _direction.magnitude;
-        //Debug.Log($" length: {newLength}");
 
 
         switch (state)
@@ -79,19 +68,12 @@ public class AimingInput : MonoBehaviour
                     state = SlashState.Rest;
                     return;
                 }
-                //if (newLength > longestWindup)
-                //{
-                //    longestWindup = newLength;
-                //    //Debug.Log($"ready to release ");
-                //}
-                //else if (newLength < longestWindup)
                 else if (newLength > 0.9f)
                 {
                     slashDirection = _direction;
                     //Check if load and release angle is correct
                     float angle = Vector2.Angle(loadDirection, slashDirection);
                     float acceptedAngle = 60.0f;
-                    //float acceptedAngle = ((int)slashState % 90 == 0) ? 140.0f : 110.0f;
                     if (angle < acceptedAngle)
                     {
                         //Fail
@@ -101,7 +83,7 @@ public class AimingInput : MonoBehaviour
                     }
 
                     //Get power
-                    float power = /*loadDirection.magnitude +*/ longestWindup;
+                    float power = longestWindup;
 
                     //SLASH!!!!
                     Debug.Log($"Slash type: {slashState}, power: {power}");
@@ -122,16 +104,12 @@ public class AimingInput : MonoBehaviour
                 }
                 break;
         }
-
-
-        //Debug.Log($"direction: {_direction}");
     }
 
     private SlashDirection FindSlashState()
     {
         SlashDirection slash = new SlashDirection();
 
-        //float angle = Vector2.Angle(loadDirection, Vector2.right);
         float angle = Mathf.Atan2(loadDirection.y, loadDirection.x) * Mathf.Rad2Deg;
         int enumValue = Mathf.RoundToInt(angle / 45) * 45;
         enumValue = (enumValue == -180) ? 180 : enumValue;
@@ -148,7 +126,5 @@ public class AimingInput : MonoBehaviour
             return true;
         }
         return false;
-
     }
-
 }

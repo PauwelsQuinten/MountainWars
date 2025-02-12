@@ -10,7 +10,7 @@ public enum SlashState
 
 public enum SlashDirection
 {
-    Upper       = -90,
+   Upper       = -90,
    RightUp      = -45,
    RightToLeft  = 0,
    RightDown    = 45,
@@ -71,7 +71,6 @@ public class HeroControllor : MonoBehaviour
 
     public void Update()
     {
-        
         //Vector2 move = context.ReadValue<Vector2>();
         Vector2 move = new Vector2(0, 0);
         float newLength = move.magnitude;
@@ -216,7 +215,6 @@ public class HeroControllor : MonoBehaviour
          }
 
         //Debug.Log($"Slash type: {state}");
-
     }
 
     private SlashDirection FindSlashState()
@@ -230,5 +228,4 @@ public class HeroControllor : MonoBehaviour
         slash = (SlashDirection)enumValue;
         return slash;
     }
-
 }
