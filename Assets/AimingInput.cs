@@ -110,7 +110,7 @@ public class AimingInput : MonoBehaviour
         float newLength = _direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        //Debug.Log($"{currentAngle}");
+        Debug.Log($"{newLength:F2}");
 
         //Track movement
         if (_isExhausted && newLength > 0)
@@ -175,7 +175,10 @@ public class AimingInput : MonoBehaviour
             _txtActionPower.enabled = false;
 
         }
-
+        if (newLength < MIN_WINDUP_LENGTH)
+        {
+            _sword.transform.rotation= Quaternion.Euler(0.0f, 0.0f, 180.0f);
+        }
 
 
     }
