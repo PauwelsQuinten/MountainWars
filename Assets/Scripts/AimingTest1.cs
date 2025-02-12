@@ -146,7 +146,7 @@ public class AimingTest1 : MonoBehaviour
 
     private void SetVisual()
     {
-        switch(_testDirection)
+        switch (_testDirection)
         {
             case Test2Directions.UpDown:
                 _visualization.transform.rotation = Quaternion.Euler(0, 0, 180);

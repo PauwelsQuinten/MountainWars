@@ -155,6 +155,7 @@ public class AimingTest2 : MonoBehaviour
 
     private void SetVisual()
     {
+
         switch (_direction)
         {
             case Test2Directions.UpDown:
@@ -195,6 +196,7 @@ public class AimingTest2 : MonoBehaviour
                 break;
         }
         _visualText.text = $"{_direction.ToString()}, power: {_power * _powerMultiplier.action.ReadValue<float>():F2}";
+
     }
 
     private IEnumerator DoTimer(float timer)
