@@ -1,34 +1,61 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum AttackStance
+{
+    Head,
+    Torso,
+    Legs
+}
 
 public class AimingInput : MonoBehaviour
 {
-    [SerializeField]
-    private HitDetection _hitDetector;
-    private AimInput _input;
-    private Vector2 _direction;
+    //[SerializeField] private InputActionReference _txtActionPower;
+    private AimInputFull _input;
+    private InputAction AimAction;
     private InputAction moveAction;
+    private InputAction AimHead;
+    private InputAction rightBlockAction;
+    private InputAction AimFeet;
+    private CharacterController characterController;
+    [SerializeField] GameObject arrow;
 
+    private Vector2 _direction;
+    private Vector2 _moveDirection;
     private Vector2 loadDirection = Vector2.zero;
     private Vector2 slashDirection = Vector2.zero;
-    private float longestWindup = 0;
-    private const float MIN_WINDUP_LENGTH = 0.25f;
+
     private SlashState state = SlashState.Windup;
     private SlashDirection slashState = SlashDirection.Neutral;
+    private AttackStance stanceState = AttackStance.Torso;
 
+    [SerializeField] private float _speed = 10.0f;
+    [SerializeField] private TextMeshPro _texMessage;
+    [SerializeField] private TextMeshPro _txtActionPower;
+
+    private float _chargeUpTime = 0.0f;
+    private float longestWindup = 0;
     private float _currentReleaseTime = 0.0f;
-    private const float MAX_RELEASE_TIME = 1.0f; 
+    private const float MAX_RELEASE_TIME = 0.5f; 
+    private const float MIN_WINDUP_LENGTH = 0.25f;
+    private const float MIN_CHARGEUP_TIME = 0.10f;
+    private bool _isStab = false;
 
     private void Awake()
     {
-        _input = new AimInput();
+        _input = new AimInputFull();
     }
 
     private void OnEnable()
     {
         _input.Enable();
-        moveAction = _input.FindAction("Look");
+        characterController = GetComponent<CharacterController>();
+        moveAction = _input.FindAction("Move");
+        AimAction = _input.FindAction("Look");
+        AimHead = _input.Player.Stab1;
+        AimFeet = _input.Player.RightBlock;
+        //rightBlockAction = _input.Player.RightBlock;
     }
 
     private void OnDisable()
@@ -38,9 +65,29 @@ public class AimingInput : MonoBehaviour
 
     private void Update()
     {
-        _direction = moveAction.ReadValue<Vector2>();
-        float newLength = _direction.magnitude;
+        arrow.transform.localScale *= (0.990f );
 
+
+        AnalogAiming();
+
+        _moveDirection = moveAction.ReadValue<Vector2>();
+        characterController.Move(_moveDirection * _speed * Time.deltaTime);
+    }
+
+    private void AnalogAiming()
+    {
+        //Check attackStance
+        if (AimHead.IsPressed())
+            stanceState = AttackStance.Head;
+        else if (AimFeet.IsPressed())
+            stanceState = AttackStance.Legs;
+        else
+            stanceState = AttackStance.Torso;
+        //Debug.Log($" Stance: {stanceState}");
+
+        _direction = AimAction.ReadValue<Vector2>();
+        float newLength = _direction.SqrMagnitude();
+        //Debug.Log($" length: {newLength}");
 
         switch (state)
         {
@@ -50,13 +97,25 @@ public class AimingInput : MonoBehaviour
                     longestWindup = newLength;
                     loadDirection = _direction;
                     //Debug.Log($"power {longestWindup} ");
+
+                    if (longestWindup > MIN_WINDUP_LENGTH)
+                        _chargeUpTime += Time.deltaTime;
                 }
                 else if (newLength < MIN_WINDUP_LENGTH && longestWindup > MIN_WINDUP_LENGTH)
                 {
-                    //longestWindup = 0;
+                    slashState = FindSlashState();
+                    if (_chargeUpTime < MIN_CHARGEUP_TIME)
+                    {
+                        _isStab = true;
+                        slashState = ((int) slashState < 0)? slashState + 180 : slashState - 180;
+                        Debug.Log($"Hight : {stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
+                        RotateArrow();
+                        state = SlashState.Rest;
+                        return;
+                    }
+                    _isStab = false;
                     state = SlashState.Release;
                     //Decide slash state
-                    slashState = FindSlashState();
                     //Debug.Log($"aiming to {slashState}");
                 }
                 break;
@@ -64,9 +123,6 @@ public class AimingInput : MonoBehaviour
             case SlashState.Release:
                 if (TimeOut())
                 {
-                    longestWindup = 0;
-                    loadDirection = Vector2.zero;
-                    slashDirection = Vector2.zero;
                     state = SlashState.Rest;
                     return;
                 }
@@ -83,19 +139,16 @@ public class AimingInput : MonoBehaviour
                         Debug.Log($"Fail, angle{angle}");
                         return;
                     }
-
-                    //Get power
-                    float power = longestWindup;
-
-                    //SLASH!!!!
-                    Debug.Log($"Slash type: {slashState}, power: {power}");
+                     //SLASH!!!!
+                    Debug.Log($"{stanceState} in direction {slashState} with power: {_chargeUpTime}");
+                    RotateArrow();
                     state = SlashState.Rest;
                     _hitDetector.GetHitPos();
                 }
                 break;
 
             case SlashState.Rest:
-                Debug.Log($"Reset");
+                //Debug.Log($"Reset");
                 if (newLength < MIN_WINDUP_LENGTH)
                 {
                     state = SlashState.Windup;
@@ -103,7 +156,7 @@ public class AimingInput : MonoBehaviour
                     loadDirection = Vector2.zero;
                     slashDirection = Vector2.zero;
                     _currentReleaseTime = 0;
-
+                    _chargeUpTime = 0;
                 }
                 break;
         }
@@ -129,5 +182,46 @@ public class AimingInput : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void RotateArrow()
+    {
+        arrow.transform.localScale = Vector3.one;
+
+        string attack = _isStab ? "Stab" : "Slash";
+        _texMessage.text = slashState.ToString();
+        string text = $"{attack} Aim at {stanceState} with power: {_chargeUpTime:F2}";
+        _txtActionPower.text = text;
+        switch (slashState)
+        {
+            case SlashDirection.LeftUp:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightUp: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.LeftDown:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightDown: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.LeftToRight:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightToLeft: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.StraightDown:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
+                break;
+            case SlashDirection.Upper:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
+                break;
+            default:
+                break;
+        }
+        
+
     }
 }

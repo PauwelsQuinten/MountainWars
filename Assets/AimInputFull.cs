@@ -72,7 +72,7 @@ using UnityEngine.InputSystem.Utilities;
 /// }
 /// </code>
 /// </example>
-public partial class @AimInput: IInputActionCollection2, IDisposable
+public partial class @AimInputFull: IInputActionCollection2, IDisposable
 {
     /// <summary>
     /// Provides access to the underlying asset instance.
@@ -82,7 +82,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// <summary>
     /// Constructs a new instance.
     /// </summary>
-    public @AimInput()
+    public @AimInputFull()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputSystem_Actions"",
@@ -140,78 +140,6 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""name"": ""LeftBlock"",
                     ""type"": ""Button"",
                     ""id"": ""6c49542a-5de2-4574-a848-e1d9c5df598f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Aiming"",
-                    ""type"": ""Value"",
-                    ""id"": ""6fb07406-378f-4dea-91c4-6230a82e1ac7"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""SelectUpper"",
-                    ""type"": ""Button"",
-                    ""id"": ""974f8fff-3736-4bfb-a177-994e794924b6"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SelectLower"",
-                    ""type"": ""Button"",
-                    ""id"": ""20e4ff11-59eb-4673-b5c5-f61b6c4a9599"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ButtonUp"",
-                    ""type"": ""Button"",
-                    ""id"": ""d0a410b3-ab5e-4af5-8654-a1cd5471a637"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ButtonDown"",
-                    ""type"": ""Button"",
-                    ""id"": ""abad2743-6ac8-4966-a8c1-bf6ffc0ede59"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ButtonRight"",
-                    ""type"": ""Button"",
-                    ""id"": ""e85d28c7-8b5e-4ef6-aed2-0daf34ef1db2"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ButtonLeft"",
-                    ""type"": ""Button"",
-                    ""id"": ""791e1527-e03e-4a4f-8901-bb461c6f8e92"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Power"",
-                    ""type"": ""Button"",
-                    ""id"": ""512f1529-b6f6-4e0d-b0a5-c23eb21657ef"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -365,7 +293,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -1065,10 +993,10 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
     }
 
-    ~@AimInput()
+    ~@AimInputFull()
     {
-        UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, AimInput.Player.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, AimInput.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, AimInputFull.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, AimInputFull.UI.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1155,12 +1083,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// </summary>
     public struct PlayerActions
     {
-        private @AimInput m_Wrapper;
+        private @AimInputFull m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public PlayerActions(@AimInput wrapper) { m_Wrapper = wrapper; }
+        public PlayerActions(@AimInputFull wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "Player/Move".
         /// </summary>
@@ -1185,38 +1113,6 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/LeftBlock".
         /// </summary>
         public InputAction @LeftBlock => m_Wrapper.m_Player_LeftBlock;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Aiming".
-        /// </summary>
-        public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/SelectUpper".
-        /// </summary>
-        public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/SelectLower".
-        /// </summary>
-        public InputAction @SelectLower => m_Wrapper.m_Player_SelectLower;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ButtonUp".
-        /// </summary>
-        public InputAction @ButtonUp => m_Wrapper.m_Player_ButtonUp;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ButtonDown".
-        /// </summary>
-        public InputAction @ButtonDown => m_Wrapper.m_Player_ButtonDown;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ButtonRight".
-        /// </summary>
-        public InputAction @ButtonRight => m_Wrapper.m_Player_ButtonRight;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ButtonLeft".
-        /// </summary>
-        public InputAction @ButtonLeft => m_Wrapper.m_Player_ButtonLeft;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Power".
-        /// </summary>
-        public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1342,12 +1238,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// </summary>
     public struct UIActions
     {
-        private @AimInput m_Wrapper;
+        private @AimInputFull m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public UIActions(@AimInput wrapper) { m_Wrapper = wrapper; }
+        public UIActions(@AimInputFull wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "UI/Navigate".
         /// </summary>
