@@ -24,6 +24,7 @@ public class AimingTest1 : MonoBehaviour
     private Direction _direction;
     private Height _height = Height.Middle;
     private Test2Directions _testDirection;
+    private float _currentPower;
 
     private bool _powerSelected;
 
@@ -56,11 +57,11 @@ public class AimingTest1 : MonoBehaviour
     {
         DetermineSide();
         SetVisual();
-        float power = Vector2.Distance(Vector2.zero, _lowestVector);
-        
-        power = _PowerScaleMultiplier.Evaluate(power);
-        power = Mathf.Clamp01(power);
-        Debug.Log($"direction: {_testDirection}, Power: {power * 10}");
+        _currentPower = Vector2.Distance(Vector2.zero, _lowestVector);
+
+        _currentPower = _PowerScaleMultiplier.Evaluate(_currentPower);
+        _currentPower = Mathf.Clamp01(_currentPower);
+        Debug.Log($"direction: {_testDirection}, Power: {_currentPower * 10}");
         _lowestPoint = 0;
         _highestPoint = 0;
         _lowestVector = Vector2.zero;
@@ -184,7 +185,7 @@ public class AimingTest1 : MonoBehaviour
                 _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
                 break;
         }
-        _visualText.text = _testDirection.ToString();
+        _visualText.text = $"{_testDirection.ToString()}, Power, {_currentPower * 10:F2}";
     }
 }
 

@@ -194,7 +194,7 @@ public class AimingTest2 : MonoBehaviour
                 _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
                 break;
         }
-        _visualText.text = _direction.ToString();
+        _visualText.text = $"{_direction.ToString()}, power: {_power * _powerMultiplier.action.ReadValue<float>():F2}";
     }
 
     private IEnumerator DoTimer(float timer)
