@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class AimingInput : MonoBehaviour
 {
+    [SerializeField]
+    private HitDetection _hitDetector;
     private AimInput _input;
     private Vector2 _direction;
     private InputAction moveAction;
@@ -88,6 +90,7 @@ public class AimingInput : MonoBehaviour
                     //SLASH!!!!
                     Debug.Log($"Slash type: {slashState}, power: {power}");
                     state = SlashState.Rest;
+                    _hitDetector.GetHitPos();
                 }
                 break;
 
