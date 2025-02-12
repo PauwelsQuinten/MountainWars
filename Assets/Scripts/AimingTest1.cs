@@ -78,11 +78,12 @@ public class AimingTest1 : MonoBehaviour
             switch (_height) 
             {
                 case Height.Middle:
-                    _testDirection = Test2Directions.
                     break;
                 case Height.Upper:
+                    _testDirection = Test2Directions.UpDown;
                     break;
                 case Height.Lower:
+                    _testDirection = Test2Directions.DownUp;
                     break;
             }
             return;
@@ -90,11 +91,35 @@ public class AimingTest1 : MonoBehaviour
         if (aimAngle > 45 - _angleMargins && aimAngle < 45 + _angleMargins)
         {
             _direction = Direction.Right;
+            switch (_height)
+            {
+                case Height.Middle:
+                    _testDirection = Test2Directions.RightLeft;
+                    break;
+                case Height.Upper:
+                    _testDirection = Test2Directions.RightUp;
+                    break;
+                case Height.Lower:
+                    _testDirection = Test2Directions.RightDown;
+                    break;
+            }
             return;
         }
         if (aimAngle > 135 - _angleMargins && aimAngle < 135 + _angleMargins)
         {
             _direction = Direction.Left;
+            switch (_height)
+            {
+                case Height.Middle:
+                    _testDirection = Test2Directions.LeftRight;
+                    break;
+                case Height.Upper:
+                    _testDirection = Test2Directions.LeftUp;
+                    break;
+                case Height.Lower:
+                    _testDirection = Test2Directions.LeftDown;
+                    break;
+            }
             return;
         }
         _direction = Direction.None;
