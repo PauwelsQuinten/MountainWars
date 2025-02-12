@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,13 +39,32 @@ public class AimingInput : MonoBehaviour
     private float longestWindup = 0;
     private float _currentReleaseTime = 0.0f;
     private const float MAX_RELEASE_TIME = 0.5f; 
-    private const float MIN_WINDUP_LENGTH = 0.25f;
+    private const float MIN_WINDUP_LENGTH = 0.2f;
     private const float MIN_CHARGEUP_TIME = 0.10f;
     private bool _isStab = false;
+    private bool _isExhausted = false;
+
+    //extra state for second prototype
+    [SerializeField] GameObject _sword;
+    [SerializeField] float radius = 10.0f;
+    private Vector2 _startLocation = Vector2.zero;
+    private float _chargedTime = 0.0f;
+    private (float,float) _chargeZone = (-2.0f, -1.0f);
+    private float _currentAttackTime = 0.0f;
+    private const float MAX_ATTAK_TIME = 2.0f;
+    private float defaultPower = 5.0f;
+    private const float MAX_CHARGE_TIME = 5.0f;
+    private float _idleTime = 0.0f;
+    private const float MAX_Idle_TIME = 0.150f;
 
     private void Awake()
     {
         _input = new AimInputFull();
+    }
+
+    private void Start()
+    {
+        _startLocation = _sword.transform.position; 
     }
 
     private void OnEnable()
@@ -74,17 +94,97 @@ public class AimingInput : MonoBehaviour
 
     private void Update()
     {
-        arrow.transform.localScale *= (0.990f );
 
+        //AnalogAiming();
+        AnalogAiming2();
 
-        AnalogAiming();
-
+        //Movement
         _moveDirection = moveAction.ReadValue<Vector2>();
         characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
 
+    private void AnalogAiming2()
+    {
+        //get angle
+        _direction = AimAction.ReadValue<Vector2>();
+        float newLength = _direction.SqrMagnitude();
+        float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
+        float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
+        //Debug.Log($"{currentAngle}");
+
+        //Track movement
+        if (_isExhausted && newLength > 0)
+        {
+            return;
+        }
+        else
+        {
+            _isExhausted = false;
+        }
+
+        //Reset values when idle to long
+        if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
+        {
+            _idleTime += Time.deltaTime;
+            _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
+        }
+        
+        if ((newLength > MIN_WINDUP_LENGTH || _chargedTime > 0))
+        {
+            _idleTime = 0.0f;
+
+            if (currentAngle > _chargeZone.Item1 && currentAngle < _chargeZone.Item2)
+            {
+                if (_chargedTime < MAX_CHARGE_TIME)
+                    _chargedTime += (Time.deltaTime * 4.0f);
+                //Debug.Log($"{_chargedTime}");
+                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+                _sword.transform.localPosition = _startLocation;
+                _txtActionPower.enabled = false;
+
+            }
+            else 
+            { 
+                //decrease power the longer your arm is stretched out
+                defaultPower -= (defaultPower > 0)? (Time.deltaTime * 6.0f) : 0.0f;
+                _chargedTime -= (_chargedTime > 0)? (Time.deltaTime * 4.0f) : 0.0f;
+
+                //Sword follows analog 
+                _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + 90.0f);
+                //message
+                _txtActionPower.enabled = true;
+                _txtActionPower.text = (defaultPower + _chargedTime).ToString();
+                if (defaultPower <= 0)
+                {
+                    _isExhausted = true;
+                    _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+                    _sword.transform.localPosition = _startLocation;
+                    _chargedTime = 0.0f;
+                    defaultPower = 5.0f;
+                    _txtActionPower.enabled = false;
+                }
+            }
+        }
+        else
+        {
+            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+            _sword.transform.localPosition = _startLocation;
+            _chargedTime = 0.0f;
+            defaultPower = 5.0f;
+            _txtActionPower.enabled = false;
+
+        }
+
+
+
+    }
+
     private void AnalogAiming()
     {
+        arrow.transform.localScale *= (0.990f);
+
+
         //Check attackStance
         if (AimHead.IsPressed())
             stanceState = AttackStance.Head;
@@ -244,4 +344,5 @@ public class AimingInput : MonoBehaviour
         
 
     }
+    
 }
