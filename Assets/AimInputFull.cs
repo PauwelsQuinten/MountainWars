@@ -72,7 +72,7 @@ using UnityEngine.InputSystem.Utilities;
 /// }
 /// </code>
 /// </example>
-public partial class @AimInput: IInputActionCollection2, IDisposable
+public partial class @AimInputFull: IInputActionCollection2, IDisposable
 {
     /// <summary>
     /// Provides access to the underlying asset instance.
@@ -82,7 +82,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// <summary>
     /// Constructs a new instance.
     /// </summary>
-    public @AimInput()
+    public @AimInputFull()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputSystem_Actions"",
@@ -993,10 +993,10 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
     }
 
-    ~@AimInput()
+    ~@AimInputFull()
     {
-        UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, AimInput.Player.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, AimInput.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, AimInputFull.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, AimInputFull.UI.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1083,12 +1083,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// </summary>
     public struct PlayerActions
     {
-        private @AimInput m_Wrapper;
+        private @AimInputFull m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public PlayerActions(@AimInput wrapper) { m_Wrapper = wrapper; }
+        public PlayerActions(@AimInputFull wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "Player/Move".
         /// </summary>
@@ -1238,12 +1238,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     /// </summary>
     public struct UIActions
     {
-        private @AimInput m_Wrapper;
+        private @AimInputFull m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public UIActions(@AimInput wrapper) { m_Wrapper = wrapper; }
+        public UIActions(@AimInputFull wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "UI/Navigate".
         /// </summary>
