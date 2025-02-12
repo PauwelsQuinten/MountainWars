@@ -1188,35 +1188,35 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <summary>
         /// Provides access to the underlying input action "Player/Aiming".
         /// </summary>
-        public InputAction @Aiming => m_Wrapper.m_Player_Look;
+        public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
         /// <summary>
         /// Provides access to the underlying input action "Player/SelectUpper".
         /// </summary>
-        //public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
+        public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
         /// <summary>
         /// Provides access to the underlying input action "Player/SelectLower".
         /// </summary>
-        //public InputAction @SelectLower => m_Wrapper.m_Player_SelectLower;
+        public InputAction @SelectLower => m_Wrapper.m_Player_SelectLower;
         /// <summary>
         /// Provides access to the underlying input action "Player/ButtonUp".
         /// </summary>
-       // public InputAction @ButtonUp => m_Wrapper.m_Player_ButtonUp;
+        public InputAction @ButtonUp => m_Wrapper.m_Player_ButtonUp;
         /// <summary>
         /// Provides access to the underlying input action "Player/ButtonDown".
         /// </summary>
-        //public InputAction @ButtonDown => m_Wrapper.m_Player_ButtonDown;
+        public InputAction @ButtonDown => m_Wrapper.m_Player_ButtonDown;
         /// <summary>
         /// Provides access to the underlying input action "Player/ButtonRight".
         /// </summary>
-        //public InputAction @ButtonRight => m_Wrapper.m_Player_ButtonRight;
+        public InputAction @ButtonRight => m_Wrapper.m_Player_ButtonRight;
         /// <summary>
         /// Provides access to the underlying input action "Player/ButtonLeft".
         /// </summary>
-        //public InputAction @ButtonLeft => m_Wrapper.m_Player_ButtonLeft;
+        public InputAction @ButtonLeft => m_Wrapper.m_Player_ButtonLeft;
         /// <summary>
         /// Provides access to the underlying input action "Player/Power".
         /// </summary>
-        //public InputAction @Power => m_Wrapper.m_Player_Power;
+        public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>

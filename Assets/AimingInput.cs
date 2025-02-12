@@ -33,7 +33,6 @@ public class AimingInput : MonoBehaviour
     [SerializeField] private float _speed = 10.0f;
     [SerializeField] private TextMeshPro _texMessage;
     [SerializeField] private TextMeshPro _txtActionPower;
-    [SerializeField] private HitDetection _hitDetector;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
