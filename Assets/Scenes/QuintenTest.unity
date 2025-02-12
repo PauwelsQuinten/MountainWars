@@ -119,6 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+<<<<<<< Updated upstream
 --- !u!1 &8346314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,6 +1240,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+=======
+>>>>>>> Stashed changes
 --- !u!1 &1729508554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,7 +1253,10 @@ GameObject:
   - component: {fileID: 1729508557}
   - component: {fileID: 1729508556}
   - component: {fileID: 1729508555}
+<<<<<<< Updated upstream
   - component: {fileID: 1729508558}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1332,6 +1338,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!114 &1729508558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,11 +2034,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   _visualization: {fileID: 1896597128}
   _visualText: {fileID: 50856402}
+=======
+>>>>>>> Stashed changes
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1729508557}
+<<<<<<< Updated upstream
   - {fileID: 2058232011}
   - {fileID: 1108592520}
   - {fileID: 1896597129}
@@ -2040,3 +2050,5 @@ SceneRoots:
   - {fileID: 693453046}
   - {fileID: 1921366779}
   - {fileID: 418371865}
+=======
+>>>>>>> Stashed changes
