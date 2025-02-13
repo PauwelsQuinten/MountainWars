@@ -42,7 +42,7 @@ public class HitDetection : MonoBehaviour
             case SlashDirection.RightUp:
                 if (isStab) 
                 {
-                    hitPos.x += hitDistance / 2;
+                    hitPos.x -= hitDistance / 2;
                     hitPos.y += hitDistance / 2;
                     break;
                 }
@@ -63,11 +63,11 @@ public class HitDetection : MonoBehaviour
                 if (isStab)
                 {
                     hitPos.y -= hitDistance / 2;
-                    hitPos.x += hitDistance / 2;
+                    hitPos.x -= hitDistance / 2;
                     break;
                 }
-                hitPos.y -= hitDistance / 2;
-                hitPos.x -= hitDistance / 2;
+                hitPos.y += hitDistance / 2;
+                hitPos.x += hitDistance / 2;
                 angle = 135;
                 break;
             case SlashDirection.StraightDown:
@@ -83,7 +83,7 @@ public class HitDetection : MonoBehaviour
                 if (isStab) 
                 {
                     hitPos.y -= hitDistance / 2;
-                    hitPos.x -= hitDistance / 2;
+                    hitPos.x += hitDistance / 2;
                     break;
                 }
                 hitPos.y += hitDistance / 2;
@@ -103,11 +103,11 @@ public class HitDetection : MonoBehaviour
                 if (isStab) 
                 {
                     hitPos.y += hitDistance / 2;
-                    hitPos.x -= hitDistance / 2;
+                    hitPos.x += hitDistance / 2;
                     break;
                 }
-                hitPos.y += hitDistance / 2;
-                hitPos.x += hitDistance / 2;
+                hitPos.y -= hitDistance / 2;
+                hitPos.x -= hitDistance / 2;
                 angle = -45;
                 break;
             case SlashDirection.Neutral:
