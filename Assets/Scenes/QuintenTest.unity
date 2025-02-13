@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ad03c21d40794299198c5affefc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitDetector: {fileID: 1921366780}
+  _hitDetector: {fileID: 0}
   _speed: 10
   _sword: {fileID: 0}
   radius: 10
