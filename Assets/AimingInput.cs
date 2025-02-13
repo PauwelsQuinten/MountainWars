@@ -19,7 +19,8 @@ public class AimingInput : MonoBehaviour
     private InputAction rightBlockAction;
     private InputAction AimFeet;
     private CharacterController characterController;
-    [SerializeField] HitDetection _hitDetector;
+    [SerializeField] 
+    HitDetection _hitDetector;
 
     private Vector2 _direction;
     private Vector2 _moveDirection;
