@@ -22,11 +22,12 @@ public class AimingTest1 : MonoBehaviour
     private float _highestPoint;
     private Vector2 _highestVector;
     private Direction _direction;
-    private Height _height = Height.Middle;
+    private AttackStance _height = AttackStance.Torso;
     private Test2Directions _testDirection;
     private float _currentPower;
 
     private bool _powerSelected;
+    private bool _isStab;
 
     private void Update()
     {
@@ -67,7 +68,7 @@ public class AimingTest1 : MonoBehaviour
         _lowestVector = Vector2.zero;
         _highestVector = Vector2.zero;
         _powerSelected = false;
-        _height = Height.Middle;
+        _height = AttackStance.Torso;
         _direction = Direction.Left;
     }
 
@@ -84,12 +85,13 @@ public class AimingTest1 : MonoBehaviour
 
             switch (_height) 
             {
-                case Height.Middle:
+                case AttackStance.Torso:
+                    _isStab = true;
                     break;
-                case Height.Upper:
+                case AttackStance.Head:
                     _testDirection = Test2Directions.DownUp;
                     break;
-                case Height.Lower:
+                case AttackStance.Legs:
                     _testDirection = Test2Directions.UpDown;
                     break;
             }
@@ -100,15 +102,15 @@ public class AimingTest1 : MonoBehaviour
             _direction = Direction.Right;
             switch (_height)
             {
-                case Height.Middle:
-                    _testDirection = Test2Directions.RightLeft;
-                    break;
-                case Height.Upper:
-                    _testDirection = Test2Directions.RightUp;
-                    break;
-                case Height.Lower:
-                    _testDirection = Test2Directions.RightDown;
-                    break;
+                //case Height.Middle:
+                //    _testDirection = Test2Directions.RightLeft;
+                //    break;
+                //case Height.Upper:
+                //    _testDirection = Test2Directions.RightUp;
+                //    break;
+                //case Height.Lower:
+                //    _testDirection = Test2Directions.RightDown;
+                //    break;
             }
             return;
         }
@@ -117,15 +119,15 @@ public class AimingTest1 : MonoBehaviour
             _direction = Direction.Left;
             switch (_height)
             {
-                case Height.Middle:
-                    _testDirection = Test2Directions.LeftRight;
-                    break;
-                case Height.Upper:
-                    _testDirection = Test2Directions.LeftUp;
-                    break;
-                case Height.Lower:
-                    _testDirection = Test2Directions.LeftDown;
-                    break;
+                //case Height.Middle:
+                //    _testDirection = Test2Directions.LeftRight;
+                //    break;
+                //case Height.Upper:
+                //    _testDirection = Test2Directions.LeftUp;
+                //    break;
+                //case Height.Lower:
+                //    _testDirection = Test2Directions.LeftDown;
+                //    break;
             }
             return;
         }
@@ -135,13 +137,13 @@ public class AimingTest1 : MonoBehaviour
     public void SelectUpper(InputAction.CallbackContext ctx)
     {
         if(!ctx.performed) return;
-        _height = Height.Upper;
+        //_height = Height.Upper;
     }
 
     public void SelectLower(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
-        _height = Height.Lower;
+        //_height = Height.Lower;
     }
 
     private void SetVisual()

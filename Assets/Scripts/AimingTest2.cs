@@ -14,12 +14,12 @@ public class AimingTest2 : MonoBehaviour
     [SerializeField]
     private InputActionReference _powerMultiplier;
     [SerializeField]
-    private GameObject _visualization;
-    [SerializeField]
-    private TextMeshPro _visualText;
+    private HitDetection2 _hitDetection;
 
     private Test2Directions _direction;
     private List<Buttons> _buttonsPressed = new List<Buttons>();
+    private AttackStance _attackStance;
+    private bool _isStab;
     public void NorthButtonPressed(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
@@ -27,7 +27,6 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.North);
 
         CheckButon();
-        SetVisual();
         Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
@@ -38,7 +37,6 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.East);
 
         CheckButon();
-        SetVisual();
         Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
@@ -49,7 +47,6 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.South);
 
         CheckButon();
-        SetVisual();
         Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
@@ -60,13 +57,13 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Add(Buttons.West);
 
         CheckButon();
-        SetVisual();
         Debug.Log($"Slash to {_direction} with a power of {_power * _powerMultiplier.action.ReadValue<float>()}");
     }
 
     private void CheckButon()
     {
         if (_buttonsPressed.Count < 1) return;
+
         if (_buttonsPressed.Count == 1)
         {
             StartCoroutine(DoTimer(_timer));
@@ -79,17 +76,20 @@ public class AimingTest2 : MonoBehaviour
                 switch (_buttonsPressed[1])
                 {
                     case Buttons.East:
+                        _isStab = false;
                         _direction = Test2Directions.UpRight;
                         break;
                     case Buttons.South:
+                        _isStab = false;
                         _direction = Test2Directions.UpDown;
                         break;
                     case Buttons.West:
+                        _isStab = false;
                         _direction = Test2Directions.UpLeft;
                         break;
-                    default: 
-                        _direction = Test2Directions.None;
-                        _buttonsPressed.Clear();
+                    case Buttons.North:
+                        _isStab = true;
+                        _direction = Test2Directions.UpDown;
                         break;
                 }
                 break;
@@ -97,17 +97,20 @@ public class AimingTest2 : MonoBehaviour
                 switch (_buttonsPressed[1])
                 {
                     case Buttons.North:
+                        _isStab = false;
                         _direction = Test2Directions.RightUp;
                         break;
                     case Buttons.South:
+                        _isStab = false;
                         _direction = Test2Directions.RightDown;
                         break;
                     case Buttons.West:
+                        _isStab = false;
                         _direction = Test2Directions.RightLeft;
                         break;
-                    default:
-                        _direction = Test2Directions.None;
-                        _buttonsPressed.Clear();
+                    case Buttons.East:
+                        _isStab = true;
+                        _direction = Test2Directions.RightDown;
                         break;
                 }
                 break;
@@ -115,17 +118,20 @@ public class AimingTest2 : MonoBehaviour
                 switch (_buttonsPressed[1])
                 {
                     case Buttons.East:
+                        _isStab = false;
                         _direction = Test2Directions.DownRight;
                         break;
                     case Buttons.North:
+                        _isStab = false;
                         _direction = Test2Directions.DownUp;
                         break;
                     case Buttons.West:
+                        _isStab = false;
                         _direction = Test2Directions.DownLeft;
                         break;
-                    default:
-                        _direction = Test2Directions.None;
-                        _buttonsPressed.Clear();
+                    case Buttons.South:
+                        _isStab = true;
+                        _direction = Test2Directions.DownRight;
                         break;
                 }
                 break;
@@ -133,70 +139,41 @@ public class AimingTest2 : MonoBehaviour
                 switch (_buttonsPressed[1])
                 {
                     case Buttons.East:
+                        _isStab = false;
                         _direction = Test2Directions.LeftRight;
                         break;
                     case Buttons.South:
+                        _isStab = false;
                         _direction = Test2Directions.LeftDown;
                         break;
                     case Buttons.North:
+                        _isStab = false;
                         _direction = Test2Directions.LeftUp;
                         break;
-                    default:
-                        _direction = Test2Directions.None;
-                        _buttonsPressed.Clear();
+                    case Buttons.West:
+                        _isStab = true;
+                        _direction = Test2Directions.LeftDown;
                         break;
                 }
                 break;
         }
 
+        _hitDetection.GetHitPos(_direction, _attackStance, _isStab);
+        _attackStance = AttackStance.Torso;
         StopCoroutine(DoTimer(0.2f));
         _buttonsPressed.Clear();
     }
 
-    private void SetVisual()
+    public void SetLegStance(InputAction.CallbackContext ctx)
     {
+        if(!ctx.performed) return;
+        _attackStance = AttackStance.Legs;
+    }
 
-        switch (_direction)
-        {
-            case Test2Directions.UpDown:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 180);
-                break;
-            case Test2Directions.UpLeft:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
-                break;
-            case Test2Directions.UpRight:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
-                break;
-            case Test2Directions.LeftUp:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, -45);
-                break;
-            case Test2Directions.LeftRight:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, -90);
-                break;
-            case Test2Directions.LeftDown:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, -135);
-                break;
-            case Test2Directions.DownUp:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 0);
-                break;
-            case Test2Directions.DownLeft:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
-                break;
-            case Test2Directions.DownRight:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, -45);
-                break;
-            case Test2Directions.RightUp:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 45);
-                break;
-            case Test2Directions.RightLeft:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 90);
-                break;
-            case Test2Directions.RightDown:
-                _visualization.transform.rotation = Quaternion.Euler(0, 0, 135);
-                break;
-        }
-        _visualText.text = $"{_direction.ToString()}, power: {_power * _powerMultiplier.action.ReadValue<float>():F2}";
-
+    public void SetHeadStance(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+        _attackStance = AttackStance.Head;
     }
 
     private IEnumerator DoTimer(float timer)
