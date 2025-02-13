@@ -138,19 +138,6 @@ public class AimingInput : MonoBehaviour
 
     private void AnalogAiming3()
     {
-        //Check attackStance
-        if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
-        { 
-            _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
-            _newAttackType = AttackType.UpperSlashRight;
-        }
-        else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
-        {
-            _hitZones[6].transform.position -= Vector3.up * Time.deltaTime; 
-            _newAttackType = AttackType.DownSlashRight;
-        }
-        else
-            _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
 
         //get angle
         _direction = AimAction.ReadValue<Vector2>();
@@ -159,6 +146,22 @@ public class AimingInput : MonoBehaviour
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
         //Debug.Log($"{newLength:F2}");
 
+        //Check attackStance
+        if (newLength < 0.6f)
+        {
+            if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
+            {
+                _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
+                _newAttackType = AttackType.UpperSlashRight;
+            }
+            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            {
+                _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
+                _newAttackType = AttackType.DownSlashRight;
+            }
+            else
+                _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
+        }
         //retract sword when power is gone
         if (_isExhausted && newLength > 0)
         {
