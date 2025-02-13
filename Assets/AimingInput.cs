@@ -40,10 +40,11 @@ public class AimingInput : MonoBehaviour
     private float longestWindup = 0;
     private float _currentReleaseTime = 0.0f;
     private const float MAX_RELEASE_TIME = 0.5f; 
-    private const float MIN_WINDUP_LENGTH = 0.2f;
-    private const float MIN_CHARGEUP_TIME = 0.15f;
+    private const float MIN_WINDUP_LENGTH = 0.15f;
+    private const float MIN_CHARGEUP_TIME = 0.2f;
     private bool _isStab = false;
     private bool _isExhausted = false;
+    private float _restTime = 0.0f;
 
     //extra state for second prototype
     [SerializeField] GameObject _sword;
@@ -351,32 +352,31 @@ public class AimingInput : MonoBehaviour
         {
             case SlashState.Windup:
                 //Move analog up
+                if (longestWindup > MIN_WINDUP_LENGTH)
+                    _chargeUpTime += Time.deltaTime;
+
                 if (newLength >= longestWindup)
                 {
                     longestWindup = newLength;
                     loadDirection = _direction;
                     //Debug.Log($"power {longestWindup} ");
 
-                    if (longestWindup > MIN_WINDUP_LENGTH)
-                        _chargeUpTime += Time.deltaTime;
                 }
+                   
                 //Move analog down
                 else if (newLength < MIN_WINDUP_LENGTH && longestWindup > MIN_WINDUP_LENGTH)
                 {
                     slashState = FindSlashState();
-                    if (_chargeUpTime < MIN_CHARGEUP_TIME)
+                    if (_chargeUpTime < MIN_CHARGEUP_TIME && longestWindup >= 0.9f)
                     {
                         _isStab = true;
-                        slashState = ((int) slashState <= 0)? slashState + 180 : slashState - 180;
+                        slashState = ((int)slashState <= 0) ? slashState + 180 : slashState - 180;
                         Debug.Log($"Hight : {stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
-                        RotateArrow();
-                        state = SlashState.Rest;
+                        Attack();
                         return;
                     }
                     _isStab = false;
                     state = SlashState.Release;
-                    //Decide slash state
-                    //Debug.Log($"aiming to {slashState}");
                 }
                 break;
 
@@ -408,14 +408,15 @@ public class AimingInput : MonoBehaviour
                     }
                      //SLASH!!!!
                     Debug.Log($"{stanceState} in direction {slashState} with power: {_chargeUpTime}");
-                    RotateArrow();
-                    state = SlashState.Rest;
+                    Attack();
+
                 }
                 break;
 
             case SlashState.Rest:
                 //Debug.Log($"Reset");
-                if (newLength < MIN_WINDUP_LENGTH)
+                _restTime = (_restTime <= 0.0f)? 0.0f : _restTime - Time.deltaTime;
+                if (newLength < MIN_WINDUP_LENGTH && _restTime <= 0.0f)
                 {
                     state = SlashState.Windup;
                     longestWindup = 0;
@@ -429,6 +430,13 @@ public class AimingInput : MonoBehaviour
 
 
         //Debug.Log($"direction: {_direction}");
+    }
+
+    private void Attack()
+    {
+        RotateArrow();
+        state = SlashState.Rest;
+        _restTime = 0.25f;
     }
 
     private SlashDirection FindSlashState()
