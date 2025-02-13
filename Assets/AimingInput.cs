@@ -110,8 +110,10 @@ public class AimingInput : MonoBehaviour
 
     private void Update()
     {
-
+        //analog attack in 8 direction in 3 zones (24 attacks)
         AnalogAiming();
+
+        //analog attack 2 direction plus charge
         //AnalogAiming2();
         //AnalogAiming3();
 
@@ -353,7 +355,7 @@ public class AimingInput : MonoBehaviour
             case SlashState.Windup:
                 //Move analog up
                 if (longestWindup > MIN_WINDUP_LENGTH)
-                    _chargeUpTime += Time.deltaTime;
+                    _chargeUpTime += (_chargeUpTime >= 1.0f)? 0.0f : Time.deltaTime;
 
                 if (newLength >= longestWindup)
                 {
