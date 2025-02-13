@@ -498,6 +498,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitDetector: {fileID: 1921366780}
   _speed: 10
+  _sword: {fileID: 0}
+  radius: 10
+  DEFAULT_SWORD_ORIENTATION: 218
+  YRotation: 45
+  _hitZones: []
 --- !u!4 &174186022
 Transform:
   m_ObjectHideFlags: 0
@@ -1637,7 +1642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1263741538
 Transform:
   m_ObjectHideFlags: 0

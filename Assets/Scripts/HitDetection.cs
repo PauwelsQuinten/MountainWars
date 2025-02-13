@@ -31,39 +31,83 @@ public class HitDetection : MonoBehaviour
         switch (_attackDirection)
         {
             case SlashDirection.Upper:
-                hitPos.y += hitDistance;
+                if (isStab) 
+                {
+                    hitPos.y += hitDistance;
+                    break;
+                }
+                hitPos.y -= hitDistance;
                 angle = 0;
                 break;
             case SlashDirection.RightUp:
-                hitPos.y += hitDistance / 2;
+                if (isStab) 
+                {
+                    hitPos.x += hitDistance / 2;
+                    hitPos.y += hitDistance / 2;
+                    break;
+                }
+                hitPos.y -= hitDistance / 2;
                 hitPos.x += hitDistance / 2;
-                angle = -45;
+                angle = 45;
                 break;
             case SlashDirection.RightToLeft:
-                hitPos.x -= hitDistance;
+                if (isStab) 
+                {
+                    hitPos.x -= hitDistance;
+                    break;
+                }
+                hitPos.x += hitDistance;
                 angle = 90;
                 break;
             case SlashDirection.RightDown:
+                if (isStab)
+                {
+                    hitPos.y -= hitDistance / 2;
+                    hitPos.x += hitDistance / 2;
+                    break;
+                }
                 hitPos.y -= hitDistance / 2;
-                hitPos.x += hitDistance / 2;
+                hitPos.x -= hitDistance / 2;
                 angle = 135;
                 break;
             case SlashDirection.StraightDown:
-                hitPos.y -= hitDistance;
+                if (isStab)
+                {
+                    hitPos.y -= hitDistance;
+                    break;
+                } 
+                hitPos.y += hitDistance;
                 angle = 180;
                 break;
             case SlashDirection.LeftDown:
-                hitPos.y -= hitDistance / 2;
+                if (isStab) 
+                {
+                    hitPos.y -= hitDistance / 2;
+                    hitPos.x -= hitDistance / 2;
+                    break;
+                }
+                hitPos.y += hitDistance / 2;
                 hitPos.x -= hitDistance / 2;
                 angle = -135;
                 break;
             case SlashDirection.LeftToRight:
-                hitPos.x += hitDistance;
+                if (isStab)
+                {
+                    hitPos.x += hitDistance;
+                    break;
+                }
+                hitPos.x -= hitDistance;
                 angle = -90;
                 break;
             case SlashDirection.LeftUp:
+                if (isStab) 
+                {
+                    hitPos.y += hitDistance / 2;
+                    hitPos.x -= hitDistance / 2;
+                    break;
+                }
                 hitPos.y += hitDistance / 2;
-                hitPos.x -= hitDistance / 2;
+                hitPos.x += hitDistance / 2;
                 angle = -45;
                 break;
             case SlashDirection.Neutral:
