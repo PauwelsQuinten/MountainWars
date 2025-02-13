@@ -115,12 +115,11 @@ public class AimingInput : MonoBehaviour
                     {
                         _isStab = true;
                         slashState = ((int) slashState < 0)? slashState + 180 : slashState - 180;
-                        Debug.Log($"Hight : {stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
+                        Debug.Log($"Stab at{stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
                         state = SlashState.Rest;
                         _hitDetector.GetHitPos(slashState, stanceState, _isStab);
                         return;
                     }
-                    _isStab = false;
                     state = SlashState.Release;
                     //Decide slash state
                     //Debug.Log($"aiming to {slashState}");
@@ -154,7 +153,8 @@ public class AimingInput : MonoBehaviour
                         return;
                     }
                      //SLASH!!!!
-                    Debug.Log($"{stanceState} in direction {slashState} with power: {_chargeUpTime}");
+                    _isStab = false;
+                    Debug.Log($"Slash at{stanceState} in direction {slashState} with power: {_chargeUpTime}");
                     _hitDetector.GetHitPos(slashState, stanceState, _isStab);
                     //RotateArrow();
                     state = SlashState.Rest;
