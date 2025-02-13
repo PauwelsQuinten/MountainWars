@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -40,7 +41,7 @@ public class AimingInput : MonoBehaviour
     private float _currentReleaseTime = 0.0f;
     private const float MAX_RELEASE_TIME = 0.5f; 
     private const float MIN_WINDUP_LENGTH = 0.2f;
-    private const float MIN_CHARGEUP_TIME = 0.10f;
+    private const float MIN_CHARGEUP_TIME = 0.15f;
     private bool _isStab = false;
     private bool _isExhausted = false;
 
@@ -56,6 +57,15 @@ public class AimingInput : MonoBehaviour
     private const float MAX_CHARGE_TIME = 5.0f;
     private float _idleTime = 0.0f;
     private const float MAX_Idle_TIME = 0.150f;
+    public float DEFAULT_SWORD_ORIENTATION = 218.0f;
+    public float YRotation = 45.0f;
+    //private const float DEFAULT_SWORD_ORIENTATION = 218.0f;
+    [SerializeField] private List<GameObject> _hitZones;
+    private bool _isSlash = true;
+
+    //extra for analog3
+    private const float MAX_HITBOX_HEIGHT = 4.0f;
+    private const float MIN_HITBOX_HEIGHT = 2.0f;
 
     private void Awake()
     {
@@ -65,6 +75,11 @@ public class AimingInput : MonoBehaviour
     private void Start()
     {
         _startLocation = _sword.transform.position; 
+
+        foreach (var hitZone in _hitZones)
+        {
+            hitZone.SetActive(false);
+        }
     }
 
     private void OnEnable()
@@ -95,22 +110,30 @@ public class AimingInput : MonoBehaviour
     private void Update()
     {
 
-        //AnalogAiming();
-        AnalogAiming2();
+        AnalogAiming();
+        //AnalogAiming2();
+        //AnalogAiming3();
 
         //Movement
         _moveDirection = moveAction.ReadValue<Vector2>();
         characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
 
-    private void AnalogAiming2()
+    private void AnalogAiming3()
     {
+        //Check attackStance
+        if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
+            _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
+        else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
+
+
         //get angle
         _direction = AimAction.ReadValue<Vector2>();
         float newLength = _direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        Debug.Log($"{newLength:F2}");
+        //Debug.Log($"{newLength:F2}");
 
         //Track movement
         if (_isExhausted && newLength > 0)
@@ -133,60 +156,183 @@ public class AimingInput : MonoBehaviour
         {
             _idleTime = 0.0f;
 
+            
+
             if (currentAngle > _chargeZone.Item1 && currentAngle < _chargeZone.Item2)
             {
                 if (_chargedTime < MAX_CHARGE_TIME)
                     _chargedTime += (Time.deltaTime * 4.0f);
                 //Debug.Log($"{_chargedTime}");
-                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
                 _sword.transform.localPosition = _startLocation;
                 _txtActionPower.enabled = false;
 
             }
             else 
-            { 
+            {
+                if ((currentAngleDegree > 110 || currentAngleDegree < 70) && newLength > 0.85f)
+                {
+                    _isSlash = true;
+                }
+
+                //Show hitZone
+                _hitZones[6].SetActive(true);
+                _hitZones[6].transform.localScale = _isSlash? new Vector3(1.4f, 0.45f, 0.0f) : new Vector3(0.45f, 0.45f, 0.0f);
+               
+
                 //decrease power the longer your arm is stretched out
                 defaultPower -= (defaultPower > 0)? (Time.deltaTime * 6.0f) : 0.0f;
                 _chargedTime -= (_chargedTime > 0)? (Time.deltaTime * 4.0f) : 0.0f;
 
                 //Sword follows analog 
                 _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
-                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + 90.0f);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
                 //message
                 _txtActionPower.enabled = true;
                 _txtActionPower.text = (defaultPower + _chargedTime).ToString();
                 if (defaultPower <= 0)
                 {
                     _isExhausted = true;
-                    _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-                    _sword.transform.localPosition = _startLocation;
-                    _chargedTime = 0.0f;
-                    defaultPower = 5.0f;
-                    _txtActionPower.enabled = false;
+                    ResetAnalog2();
                 }
             }
         }
         else
         {
-            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-            _sword.transform.localPosition = _startLocation;
-            _chargedTime = 0.0f;
-            defaultPower = 5.0f;
-            _txtActionPower.enabled = false;
+            ResetAnalog2 ();
 
         }
         if (newLength < MIN_WINDUP_LENGTH)
         {
-            _sword.transform.rotation= Quaternion.Euler(0.0f, 0.0f, 180.0f);
+            _sword.transform.rotation= Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
 
+        Debug.Log($"{_isSlash}");
 
+    }
+     private void AnalogAiming2()
+    {
+        //Check attackStance
+        if (AimHead.IsPressed())
+            stanceState = AttackStance.Head;
+        else if (AimFeet.IsPressed())
+            stanceState = AttackStance.Legs;
+        else
+            stanceState = AttackStance.Torso;
+
+        //get angle
+        _direction = AimAction.ReadValue<Vector2>();
+        float newLength = _direction.SqrMagnitude();
+        float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
+        float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
+        //Debug.Log($"{newLength:F2}");
+
+        //Track movement
+        if (_isExhausted && newLength > 0)
+        {
+            return;
+        }
+        else
+        {
+            _isExhausted = false;
+        }
+
+        //Reset values when idle to long
+        if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
+        {
+            _idleTime += Time.deltaTime;
+            _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
+        }
+        
+        if ((newLength > MIN_WINDUP_LENGTH || _chargedTime > 0))
+        {
+            _idleTime = 0.0f;
+
+            
+
+            if (currentAngle > _chargeZone.Item1 && currentAngle < _chargeZone.Item2)
+            {
+                if (_chargedTime < MAX_CHARGE_TIME)
+                    _chargedTime += (Time.deltaTime * 4.0f);
+                //Debug.Log($"{_chargedTime}");
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
+                _sword.transform.localPosition = _startLocation;
+                _txtActionPower.enabled = false;
+
+            }
+            else 
+            {
+                if ((currentAngleDegree > 110 || currentAngleDegree < 70) && newLength > 0.85f)
+                {
+                    _isSlash = true;
+                }
+
+                int index = 0;
+                //Show hitZone
+                switch(stanceState)
+                {
+                    case AttackStance.Head:
+                        index = _isSlash ? 0 : 3;
+                        break;
+                    case AttackStance.Torso:
+                        index = _isSlash ? 1 : 4;
+                        break;
+                    case AttackStance.Legs:
+                        index = _isSlash ? 2 : 5;
+                        break;
+
+                }
+                _hitZones[index].SetActive(true);
+               
+
+                //decrease power the longer your arm is stretched out
+                defaultPower -= (defaultPower > 0)? (Time.deltaTime * 6.0f) : 0.0f;
+                _chargedTime -= (_chargedTime > 0)? (Time.deltaTime * 4.0f) : 0.0f;
+
+                //Sword follows analog 
+                _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
+                //message
+                _txtActionPower.enabled = true;
+                _txtActionPower.text = (defaultPower + _chargedTime).ToString();
+                if (defaultPower <= 0)
+                {
+                    _isExhausted = true;
+                    ResetAnalog2();
+                }
+            }
+        }
+        else
+        {
+            ResetAnalog2 ();
+
+        }
+        if (newLength < MIN_WINDUP_LENGTH)
+        {
+            _sword.transform.rotation= Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+        }
+
+        Debug.Log($"{_isSlash}");
+
+    }
+
+    private void ResetAnalog2()
+    {
+        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+        _sword.transform.localPosition = _startLocation;
+        _chargedTime = 0.0f;
+        defaultPower = 5.0f;
+        _txtActionPower.enabled = false;
+        _isSlash = false;
+        foreach (var hitZone in _hitZones)
+        {
+            hitZone.SetActive(false);
+        }
     }
 
     private void AnalogAiming()
     {
         arrow.transform.localScale *= (0.990f);
-
 
         //Check attackStance
         if (AimHead.IsPressed())
@@ -204,6 +350,7 @@ public class AimingInput : MonoBehaviour
         switch (state)
         {
             case SlashState.Windup:
+                //Move analog up
                 if (newLength >= longestWindup)
                 {
                     longestWindup = newLength;
@@ -213,13 +360,14 @@ public class AimingInput : MonoBehaviour
                     if (longestWindup > MIN_WINDUP_LENGTH)
                         _chargeUpTime += Time.deltaTime;
                 }
+                //Move analog down
                 else if (newLength < MIN_WINDUP_LENGTH && longestWindup > MIN_WINDUP_LENGTH)
                 {
                     slashState = FindSlashState();
                     if (_chargeUpTime < MIN_CHARGEUP_TIME)
                     {
                         _isStab = true;
-                        slashState = ((int) slashState < 0)? slashState + 180 : slashState - 180;
+                        slashState = ((int) slashState <= 0)? slashState + 180 : slashState - 180;
                         Debug.Log($"Hight : {stanceState} in direction {slashState} with power: {_chargeUpTime:F2}");
                         RotateArrow();
                         state = SlashState.Rest;
@@ -309,7 +457,7 @@ public class AimingInput : MonoBehaviour
 
     private void RotateArrow()
     {
-        arrow.transform.localScale = Vector3.one;
+        arrow.transform.localScale = (Vector3.one * 0.2f);
 
         string attack = _isStab ? "Stab" : "Slash";
         _texMessage.text = slashState.ToString();
