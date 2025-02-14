@@ -1144,6 +1144,8 @@ MonoBehaviour:
   _power: 10
   _powerMultiplier: {fileID: -8609523647609690606, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _hitDetection: {fileID: 1508968978}
+  _selectHead: {fileID: 8139089285512152037, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _selectLegs: {fileID: 8946815350380076863, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &1108592522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,7 +1644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1263741538
 Transform:
   m_ObjectHideFlags: 0
@@ -2122,7 +2124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1894266820
 Transform:
   m_ObjectHideFlags: 0

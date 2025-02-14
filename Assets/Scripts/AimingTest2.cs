@@ -15,6 +15,10 @@ public class AimingTest2 : MonoBehaviour
     private InputActionReference _powerMultiplier;
     [SerializeField]
     private HitDetection2 _hitDetection;
+    [SerializeField]
+    private InputActionReference _selectHead;
+    [SerializeField]
+    private InputActionReference _selectLegs;
 
     private Test2Directions _direction;
     private List<Buttons> _buttonsPressed = new List<Buttons>();
@@ -62,6 +66,7 @@ public class AimingTest2 : MonoBehaviour
 
     private void CheckButon()
     {
+        SetStance();
         if (_buttonsPressed.Count < 1) return;
 
         if (_buttonsPressed.Count == 1)
@@ -164,16 +169,11 @@ public class AimingTest2 : MonoBehaviour
         _buttonsPressed.Clear();
     }
 
-    public void SetLegStance(InputAction.CallbackContext ctx)
+    private void SetStance()
     {
-        if(!ctx.performed) return;
-        _attackStance = AttackStance.Legs;
-    }
-
-    public void SetHeadStance(InputAction.CallbackContext ctx)
-    {
-        if (!ctx.performed) return;
-        _attackStance = AttackStance.Head;
+        if (_selectHead.action.IsPressed()) _attackStance = AttackStance.Head;
+        else if (_selectLegs.action.IsPressed()) _attackStance = AttackStance.Legs;
+        else _attackStance = AttackStance.Torso;
     }
 
     private IEnumerator DoTimer(float timer)
