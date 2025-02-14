@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public enum AttackStance
@@ -18,7 +19,16 @@ public enum AttackType
     DownSlashRight,
     DownSlashLeft,
     HorizontalSlash,
+    StraightUp,
+    StraightDown,
     Stab
+}
+
+public enum MovingDirection
+{
+    MovingUp,
+    MovingDown,
+    Neutral
 }
 
 public class AimingInput : MonoBehaviour
@@ -79,6 +89,7 @@ public class AimingInput : MonoBehaviour
     private const float MIN_HITBOX_HEIGHT = 2.0f;
     private AttackType _newAttackType = AttackType.Stab;
     private int _startDirection = 0;
+    private MovingDirection _MovingState = MovingDirection.Neutral;
 
     private void Awake()
     {
@@ -129,13 +140,193 @@ public class AimingInput : MonoBehaviour
         //AnalogAiming2();
         
         //as above but with moveable hitzone, achieve diagonal attacks by moving it up down during attack
-        AnalogAiming3();
+        //AnalogAiming3();
+
+        //as above but with rewarding big slash
+        AnalogAiming4();
 
         //Movement
         _moveDirection = moveAction.ReadValue<Vector2>();
         characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
 
+    private void AnalogAiming4()
+    {
+
+        //get angle
+        _direction = AimAction.ReadValue<Vector2>();
+        float newLength = _direction.SqrMagnitude();
+        float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
+        float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
+        //Debug.Log($"{newLength:F2}");
+
+        //Check attackStance and lock it when attacking
+        if (newLength < 0.6f)
+        {
+            
+            if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
+            {
+                _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
+                _MovingState = MovingDirection.MovingUp;
+            }
+            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            {
+                _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
+                _MovingState = MovingDirection.MovingDown;
+            }
+            else
+            {
+                _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
+                _MovingState = MovingDirection.Neutral;
+            }
+        }
+        //retract sword when power is gone
+        if (_isExhausted && newLength > 0)
+        {
+            return;
+        }
+        else
+        {
+            _isExhausted = false;
+        }
+
+        //Reset values when idle to long (cant stay charged up when staying in center position)
+        if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
+        {
+            _idleTime += Time.deltaTime;
+            _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
+        }
+
+        //Start moving analog , Attack or Charge up
+        if ((newLength > MIN_WINDUP_LENGTH || _chargedTime > 0))
+        {
+            _idleTime = 0.0f;
+
+            //Charging
+            if (currentAngle > _chargeZone.Item1 && currentAngle < _chargeZone.Item2)
+            {
+                if (_chargedTime < MAX_CHARGE_TIME)
+                    _chargedTime += (Time.deltaTime * 4.0f);
+                //Debug.Log($"{_chargedTime}");
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
+                _sword.transform.localPosition = _startLocation;
+                _txtActionPower.enabled = false;
+
+            }
+            //Attacking
+            else
+            {
+                if (_startDirection == 0)
+                    _startDirection = (_direction.x > 0.0f)? 1 : -1;
+
+                //slashDirection or stab
+                if ((currentAngleDegree > 110.0f || currentAngleDegree < 70.0f) && newLength > 0.85f)
+                {
+                    _newAttackType = (_newAttackType == AttackType.Stab)? AttackType.HorizontalSlash : _newAttackType;
+
+                    switch(_MovingState)
+                    {
+                        case MovingDirection.MovingUp:
+                            if (_startDirection < 0 )
+                                _newAttackType = AttackType.UpperSlashLeft;
+                            else if (_startDirection > 0 )
+                                _newAttackType = AttackType.UpperSlashRight;
+                            else 
+                                _newAttackType = AttackType.StraightUp;
+                            break;
+
+                        case MovingDirection.MovingDown:
+                            if (_startDirection < 0 )
+                                _newAttackType = AttackType.DownSlashLeft;
+                            else if (_startDirection > 0 )
+                                _newAttackType = AttackType.DownSlashRight;
+                            else 
+                                _newAttackType = AttackType.StraightDown;
+                            break;
+                        default:
+                            break;
+
+                    }
+
+                }
+
+                //Whenmoving a stab up and down, change it to upper/down slash
+                if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
+                    _newAttackType = AttackType.StraightUp;
+                 if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
+                    _newAttackType = AttackType.StraightDown;
+
+
+                //Show hitZone
+                _hitZones[6].SetActive(true);
+                
+                switch(_newAttackType)
+                {
+                    case AttackType.HorizontalSlash:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        break;
+                    case AttackType.DownSlashRight:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
+                        break;
+                    case AttackType.UpperSlashRight:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
+                        break;
+                    case AttackType.DownSlashLeft:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
+                        break;
+                    case AttackType.UpperSlashLeft:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
+                        break;
+                    case AttackType.Stab:
+                        _hitZones[6].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        break;
+                    case AttackType.StraightUp:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                        break;
+                    case AttackType.StraightDown:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                        break;
+                    default:break;
+                }
+           
+
+                //decrease power the longer your arm is stretched out
+                defaultPower -= (defaultPower > 0) ? (Time.deltaTime * 6.0f) : 0.0f;
+                _chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
+
+                //Sword follows analog 
+                _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
+                //message
+                _txtActionPower.enabled = true;
+                _txtActionPower.text = (defaultPower + _chargedTime).ToString();
+                if (defaultPower <= 0)
+                {
+                    _isExhausted = true;
+                    ResetAnalog2();
+                }
+            }
+        }
+        else
+        {
+            ResetAnalog2();
+
+        }
+        if (newLength < MIN_WINDUP_LENGTH)
+        {
+            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+        }
+
+
+    }
     private void AnalogAiming3()
     {
 
@@ -149,18 +340,34 @@ public class AimingInput : MonoBehaviour
         //Check attackStance
         if (newLength < 0.6f)
         {
+            //if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT  )
+            //{
+            //    _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
+            //    _newAttackType = AttackType.UpperSlashRight;
+            //}
+            //else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            //{
+            //    _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
+            //    _newAttackType = AttackType.DownSlashRight;
+            //}
+            //else
+            //    _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
+
             if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
-                _newAttackType = AttackType.UpperSlashRight;
+                _MovingState = MovingDirection.MovingUp;
             }
             else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
-                _newAttackType = AttackType.DownSlashRight;
+                _MovingState = MovingDirection.MovingDown;
             }
             else
+            {
                 _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
+                _MovingState = MovingDirection.Neutral;
+            }
         }
         //retract sword when power is gone
         if (_isExhausted && newLength > 0)
@@ -207,13 +414,44 @@ public class AimingInput : MonoBehaviour
                     //_isSlash = true;
                     _newAttackType = (_newAttackType == AttackType.Stab)? AttackType.HorizontalSlash : _newAttackType;
 
-                    if (_startDirection < 0 && _newAttackType == AttackType.UpperSlashRight)
-                        _newAttackType = AttackType.UpperSlashLeft;
+                    //if (_startDirection < 0 && _newAttackType == AttackType.UpperSlashRight)
+                    //    _newAttackType = AttackType.UpperSlashLeft;
+                    //
+                    //if (_startDirection < 0 && _newAttackType == AttackType.DownSlashRight)
+                    //    _newAttackType = AttackType.DownSlashLeft;
                     
-                    if (_startDirection < 0 && _newAttackType == AttackType.DownSlashRight)
-                        _newAttackType = AttackType.DownSlashLeft;
+                    switch(_MovingState)
+                    {
+                        case MovingDirection.MovingUp:
+                            if (_startDirection < 0 )
+                                _newAttackType = AttackType.UpperSlashLeft;
+                            else if (_startDirection > 0 )
+                                _newAttackType = AttackType.UpperSlashRight;
+                            else 
+                                _newAttackType = AttackType.StraightUp;
+                            break;
+
+                        case MovingDirection.MovingDown:
+                            if (_startDirection < 0 )
+                                _newAttackType = AttackType.DownSlashLeft;
+                            else if (_startDirection > 0 )
+                                _newAttackType = AttackType.DownSlashRight;
+                            else 
+                                _newAttackType = AttackType.StraightDown;
+                            break;
+                        default:
+                            break;
+
+                    }
 
                 }
+
+                //Whenmoving a stab up and down, change it to upper/down slash
+                if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
+                    _newAttackType = AttackType.StraightUp;
+                 if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
+                    _newAttackType = AttackType.StraightDown;
+
 
                 //Show hitZone
                 _hitZones[6].SetActive(true);
@@ -244,6 +482,14 @@ public class AimingInput : MonoBehaviour
                     case AttackType.Stab:
                         _hitZones[6].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
                         _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                        break;
+                    case AttackType.StraightUp:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                        break;
+                    case AttackType.StraightDown:
+                        _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+                        _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
                         break;
                     default:break;
                 }
