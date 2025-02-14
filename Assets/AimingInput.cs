@@ -90,6 +90,10 @@ public class AimingInput : MonoBehaviour
     private AttackType _newAttackType = AttackType.Stab;
     private int _startDirection = 0;
     private MovingDirection _MovingState = MovingDirection.Neutral;
+    [SerializeField] private float _leaningSpeed = 1.5f;
+    [SerializeField] private float _defaultHitzoneHeight = 0.0f;
+    [SerializeField] private float _MaxTimeNotLeaning = 0.2f;
+    private float _currentTimeNotLeaning = 0.0f;
 
     private void Awake()
     {
@@ -164,31 +168,62 @@ public class AimingInput : MonoBehaviour
         if (newLength < 0.6f)
         {
             
-            if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
+            if (AimHead.IsPressed() && _hitZones[6].transform.position.y <= MAX_HITBOX_HEIGHT)
             {
-                _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
+                _hitZones[6].transform.position += Vector3.up * Time.deltaTime * _leaningSpeed;
+                if (_hitZones[6].transform.position.y >= MAX_HITBOX_HEIGHT)
+                    _hitZones[6].transform.position = new Vector3(0.0f, MAX_HITBOX_HEIGHT, 0.0f);
+
                 _MovingState = MovingDirection.MovingUp;
             }
-            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y >= MIN_HITBOX_HEIGHT)
             {
-                _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
+                _hitZones[6].transform.position -= Vector3.up * Time.deltaTime * _leaningSpeed;
+                if (_hitZones[6].transform.position.y <= MIN_HITBOX_HEIGHT)
+                    _hitZones[6].transform.position = new Vector3(0.0f, MIN_HITBOX_HEIGHT, 0.0f);
+
                 _MovingState = MovingDirection.MovingDown;
             }
+            //Fall back to default after a time of not pressing
             else
             {
                 _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
                 _MovingState = MovingDirection.Neutral;
+
+                if (_currentTimeNotLeaning < _MaxTimeNotLeaning)
+                {
+                    _currentTimeNotLeaning += Time.deltaTime;
+                }
+                else
+                {
+                    int sign = 0;
+                    float diff = _hitZones[6].transform.position.y - _defaultHitzoneHeight;
+                    if (Mathf.Abs(diff) > 0.1f)
+                    {
+                        sign = (diff > 0) ? 1 : -1;
+                        _hitZones[6].transform.position += Vector3.down * sign * Time.deltaTime * _leaningSpeed;
+                    }
+                    else
+                    {
+                        _hitZones[6].transform.position = new Vector3(0.0f, _defaultHitzoneHeight, 0.0f); 
+                        _currentTimeNotLeaning = 0.0f;
+
+                    }
+
+
+                }
             }
         }
-        //retract sword when power is gone
-        if (_isExhausted && newLength > 0)
-        {
-            return;
-        }
-        else
-        {
-            _isExhausted = false;
-        }
+
+        ////retract sword when power is gone
+        //if (_isExhausted && newLength > 0)
+        //{
+        //    return;
+        //}
+        //else
+        //{
+        //    _isExhausted = false;
+        //}
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
         if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
@@ -227,7 +262,9 @@ public class AimingInput : MonoBehaviour
                     switch(_MovingState)
                     {
                         case MovingDirection.MovingUp:
-                            if (_startDirection < 0 )
+                            if (_hitZones[6].transform.position.y >= MAX_HITBOX_HEIGHT)
+                                _newAttackType = AttackType.HorizontalSlash;
+                            else if (_startDirection < 0 )
                                 _newAttackType = AttackType.UpperSlashLeft;
                             else if (_startDirection > 0 )
                                 _newAttackType = AttackType.UpperSlashRight;
@@ -236,7 +273,9 @@ public class AimingInput : MonoBehaviour
                             break;
 
                         case MovingDirection.MovingDown:
-                            if (_startDirection < 0 )
+                            if (_hitZones[6].transform.position.y <= MIN_HITBOX_HEIGHT)
+                                _newAttackType = AttackType.HorizontalSlash;
+                            else if (_startDirection < 0 )
                                 _newAttackType = AttackType.DownSlashLeft;
                             else if (_startDirection > 0 )
                                 _newAttackType = AttackType.DownSlashRight;
@@ -250,11 +289,11 @@ public class AimingInput : MonoBehaviour
 
                 }
 
-                //Whenmoving a stab up and down, change it to upper/down slash
-                if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
-                    _newAttackType = AttackType.StraightUp;
-                 if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
-                    _newAttackType = AttackType.StraightDown;
+                ////Whenmoving a stab up and down, change it to upper/down slash
+                //if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
+                //    _newAttackType = AttackType.StraightUp;
+                // if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
+                //    _newAttackType = AttackType.StraightDown;
 
 
                 //Show hitZone
@@ -296,18 +335,23 @@ public class AimingInput : MonoBehaviour
                         break;
                     default:break;
                 }
-           
 
-                //decrease power the longer your arm is stretched out
-                defaultPower -= (defaultPower > 0) ? (Time.deltaTime * 6.0f) : 0.0f;
-                _chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
 
-                //Sword follows analog 
+                //decrease power the longer your arm is stretched out in front
+                if ((currentAngleDegree < 110.0f && currentAngleDegree > 70.0f) || newLength < MIN_WINDUP_LENGTH)
+                {
+                    defaultPower -= (defaultPower > 0) ? (Time.deltaTime * 9.0f) : 0.0f;
+                    _chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
+                }
+
+                //Sword follows analog -> visualization 
                 _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
                 _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
-                //message
+
+                //message -> visualization
                 _txtActionPower.enabled = true;
                 _txtActionPower.text = (defaultPower + _chargedTime).ToString();
+
                 if (defaultPower <= 0)
                 {
                     _isExhausted = true;
@@ -320,6 +364,7 @@ public class AimingInput : MonoBehaviour
             ResetAnalog2();
 
         }
+        //Force direction to be correct on idle
         if (newLength < MIN_WINDUP_LENGTH)
         {
             _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
