@@ -216,7 +216,6 @@ public class HeroControllor : MonoBehaviour
          }
 
         //Debug.Log($"Slash type: {state}");
-
     }
 
     private SlashDirection FindSlashState()
@@ -230,5 +229,4 @@ public class HeroControllor : MonoBehaviour
         slash = (SlashDirection)enumValue;
         return slash;
     }
-
 }

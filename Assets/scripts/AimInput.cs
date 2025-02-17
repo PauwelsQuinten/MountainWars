@@ -119,16 +119,34 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Stab1"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RightBlock"",
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""27c5f898-bc57-4ee1-8800-db469aca5fe3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1ba0d36-48eb-4cd5-b651-1c94a6531f70"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Slash"",
                     ""type"": ""Button"",
                     ""id"": ""f2a039be-70a7-43e7-a7bc-149fcf602899"",
                     ""expectedControlType"": """",
@@ -137,13 +155,85 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LeftBlock"",
+                    ""name"": ""Stab"",
                     ""type"": ""Button"",
-                    ""id"": ""6c49542a-5de2-4574-a848-e1d9c5df598f"",
+                    ""id"": ""80bcd864-3c44-42d8-8507-d5d5a8f7ad09"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aiming"",
+                    ""type"": ""Value"",
+                    ""id"": ""6fb07406-378f-4dea-91c4-6230a82e1ac7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SelectUpper"",
+                    ""type"": ""Button"",
+                    ""id"": ""974f8fff-3736-4bfb-a177-994e794924b6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectLower"",
+                    ""type"": ""Button"",
+                    ""id"": ""20e4ff11-59eb-4673-b5c5-f61b6c4a9599"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0a410b3-ab5e-4af5-8654-a1cd5471a637"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""abad2743-6ac8-4966-a8c1-bf6ffc0ede59"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""e85d28c7-8b5e-4ef6-aed2-0daf34ef1db2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ButtonLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""791e1527-e03e-4a4f-8901-bb461c6f8e92"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Power"",
+                    ""type"": ""Value"",
+                    ""id"": ""512f1529-b6f6-4e0d-b0a5-c23eb21657ef"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -293,7 +383,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -358,34 +448,188 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b3f66d0b-7751-423f-908b-a11c5bd95930"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""id"": ""eb40bb66-4559-4dfa-9a2f-820438abb426"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""daba33a1-ad0c-4742-a909-43ad1cdfbeb6"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Stab1"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""603f3daf-40bd-4854-8724-93e8017f59e3"",
+                    ""path"": ""<XRController>/secondaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c04ea5f-b012-41d1-a6f7-02e963b52893"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3f66d0b-7751-423f-908b-a11c5bd95930"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f4649ac-64a8-4a73-af11-b3faef356a4d"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36e52cba-0905-478e-a818-f4bfcb9f3b9a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""23ea8123-611d-4572-983e-04ff85069b1f"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RightBlock"",
+                    ""action"": ""Slash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2c38bf3a-f1a1-4eec-86e5-3c29974d624e"",
+                    ""id"": ""0c55db7f-ae8c-4ef1-ba32-39fed148c828"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a1cd565-e62c-44dd-ac91-8a0a0d71aff9"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d8ab672-9c77-416f-a2f7-cf54b8796996"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2e814bd-eba3-4f65-b3d8-89b8e06ac401"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4731b28-a306-4686-b839-dbd8a04d5317"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ButtonLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d4d163a-d84f-4652-bd69-07f8ef8d55b2"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftBlock"",
+                    ""action"": ""Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1cbc527c-a521-42ab-9e93-6e9bad9f4212"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d79f241e-dd50-41bc-a155-ffda071d1a1c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUpper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c18e0336-4020-4212-ad53-4c024f326473"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -976,9 +1220,19 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Stab1 = m_Player.FindAction("Stab1", throwIfNotFound: true);
-        m_Player_RightBlock = m_Player.FindAction("RightBlock", throwIfNotFound: true);
-        m_Player_LeftBlock = m_Player.FindAction("LeftBlock", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Slash = m_Player.FindAction("Slash", throwIfNotFound: true);
+        m_Player_Stab = m_Player.FindAction("Stab", throwIfNotFound: true);
+        m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
+        m_Player_SelectUpper = m_Player.FindAction("SelectUpper", throwIfNotFound: true);
+        m_Player_SelectLower = m_Player.FindAction("SelectLower", throwIfNotFound: true);
+        m_Player_ButtonUp = m_Player.FindAction("ButtonUp", throwIfNotFound: true);
+        m_Player_ButtonDown = m_Player.FindAction("ButtonDown", throwIfNotFound: true);
+        m_Player_ButtonRight = m_Player.FindAction("ButtonRight", throwIfNotFound: true);
+        m_Player_ButtonLeft = m_Player.FindAction("ButtonLeft", throwIfNotFound: true);
+        m_Player_Power = m_Player.FindAction("Power", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1075,9 +1329,19 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Stab1;
-    private readonly InputAction m_Player_RightBlock;
-    private readonly InputAction m_Player_LeftBlock;
+    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Slash;
+    private readonly InputAction m_Player_Stab;
+    private readonly InputAction m_Player_Aiming;
+    private readonly InputAction m_Player_SelectUpper;
+    private readonly InputAction m_Player_SelectLower;
+    private readonly InputAction m_Player_ButtonUp;
+    private readonly InputAction m_Player_ButtonDown;
+    private readonly InputAction m_Player_ButtonRight;
+    private readonly InputAction m_Player_ButtonLeft;
+    private readonly InputAction m_Player_Power;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1102,17 +1366,57 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Stab1".
+        /// Provides access to the underlying input action "Player/Interact".
         /// </summary>
-        public InputAction @Stab1 => m_Wrapper.m_Player_Stab1;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         /// <summary>
-        /// Provides access to the underlying input action "Player/RightBlock".
+        /// Provides access to the underlying input action "Player/Crouch".
         /// </summary>
-        public InputAction @RightBlock => m_Wrapper.m_Player_RightBlock;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         /// <summary>
-        /// Provides access to the underlying input action "Player/LeftBlock".
+        /// Provides access to the underlying input action "Player/Jump".
         /// </summary>
-        public InputAction @LeftBlock => m_Wrapper.m_Player_LeftBlock;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Slash".
+        /// </summary>
+        public InputAction @Slash => m_Wrapper.m_Player_Slash;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Stab".
+        /// </summary>
+        public InputAction @Stab => m_Wrapper.m_Player_Stab;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Aiming".
+        /// </summary>
+        public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUpper".
+        /// </summary>
+        public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectLower".
+        /// </summary>
+        public InputAction @SelectLower => m_Wrapper.m_Player_SelectLower;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonUp".
+        /// </summary>
+        public InputAction @ButtonUp => m_Wrapper.m_Player_ButtonUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonDown".
+        /// </summary>
+        public InputAction @ButtonDown => m_Wrapper.m_Player_ButtonDown;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonRight".
+        /// </summary>
+        public InputAction @ButtonRight => m_Wrapper.m_Player_ButtonRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ButtonLeft".
+        /// </summary>
+        public InputAction @ButtonLeft => m_Wrapper.m_Player_ButtonLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Power".
+        /// </summary>
+        public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1148,15 +1452,45 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @Stab1.started += instance.OnStab1;
-            @Stab1.performed += instance.OnStab1;
-            @Stab1.canceled += instance.OnStab1;
-            @RightBlock.started += instance.OnRightBlock;
-            @RightBlock.performed += instance.OnRightBlock;
-            @RightBlock.canceled += instance.OnRightBlock;
-            @LeftBlock.started += instance.OnLeftBlock;
-            @LeftBlock.performed += instance.OnLeftBlock;
-            @LeftBlock.canceled += instance.OnLeftBlock;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
+            @Slash.started += instance.OnSlash;
+            @Slash.performed += instance.OnSlash;
+            @Slash.canceled += instance.OnSlash;
+            @Stab.started += instance.OnStab;
+            @Stab.performed += instance.OnStab;
+            @Stab.canceled += instance.OnStab;
+            @Aiming.started += instance.OnAiming;
+            @Aiming.performed += instance.OnAiming;
+            @Aiming.canceled += instance.OnAiming;
+            @SelectUpper.started += instance.OnSelectUpper;
+            @SelectUpper.performed += instance.OnSelectUpper;
+            @SelectUpper.canceled += instance.OnSelectUpper;
+            @SelectLower.started += instance.OnSelectLower;
+            @SelectLower.performed += instance.OnSelectLower;
+            @SelectLower.canceled += instance.OnSelectLower;
+            @ButtonUp.started += instance.OnButtonUp;
+            @ButtonUp.performed += instance.OnButtonUp;
+            @ButtonUp.canceled += instance.OnButtonUp;
+            @ButtonDown.started += instance.OnButtonDown;
+            @ButtonDown.performed += instance.OnButtonDown;
+            @ButtonDown.canceled += instance.OnButtonDown;
+            @ButtonRight.started += instance.OnButtonRight;
+            @ButtonRight.performed += instance.OnButtonRight;
+            @ButtonRight.canceled += instance.OnButtonRight;
+            @ButtonLeft.started += instance.OnButtonLeft;
+            @ButtonLeft.performed += instance.OnButtonLeft;
+            @ButtonLeft.canceled += instance.OnButtonLeft;
+            @Power.started += instance.OnPower;
+            @Power.performed += instance.OnPower;
+            @Power.canceled += instance.OnPower;
         }
 
         /// <summary>
@@ -1177,15 +1511,45 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @Stab1.started -= instance.OnStab1;
-            @Stab1.performed -= instance.OnStab1;
-            @Stab1.canceled -= instance.OnStab1;
-            @RightBlock.started -= instance.OnRightBlock;
-            @RightBlock.performed -= instance.OnRightBlock;
-            @RightBlock.canceled -= instance.OnRightBlock;
-            @LeftBlock.started -= instance.OnLeftBlock;
-            @LeftBlock.performed -= instance.OnLeftBlock;
-            @LeftBlock.canceled -= instance.OnLeftBlock;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
+            @Slash.started -= instance.OnSlash;
+            @Slash.performed -= instance.OnSlash;
+            @Slash.canceled -= instance.OnSlash;
+            @Stab.started -= instance.OnStab;
+            @Stab.performed -= instance.OnStab;
+            @Stab.canceled -= instance.OnStab;
+            @Aiming.started -= instance.OnAiming;
+            @Aiming.performed -= instance.OnAiming;
+            @Aiming.canceled -= instance.OnAiming;
+            @SelectUpper.started -= instance.OnSelectUpper;
+            @SelectUpper.performed -= instance.OnSelectUpper;
+            @SelectUpper.canceled -= instance.OnSelectUpper;
+            @SelectLower.started -= instance.OnSelectLower;
+            @SelectLower.performed -= instance.OnSelectLower;
+            @SelectLower.canceled -= instance.OnSelectLower;
+            @ButtonUp.started -= instance.OnButtonUp;
+            @ButtonUp.performed -= instance.OnButtonUp;
+            @ButtonUp.canceled -= instance.OnButtonUp;
+            @ButtonDown.started -= instance.OnButtonDown;
+            @ButtonDown.performed -= instance.OnButtonDown;
+            @ButtonDown.canceled -= instance.OnButtonDown;
+            @ButtonRight.started -= instance.OnButtonRight;
+            @ButtonRight.performed -= instance.OnButtonRight;
+            @ButtonRight.canceled -= instance.OnButtonRight;
+            @ButtonLeft.started -= instance.OnButtonLeft;
+            @ButtonLeft.performed -= instance.OnButtonLeft;
+            @ButtonLeft.canceled -= instance.OnButtonLeft;
+            @Power.started -= instance.OnPower;
+            @Power.performed -= instance.OnPower;
+            @Power.canceled -= instance.OnPower;
         }
 
         /// <summary>
@@ -1508,26 +1872,96 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Stab1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStab1(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "RightBlock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Crouch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRightBlock(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "LeftBlock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLeftBlock(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Slash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSlash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Stab" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStab(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aiming" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAiming(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUpper" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUpper(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectLower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectLower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonDown(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ButtonLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnButtonLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Power" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPower(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

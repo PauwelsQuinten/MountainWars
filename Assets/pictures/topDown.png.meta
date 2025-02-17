@@ -201,6 +201,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1009,7 +1022,43 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      topDown_0: -9133888720797660377
+      topDown_1: 9021836643481478865
+      topDown_10: -2168789230625701508
+      topDown_11: 8248079033455674894
+      topDown_12: -7926160550248754045
+      topDown_13: 6418560347937405374
+      topDown_14: 3097023444024604338
+      topDown_15: -1379981548709521031
+      topDown_16: 5622222147482992818
+      topDown_17: -6835623526883240216
+      topDown_18: 6361956684460223309
+      topDown_19: -5071665118163843689
+      topDown_2: -502694145234854432
+      topDown_20: 7269491866474543935
+      topDown_21: 4668728621491078166
+      topDown_22: 511864534672873272
+      topDown_23: 7549213065557548115
+      topDown_24: -3925352399375343116
+      topDown_25: -693881759628616521
+      topDown_26: -8239588690344624612
+      topDown_27: -1222494946810610567
+      topDown_28: -9216377504245382620
+      topDown_29: -4885827851348975107
+      topDown_3: 4521624432156028524
+      topDown_30: -3085546755384070418
+      topDown_31: -8589517813565032768
+      topDown_32: -3467231910013865980
+      topDown_33: -6403152979092320342
+      topDown_34: -536573747260524251
+      topDown_35: -2092621528554591959
+      topDown_4: 6440283238343234552
+      topDown_5: -7086437956348645742
+      topDown_6: 3049042852393983605
+      topDown_7: 3291354307992984139
+      topDown_8: -193850224096654732
+      topDown_9: -7903652689692869454
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

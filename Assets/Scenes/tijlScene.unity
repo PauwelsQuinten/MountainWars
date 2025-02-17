@@ -980,6 +980,14 @@ MonoBehaviour:
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
+    m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
+    m_ActionName: 'Player/Crouch[/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
+    m_ActionName: 'Player/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -1024,8 +1032,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Slash[/Keyboard/a]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 6c49542a-5de2-4574-a848-e1d9c5df598f
-    m_ActionName: 'Player/LeftBlock[/DualShock4GamepadHID/leftTrigger]'
+    m_ActionId: 80bcd864-3c44-42d8-8507-d5d5a8f7ad09
+    m_ActionName: 'Player/Stab[/Keyboard/b]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
