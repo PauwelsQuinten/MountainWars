@@ -44,6 +44,8 @@ public class AimingInput : MonoBehaviour
     [SerializeField]
     private InputActionReference _aimFeet;
     [SerializeField]
+    private InputActionReference _aimTorso;
+    [SerializeField]
     private InputActionReference _slashUp;
     [SerializeField]
     private InputActionReference _slashDown;
@@ -177,7 +179,7 @@ public class AimingInput : MonoBehaviour
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
         //Check attackStance and lock it when attacking
 
-        SetHitboxHeight(newLength);
+        //SetHitboxHeight(newLength);
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
         if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
@@ -430,6 +432,28 @@ public class AimingInput : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SetStance()
+    {
+        _aimFeet.action.performed += AimFeet_performed;
+        _aimTorso.action.performed += AimTorso_performed;
+        _aimHead.action.performed += AimHead_performed;
+    }
+
+    private void AimHead_performed(InputAction.CallbackContext obj)
+    {
+        stanceState = AttackStance.Head;
+    }
+
+    private void AimTorso_performed(InputAction.CallbackContext obj)
+    {
+        stanceState = AttackStance.Torso;
+    }
+
+    private void AimFeet_performed(InputAction.CallbackContext obj)
+    {
+        stanceState = AttackStance.Legs;
     }
 
     private void HeightChange_performed(InputAction.CallbackContext obj)
