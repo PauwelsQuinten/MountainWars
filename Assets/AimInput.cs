@@ -234,6 +234,24 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SlashUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""283490de-aa55-42e1-b244-de9a778aa2ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SlashDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""85e06c91-17c8-47c2-b58b-c990ca3ce4eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -614,7 +632,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d79f241e-dd50-41bc-a155-ffda071d1a1c"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -625,11 +643,33 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c18e0336-4020-4212-ad53-4c024f326473"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SelectLower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f32ef41f-7875-42a2-8b3e-dd7b188b53f0"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SlashUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efd21fdd-9207-41bd-a328-579565088388"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SlashDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1233,6 +1273,8 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_ButtonRight = m_Player.FindAction("ButtonRight", throwIfNotFound: true);
         m_Player_ButtonLeft = m_Player.FindAction("ButtonLeft", throwIfNotFound: true);
         m_Player_Power = m_Player.FindAction("Power", throwIfNotFound: true);
+        m_Player_SlashUp = m_Player.FindAction("SlashUp", throwIfNotFound: true);
+        m_Player_SlashDown = m_Player.FindAction("SlashDown", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1342,6 +1384,8 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ButtonRight;
     private readonly InputAction m_Player_ButtonLeft;
     private readonly InputAction m_Player_Power;
+    private readonly InputAction m_Player_SlashUp;
+    private readonly InputAction m_Player_SlashDown;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1418,6 +1462,14 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
+        /// Provides access to the underlying input action "Player/SlashUp".
+        /// </summary>
+        public InputAction @SlashUp => m_Wrapper.m_Player_SlashUp;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SlashDown".
+        /// </summary>
+        public InputAction @SlashDown => m_Wrapper.m_Player_SlashDown;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1491,6 +1543,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Power.started += instance.OnPower;
             @Power.performed += instance.OnPower;
             @Power.canceled += instance.OnPower;
+            @SlashUp.started += instance.OnSlashUp;
+            @SlashUp.performed += instance.OnSlashUp;
+            @SlashUp.canceled += instance.OnSlashUp;
+            @SlashDown.started += instance.OnSlashDown;
+            @SlashDown.performed += instance.OnSlashDown;
+            @SlashDown.canceled += instance.OnSlashDown;
         }
 
         /// <summary>
@@ -1550,6 +1608,12 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Power.started -= instance.OnPower;
             @Power.performed -= instance.OnPower;
             @Power.canceled -= instance.OnPower;
+            @SlashUp.started -= instance.OnSlashUp;
+            @SlashUp.performed -= instance.OnSlashUp;
+            @SlashUp.canceled -= instance.OnSlashUp;
+            @SlashDown.started -= instance.OnSlashDown;
+            @SlashDown.performed -= instance.OnSlashDown;
+            @SlashDown.canceled -= instance.OnSlashDown;
         }
 
         /// <summary>
@@ -1962,6 +2026,20 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SlashUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSlashUp(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SlashDown" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSlashDown(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

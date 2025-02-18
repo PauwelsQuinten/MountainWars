@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public enum AttackStance
 {
@@ -37,12 +39,17 @@ public class AimingInput : MonoBehaviour
     private AimInputFull _input;
     private InputAction AimAction;
     private InputAction moveAction;
-    private InputAction AimHead;
+    [SerializeField]
+    private InputActionReference _aimHead;
+    [SerializeField]
+    private InputActionReference _aimFeet;
+    [SerializeField]
+    private InputActionReference _slashUp;
+    [SerializeField]
+    private InputActionReference _slashDown;
     private InputAction rightBlockAction;
-    private InputAction AimFeet;
     private CharacterController characterController;
-    [SerializeField] 
-    HitDetection _hitDetector;
+    [SerializeField] GameObject arrow;
 
     private Vector2 _direction;
     private Vector2 _moveDirection;
@@ -54,6 +61,8 @@ public class AimingInput : MonoBehaviour
     private AttackStance stanceState = AttackStance.Torso;
 
     [SerializeField] private float _speed = 10.0f;
+    [SerializeField] private TextMeshPro _texMessage;
+    [SerializeField] private TextMeshPro _txtActionPower;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
@@ -89,10 +98,24 @@ public class AimingInput : MonoBehaviour
     private AttackType _newAttackType = AttackType.Stab;
     private int _startDirection = 0;
     private MovingDirection _MovingState = MovingDirection.Neutral;
-    [SerializeField] private float _leaningSpeed = 1.5f;
-    [SerializeField] private float _defaultHitzoneHeight = 0.0f;
-    [SerializeField] private float _MaxTimeNotLeaning = 0.2f;
-    private float _currentTimeNotLeaning = 0.0f;
+
+    private Vector2 _startDrawPos;
+    private float _slashAngle;
+    private float _slashTime;
+    [SerializeField]
+    private float _slashStrength;
+
+    [SerializeField]
+    private float _leaningSpeed = 2f;
+    [SerializeField]
+    private float _MaxTimeNotLeaning = 0.5f;
+
+    private float _currentTimeNotLeaning;
+    private float _defaultHitzoneHeight = 3.3f;
+
+    [SerializeField]
+    private GameObject _leanIndicator;
+
 
     private void Awake()
     {
@@ -114,11 +137,11 @@ public class AimingInput : MonoBehaviour
         //_input.Player.Move.performed += OnMove;
         //_input.Player.Move.canceled += OnMove;
         _input.Enable();
-        //characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<CharacterController>();
         moveAction = _input.FindAction("Move");
         AimAction = _input.FindAction("Look");
-        AimHead = _input.Player.Stab1;
-        AimFeet = _input.Player.RightBlock;
+        //_aimHead = _input.Player.Stab1.actionMap;
+        //_aimFeet = _input.Player.RightBlock;
         //rightBlockAction = _input.Player.RightBlock;
     }
 
@@ -136,22 +159,8 @@ public class AimingInput : MonoBehaviour
 
     private void Update()
     {
-        //arrow.transform.localScale *= (0.990f );
-
-
-        //analog attack in 8 direction in 3 zones (24 attacks)
-        //AnalogAiming();
-
-        //analog attack 2 direction plus charge
-        //AnalogAiming2();
-        
-        //as above but with moveable hitzone, achieve diagonal attacks by moving it up down during attack
-        //AnalogAiming3();
-
-        //as above but with rewarding big slash
         AnalogAiming4();
 
-        //Movement
         _moveDirection = moveAction.ReadValue<Vector2>();
         //characterController.Move(_moveDirection * _speed * Time.deltaTime);
     }
@@ -164,13 +173,13 @@ public class AimingInput : MonoBehaviour
         float newLength = _direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        //Debug.Log($"{newLength:F2}");
 
+        _leanIndicator.transform.position = _hitZones[6].transform.position;
         //Check attackStance and lock it when attacking
         if (newLength < 0.6f)
         {
-            
-            if (AimHead.IsPressed() && _hitZones[6].transform.position.y <= MAX_HITBOX_HEIGHT)
+
+            if (_aimHead.action.IsPressed() && _hitZones[6].transform.position.y <= MAX_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position += Vector3.up * Time.deltaTime * _leaningSpeed;
                 if (_hitZones[6].transform.position.y >= MAX_HITBOX_HEIGHT)
@@ -178,7 +187,7 @@ public class AimingInput : MonoBehaviour
 
                 _MovingState = MovingDirection.MovingUp;
             }
-            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y >= MIN_HITBOX_HEIGHT)
+            else if (_aimFeet.action.IsPressed() && _hitZones[6].transform.position.y >= MIN_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position -= Vector3.up * Time.deltaTime * _leaningSpeed;
                 if (_hitZones[6].transform.position.y <= MIN_HITBOX_HEIGHT)
@@ -207,25 +216,12 @@ public class AimingInput : MonoBehaviour
                     }
                     else
                     {
-                        _hitZones[6].transform.position = new Vector3(0.0f, _defaultHitzoneHeight, 0.0f); 
+                        _hitZones[6].transform.position = new Vector3(0.0f, _defaultHitzoneHeight, 0.0f);
                         _currentTimeNotLeaning = 0.0f;
-
                     }
-
-
                 }
             }
         }
-
-        ////retract sword when power is gone
-        //if (_isExhausted && newLength > 0)
-        //{
-        //    return;
-        //}
-        //else
-        //{
-        //    _isExhausted = false;
-        //}
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
         if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
@@ -244,7 +240,6 @@ public class AimingInput : MonoBehaviour
             {
                 if (_chargedTime < MAX_CHARGE_TIME)
                     _chargedTime += (Time.deltaTime * 4.0f);
-                //Debug.Log($"{_chargedTime}");
                 _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
                 _sword.transform.localPosition = _startLocation;
                 _txtActionPower.enabled = false;
@@ -254,54 +249,46 @@ public class AimingInput : MonoBehaviour
             else
             {
                 if (_startDirection == 0)
-                    _startDirection = (_direction.x > 0.0f)? 1 : -1;
+                    _startDirection = (_direction.x > 0.0f) ? 1 : -1;
 
                 //slashDirection or stab
                 if ((currentAngleDegree > 110.0f || currentAngleDegree < 70.0f) && newLength > 0.85f)
                 {
-                    _newAttackType = (_newAttackType == AttackType.Stab)? AttackType.HorizontalSlash : _newAttackType;
+                    _newAttackType = (_newAttackType == AttackType.Stab) ? AttackType.HorizontalSlash : _newAttackType;
 
-                    switch(_MovingState)
+                    switch(_startDirection)
                     {
-                        case MovingDirection.MovingUp:
-                            if (_hitZones[6].transform.position.y >= MAX_HITBOX_HEIGHT)
-                                _newAttackType = AttackType.HorizontalSlash;
-                            else if (_startDirection < 0 )
-                                _newAttackType = AttackType.UpperSlashLeft;
-                            else if (_startDirection > 0 )
-                                _newAttackType = AttackType.UpperSlashRight;
-                            else 
-                                _newAttackType = AttackType.StraightUp;
-                            break;
-
-                        case MovingDirection.MovingDown:
-                            if (_hitZones[6].transform.position.y <= MIN_HITBOX_HEIGHT)
-                                _newAttackType = AttackType.HorizontalSlash;
-                            else if (_startDirection < 0 )
-                                _newAttackType = AttackType.DownSlashLeft;
-                            else if (_startDirection > 0 )
+                        case -1:
+                            if (_slashDown.action.IsPressed())
+                            {
                                 _newAttackType = AttackType.DownSlashRight;
-                            else 
-                                _newAttackType = AttackType.StraightDown;
+                                if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightDown;
+                            }
+                            else if (_slashUp.action.IsPressed())
+                            {
+                                _newAttackType = AttackType.UpperSlashRight;
+                                if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightUp;
+                            }
                             break;
-                        default:
+                        case 1:
+                            if (_slashDown.action.IsPressed())
+                            {
+                                _newAttackType = AttackType.DownSlashLeft;
+                                if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightDown;
+                            }
+                            else if (_slashUp.action.IsPressed())
+                            {
+                                _newAttackType = AttackType.DownSlashRight;
+                                if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightUp;
+                            }
                             break;
-
                     }
-
                 }
-
-                ////Whenmoving a stab up and down, change it to upper/down slash
-                //if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
-                //    _newAttackType = AttackType.StraightUp;
-                // if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
-                //    _newAttackType = AttackType.StraightDown;
-
 
                 //Show hitZone
                 _hitZones[6].SetActive(true);
-                
-                switch(_newAttackType)
+
+                switch (_newAttackType)
                 {
                     case AttackType.HorizontalSlash:
                         _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
@@ -335,7 +322,33 @@ public class AimingInput : MonoBehaviour
                         _hitZones[6].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
                         _hitZones[6].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
                         break;
-                    default:break;
+                    default: break;
+                }
+
+                if (newLength >= 0.97f)
+                {
+                    if (_startDrawPos == Vector2.zero) _startDrawPos = _direction;
+                    float newAngle = Vector2.Angle(_startDrawPos, _direction);
+
+                    if (_slashAngle <= newAngle)
+                    {
+                        _slashAngle = newAngle;
+                        _slashTime += Time.deltaTime;
+
+                        _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
+                    }
+                    else
+                    {
+                        _slashTime = 0.0f;
+                        _slashAngle = 0.0f;
+                        _startDrawPos = Vector2.zero;
+                    }
+                }
+                else
+                {
+                    _slashTime = 0.0f;
+                    _slashAngle = 0.0f;
+                    _startDrawPos = Vector2.zero;
                 }
 
 
@@ -374,6 +387,7 @@ public class AimingInput : MonoBehaviour
 
 
     }
+
     private void AnalogAiming3()
     {
 
@@ -400,12 +414,12 @@ public class AimingInput : MonoBehaviour
             //else
             //    _newAttackType = (_newAttackType == AttackType.HorizontalSlash) ? AttackType.HorizontalSlash : AttackType.Stab;
 
-            if (AimHead.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
+            if (_aimHead.action.IsPressed() && _hitZones[6].transform.position.y < MAX_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position += Vector3.up * Time.deltaTime;
                 _MovingState = MovingDirection.MovingUp;
             }
-            else if (AimFeet.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
+            else if (_aimFeet.action.IsPressed() && _hitZones[6].transform.position.y > MIN_HITBOX_HEIGHT)
             {
                 _hitZones[6].transform.position -= Vector3.up * Time.deltaTime;
                 _MovingState = MovingDirection.MovingDown;
@@ -416,6 +430,33 @@ public class AimingInput : MonoBehaviour
                 _MovingState = MovingDirection.Neutral;
             }
         }
+
+        if (newLength >= 0.97f)
+        {
+            if (_startDrawPos == Vector2.zero) _startDrawPos = _direction;
+            float newAngle = Vector2.Angle(_startDrawPos, _direction);
+
+            if (_slashAngle <= newAngle)
+            {
+                _slashAngle = newAngle;
+                _slashTime += Time.deltaTime;
+
+                _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
+            }
+            else
+            {
+                _slashTime = 0.0f;
+                _slashAngle = 0.0f;
+                _startDrawPos = Vector2.zero;
+            }
+        }
+        else
+        {
+            _slashTime = 0.0f;
+            _slashAngle = 0.0f;
+            _startDrawPos = Vector2.zero;
+        }
+
         //retract sword when power is gone
         if (_isExhausted && newLength > 0)
         {
@@ -446,6 +487,8 @@ public class AimingInput : MonoBehaviour
                 //Debug.Log($"{_chargedTime}");
                 _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
                 _sword.transform.localPosition = _startLocation;
+                _txtActionPower.enabled = false;
+
             }
             //Attacking
             else
@@ -491,11 +534,11 @@ public class AimingInput : MonoBehaviour
 
                 }
 
-                //Whenmoving a stab up and down, change it to upper/down slash
-                if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
-                    _newAttackType = AttackType.StraightUp;
-                 if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
-                    _newAttackType = AttackType.StraightDown;
+                ////Whenmoving a stab up and down, change it to upper/down slash
+                //if (_MovingState == MovingDirection.MovingUp && _newAttackType == AttackType.Stab)
+                //    _newAttackType = AttackType.StraightUp;
+                // if (_MovingState == MovingDirection.MovingDown && _newAttackType == AttackType.Stab)
+                //    _newAttackType = AttackType.StraightDown;
 
 
                 //Show hitZone
@@ -542,12 +585,14 @@ public class AimingInput : MonoBehaviour
 
                 //decrease power the longer your arm is stretched out
                 defaultPower -= (defaultPower > 0) ? (Time.deltaTime * 6.0f) : 0.0f;
-                _chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
+                //_chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
 
                 //Sword follows analog 
                 _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
                 _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
-                
+                //message
+                _txtActionPower.enabled = true;
+                _txtActionPower.text = (defaultPower + _chargedTime).ToString();
                 if (defaultPower <= 0)
                 {
                     _isExhausted = true;
@@ -564,15 +609,13 @@ public class AimingInput : MonoBehaviour
         {
             _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
-
-
     }
      private void AnalogAiming2()
     {
         //Check attackStance
-        if (AimHead.IsPressed())
+        if (_aimHead.action.IsPressed())
             stanceState = AttackStance.Head;
-        else if (AimFeet.IsPressed())
+        else if (_aimFeet.action.IsPressed())
             stanceState = AttackStance.Legs;
         else
             stanceState = AttackStance.Torso;
@@ -614,6 +657,7 @@ public class AimingInput : MonoBehaviour
                 //Debug.Log($"{_chargedTime}");
                 _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
                 _sword.transform.localPosition = _startLocation;
+                _txtActionPower.enabled = false;
 
             }
             else 
@@ -649,6 +693,8 @@ public class AimingInput : MonoBehaviour
                 _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
                 _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, currentAngleDegree + DEFAULT_SWORD_ORIENTATION - 90.0f);
                 //message
+                _txtActionPower.enabled = true;
+                _txtActionPower.text = (defaultPower + _chargedTime).ToString();
                 if (defaultPower <= 0)
                 {
                     _isExhausted = true;
@@ -688,11 +734,12 @@ public class AimingInput : MonoBehaviour
 
     private void AnalogAiming()
     {
+        arrow.transform.localScale *= (0.990f);
 
         //Check attackStance
-        if (AimHead.IsPressed())
+        if (_aimHead.action.IsPressed())
             stanceState = AttackStance.Head;
-        else if (AimFeet.IsPressed())
+        else if (_aimFeet.action.IsPressed())
             stanceState = AttackStance.Legs;
         else
             stanceState = AttackStance.Torso;
@@ -729,6 +776,7 @@ public class AimingInput : MonoBehaviour
                         Attack();
                         return;
                     }
+                    _isStab = false;
                     state = SlashState.Release;
                 }
                 break;
@@ -759,8 +807,7 @@ public class AimingInput : MonoBehaviour
                         Debug.Log($"Fail, angle{angle}");
                         return;
                     }
-                    //SLASH!!!!
-                    _isStab = false;
+                     //SLASH!!!!
                     Debug.Log($"{stanceState} in direction {slashState} with power: {_chargeUpTime}");
                     Attack();
 
@@ -788,7 +835,7 @@ public class AimingInput : MonoBehaviour
 
     private void Attack()
     {
-        _hitDetector.GetHitPos(slashState, stanceState, _isStab);
+        RotateArrow();
         state = SlashState.Rest;
         _restTime = 0.25f;
     }
@@ -816,4 +863,46 @@ public class AimingInput : MonoBehaviour
         return false;
 
     }
+
+    private void RotateArrow()
+    {
+        arrow.transform.localScale = (Vector3.one * 0.2f);
+
+        string attack = _isStab ? "Stab" : "Slash";
+        _texMessage.text = slashState.ToString();
+        string text = $"{attack} Aim at {stanceState} with power: {_chargeUpTime:F2}";
+        _txtActionPower.text = text;
+        switch (slashState)
+        {
+            case SlashDirection.LeftUp:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightUp: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.LeftDown:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightDown: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.LeftToRight:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;
+            case SlashDirection.RightToLeft: 
+                arrow.transform.rotation = Quaternion.Euler(0, 0, (int)slashState + 180);
+                break;     
+            case SlashDirection.StraightDown:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
+                break;
+            case SlashDirection.Upper:
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -(int)slashState);
+                break;
+            default:
+                break;
+        }
+        
+
+    }
+    
 }

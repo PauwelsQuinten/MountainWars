@@ -476,7 +476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 174186022}
-  - component: {fileID: 174186021}
+  - component: {fileID: 174186023}
   m_Layer: 0
   m_Name: AimingTest3
   m_TagString: Untagged
@@ -484,25 +484,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &174186021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174186020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca9ad03c21d40794299198c5affefc2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitDetector: {fileID: 0}
-  _speed: 10
-  _sword: {fileID: 0}
-  radius: 10
-  DEFAULT_SWORD_ORIENTATION: 218
-  YRotation: 45
-  _hitZones: []
 --- !u!4 &174186022
 Transform:
   m_ObjectHideFlags: 0
@@ -518,6 +499,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1263741538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &174186023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174186020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7ed9cf0ebcc11e40973667d61698a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrow: {fileID: 0}
+  _speed: 10
+  _texMessage: {fileID: 0}
+  _txtActionPower: {fileID: 0}
+  _sword: {fileID: 0}
+  radius: 10
+  DEFAULT_SWORD_ORIENTATION: 218
+  YRotation: 45
+  _hitZones: []
+  _selectDiagonalUp: {fileID: 0}
+  _selectDiagonalDown: {fileID: 0}
 --- !u!1 &300649621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,7 +1648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1263741538
 Transform:
   m_ObjectHideFlags: 0
@@ -1678,13 +1682,14 @@ GameObject:
   - component: {fileID: 1344837013}
   - component: {fileID: 1344837012}
   - component: {fileID: 1344837011}
+  - component: {fileID: 1344837016}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1344837011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1953,6 +1958,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1344837016
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344837010}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c076baa72dafcc84aa2617ec947f682e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1456352743
 GameObject:
   m_ObjectHideFlags: 0
