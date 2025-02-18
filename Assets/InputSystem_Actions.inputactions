@@ -96,6 +96,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "SelectMiddle",
+                    "type": "Button",
+                    "id": "071724df-e4bf-479e-8451-cfd2c5357c03",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SelectLower",
                     "type": "Button",
                     "id": "20e4ff11-59eb-4673-b5c5-f61b6c4a9599",
@@ -546,7 +555,7 @@
                 {
                     "name": "",
                     "id": "d79f241e-dd50-41bc-a155-ffda071d1a1c",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -556,8 +565,30 @@
                 },
                 {
                     "name": "",
+                    "id": "c7fcb039-402e-421b-b0d6-b6b01d575933",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectMiddle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad0c3019-ee47-43fe-bc9b-15dde2b2fa17",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectMiddle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c18e0336-4020-4212-ad53-4c024f326473",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

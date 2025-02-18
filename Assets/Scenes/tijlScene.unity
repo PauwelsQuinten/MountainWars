@@ -1071,6 +1071,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 85e06c91-17c8-47c2-b58b-c990ca3ce4eb
     m_ActionName: 'Player/SlashDown[/XInputControllerWindows/rightShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 071724df-e4bf-479e-8451-cfd2c5357c03
+    m_ActionName: 'Player/SelectMiddle[/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/left]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1160,8 +1164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AimAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _aimHead: {fileID: 8139089285512152037, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _aimFeet: {fileID: 8946815350380076863, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _aimTorso: {fileID: -4883226745432947173, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _slashUp: {fileID: 2574673509736090873, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _slashDown: {fileID: 5556842970596875931, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   arrow: {fileID: 1830086162}
@@ -1726,7 +1732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1853400158
 SpriteRenderer:
   m_ObjectHideFlags: 0
