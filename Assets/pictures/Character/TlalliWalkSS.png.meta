@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: ca37d01f59d49c44fbe3a73f8390f6af
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9178895659841538838
+    second: TlalliWalkSS_0
+  - first:
+      213: -3456218217736034742
+    second: TlalliWalkSS_1
+  - first:
+      213: 1437189523220544633
+    second: TlalliWalkSS_2
+  - first:
+      213: -8554887353770975435
+    second: TlalliWalkSS_3
+  - first:
+      213: -5522039464772748456
+    second: TlalliWalkSS_4
+  - first:
+      213: -5181376203317131585
+    second: TlalliWalkSS_5
+  - first:
+      213: -4286559120621515642
+    second: TlalliWalkSS_6
+  - first:
+      213: 6836592587748505239
+    second: TlalliWalkSS_7
+  - first:
+      213: -5548745586751886553
+    second: TlalliWalkSS_8
+  - first:
+      213: -2479548022523493108
+    second: TlalliWalkSS_9
+  - first:
+      213: -5525926974234457781
+    second: TlalliWalkSS_10
+  - first:
+      213: 8159694136092337602
+    second: TlalliWalkSS_11
+  - first:
+      213: -6815787952466579248
+    second: TlalliWalkSS_12
+  - first:
+      213: 7386764267425572335
+    second: TlalliWalkSS_13
+  - first:
+      213: 7626927328743564817
+    second: TlalliWalkSS_14
+  - first:
+      213: -1375255585961100833
+    second: TlalliWalkSS_15
+  - first:
+      213: 4452035974459995917
+    second: TlalliWalkSS_16
+  - first:
+      213: -7159641411237926766
+    second: TlalliWalkSS_17
+  - first:
+      213: -6455141997266496786
+    second: TlalliWalkSS_18
+  - first:
+      213: -6701675644679179791
+    second: TlalliWalkSS_19
+  - first:
+      213: -8927335537370586090
+    second: TlalliWalkSS_20
+  - first:
+      213: -551895749095833609
+    second: TlalliWalkSS_21
+  - first:
+      213: -5453208319950958781
+    second: TlalliWalkSS_22
+  - first:
+      213: -3135472919343172796
+    second: TlalliWalkSS_23
+  - first:
+      213: 5345206283821544566
+    second: TlalliWalkSS_24
+  - first:
+      213: -4489408839536684246
+    second: TlalliWalkSS_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 15
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TlalliWalkSS_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 202
+        width: 21
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61bca3388fcf16f70800000000000000
+      internalID: 9178895659841538838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 203
+        width: 22
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a462c91c7db0900d0800000000000000
+      internalID: -3456218217736034742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 202
+        width: 21
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97c397eb14ce1f310800000000000000
+      internalID: 1437189523220544633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_3
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 203
+        width: 22
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53fdff8074fe64980800000000000000
+      internalID: -8554887353770975435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_4
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 204
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85b38822d56cd53b0800000000000000
+      internalID: -5522039464772748456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_5
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 204
+        width: 19
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb6ce919bcd0818b0800000000000000
+      internalID: -5181376203317131585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_6
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 153
+        width: 27
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68cc4a2e0351384c0800000000000000
+      internalID: -4286559120621515642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 152
+        width: 22
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79671da9cb470ee50800000000000000
+      internalID: 6836592587748505239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_8
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 152
+        width: 19
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72b23a09945eef2b0800000000000000
+      internalID: -5548745586751886553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_9
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 152
+        width: 23
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0507f1f530e69dd0800000000000000
+      internalID: -2479548022523493108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_10
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 150
+        width: 24
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b49810ec1b6ff43b0800000000000000
+      internalID: -5525926974234457781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_11
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 152
+        width: 20
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c52f99b59e0d3170800000000000000
+      internalID: 8159694136092337602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_12
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 102
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d0b7d408f47961a0800000000000000
+      internalID: -6815787952466579248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_13
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 99
+        width: 22
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe52377e6fe038660800000000000000
+      internalID: 7386764267425572335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_14
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 102
+        width: 23
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 116aa7d0ff948d960800000000000000
+      internalID: 7626927328743564817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_15
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 99
+        width: 22
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd9ba6bb45c1aece0800000000000000
+      internalID: -1375255585961100833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_16
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 102
+        width: 23
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d07b2f0812fc8cd30800000000000000
+      internalID: 4452035974459995917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_17
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 102
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 298acf3e118d3ac90800000000000000
+      internalID: -7159641411237926766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_18
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 52
+        width: 20
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee29936ed8aba66a0800000000000000
+      internalID: -6455141997266496786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_19
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 50
+        width: 24
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f1b207128ddef2a0800000000000000
+      internalID: -6701675644679179791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_20
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 52
+        width: 23
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6142e48b0abbb1480800000000000000
+      internalID: -8927335537370586090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_21
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 52
+        width: 19
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ff38128db54758f0800000000000000
+      internalID: -551895749095833609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_22
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 52
+        width: 22
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34f4e13ecef4254b0800000000000000
+      internalID: -5453208319950958781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_23
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 53
+        width: 27
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44371b70eff8c74d0800000000000000
+      internalID: -3135472919343172796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_24
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 4
+        width: 19
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6747e568bccfd2a40800000000000000
+      internalID: 5345206283821544566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliWalkSS_25
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 4
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a23dae3427a62b1c0800000000000000
+      internalID: -4489408839536684246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TlalliWalkSS_0: 9178895659841538838
+      TlalliWalkSS_1: -3456218217736034742
+      TlalliWalkSS_10: -5525926974234457781
+      TlalliWalkSS_11: 8159694136092337602
+      TlalliWalkSS_12: -6815787952466579248
+      TlalliWalkSS_13: 7386764267425572335
+      TlalliWalkSS_14: 7626927328743564817
+      TlalliWalkSS_15: -1375255585961100833
+      TlalliWalkSS_16: 4452035974459995917
+      TlalliWalkSS_17: -7159641411237926766
+      TlalliWalkSS_18: -6455141997266496786
+      TlalliWalkSS_19: -6701675644679179791
+      TlalliWalkSS_2: 1437189523220544633
+      TlalliWalkSS_20: -8927335537370586090
+      TlalliWalkSS_21: -551895749095833609
+      TlalliWalkSS_22: -5453208319950958781
+      TlalliWalkSS_23: -3135472919343172796
+      TlalliWalkSS_24: 5345206283821544566
+      TlalliWalkSS_25: -4489408839536684246
+      TlalliWalkSS_3: -8554887353770975435
+      TlalliWalkSS_4: -5522039464772748456
+      TlalliWalkSS_5: -5181376203317131585
+      TlalliWalkSS_6: -4286559120621515642
+      TlalliWalkSS_7: 6836592587748505239
+      TlalliWalkSS_8: -5548745586751886553
+      TlalliWalkSS_9: -2479548022523493108
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
