@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Mat_4
+  m_Name: Test_Mat_4_2
   m_Shader: {fileID: -6465566751694194690, guid: 6a2b5d8b0183e5e42aeef562ff820c06, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -49,9 +49,9 @@ Material:
     - _FifthStep: 1
     - _FifthStepColor: 0.1
     - _FifthStepThreshold: 1
-    - _FirstStepColor: 0.68
+    - _FirstStepColor: 0.812
     - _FourthStep: 0.8
-    - _FourthStepColor: 0.228
+    - _FourthStepColor: 0.261
     - _FourthStepThreshold: 0.8
     - _M_Rotation: 45
     - _NoiseSaturation: 0.76
@@ -62,10 +62,10 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SecondStep: 0.4
-    - _SecondStepColor: 0.52
+    - _SecondStepColor: 0.566
     - _SecondStepThreshold: 0.4
     - _ThirdStep: 0.6
-    - _ThirdStepColor: 0.367
+    - _ThirdStepColor: 0.4
     - _ThirdStepThreshold: 0.6
     - _Y_Rotation: 45
     - _firstStep: 0.2

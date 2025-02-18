@@ -28,6 +28,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d9f36cd753a44b05bed13b3e8bbba105_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8e64fbf97112ba744b0b30062282b355, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,14 +47,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _C_Rotation: 15
-    - _DarknessDot: 0.699
-    - _Dot_Size: 0.47
-    - _Dots_Scale: 1049
+    - _DarknessDot: 0.27
+    - _Dot_Size: 0.27
+    - _Dots_Scale: 1271
     - _FifthStep: 1
     - _FourthStep: 0.8
     - _K_Rotation: 0
-    - _M_Rotation: 45
-    - _NoiseSaturation: 0.76
+    - _M_Rotation: 46
+    - _NoiseSaturation: 1
     - _Noise_Scale: 1
     - _Noise_Strength: 0
     - _OpacityUnderlayingColor: 0
@@ -60,15 +64,15 @@ Material:
     - _SecondStep: 0.4
     - _ThirdStep: 0.6
     - _Y_Rotation: 0
-    - _firstStep: 0.181
+    - _firstStep: 0.2
     m_Colors:
-    - _Background: {r: 1, g: 0.9779245, b: 0.9575472, a: 0}
+    - _Background: {r: 1, g: 1, b: 1, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
     - _Cyan: {r: 0, g: 1, b: 1, a: 0}
     - _Magenta: {r: 1, g: 0, b: 0.89550066, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _NoiseSize: {r: 10, g: 10, b: 0, a: 0}
-    - _OverlayColor: {r: 1, g: 0.9641374, b: 0.9009434, a: 0}
+    - _OverlayColor: {r: 0.6830188, g: 0.20526664, b: 0, a: 0}
     - _Yellow: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

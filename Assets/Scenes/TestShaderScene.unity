@@ -159,7 +159,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 38a0830b2bce6bb44a4b2ce01302a035, type: 2}
+  - {fileID: 2100000, guid: 6ae344e4e461e614c9dee36c56e0c0be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -312,7 +312,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 9.7
+  orthographic size: 17.59
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
