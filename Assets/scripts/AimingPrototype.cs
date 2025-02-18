@@ -26,6 +26,7 @@ public class AimingPrototype : MonoBehaviour
     [SerializeField] private TextMeshPro _txtActionPower;
     [SerializeField] private TextMeshPro _texMessage;
     [SerializeField] private GameObject _target;
+    [SerializeField] private bool _useLockOnMovement = false;
 
 
     private Vector2 _inputMovement = Vector2.zero;
@@ -157,14 +158,22 @@ public class AimingPrototype : MonoBehaviour
 
     private void Walk()
     {
-        if (_isLockOn)
+        if (_isLockOn && _useLockOnMovement)
         {
             var lookDir = _target.transform.position - transform.position;
-            lookDir.Normalize();
-            characterController.Move(_inputMovement * movementSpeed * Time.deltaTime);
-        }
+            //lookDir.Normalize();
+            //float angleD = Vector2.Angle(Vector2.up, lookDir);
+            float angleD = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90;
+            var newDirection = Rotate(_inputMovement, angleD);
+            newDirection.Normalize();
+            float newLength = _inputMovement.magnitude;
 
-        characterController.Move(_inputMovement * movementSpeed * Time.deltaTime);
+            newDirection *= newLength;
+            characterController.Move(newDirection * movementSpeed * Time.deltaTime);
+        }
+        else
+            characterController.Move(_inputMovement * movementSpeed * Time.deltaTime);
+
         _animator.Walk(_inputMovement);
     }
 
@@ -214,6 +223,13 @@ public class AimingPrototype : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Vector2 Rotate(Vector2 v, float angle)
+    {
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        Vector3 rotatedVector3 = rotation * new Vector3(v.x, v.y, 0);
+        return new Vector2(rotatedVector3.x, rotatedVector3.y);
     }
 
 }

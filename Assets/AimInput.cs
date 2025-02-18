@@ -234,6 +234,15 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""UseBlock"",
+                    ""type"": ""Button"",
+                    ""id"": ""9462e96c-0ee1-4380-87f3-53d8c86163ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -619,6 +628,17 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SelectLower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8e9f707-a34e-4b06-9e3c-fb5808165e50"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseBlock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1222,6 +1242,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_ButtonRight = m_Player.FindAction("ButtonRight", throwIfNotFound: true);
         m_Player_ButtonLeft = m_Player.FindAction("ButtonLeft", throwIfNotFound: true);
         m_Player_Power = m_Player.FindAction("Power", throwIfNotFound: true);
+        m_Player_UseBlock = m_Player.FindAction("UseBlock", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1331,6 +1352,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ButtonRight;
     private readonly InputAction m_Player_ButtonLeft;
     private readonly InputAction m_Player_Power;
+    private readonly InputAction m_Player_UseBlock;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1407,6 +1429,10 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Power => m_Wrapper.m_Player_Power;
         /// <summary>
+        /// Provides access to the underlying input action "Player/UseBlock".
+        /// </summary>
+        public InputAction @UseBlock => m_Wrapper.m_Player_UseBlock;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1480,6 +1506,9 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Power.started += instance.OnPower;
             @Power.performed += instance.OnPower;
             @Power.canceled += instance.OnPower;
+            @UseBlock.started += instance.OnUseBlock;
+            @UseBlock.performed += instance.OnUseBlock;
+            @UseBlock.canceled += instance.OnUseBlock;
         }
 
         /// <summary>
@@ -1539,6 +1568,9 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @Power.started -= instance.OnPower;
             @Power.performed -= instance.OnPower;
             @Power.canceled -= instance.OnPower;
+            @UseBlock.started -= instance.OnUseBlock;
+            @UseBlock.performed -= instance.OnUseBlock;
+            @UseBlock.canceled -= instance.OnUseBlock;
         }
 
         /// <summary>
@@ -1951,6 +1983,13 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPower(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseBlock" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseBlock(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
