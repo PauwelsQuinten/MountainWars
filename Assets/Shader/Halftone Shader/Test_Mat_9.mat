@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9146165627980800880
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Mat_5
-  m_Shader: {fileID: -6465566751694194690, guid: 7fbce92df6e4aeb4abf3b83dde3db4e8, type: 3}
+  m_Name: Test_Mat_9
+  m_Shader: {fileID: -6465566751694194690, guid: 6aeb15f9e2c6f2b488a40f16a37e16f5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -20,12 +33,16 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Yellow
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d9f36cd753a44b05bed13b3e8bbba105_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8e64fbf97112ba744b0b30062282b355, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -43,49 +60,40 @@ Material:
     m_Ints: []
     m_Floats:
     - _C_Rotation: 45
-    - _DarknessDot: 0
-    - _Dot_Size: 0
-    - _Dots_Scale: 2722
-    - _FifthStepColor: 0.174
-    - _FifthStepThreshold: 0.953
-    - _FirstStepColor: 0.826
-    - _FourthStepColor: 0.334
+    - _DarknessDot: 0.217
+    - _Dot_Size: 0.32
+    - _Dots_Scale: 2044
+    - _FifthStepColor: 0.2
+    - _FifthStepThreshold: 1
+    - _FirstStepColor: 0.94
+    - _Float: 0
+    - _FourthStepColor: 0.4
     - _FourthStepThreshold: 0.8
-    - _M_Rotation: 90
+    - _M_Rotation: 15
+    - _Noise: 300
+    - _NoiseMaskOpacity: 0.148
     - _NoiseSaturation: 0
+    - _NoiseSize: 50
     - _Noise_Scale: 1
     - _Noise_Strength: 0
     - _OpacityUnderlayingColor: 0
     - _Pattern_Randomness: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SecondStepColor: 0.626
+    - _SecondStepColor: 0.746
     - _SecondStepThreshold: 0.4
-    - _ThirdStepColor: 0.447
+    - _ThirdStepColor: 0.6
     - _ThirdStepThreshold: 0.6
-    - _Y_Rotation: 28
+    - _Y_Rotation: 75
     - _firstStepThreshold: 0.2
     m_Colors:
     - _Background: {r: 0.9811321, g: 0.9700652, b: 0.9302243, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
-    - _Cyan: {r: 0.5415094, g: 1, b: 1, a: 0}
-    - _Magenta: {r: 1, g: 0.7150943, b: 1, a: 0}
+    - _Cyan: {r: 0.5529412, g: 1, b: 1, a: 0}
+    - _Magenta: {r: 1, g: 0.6245283, b: 0.90119165, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _NoiseSize: {r: 1, g: 1, b: 0, a: 0}
     - _OverlayColor: {r: 1, g: 0.9641374, b: 0.9009434, a: 0}
-    - _Yellow: {r: 1, g: 1, b: 0.58679235, a: 0}
+    - _Yellow: {r: 1, g: 1, b: 0.5411765, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5097565074441213766
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9

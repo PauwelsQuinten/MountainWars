@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Mat_5
-  m_Shader: {fileID: -6465566751694194690, guid: 7fbce92df6e4aeb4abf3b83dde3db4e8, type: 3}
+  m_Name: Test_Mat_7
+  m_Shader: {fileID: -6465566751694194690, guid: ccbaaba8b5c769846918b70a1fe5ede6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -43,40 +43,40 @@ Material:
     m_Ints: []
     m_Floats:
     - _C_Rotation: 45
-    - _DarknessDot: 0
+    - _DarknessDot: 0.538
     - _Dot_Size: 0
-    - _Dots_Scale: 2722
-    - _FifthStepColor: 0.174
-    - _FifthStepThreshold: 0.953
-    - _FirstStepColor: 0.826
-    - _FourthStepColor: 0.334
+    - _Dots_Scale: 1326
+    - _FifthStepColor: 0.2
+    - _FifthStepThreshold: 1
+    - _FirstStepColor: 1
+    - _FourthStepColor: 0.4
     - _FourthStepThreshold: 0.8
     - _M_Rotation: 90
-    - _NoiseSaturation: 0
+    - _NoiseSaturation: 1
     - _Noise_Scale: 1
     - _Noise_Strength: 0
     - _OpacityUnderlayingColor: 0
     - _Pattern_Randomness: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SecondStepColor: 0.626
+    - _SecondStepColor: 0.746
     - _SecondStepThreshold: 0.4
-    - _ThirdStepColor: 0.447
+    - _ThirdStepColor: 0.679
     - _ThirdStepThreshold: 0.6
-    - _Y_Rotation: 28
+    - _Y_Rotation: 0
     - _firstStepThreshold: 0.2
     m_Colors:
     - _Background: {r: 0.9811321, g: 0.9700652, b: 0.9302243, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
-    - _Cyan: {r: 0.5415094, g: 1, b: 1, a: 0}
-    - _Magenta: {r: 1, g: 0.7150943, b: 1, a: 0}
+    - _Cyan: {r: 0, g: 1, b: 1, a: 0}
+    - _Magenta: {r: 0.9924528, g: 0.46252042, b: 0.78288543, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _NoiseSize: {r: 1, g: 1, b: 0, a: 0}
     - _OverlayColor: {r: 1, g: 0.9641374, b: 0.9009434, a: 0}
-    - _Yellow: {r: 1, g: 1, b: 0.58679235, a: 0}
+    - _Yellow: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5097565074441213766
+--- !u!114 &3817751584010784050
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
