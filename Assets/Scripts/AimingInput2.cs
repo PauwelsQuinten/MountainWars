@@ -37,10 +37,8 @@ public enum MovingDirection
 public class AimingInput : MonoBehaviour
 {
     //[SerializeField] private InputActionReference _txtActionPower;
-    private AimInputFull _input;
     [SerializeField]
     private InputActionReference AimAction;
-    private InputAction moveAction;
     [SerializeField]
     private InputActionReference _aimHead;
     [SerializeField]
@@ -63,6 +61,8 @@ public class AimingInput : MonoBehaviour
     private SlashState state = SlashState.Windup;
     private SlashDirection slashState = SlashDirection.Neutral;
     private AttackStance stanceState = AttackStance.Torso;
+    private AttackType _currentAttackType = AttackType.None;
+    private AttackType _previousAttack = AttackType.None;
 
     [SerializeField] private float _speed = 10.0f;
     [SerializeField] private TextMeshPro _texMessage;
@@ -80,6 +80,7 @@ public class AimingInput : MonoBehaviour
 
     //extra state for second prototype
     [SerializeField] GameObject _sword;
+    [SerializeField] GameObject _arrow;
     [SerializeField] float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
@@ -99,7 +100,6 @@ public class AimingInput : MonoBehaviour
     //extra for analog3
     private const float MAX_HITBOX_HEIGHT = 4.0f;
     private const float MIN_HITBOX_HEIGHT = 2.0f;
-    private AttackType _newAttackType = AttackType.Stab;
     private int _startDirection = 0;
     private MovingDirection _MovingState = MovingDirection.Neutral;
 
@@ -123,9 +123,9 @@ public class AimingInput : MonoBehaviour
     private bool _isHeightLocked = false;
     private int _currentHitBoxIndex;
     private int _currentStanceIndex;
-    private AttackType _previous1Attack = AttackType.None;
-    private AttackType _previous2Attack = AttackType.None;
     private List<AttackType> _possibleAttacks = new List<AttackType>();
+    private bool _isAttackSet;
+    private float _testAngle;
 
 
     private void Start()
@@ -166,7 +166,7 @@ public class AimingInput : MonoBehaviour
         }
 
         //Start moving analog , Attack or Charge up
-        if ((newLength > MIN_WINDUP_LENGTH || _chargedTime > 0))
+        if ((newLength > MIN_WINDUP_LENGTH))
         {
             _idleTime = 0.0f;
 
@@ -176,18 +176,11 @@ public class AimingInput : MonoBehaviour
             SetSwingDirection();
 
             //slashDirection or stab
-            if ((currentAngleDegree > 110.0f || currentAngleDegree < 70.0f) && newLength > 0.85f)
-            {
-                _newAttackType = (_newAttackType == AttackType.HorizontalSlashLeft) ? AttackType.HorizontalSlashLeft : AttackType.Stab;
-
-                SetSlashDirection();
-            }
-            SetStance();
-            SetAttack();
-
-            SetHitboxAngle();
+            SetAttackType(newLength, currentAngleDegree);
 
             CalculateAttackPower(newLength);
+
+            SetHitboxAngle();
 
             //decrease power the longer your arm is stretched out in front
             if ((currentAngleDegree < 110.0f && currentAngleDegree > 70.0f) || newLength < MIN_WINDUP_LENGTH)
@@ -198,16 +191,11 @@ public class AimingInput : MonoBehaviour
 
             SwordVisual(currentAngleDegree);
 
-            if (defaultPower <= 0)
-            {
-                _isExhausted = true;
-                ResetAnalog2();
-            }
-
         }
         else
         {
-            ResetAnalog2();
+            ResetValues();
+            SetStance();
 
         }
         //Force direction to be correct on idle
@@ -217,7 +205,7 @@ public class AimingInput : MonoBehaviour
         }
     }
 
-    private void ResetAnalog2()
+    private void ResetValues()
     {
         _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         _sword.transform.localPosition = _startLocation;
@@ -225,11 +213,13 @@ public class AimingInput : MonoBehaviour
         defaultPower = 5.0f;
         _txtActionPower.enabled = false;
         _startDirection = 0;
-        _newAttackType = AttackType.Stab;
+        _currentAttackType = AttackType.Stab;
         foreach (var hitZone in _hitZones)
         {
             hitZone.SetActive(false);
         }
+        _arrow.SetActive(false);
+        _isAttackSet = false;
     }
 
     private void SetHitboxHeight(float length)
@@ -278,9 +268,7 @@ public class AimingInput : MonoBehaviour
             else
             {
                 if (_isHeightLocked) return;
-                if (_newAttackType == AttackType.Stab)
-                    _newAttackType = AttackType.HorizontalSlashLeft;
-                else _newAttackType = AttackType.Stab;
+                _currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : AttackType.Stab;
                 _MovingState = MovingDirection.Neutral;
 
                 if (_currentTimeNotLeaning < _MaxTimeNotLeaning)
@@ -308,33 +296,33 @@ public class AimingInput : MonoBehaviour
 
     private void SetStance()
     {
-        if(_previous2Attack == AttackType.StraightUp || 
-            _previous2Attack == AttackType.UpperSlashRight || 
-            _previous2Attack == AttackType.UpperSlashLeft)
-        {
-            if (_previous1Attack == AttackType.StraightUp ||
-                 _previous2Attack == AttackType.UpperSlashRight ||
-                 _previous2Attack == AttackType.UpperSlashLeft)
+        //if(_previous2Attack == AttackType.StraightUp || 
+        //    _previous2Attack == AttackType.UpperSlashRight || 
+        //    _previous2Attack == AttackType.UpperSlashLeft)
+        //{
+            if (_previousAttack == AttackType.StraightUp ||
+                 _previousAttack == AttackType.UpperSlashRight ||
+                 _previousAttack == AttackType.UpperSlashLeft)
             {
                 if(stanceState == AttackStance.Legs) stanceState = AttackStance.Torso;
-                if (stanceState == AttackStance.Torso) stanceState = AttackStance.Head;
+                else if (stanceState == AttackStance.Torso) stanceState = AttackStance.Head;
             }
-        }
+        //}
 
-        if (_previous2Attack == AttackType.StraightDown ||
-             _previous2Attack == AttackType.DownSlashLeft ||
-             _previous2Attack == AttackType.DownSlashRight)
-        {
-            if (_previous1Attack == AttackType.StraightDown ||
-                 _previous2Attack == AttackType.DownSlashLeft ||
-                 _previous2Attack == AttackType.DownSlashRight)
+        //if (_previous2Attack == AttackType.StraightDown ||
+        //     _previous2Attack == AttackType.DownSlashLeft ||
+        //     _previous2Attack == AttackType.DownSlashRight)
+        //{
+            if (_previousAttack == AttackType.StraightDown ||
+                 _previousAttack == AttackType.DownSlashLeft ||
+                 _previousAttack == AttackType.DownSlashRight)
             {
                 if (stanceState == AttackStance.Head) stanceState = AttackStance.Torso;
-                if (stanceState == AttackStance.Torso) stanceState = AttackStance.Legs;
+                else if (stanceState == AttackStance.Torso) stanceState = AttackStance.Legs;
             }
-        }
+        //}
 
-        if (_previous1Attack == AttackType.None) stanceState = AttackStance.Torso;
+        if (_previousAttack == AttackType.None) stanceState = AttackStance.Torso;
         //_aimFeet.action.performed += AimFeet_performed;
         ////_aimTorso.action.performed += AimTorso_performed;
         //_aimHead.action.performed += AimHead_performed;
@@ -367,36 +355,66 @@ public class AimingInput : MonoBehaviour
 
         }
         _currentHitBoxIndex = index;
-        _hitZones[index].SetActive(true);
+        if (_previousAttack != AttackType.None)
+        {
+            _hitZones[index].SetActive(true);
+            _arrow.SetActive(true);
+        }
     }
 
-    private void SetSlashDirection()
+    private void SetAttackType(float drawLength, float angle)
+    {
+        _testAngle = angle;
+        if (_isAttackSet) return;
+
+        if (angle > 110.0f || angle < 70.0f)
+        {
+            //_currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : _currentAttackType;
+            _currentAttackType = AttackType.HorizontalSlashLeft;
+            _isAttackSet = true;
+        }
+        else if(!_isAttackSet)
+        {
+            _currentAttackType = AttackType.Stab;
+            _isAttackSet = true;
+        }
+        SetSlashType();
+    }
+    private void SetSlashType()
     {
         switch (_startDirection)
         {
             case -1:
                 if (_slashDown.action.IsPressed())
                 {
-                    _newAttackType = AttackType.DownSlashRight;
-                    if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightDown;
+                    _currentAttackType = AttackType.DownSlashRight;
+                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
+                    _isAttackSet = true;
                 }
                 else if (_slashUp.action.IsPressed())
                 {
-                    _newAttackType = AttackType.UpperSlashRight;
-                    if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightUp;
+                    _currentAttackType = AttackType.UpperSlashRight;
+                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
+                    _isAttackSet = true;
                 }
-                if (_newAttackType == AttackType.HorizontalSlashLeft) _newAttackType = AttackType.HorizontalSlashRight;
+                if (_currentAttackType == AttackType.HorizontalSlashLeft) 
+                {
+                    _currentAttackType = AttackType.HorizontalSlashRight;
+                    _isAttackSet = true;
+                }
                 break;
             case 1:
                 if (_slashDown.action.IsPressed())
                 {
-                    _newAttackType = AttackType.DownSlashLeft;
-                    if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightDown;
+                    _currentAttackType = AttackType.DownSlashLeft;
+                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
+                    _isAttackSet = true;
                 }
                 else if (_slashUp.action.IsPressed())
                 {
-                    _newAttackType = AttackType.DownSlashRight;
-                    if (_newAttackType == AttackType.Stab) _newAttackType = AttackType.StraightUp;
+                    _currentAttackType = AttackType.UpperSlashLeft;
+                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
+                    _isAttackSet = true;
                 }
                 break;
         }
@@ -404,11 +422,11 @@ public class AimingInput : MonoBehaviour
 
     private void SetHitboxAngle()
     {
-        switch (_newAttackType)
+        switch (_currentAttackType)
         {
             case AttackType.HorizontalSlashLeft:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f + 180f);
                 break;
             case AttackType.HorizontalSlashRight:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
@@ -416,19 +434,19 @@ public class AimingInput : MonoBehaviour
                 break;
             case AttackType.DownSlashRight:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
                 break;
             case AttackType.UpperSlashRight:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
                 break;
             case AttackType.DownSlashLeft:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f + 180f);
                 break;
             case AttackType.UpperSlashLeft:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f - 180f);
                 break;
             case AttackType.Stab:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
@@ -440,10 +458,14 @@ public class AimingInput : MonoBehaviour
                 break;
             case AttackType.StraightDown:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                _hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -90.0f);
                 break;
             default: break;
         }
+        _arrow.transform.position = _hitZones[_currentHitBoxIndex].transform.position;
+        Vector3 arrowAngle = _hitZones[_currentHitBoxIndex].transform.eulerAngles;
+        arrowAngle.z -= 90;
+        _arrow.transform.rotation = Quaternion.Euler(arrowAngle);
     }
 
     private void Chargepower(float drawAngle)
@@ -484,41 +506,49 @@ public class AimingInput : MonoBehaviour
             }
             else
             {
+                CheckAttack();
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;
+                _isAttackSet = false;
             }
         }
         else
         {
+            CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
         }
+        if(drawLength <= MIN_WINDUP_LENGTH) _isAttackSet = false;
     }
 
-    private void SwordVisual(float angle)
-    {
-        //Sword follows analog -> visualization 
-        _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
-        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle + DEFAULT_SWORD_ORIENTATION - 90.0f);
-    }
-
-    private void SetAttack()
+    private void CheckAttack()
     {
         GetpossibleAtacks();
-        _previous2Attack = _previous1Attack;
-        _previous1Attack = _newAttackType;
-        foreach(AttackType attack in _possibleAttacks) 
-        { 
-            if(_newAttackType == attack) _newAttackType = attack;
+         foreach(AttackType attack in _possibleAttacks) 
+        {
+            if (_currentAttackType == attack)
+            {
+                _currentAttackType = attack;
+                SetPreviousAttacks();
+                return;
+            }
         }
+        _currentAttackType = AttackType.None;
+        Debug.Log("Attack was invalid!");
+        SetPreviousAttacks();
+    }
+
+    private void SetPreviousAttacks()
+    {
+        _previousAttack = _currentAttackType;
     }
 
     private void GetpossibleAtacks()
     {
-
-        switch (_previous1Attack)
+        _possibleAttacks.Clear();
+        switch (_previousAttack)
         {
             case AttackType.UpperSlashRight:
                 switch (stanceState)
@@ -830,6 +860,13 @@ public class AimingInput : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void SwordVisual(float angle)
+    {
+        //Sword follows analog -> visualization 
+        _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
+        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle + DEFAULT_SWORD_ORIENTATION - 90.0f);
     }
 
     private void AimHead_performed(InputAction.CallbackContext obj)
