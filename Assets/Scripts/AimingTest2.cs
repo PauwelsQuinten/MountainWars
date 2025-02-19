@@ -164,7 +164,7 @@ public class AimingTest2 : MonoBehaviour
         }
 
         _hitDetection.GetHitPos(_direction, _attackStance, _isStab);
-        _attackStance = AttackStance.Torso;
+        _attackStance = AttackStance.Hips;
         StopCoroutine(DoTimer(0.2f));
         _buttonsPressed.Clear();
     }
@@ -173,7 +173,7 @@ public class AimingTest2 : MonoBehaviour
     {
         if (_selectHead.action.IsPressed()) _attackStance = AttackStance.Head;
         else if (_selectLegs.action.IsPressed()) _attackStance = AttackStance.Legs;
-        else _attackStance = AttackStance.Torso;
+        else _attackStance = AttackStance.Hips;
     }
 
     private IEnumerator DoTimer(float timer)

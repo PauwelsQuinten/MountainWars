@@ -22,7 +22,7 @@ public class HitDetection : MonoBehaviour
             case AttackStance.Head:
                 hitPos.y = 3;
                 break;
-            case AttackStance.Torso:
+            case AttackStance.Hips:
                 break;
             case AttackStance.Legs:
                 hitPos.y = -3;
