@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 352975843}
   - component: {fileID: 352975842}
   - component: {fileID: 352975841}
+  - component: {fileID: 352975845}
   m_Layer: 0
   m_Name: Puncher
   m_TagString: Untagged
@@ -468,6 +469,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &352975845
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352975840}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.7301456, y: 1.17}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.38, y: 1.17}
+  m_EdgeRadius: 0
 --- !u!1 &358807558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1566,7 @@ MonoBehaviour:
   _blockAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _txtBlockPower: {fileID: 1877490629}
   _radius: 0.5
-  _powerReducer: 1.5
+  _powerReducer: 40
 --- !u!1 &1603738962
 GameObject:
   m_ObjectHideFlags: 0
