@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7439946541823503908
+--- !u!114 &-7067113521473363486
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Mat_11
-  m_Shader: {fileID: -6465566751694194690, guid: bddad599adc37f54ba4b3bf28763b240, type: 3}
+  m_Name: 12_Test_Mat
+  m_Shader: {fileID: -6465566751694194690, guid: 831bf8a1740244c4795b2c79dd21f3d5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,8 +41,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_2b97e60007654ff2afa7e13fbd7b094d_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 66506aeba22e9a4458ca13b15464e025, type: 3}
+    - _SampleTexture2D_d9f36cd753a44b05bed13b3e8bbba105_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8e64fbf97112ba744b0b30062282b355, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -59,41 +59,42 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _C_Rotation: 45
-    - _ColorMaskFuzziness: 0
-    - _ColorMaskRange: 0.372
-    - _DarknessDot: 0.546
-    - _Dot_Size: 0.36
-    - _Dots_Scale: 2641
-    - _FifthStepColor: 0.188
-    - _FifthStepThreshold: 1
-    - _FirstStepColor: 0.772
-    - _FourthStepColor: 0.334
-    - _FourthStepThreshold: 0.8
-    - _M_Rotation: 90
-    - _NoiseSaturation: 1.6
-    - _Noise_Scale: 1
-    - _Noise_Strength: 0
-    - _OpacityUnderlayingColor: 0.5
+    - _C_Rotation: 15
+    - _ColorMaskFuzziness: 1
+    - _ColorMaskRange: 0.047
+    - _Dark: 1
+    - _DotSizeMax: 0.786
+    - _DotSizeMaxC: 1
+    - _DotSizeMaxM: 1
+    - _DotSizeMaxY: 1
+    - _DotSizeMin: 0.078
+    - _DotSizeMinC: 0.39
+    - _DotSizeMinM: 0.402
+    - _DotSizeMinY: 0.392
+    - _Dot_Size: 0.2
+    - _Dots_Scale: 2225
+    - _FifthStepColor: 0.2
+    - _FirstStepColor: 1
+    - _FourthStepColor: 0.4
+    - _K_Rotation: 0
+    - _M_Rotation: 45
     - _Pattern_Randomness: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SecondStepColor: 0.626
-    - _SecondStepThreshold: 0.4
-    - _ThirdStepColor: 0.447
-    - _ThirdStepThreshold: 0.6
-    - _Y_Rotation: 0
-    - _firstStepThreshold: 0.161
+    - _SecondStepColor: 0.8
+    - _ThirdStepColor: 0.6
+    - _UnderlyingColorOpacity: 0
+    - _Y_Rotation: 75
     m_Colors:
-    - _Background: {r: 0.9811321, g: 0.9700652, b: 0.9302243, a: 0}
+    - _Background: {r: 1, g: 1, b: 1, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
-    - _ColorMask: {r: 0.9921569, g: 0.8000001, b: 0.6117647, a: 0}
+    - _BlackOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorMask: {r: 0.98823535, g: 0.8000001, b: 0.6156863, a: 0}
     - _Cyan: {r: 0, g: 1, b: 1, a: 0}
+    - _CyanOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Magenta: {r: 1, g: 0, b: 1, a: 0}
-    - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _NoiseSize: {r: 1, g: 1, b: 0, a: 0}
-    - _OpaqueColor: {r: 0.9333334, g: 0.30980393, b: 0.18823531, a: 1}
-    - _OverlayColor: {r: 1, g: 0.9641374, b: 0.9009434, a: 0}
+    - _MagentaOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Yellow: {r: 1, g: 1, b: 0, a: 0}
+    - _YellowOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

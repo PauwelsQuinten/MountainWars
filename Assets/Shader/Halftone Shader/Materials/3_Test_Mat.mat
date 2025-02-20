@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test_Mat_4_2
-  m_Shader: {fileID: -6465566751694194690, guid: 6a2b5d8b0183e5e42aeef562ff820c06, type: 3}
+  m_Name: 3_Test_Mat
+  m_Shader: {fileID: -6465566751694194690, guid: 20126cdd6e72dfa40970ed9030bd5b7f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -20,12 +20,16 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: _Magenta
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d9f36cd753a44b05bed13b3e8bbba105_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8e64fbf97112ba744b0b30062282b355, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,19 +46,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _C_Rotation: 20
-    - _DarknessDot: 0
-    - _Dot_Size: 0.2
-    - _Dots_Scale: 1059
+    - _C_Rotation: 15
+    - _DarknessDot: 0.27
+    - _Dot_Size: 0.27
+    - _Dots_Scale: 1271
     - _FifthStep: 1
-    - _FifthStepColor: 0.1
-    - _FifthStepThreshold: 1
-    - _FirstStepColor: 0.812
     - _FourthStep: 0.8
-    - _FourthStepColor: 0.261
-    - _FourthStepThreshold: 0.8
-    - _M_Rotation: 45
-    - _NoiseSaturation: 0.76
+    - _K_Rotation: 0
+    - _M_Rotation: 46
+    - _NoiseSaturation: 1
     - _Noise_Scale: 1
     - _Noise_Strength: 0
     - _OpacityUnderlayingColor: 0
@@ -62,26 +62,21 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SecondStep: 0.4
-    - _SecondStepColor: 0.566
-    - _SecondStepThreshold: 0.4
     - _ThirdStep: 0.6
-    - _ThirdStepColor: 0.4
-    - _ThirdStepThreshold: 0.6
-    - _Y_Rotation: 45
+    - _Y_Rotation: 0
     - _firstStep: 0.2
-    - _firstStepThreshold: 0.2
     m_Colors:
-    - _Background: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
+    - _Background: {r: 1, g: 1, b: 1, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
     - _Cyan: {r: 0, g: 1, b: 1, a: 0}
-    - _Magenta: {r: 1, g: 0, b: 0.82373, a: 0}
+    - _Magenta: {r: 1, g: 0, b: 0.89550066, a: 0}
     - _NoiseOffset: {r: 0, g: 0, b: 0, a: 0}
     - _NoiseSize: {r: 10, g: 10, b: 0, a: 0}
-    - _OverlayColor: {r: 0.6415094, g: 0.52276963, b: 0.31167677, a: 0}
-    - _Yellow: {r: 1, g: 0.99999994, b: 0, a: 0}
+    - _OverlayColor: {r: 0.6830188, g: 0.20526664, b: 0, a: 0}
+    - _Yellow: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1885240464570746803
+--- !u!114 &5427664981481539461
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

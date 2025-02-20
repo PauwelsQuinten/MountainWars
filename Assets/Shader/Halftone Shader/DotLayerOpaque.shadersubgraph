@@ -344,6 +344,27 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
+    "m_ObjectId": "0642bf39cc374c72bef9d7d691910bd7",
+    "m_Id": -2087981318,
+    "m_DisplayName": "Vector2",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Vector2",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "0b2153da25494df6a6479f990b6ef0f8",
     "m_Id": 0,
     "m_DisplayName": "Offset",
@@ -808,10 +829,10 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "4babcfeac91c4321b084fa89fd8aeeb1",
     "m_Id": -1877922595,
-    "m_DisplayName": "C Offset",
+    "m_DisplayName": "Offset",
     "m_SlotType": 0,
     "m_Hidden": false,
-    "m_ShaderOutputName": "_C_Offset",
+    "m_ShaderOutputName": "_Offset",
     "m_StageCapability": 3,
     "m_Value": {
         "x": 0.0,
@@ -1628,10 +1649,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -104.4998779296875,
-            "y": -110.5,
-            "width": 271.9996337890625,
-            "height": 191.0
+            "x": -66.39998626708985,
+            "y": -68.00001525878906,
+            "width": 270.4000244140625,
+            "height": 214.40005493164063
         }
     },
     "m_Slots": [
@@ -1651,6 +1672,9 @@
             "m_Id": "4babcfeac91c4321b084fa89fd8aeeb1"
         },
         {
+            "m_Id": "0642bf39cc374c72bef9d7d691910bd7"
+        },
+        {
             "m_Id": "dae940b9bb63433b85acd61b42c95fe0"
         }
     ],
@@ -1668,14 +1692,16 @@
         "1b493c54-7fb3-449a-90e2-894cc25a40f7",
         "062c0c90-40ff-46d6-96a3-35b8dd86234f",
         "af6ac98a-33da-4524-bb36-7710d971c676",
-        "b486a785-d112-4b52-b8bb-cc06f2e10969"
+        "b486a785-d112-4b52-b8bb-cc06f2e10969",
+        "dab58d47-afff-4326-9ada-1a9cd8160286"
     ],
     "m_PropertyIds": [
         -1231910485,
         -467993675,
         -1209243356,
         -1929396942,
-        -1877922595
+        -1877922595,
+        -2087981318
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
