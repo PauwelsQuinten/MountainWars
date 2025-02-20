@@ -132,11 +132,13 @@ public class AimingInput2 : MonoBehaviour
     private bool _changedStanceThisAction;
     private bool _hasOverCommited;
     private CharacterMovement _characterOrientation;
+    private WalkAnimate _lockOnScript;
 
 
     private void Start()
     {
         _characterOrientation = GetComponent<CharacterMovement>();
+        _lockOnScript = GetComponent<WalkAnimate>();
         _startLocation = _sword.transform.position; 
 
         foreach (var hitZone in _hitZones)
@@ -939,7 +941,8 @@ public class AimingInput2 : MonoBehaviour
         //Sword follows analog -> visualization 
         _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
         Vector3 swordRotation = transform.forward * angle;
-        swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_characterOrientation.CurrentCharacterOrientation;
+        if(_lockOnScript.LockOn) swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_lockOnScript.Orientation;
+        else swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_characterOrientation.CurrentCharacterOrientation;
         _sword.transform.rotation = Quaternion.Euler(swordRotation);
     }
 

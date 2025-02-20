@@ -139,7 +139,7 @@ public class AimingPrototype : MonoBehaviour
 
         if ( LockOn.action.WasReleasedThisFrame())
         {
-            _animator.LockOn(_target);
+            _animator.DoLockOn(_target);
             _isLockOn = !_isLockOn;
         }
 
