@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -68,6 +69,7 @@ public class AimingInput2 : MonoBehaviour
     [SerializeField] private float _speed = 10.0f;
     [SerializeField] private TextMeshPro _texMessage;
     [SerializeField] private TextMeshPro _txtActionPower;
+    [SerializeField] private TextMeshPro _AttackMessage;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
@@ -557,26 +559,32 @@ public class AimingInput2 : MonoBehaviour
     private void CheckAttack()
     {
         GetpossibleAtack();
-         foreach(AttackType attack in _possibleAttacks) 
+         foreach(AttackType Possebility in _possibleAttacks) 
         {
-            if (_currentAttackType == attack)
+            if (_currentAttackType == Possebility)
             {
-                _currentAttackType = attack;
+                _currentAttackType = Possebility;
                 SetPreviousAttacks();
                 return;
             }
         }
-        foreach (AttackType attack in _OverComitAttacks)
+        foreach (AttackType overCommit in _OverComitAttacks)
         {
-            if (_currentAttackType == attack)
+            if (_currentAttackType == overCommit)
             {
                 _currentAttackType = AttackType.None;
+                StopCoroutine(ResetAtackText(0.5f));
+                _AttackMessage.text = "Player over commited";
+                StartCoroutine(ResetAtackText(0.5f));
                 Debug.Log("Player over commited");
                 SetPreviousAttacks();
                 return;
             }
         }
         _currentAttackType = AttackType.None;
+        StopCoroutine(ResetAtackText(0.5f));
+        _AttackMessage.text = "Attack was invalid";
+        StartCoroutine(ResetAtackText(0.5f));
         Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
@@ -589,6 +597,7 @@ public class AimingInput2 : MonoBehaviour
     private void GetpossibleAtack()
     {
         _possibleAttacks.Clear();
+        _OverComitAttacks.Clear();
         //AttackStance stanceState = AttackStance.Torso;
         //if (_ChangedStanceThisAction) stanceState = _previousStance;
         //else stanceState = _currentStanceState;
@@ -918,6 +927,11 @@ public class AimingInput2 : MonoBehaviour
         _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle + DEFAULT_SWORD_ORIENTATION - 90.0f);
     }
 
+    private IEnumerator ResetAtackText(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _AttackMessage.text = " ";
+    }
     private void AimHead_performed(InputAction.CallbackContext obj)
     {
         _currentStanceState = AttackStance.Head;
