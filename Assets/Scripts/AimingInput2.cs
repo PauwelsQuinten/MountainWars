@@ -127,9 +127,10 @@ public class AimingInput2 : MonoBehaviour
     private int _currentHitBoxIndex;
     private int _currentStanceIndex;
     private List<AttackType> _possibleAttacks = new List<AttackType>();
-    private List<AttackType> _OverComitAttacks = new List<AttackType>();
+    //private List<AttackType> _OverComitAttacks = new List<AttackType>();
     private bool _isAttackSet;
-    private bool _ChangedStanceThisAction;
+    private bool _changedStanceThisAction;
+    private bool _hasOverCommited;
 
 
     private void Start()
@@ -517,43 +518,55 @@ public class AimingInput2 : MonoBehaviour
 
     private void CalculateAttackPower(float drawLength)
     {
-        bool CanRun = false;
+        bool canRun = false;
         if (drawLength >= 0.97f)
         {
             if (_startDrawPos == Vector2.zero) _startDrawPos = _direction;
             float newAngle = Vector2.Angle(_startDrawPos, _direction);
-            CanRun = true;
+            canRun = true;
             if (_slashAngle <= newAngle)
             {
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
+                if(_slashAngle > 175) _hasOverCommited = true;
                 _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
             }
             else
             {
-                if (CanRun)
+                if (canRun && !_hasOverCommited)
                 {
                     CheckAttack();
                     _slashTime = 0.0f;
                     _slashAngle = 0.0f;
                     _startDrawPos = Vector2.zero;
-                    CanRun = false;
+                    canRun = false;
                 }
                 _isAttackSet = false;
             }
         }
-        else if(CanRun)
+        else if(canRun && !_hasOverCommited)
         {
             CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
-            CanRun = false;
+            canRun = false;
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
             _isAttackSet = false;
         }
+
+        if (canRun && _hasOverCommited)
+        {
+            StopCoroutine(ResetAtackText(0.5f));
+            _AttackMessage.text = "Player over commited";
+            StartCoroutine(ResetAtackText(0.5f));
+            _hasOverCommited = false;
+            canRun = false;
+        }
+
+
     }
 
     private void CheckAttack()
@@ -568,19 +581,19 @@ public class AimingInput2 : MonoBehaviour
                 return;
             }
         }
-        foreach (AttackType overCommit in _OverComitAttacks)
-        {
-            if (_currentAttackType == overCommit)
-            {
-                _currentAttackType = AttackType.None;
-                StopCoroutine(ResetAtackText(0.5f));
-                _AttackMessage.text = "Player over commited";
-                StartCoroutine(ResetAtackText(0.5f));
-                Debug.Log("Player over commited");
-                SetPreviousAttacks();
-                return;
-            }
-        }
+        //foreach (AttackType overCommit in _OverComitAttacks)
+        //{
+        //    if (_currentAttackType == overCommit)
+        //    {
+        //        _currentAttackType = AttackType.None;
+        //        StopCoroutine(ResetAtackText(0.5f));
+        //        _AttackMessage.text = "Player over commited";
+        //        StartCoroutine(ResetAtackText(0.5f));
+        //        Debug.Log("Player over commited");
+        //        SetPreviousAttacks();
+        //        return;
+        //    }
+        //}
         _currentAttackType = AttackType.None;
         StopCoroutine(ResetAtackText(0.5f));
         _AttackMessage.text = "Attack was invalid";
@@ -597,7 +610,7 @@ public class AimingInput2 : MonoBehaviour
     private void GetpossibleAtack()
     {
         _possibleAttacks.Clear();
-        _OverComitAttacks.Clear();
+        //_OverComitAttacks.Clear();
         //AttackStance stanceState = AttackStance.Torso;
         //if (_ChangedStanceThisAction) stanceState = _previousStance;
         //else stanceState = _currentStanceState;
@@ -612,17 +625,17 @@ public class AimingInput2 : MonoBehaviour
                 {
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.Stab);
@@ -630,11 +643,11 @@ public class AimingInput2 : MonoBehaviour
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                 }
@@ -643,17 +656,17 @@ public class AimingInput2 : MonoBehaviour
                 switch (stanceState)
                 {
                     case AttackStance.Head:
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.StraightUp);
@@ -661,11 +674,11 @@ public class AimingInput2 : MonoBehaviour
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
@@ -677,27 +690,27 @@ public class AimingInput2 : MonoBehaviour
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                 }
@@ -707,27 +720,27 @@ public class AimingInput2 : MonoBehaviour
                 {
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
@@ -738,31 +751,31 @@ public class AimingInput2 : MonoBehaviour
                 {
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
-                        _OverComitAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _OverComitAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
@@ -774,31 +787,31 @@ public class AimingInput2 : MonoBehaviour
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _OverComitAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _OverComitAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _OverComitAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                 }
@@ -917,7 +930,7 @@ public class AimingInput2 : MonoBehaviour
                 }
                 break;
         }
-        _ChangedStanceThisAction = false;
+        _changedStanceThisAction = false;
     }
 
     private void SwordVisual(float angle)
