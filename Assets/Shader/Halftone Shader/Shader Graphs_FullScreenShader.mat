@@ -51,7 +51,7 @@ Material:
     - _DotSizeMinC: 0.4
     - _DotSizeMinM: 0.4
     - _DotSizeMinY: 0.4
-    - _Dots_Scale: 4711
+    - _Dots_Scale: 1326
     - _K_Rotation: 0
     - _M_Rotation: 45
     - _NoiseOpacity: 0

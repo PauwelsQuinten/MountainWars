@@ -61,7 +61,7 @@ Material:
     m_Floats:
     - _C_Rotation: 15
     - _ColorMaskFuzziness: 1
-    - _ColorMaskRange: 0.047
+    - _ColorMaskRange: 0
     - _Dark: 1
     - _DotSizeMax: 0.786
     - _DotSizeMaxC: 1
@@ -89,7 +89,7 @@ Material:
     - _Background: {r: 1, g: 1, b: 1, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
     - _BlackOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _ColorMask: {r: 0.98823535, g: 0.8000001, b: 0.6156863, a: 0}
+    - _ColorMask: {r: 0, g: 0, b: 0, a: 0}
     - _Cyan: {r: 0, g: 1, b: 1, a: 0}
     - _CyanOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Magenta: {r: 1, g: 0, b: 1, a: 0}
