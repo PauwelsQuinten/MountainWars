@@ -7,13 +7,15 @@ using UnityEngine.InputSystem;
 
 public enum AttackStance
 {
-    Head,
-    Torso,
-    Legs
+    Head = 1,
+    Torso = 0,
+    Legs = -1
 }
 
 public enum AttackType
 {
+    HorizontalSlashLeft,
+    HorizontalSlashRight,
     UpperSlashRight,
     UpperSlashLeft,
     DownSlashRight,
@@ -21,7 +23,8 @@ public enum AttackType
     HorizontalSlash,
     StraightUp,
     StraightDown,
-    Stab
+    Stab,
+    None
 }
 
 public enum MovingDirection

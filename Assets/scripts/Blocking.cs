@@ -122,10 +122,11 @@ public class Blocking : MonoBehaviour
 
     private void BlockPrototype2()
     {
-        _blockInputDirection = _blockAction.action.ReadValue<Vector2>();
+        if (_blockAction)
+            _blockInputDirection = _blockAction.action.ReadValue<Vector2>();
         float distance = _blockInputDirection.sqrMagnitude;
 
-        if (!_useShieldAction.action.IsPressed())
+        if (!_useShieldAction || !_useShieldAction.action.IsPressed())
         {
             _shield.transform.localScale = Vector3.zero; 
             ResetValues();

@@ -8,7 +8,7 @@ public class WalkAnimate : MonoBehaviour
     SpriteRenderer _spriteRenderer;
     Animator _animator;
     private float _orientation = 0.0f;
-    private GameObject _target;
+    [SerializeField] private GameObject _target;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -76,5 +76,10 @@ public class WalkAnimate : MonoBehaviour
         _orientation = angleR;
         _animator.SetFloat("orientation", _orientation);
 
+    }
+
+    public float GetOrientation()
+    {
+        return _orientation;
     }
 }

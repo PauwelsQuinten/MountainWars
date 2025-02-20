@@ -162,9 +162,6 @@
                     "name": "UseBlock",
                     "type": "Button",
                     "id": "9462e96c-0ee1-4380-87f3-53d8c86163ba",
-                    "name": "SlashUp",
-                    "type": "Button",
-                    "id": "283490de-aa55-42e1-b244-de9a778aa2ba",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -174,6 +171,15 @@
                     "name": "SlashDown",
                     "type": "Button",
                     "id": "85e06c91-17c8-47c2-b58b-c990ca3ce4eb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SlashUp",
+                    "type": "Button",
+                    "id": "7322308a-02eb-4a79-8ddc-c7d88ac2f750",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -596,12 +602,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "UseBlock",
-                    "id": "f32ef41f-7875-42a2-8b3e-dd7b188b53f0",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SlashUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -613,6 +613,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SlashDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b89e2e53-ffda-443d-93c9-eb3763eca9ca",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlashUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
