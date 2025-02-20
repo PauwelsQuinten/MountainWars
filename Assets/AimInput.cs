@@ -182,6 +182,15 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""SelectMiddle"",
+                    ""type"": ""Button"",
+                    ""id"": ""071724df-e4bf-479e-8451-cfd2c5357c03"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""SelectLower"",
                     ""type"": ""Button"",
                     ""id"": ""20e4ff11-59eb-4673-b5c5-f61b6c4a9599"",
@@ -612,7 +621,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d79f241e-dd50-41bc-a155-ffda071d1a1c"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -622,8 +631,30 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c7fcb039-402e-421b-b0d6-b6b01d575933"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectMiddle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad0c3019-ee47-43fe-bc9b-15dde2b2fa17"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectMiddle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c18e0336-4020-4212-ad53-4c024f326473"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1236,6 +1267,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_Stab = m_Player.FindAction("Stab", throwIfNotFound: true);
         m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
         m_Player_SelectUpper = m_Player.FindAction("SelectUpper", throwIfNotFound: true);
+        m_Player_SelectMiddle = m_Player.FindAction("SelectMiddle", throwIfNotFound: true);
         m_Player_SelectLower = m_Player.FindAction("SelectLower", throwIfNotFound: true);
         m_Player_ButtonUp = m_Player.FindAction("ButtonUp", throwIfNotFound: true);
         m_Player_ButtonDown = m_Player.FindAction("ButtonDown", throwIfNotFound: true);
@@ -1346,6 +1378,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Stab;
     private readonly InputAction m_Player_Aiming;
     private readonly InputAction m_Player_SelectUpper;
+    private readonly InputAction m_Player_SelectMiddle;
     private readonly InputAction m_Player_SelectLower;
     private readonly InputAction m_Player_ButtonUp;
     private readonly InputAction m_Player_ButtonDown;
@@ -1404,6 +1437,10 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SelectUpper".
         /// </summary>
         public InputAction @SelectUpper => m_Wrapper.m_Player_SelectUpper;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectMiddle".
+        /// </summary>
+        public InputAction @SelectMiddle => m_Wrapper.m_Player_SelectMiddle;
         /// <summary>
         /// Provides access to the underlying input action "Player/SelectLower".
         /// </summary>
@@ -1488,6 +1525,9 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @SelectUpper.started += instance.OnSelectUpper;
             @SelectUpper.performed += instance.OnSelectUpper;
             @SelectUpper.canceled += instance.OnSelectUpper;
+            @SelectMiddle.started += instance.OnSelectMiddle;
+            @SelectMiddle.performed += instance.OnSelectMiddle;
+            @SelectMiddle.canceled += instance.OnSelectMiddle;
             @SelectLower.started += instance.OnSelectLower;
             @SelectLower.performed += instance.OnSelectLower;
             @SelectLower.canceled += instance.OnSelectLower;
@@ -1550,6 +1590,9 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
             @SelectUpper.started -= instance.OnSelectUpper;
             @SelectUpper.performed -= instance.OnSelectUpper;
             @SelectUpper.canceled -= instance.OnSelectUpper;
+            @SelectMiddle.started -= instance.OnSelectMiddle;
+            @SelectMiddle.performed -= instance.OnSelectMiddle;
+            @SelectMiddle.canceled -= instance.OnSelectMiddle;
             @SelectLower.started -= instance.OnSelectLower;
             @SelectLower.performed -= instance.OnSelectLower;
             @SelectLower.canceled -= instance.OnSelectLower;
@@ -1941,6 +1984,13 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectUpper(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectMiddle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectMiddle(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SelectLower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

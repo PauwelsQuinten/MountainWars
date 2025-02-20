@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/QuintenTest.unity
     guid: 8d72720dcb1a70645bc632059b9baa24
+  - enabled: 1
+    path: Assets/Scenes/tijlScene.unity
+    guid: 7560d299d2a3246458cf3f9538ff7374
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

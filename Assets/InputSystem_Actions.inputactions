@@ -96,6 +96,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "SelectMiddle",
+                    "type": "Button",
+                    "id": "071724df-e4bf-479e-8451-cfd2c5357c03",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SelectLower",
                     "type": "Button",
                     "id": "20e4ff11-59eb-4673-b5c5-f61b6c4a9599",
@@ -153,6 +162,18 @@
                     "name": "UseBlock",
                     "type": "Button",
                     "id": "9462e96c-0ee1-4380-87f3-53d8c86163ba",
+                    "name": "SlashUp",
+                    "type": "Button",
+                    "id": "283490de-aa55-42e1-b244-de9a778aa2ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SlashDown",
+                    "type": "Button",
+                    "id": "85e06c91-17c8-47c2-b58b-c990ca3ce4eb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -526,7 +547,7 @@
                 {
                     "name": "",
                     "id": "d79f241e-dd50-41bc-a155-ffda071d1a1c",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -536,8 +557,30 @@
                 },
                 {
                     "name": "",
+                    "id": "c7fcb039-402e-421b-b0d6-b6b01d575933",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectMiddle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad0c3019-ee47-43fe-bc9b-15dde2b2fa17",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectMiddle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c18e0336-4020-4212-ad53-4c024f326473",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -553,6 +596,23 @@
                     "processors": "",
                     "groups": "",
                     "action": "UseBlock",
+                    "id": "f32ef41f-7875-42a2-8b3e-dd7b188b53f0",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlashUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "efd21fdd-9207-41bd-a328-579565088388",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlashDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
