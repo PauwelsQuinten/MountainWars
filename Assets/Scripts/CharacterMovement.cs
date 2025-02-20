@@ -23,7 +23,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         GetInput();
-        Move();
+        //Move();
         SetRotation();
     }
 
@@ -41,7 +41,7 @@ public class CharacterMovement : MonoBehaviour
     {
         float currentAngle = Mathf.Atan2(_movement.y, _movement.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, (float)CurrentCharacterOrientation);
+        //transform.rotation = Quaternion.Euler(0, 0, (float)_currentCharacterOrientation);
 
         if (_movement == Vector2.zero) return;
         if (currentAngleDegree < 0f + _rotationCutOff && currentAngleDegree >= 0f || currentAngleDegree > 0f - _rotationCutOff && currentAngleDegree <= 0f)
