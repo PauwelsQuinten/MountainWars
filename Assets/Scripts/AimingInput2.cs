@@ -131,10 +131,12 @@ public class AimingInput2 : MonoBehaviour
     private bool _isAttackSet;
     private bool _changedStanceThisAction;
     private bool _hasOverCommited;
+    private CharacterMovement _characterOrientation;
 
 
     private void Start()
     {
+        _characterOrientation = GetComponent<CharacterMovement>();
         _startLocation = _sword.transform.position; 
 
         foreach (var hitZone in _hitZones)
@@ -193,8 +195,6 @@ public class AimingInput2 : MonoBehaviour
                 defaultPower -= (defaultPower > 0) ? (Time.deltaTime * 9.0f) : 0.0f;
                 _chargedTime -= (_chargedTime > 0) ? (Time.deltaTime * 4.0f) : 0.0f;
             }
-
-            SwordVisual(currentAngleDegree);
         }
         else
         {
@@ -203,8 +203,9 @@ public class AimingInput2 : MonoBehaviour
         //Force direction to be correct on idle
         if (newLength < MIN_WINDUP_LENGTH)
         {
-            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+            _sword.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
+        SwordVisual(currentAngleDegree);
     }
 
     private void ResetValues()
@@ -937,7 +938,9 @@ public class AimingInput2 : MonoBehaviour
     {
         //Sword follows analog -> visualization 
         _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
-        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle + DEFAULT_SWORD_ORIENTATION - 90.0f);
+        Vector3 swordRotation = transform.forward * angle;
+        swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_characterOrientation.CurrentCharacterOrientation;
+        _sword.transform.rotation = Quaternion.Euler(swordRotation);
     }
 
     private IEnumerator ResetAtackText(float time)

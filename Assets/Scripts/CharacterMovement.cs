@@ -14,7 +14,7 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController _controller;
     private Vector2 _movement;
     private float _rotationCutOff = 45f / 2f;
-    private  CharacterOrientation _currentCharacterOrientation = CharacterOrientation.North;
+    public  CharacterOrientation CurrentCharacterOrientation = CharacterOrientation.North;
 
     private void Start()
     {
@@ -41,25 +41,25 @@ public class CharacterMovement : MonoBehaviour
     {
         float currentAngle = Mathf.Atan2(_movement.y, _movement.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, (float)_currentCharacterOrientation);
+        transform.rotation = Quaternion.Euler(0, 0, (float)CurrentCharacterOrientation);
 
         if (_movement == Vector2.zero) return;
         if (currentAngleDegree < 0f + _rotationCutOff && currentAngleDegree >= 0f || currentAngleDegree > 0f - _rotationCutOff && currentAngleDegree <= 0f)
-            _currentCharacterOrientation = CharacterOrientation.East;
+            CurrentCharacterOrientation = CharacterOrientation.East;
         else if (currentAngleDegree < 45f + _rotationCutOff && currentAngleDegree > 45f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.NorthEast;
+            CurrentCharacterOrientation = CharacterOrientation.NorthEast;
         else if (currentAngleDegree < 90f + _rotationCutOff && currentAngleDegree > 90f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.North;
+            CurrentCharacterOrientation = CharacterOrientation.North;
         else if (currentAngleDegree < 135f + _rotationCutOff && currentAngleDegree > 135f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.NorthWest;
+            CurrentCharacterOrientation = CharacterOrientation.NorthWest;
         else if (currentAngleDegree <= 180f  && currentAngleDegree >= 180f - _rotationCutOff || currentAngleDegree < -180f + _rotationCutOff && currentAngleDegree <= -180f)
-            _currentCharacterOrientation = CharacterOrientation.West;
+            CurrentCharacterOrientation = CharacterOrientation.West;
         else if (currentAngleDegree < -135f + _rotationCutOff && currentAngleDegree > -135f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.SouthWest;
+            CurrentCharacterOrientation = CharacterOrientation.SouthWest;
         else if (currentAngleDegree < -90f + _rotationCutOff && currentAngleDegree > -90f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.South;
+            CurrentCharacterOrientation = CharacterOrientation.South;
         else if (currentAngleDegree < -45f + _rotationCutOff && currentAngleDegree > -45f - _rotationCutOff)
-            _currentCharacterOrientation = CharacterOrientation.SouthEast;
+            CurrentCharacterOrientation = CharacterOrientation.SouthEast;
     }
 }
 
