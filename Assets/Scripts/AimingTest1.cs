@@ -22,7 +22,7 @@ public class AimingTest1 : MonoBehaviour
     private float _highestPoint;
     private Vector2 _highestVector;
     private Direction _direction;
-    private AttackStance _height = AttackStance.Hips;
+    private AttackStance _height = AttackStance.Torso;
     private Test2Directions _testDirection;
     private float _currentPower;
 
@@ -68,7 +68,7 @@ public class AimingTest1 : MonoBehaviour
         _lowestVector = Vector2.zero;
         _highestVector = Vector2.zero;
         _powerSelected = false;
-        _height = AttackStance.Hips;
+        _height = AttackStance.Torso;
         _direction = Direction.Left;
     }
 
@@ -85,7 +85,7 @@ public class AimingTest1 : MonoBehaviour
 
             switch (_height) 
             {
-                case AttackStance.Hips:
+                case AttackStance.Torso:
                     _isStab = true;
                     break;
                 case AttackStance.Head:
