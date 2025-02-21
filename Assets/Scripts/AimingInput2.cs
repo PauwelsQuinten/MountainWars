@@ -134,6 +134,12 @@ public class AimingInput2 : MonoBehaviour
     private CharacterMovement _characterOrientation;
     private WalkAnimate _lockOnScript;
 
+    [SerializeField]
+    private float _overCommitAngle = 170f;
+    [SerializeField]
+    private float _minSlashAngle = 25f;
+
+    private Coroutine _resetAtackText;
 
     private void Start()
     {
@@ -218,7 +224,7 @@ public class AimingInput2 : MonoBehaviour
         defaultPower = 5.0f;
         _txtActionPower.enabled = false;
         _startDirection = 0;
-        _currentAttackType = AttackType.Stab;
+        _currentAttackType = AttackType.None;
         foreach (var hitZone in _hitZones)
         {
             hitZone.SetActive(false);
@@ -525,13 +531,13 @@ public class AimingInput2 : MonoBehaviour
         if (drawLength >= 0.97f)
         {
             if (_startDrawPos == Vector2.zero) _startDrawPos = _direction;
-            float newAngle = Vector2.Angle(_startDrawPos, _direction);
+            int newAngle = (int)Vector2.Angle(_startDrawPos, _direction);
             canRun = true;
-            if (_slashAngle <= newAngle)
+            if ((int)_slashAngle <= newAngle)
             {
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
-                if(_slashAngle > 175) _hasOverCommited = true;
+                if(_slashAngle > _overCommitAngle) _hasOverCommited = true;
                 _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
             }
             else
@@ -562,18 +568,24 @@ public class AimingInput2 : MonoBehaviour
 
         if (canRun && _hasOverCommited)
         {
-            StopCoroutine(ResetAtackText(0.5f));
+            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _AttackMessage.text = "Player over commited";
-            StartCoroutine(ResetAtackText(0.5f));
+            _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
             _hasOverCommited = false;
             canRun = false;
         }
-
-
     }
 
     private void CheckAttack()
     {
+        if(_slashAngle < _minSlashAngle)
+        {
+            _AttackMessage.text = "Faint";
+            Debug.Log(_AttackMessage.text);
+            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
+            _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
+            return;
+        }
         GetpossibleAtack();
          foreach(AttackType Possebility in _possibleAttacks) 
         {
@@ -598,9 +610,9 @@ public class AimingInput2 : MonoBehaviour
         //    }
         //}
         _currentAttackType = AttackType.None;
-        StopCoroutine(ResetAtackText(0.5f));
+        if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
-        StartCoroutine(ResetAtackText(0.5f));
+        _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
         Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
