@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_CMYK_14
+  m_Name: 14_Test_Mat
   m_Shader: {fileID: -6465566751694194690, guid: a78c7f3eed408f24892d91a9cda5f181, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
