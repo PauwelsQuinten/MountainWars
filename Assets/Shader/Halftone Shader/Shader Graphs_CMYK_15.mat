@@ -52,6 +52,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: a46ca766973d27d46a2f3667ab74d997, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b114ec8fa85f4cf1b131b8480187899a_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8e64fbf97112ba744b0b30062282b355, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_e8e4aec831014f3b9422b570dcd8c163_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: a46ca766973d27d46a2f3667ab74d997, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -70,9 +74,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlackOpacity: 1
     - _C_Rotation: 15
-    - _ColorMaskFuzziness: 0
-    - _ColorMaskRange: 0.37
+    - _ColorMaskFuzziness: 0.62
+    - _ColorMaskRange: 0.07
+    - _CyanOpacity: 1
     - _Dark: 1
     - _DotSizeMaxC: 1
     - _DotSizeMaxM: 1
@@ -80,19 +86,22 @@ Material:
     - _DotSizeMinC: 0.4
     - _DotSizeMinM: 0.4
     - _DotSizeMinY: 0.4
-    - _Dots_Scale: 4117
+    - _Dots_Scale: 1501
     - _K_Rotation: 0
     - _M_Rotation: 45
+    - _MagentaOpacity: 1
     - _NoiseOpacity: 0.15
+    - _PaperBrightness: 0
     - _PaperOpacity: 1
     - _Pattern_Randomness: 0
     - _UnderlyingColorOpacity: 0
     - _Y_Rotation: 75
+    - _YellowOpacity: 1
     m_Colors:
     - _Background: {r: 1, g: 1, b: 1, a: 0}
     - _Black: {r: 0, g: 0, b: 0, a: 0}
     - _BlackOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _ColorMask: {r: 0.8588236, g: 0.8313726, b: 0.6745098, a: 0}
+    - _ColorMask: {r: 0.854902, g: 0.29411766, b: 0.2901961, a: 0}
     - _Cyan: {r: 0, g: 1, b: 1, a: 0}
     - _CyanOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Magenta: {r: 1, g: 0, b: 1, a: 0}
