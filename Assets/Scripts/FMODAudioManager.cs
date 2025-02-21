@@ -45,13 +45,13 @@ public class FMODAudioManager : MonoBehaviour
     }
     
     //Parameters
-    //[SerializeField, Range(1, 5)] private int _checkpointNumber;
-    //public int CheckpointNumber => _checkpointNumber;
+    [SerializeField, Range(0, 2)] private int _surfaceType = 1;
+    public int SurfaceType => _surfaceType;
     
     //Events
     [SerializeField] private EventReference _braam;
     public EventReference Braam => _braam;
 
-    [SerializeField] private EventReference _wind;
-    public EventReference Wind => _wind;
+    [SerializeField] private EventReference _ground;
+    public EventReference Ground => _ground;
 }

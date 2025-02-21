@@ -6,13 +6,15 @@ using UnityEngine;
 public class AudioTestPlayer : MonoBehaviour
 {
     private EventInstance _braamInstance;
-
+private EventInstance _groundInstance;
     private void Start()
     {
         try
         {
             _braamInstance = RuntimeManager.CreateInstance(FMODAudioManager.Instance.Braam);
-            _braamInstance.start();
+            //_braamInstance.start();
+            _groundInstance = RuntimeManager.CreateInstance(FMODAudioManager.Instance.Ground);
+            _groundInstance.start();
         }
         catch (Exception e)
         {
