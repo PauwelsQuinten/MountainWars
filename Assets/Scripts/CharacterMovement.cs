@@ -12,15 +12,15 @@ public class CharacterMovement : MonoBehaviour
     private float _rotationSpeed;
 
     private CharacterController _controller;
-    private WalkAnimate _animator;
     private Vector2 _movement;
     private float _rotationCutOff = 45f / 2f;
     public  CharacterOrientation CurrentCharacterOrientation = CharacterOrientation.North;
+    private WalkAnimate _walkAnimate;
 
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
-        _animator = GetComponent<WalkAnimate>();
+        _walkAnimate = GetComponent<WalkAnimate>();
     }
     private void Update()
     {
@@ -36,17 +36,15 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        if (_controller)
-            _controller.Move((_movement * _movementSpeed) * Time.deltaTime);
-        _animator.Walk(_movement);
-
+        _controller.Move((_movement * _movementSpeed) * Time.deltaTime);
+        _walkAnimate.Walk(_movement);
     }
 
     private void SetRotation()
     {
         float currentAngle = Mathf.Atan2(_movement.y, _movement.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        //transform.rotation = Quaternion.Euler(0, 0, (float)CurrentCharacterOrientation);
+        //transform.rotation = Quaternion.Euler(0, 0, (float)_currentCharacterOrientation);
 
         if (_movement == Vector2.zero) return;
         if (currentAngleDegree < 0f + _rotationCutOff && currentAngleDegree >= 0f || currentAngleDegree > 0f - _rotationCutOff && currentAngleDegree <= 0f)
