@@ -31,7 +31,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void GetInput()
     {
-        _movement = _movementAction.action.ReadValue<Vector2>();
+        if (_movementAction)
+            _movement = _movementAction.action.ReadValue<Vector2>();
     }
 
     private void Move()

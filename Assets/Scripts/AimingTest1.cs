@@ -27,7 +27,7 @@ public class AimingTest1 : MonoBehaviour
     private float _currentPower;
 
     private bool _powerSelected;
-    private bool _isStab;
+    //private bool _isStab;
 
     private void Update()
     {
@@ -86,7 +86,7 @@ public class AimingTest1 : MonoBehaviour
             switch (_height) 
             {
                 case AttackStance.Torso:
-                    _isStab = true;
+                    //_isStab = true;
                     break;
                 case AttackStance.Head:
                     _testDirection = Test2Directions.DownUp;

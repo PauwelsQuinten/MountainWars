@@ -9,9 +9,9 @@ using UnityEngine.InputSystem;
 
 public enum AttackStance
 {
-    Head,
-    Torso,
-    Legs
+    Head = 1,
+    Torso = 0,
+    Legs = -1
 }
 
 public enum AttackType
@@ -77,9 +77,7 @@ public class AimingInput2 : MonoBehaviour
     private const float MAX_RELEASE_TIME = 0.5f; 
     private const float MIN_WINDUP_LENGTH = 0.15f;
     private const float MIN_CHARGEUP_TIME = 0.2f;
-    private bool _isStab = false;
-    private bool _isExhausted = false;
-    private float _restTime = 0.0f;
+    
 
     //extra state for second prototype
     [SerializeField] GameObject _sword;
@@ -166,7 +164,8 @@ public class AimingInput2 : MonoBehaviour
     private void AnalogAiming4()
     {
         //get angle
-        _direction = AimAction.action.ReadValue<Vector2>();
+        if (AimAction)
+            _direction = AimAction.action.ReadValue<Vector2>();
         float newLength = _direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
@@ -580,7 +579,7 @@ public class AimingInput2 : MonoBehaviour
     {
         if(_slashAngle < _minSlashAngle)
         {
-            _AttackMessage.text = "Faint";
+            _AttackMessage.text = "Feint";
             Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
@@ -953,7 +952,7 @@ public class AimingInput2 : MonoBehaviour
         //Sword follows analog -> visualization 
         _sword.transform.localPosition = new Vector3(_direction.x * radius, _direction.y * radius, 0.0f);
         Vector3 swordRotation = transform.forward * angle;
-        if(_lockOnScript.LockOn) swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_lockOnScript.Orientation;
+        if(_lockOnScript.IsLockedOn()) swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_lockOnScript.GetOrientationDegree();
         else swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f + (int)_characterOrientation.CurrentCharacterOrientation;
         _sword.transform.rotation = Quaternion.Euler(swordRotation);
     }

@@ -80,8 +80,18 @@ public class WalkAnimate : MonoBehaviour
         
     }
 
+    public float GetOrientationDegree()
+    {
+        return _orientation * Mathf.Rad2Deg;
+    }
+
     public float GetOrientation()
     {
         return _orientation;
+    }
+
+    public bool IsLockedOn()
+    {
+        return _target != null;
     }
 }

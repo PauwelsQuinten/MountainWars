@@ -51,13 +51,12 @@ public class SwordSwing : MonoBehaviour
         _sword.transform.position = new Vector3(_sword.transform.position.x, height, 0.0f);
 
         //AdjustHeightPerspective();
-        float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
+        float orientationDegree = (_animationRef) ? _animationRef.GetOrientationDegree() * Mathf.Rad2Deg : 0.0f;
         float rotation = startDirection * _swingAngle;
 
         switch (attackType)
         {
             case AttackType.HorizontalSlashLeft:
-            case AttackType.HorizontalSlash:
             case AttackType.HorizontalSlashRight:
 
 
@@ -113,9 +112,7 @@ public class SwordSwing : MonoBehaviour
         {
             SetIdle();
         }
-        return;
-        Debug.Log($"diff: {diff}");
-        Debug.Log($"angle: {angle}");
+       
     }
 
     private void SetIdle()
