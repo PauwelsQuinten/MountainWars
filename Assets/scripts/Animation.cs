@@ -5,7 +5,6 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class WalkAnimate : MonoBehaviour
 {
-    SpriteRenderer _spriteRenderer;
     Animator _animator;
     private float _orientation = 0.0f;
     [SerializeField] private GameObject _target;
@@ -13,7 +12,6 @@ public class WalkAnimate : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
     }
 
@@ -23,6 +21,26 @@ public class WalkAnimate : MonoBehaviour
         LockOnTarget();
     }
 
+    //--------------------------------------------------------
+    //PRIVATE FUNCTIONS
+    private void LockOnTarget()
+    {
+        if (!_target)
+            return;
+
+        var lookDirection = _target.transform.position - transform.position;
+        float angleR = Mathf.Atan2(lookDirection.y, lookDirection.x);
+        _orientation = angleR;
+        _animator.SetFloat("orientation", _orientation);
+
+    }
+
+    //---------------------------------------------------------------------
+    //PUBLIC FUNCTIONS
+    public void Attack()
+    {
+        _animator.SetTrigger("Test");
+    }
     public void Walk(Vector2 direction)
     {
         if (_target)
@@ -50,10 +68,6 @@ public class WalkAnimate : MonoBehaviour
 
     }
 
-    public void Attack()
-    {
-        _animator.SetTrigger("Test");
-    }
 
     public void LockOn(GameObject target)
     {
@@ -64,18 +78,6 @@ public class WalkAnimate : MonoBehaviour
 
         _target = value ? target : null;
         
-    }
-
-    private void LockOnTarget()
-    {
-        if (!_target)
-            return;
-
-        var lookDirection = _target.transform.position - transform.position;
-        float angleR = Mathf.Atan2(lookDirection.y, lookDirection.x);
-        _orientation = angleR;
-        _animator.SetFloat("orientation", _orientation);
-
     }
 
     public float GetOrientation()

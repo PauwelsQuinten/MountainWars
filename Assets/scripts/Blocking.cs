@@ -6,26 +6,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public enum BlockState
-{
-    Idle,
-    MovingShield,
-    HoldBlock,
-    WeakeningBlock,
-    Broken
-}
 
 public class Blocking : MonoBehaviour
 {
     [SerializeField] private GameObject _shield;
     [SerializeField] private GameObject _attacker;
     [SerializeField] private InputActionReference _useShieldAction;
-    [SerializeField] private InputActionReference _blockAction;
+    [SerializeField] private InputActionReference _blockInputAction;
     [SerializeField] private TextMeshPro _txtBlockPower;
     [SerializeField] private float _radius = 0.5f;
     [SerializeField] private float _powerReducer = 0.1f;
     [SerializeField] private float _maxTimeHoldBlock = 0.15f;
+    [SerializeField] private float _parryAngle = 1.75f;
 
+    [SerializeField] private GameObject _parryZone;
 
     private Vector2 _previousDirection;
     private Vector2 _blockInputDirection;
@@ -40,14 +34,13 @@ public class Blocking : MonoBehaviour
     private BlockState _blockState = BlockState.Idle;
     private List<bool> _parriedBlows = new List<bool>();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private ParryChanceState _currentParryChance = ParryChanceState.None;
+    private float _currentParryAngle = 0.0f;
+    private float _startParryAngle = 0.0f;
+    private Vector2 _startParryVector;
+    private bool _parryClockwise = false;
 
-    // Update is called once per frame
-    void Update()
+      void Update()
     {
         //BlockPrototype1();
         BlockPrototype2();
@@ -56,7 +49,7 @@ public class Blocking : MonoBehaviour
 
     private void BlockPrototype1()
     {
-        _blockInputDirection = _blockAction.action.ReadValue<Vector2>();
+        _blockInputDirection = _blockInputAction.action.ReadValue<Vector2>();
         float distance = _blockInputDirection.sqrMagnitude;
 
         if (!_useShieldAction.action.IsPressed()/* || distance < 0.1f*/)
@@ -122,8 +115,8 @@ public class Blocking : MonoBehaviour
 
     private void BlockPrototype2()
     {
-        if (_blockAction)
-            _blockInputDirection = _blockAction.action.ReadValue<Vector2>();
+        if (_blockInputAction)
+            _blockInputDirection = _blockInputAction.action.ReadValue<Vector2>();
         float distance = _blockInputDirection.sqrMagnitude;
 
         if (!_useShieldAction || !_useShieldAction.action.IsPressed())
@@ -148,6 +141,12 @@ public class Blocking : MonoBehaviour
                 _accumulatedTime += Time.deltaTime;
                 _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
 
+                if (ParryOnZone())
+                {
+
+                }
+
+
                 if (!DetectAnalogMovement())
                 {
                     if (ReturnOnIdle(distance))
@@ -158,7 +157,6 @@ public class Blocking : MonoBehaviour
                     _currentBlockingTime = 0.0f;
                     _txtBlockPower.text = $"BlockPower : {_blockPower}";
                     _parriedBlows.Clear();
-                    Debug.Log("Onset in update");
 
                 }
                 break;
@@ -252,7 +250,6 @@ public class Blocking : MonoBehaviour
         gameObject.transform.position = -Vector3.right;
         _blockState = BlockState.Broken;
         _parriedBlows.Clear();
-        Debug.Log("Hit");
     }
 
     private void TryParry()
@@ -345,6 +342,102 @@ public class Blocking : MonoBehaviour
         //_shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
         _shield.transform.localPosition = Vector2.zero;
 
+    }
+
+    private bool ParryOnZone()
+    {
+        
+        if (_currentParryChance == ParryChanceState.Start && AroundParryZone())
+        {
+            //if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle <= _startParryAngle - 2.1415f)
+            if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >=  _parryAngle)
+            {
+                Debug.Log($"SUCCES!!!");
+                _currentParryChance = ParryChanceState.Succes;
+                AttackTimer attComp = _attacker.GetComponent<AttackTimer>();
+                attComp.Parried();
+            }
+
+        }
+        return false;
+    }
+
+    public void StartParryTime(AttackStance height)
+    {
+        if (_currentParryChance == ParryChanceState.None)
+        {
+            _startParryAngle = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x);
+
+            if (_startParryAngle == 0f )
+            {
+                Debug.Log("To Slow");
+                _currentParryChance = ParryChanceState.Stop;
+                return;
+            }
+
+            switch(height)
+            {
+                case AttackStance.Head:
+                    if (_startParryAngle > 1f && _startParryAngle < 2.75f)
+                        _currentParryChance = ParryChanceState.Start;
+                    break;
+
+                case AttackStance.Torso:
+                    if ((_startParryAngle > 2f && _startParryAngle <= Mathf.PI) || (_startParryAngle < -2f && _startParryAngle >= -Mathf.PI))
+                        _currentParryChance = ParryChanceState.Start;
+                    break;
+
+                case AttackStance.Legs:
+                    if (_startParryAngle < -1f && _startParryAngle > -2.75f)
+                        _currentParryChance = ParryChanceState.Start;
+                    break;
+
+
+            }
+            _currentParryAngle = 0.0f;
+            _startParryVector = _blockInputDirection;
+
+            if (_currentParryChance ==ParryChanceState.None)
+            {
+                Debug.Log("Wrong start height");
+                _currentParryChance = ParryChanceState.Stop;
+                return;
+            }
+            //Debug.Log($"Start!!!");
+        }
+    }
+
+    public void StopParryTime()
+     {
+        _currentParryChance = ParryChanceState.None;
+        //Debug.Log($"Stop!!!");
+     }
+
+    private bool AroundParryZone()
+    {
+        //float angle = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x) - _startParryAngle;
+        //if ( Mathf.Sign(angle) != Mathf.Sign(_currentParryAngle) && _currentParryAngle != 0f)
+        //{
+        //    angle -= Mathf.Sign(angle) * Mathf.PI *2f;
+        //}
+        //float diff = Mathf.Abs(angle - _currentParryAngle);
+        //if (angle < _currentParryAngle && diff < 0.8f)
+        //{
+        //    _currentParryAngle = angle;
+        //    return true;
+        //}
+
+        float angle = Vector2.Angle(_blockInputDirection, _startParryVector) * Mathf.Deg2Rad;
+        float diff = Mathf.Abs(angle - _currentParryAngle);
+        if( angle > _currentParryAngle  && diff < 0.8f)
+        {
+            _currentParryAngle = angle;
+            return true;
+        }
+
+        Debug.Log($"Faill, angleDiff = {Mathf.Abs(angle - _currentParryAngle)} ");
+        _currentParryChance = ParryChanceState.Stop;
+        return false;
     }
 
 }

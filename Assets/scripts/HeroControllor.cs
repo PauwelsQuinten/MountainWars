@@ -31,7 +31,14 @@ public class HeroControllor : MonoBehaviour
     private const float MIN_WINDUP_LENGTH = 0.25f;
     private SlashState state = SlashState.Windup;
     private SlashDirection slashState = SlashDirection.Neutral;
-    
+
+    private Shield _shield;
+
+
+    private void Start()
+    {
+        _shield = GetComponent<Shield>();
+    }
     private void OnEnable()
     {
         var playerInput = GetComponent<PlayerInput>();

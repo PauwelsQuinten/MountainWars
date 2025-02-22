@@ -12,6 +12,7 @@ public class CharacterMovement : MonoBehaviour
     private float _rotationSpeed;
 
     private CharacterController _controller;
+    private WalkAnimate _animator;
     private Vector2 _movement;
     private float _rotationCutOff = 45f / 2f;
     public  CharacterOrientation CurrentCharacterOrientation = CharacterOrientation.North;
@@ -19,6 +20,7 @@ public class CharacterMovement : MonoBehaviour
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _animator = GetComponent<WalkAnimate>();
     }
     private void Update()
     {
@@ -36,6 +38,8 @@ public class CharacterMovement : MonoBehaviour
     {
         if (_controller)
             _controller.Move((_movement * _movementSpeed) * Time.deltaTime);
+        _animator.Walk(_movement);
+
     }
 
     private void SetRotation()

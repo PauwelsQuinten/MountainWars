@@ -6,11 +6,12 @@ public class AttackTimer : MonoBehaviour
     private float _currentTime = 0.0f;
     [SerializeField] private float TimeToAttack = 5.0f;
     Animator _animator;
-    [Range(1, 3)]
+    [Range(0, 3)]
     [SerializeField] private int _maxAttackTypes = 3;
     private int _nextAttackindexer = 0;
     [SerializeField] private GameObject _target;
     [SerializeField] private List<GameObject> _hitCircles;
+    [SerializeField] private bool _isPassive = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,6 +23,9 @@ public class AttackTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isPassive)
+            return;
+
         if (_currentTime < TimeToAttack)
         {
             _currentTime += Time.deltaTime;

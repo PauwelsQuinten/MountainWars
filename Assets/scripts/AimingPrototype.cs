@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class AimingPrototype : MonoBehaviour
 {
     //private AimInputFull _input;
+    [SerializeField] private InputActionReference GuardAction;
     [SerializeField] private InputActionReference AimAction;
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference AimHead;
@@ -69,7 +70,8 @@ public class AimingPrototype : MonoBehaviour
     void Update()
     {
         Walk();
-        AnalogAiming();
+        if (!GuardAction.action.IsPressed()) 
+            AnalogAiming();
 
         ////attack animation
         //if (AimHead.action.IsPressed())
