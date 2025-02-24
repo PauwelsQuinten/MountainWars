@@ -10,6 +10,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FMOD
 {
@@ -140,10 +141,10 @@ namespace FMOD
     [StructLayout(LayoutKind.Sequential)]
     public struct ATTRIBUTES_3D
     {
-        public VECTOR position;
+        public Vector3 position;
         public VECTOR velocity;
-        public VECTOR forward;
-        public VECTOR up;
+        public Vector3 forward;
+        public Vector3 up;
     }
 
     [StructLayout(LayoutKind.Sequential)]

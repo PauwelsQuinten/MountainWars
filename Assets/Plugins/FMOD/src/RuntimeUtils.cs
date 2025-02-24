@@ -356,9 +356,9 @@ namespace FMODUnity
         public static FMOD.ATTRIBUTES_3D To3DAttributes(this Vector3 pos)
         {
             FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D();
-            attributes.forward = ToFMODVector(Vector3.forward);
-            attributes.up = ToFMODVector(Vector3.up);
-            attributes.position = ToFMODVector(pos);
+            attributes.forward = Vector3.forward;
+            attributes.up = Vector3.up;
+            attributes.position = pos;
 
             return attributes;
         }
@@ -366,9 +366,9 @@ namespace FMODUnity
         public static FMOD.ATTRIBUTES_3D To3DAttributes(this Transform transform)
         {
             FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D();
-            attributes.forward = transform.forward.ToFMODVector();
-            attributes.up = transform.up.ToFMODVector();
-            attributes.position = transform.position.ToFMODVector();
+            attributes.forward = transform.forward;
+            attributes.up = transform.up;
+            attributes.position = transform.position;
 
             return attributes;
         }
@@ -376,9 +376,9 @@ namespace FMODUnity
         public static FMOD.ATTRIBUTES_3D To3DAttributes(this Transform transform, Vector3 velocity)
         {
             FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D();
-            attributes.forward = transform.forward.ToFMODVector();
-            attributes.up = transform.up.ToFMODVector();
-            attributes.position = transform.position.ToFMODVector();
+            attributes.forward = transform.forward;
+            attributes.up = transform.up;
+            attributes.position = transform.position;
             attributes.velocity = velocity.ToFMODVector();
 
             return attributes;

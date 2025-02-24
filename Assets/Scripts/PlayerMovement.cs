@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpingPower = 16f;
     private bool isFacingRight = true;
     private EventInstance _groundInstance;
-    private int _surfaceType = FMODAudioManager.Instance.SurfaceType;
+    private int _surfaceType = 0;
     private bool isGrounded = false;
 
     [SerializeField] private Rigidbody2D rb;
@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        _groundInstance = RuntimeManager.CreateInstance(FMODAudioManager.Instance.Ground);
+        _surfaceType = FMODAudioManager.instance.SurfaceType;
+        _groundInstance = RuntimeManager.CreateInstance(FMODAudioManager.instance.Ground);
     }
 
     void Update()
@@ -29,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpingPower);
             _groundInstance.setParameterByName("SurfaceType", _surfaceType, false);
             _groundInstance.start();
-
-            //GetIsGrounded() = false;
         }
 
         if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0f)
