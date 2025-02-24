@@ -140,6 +140,11 @@ public class AimingInput2 : MonoBehaviour
     private float _minSlashAngle = 25f;
 
     private Coroutine _resetAtackText;
+    private Coroutine _resetAttackStance;
+    private bool _isResetingStance;
+    [SerializeField]
+    private float _stanceResetTimer;
+    private bool _checkFeint;
 
     private void Start()
     {
@@ -151,6 +156,10 @@ public class AimingInput2 : MonoBehaviour
         {
             hitZone.SetActive(false);
         }
+
+        _aimFeet.action.performed += AimFeet_performed;
+        _aimTorso.action.performed += AimTorso_performed;
+        _aimHead.action.performed += AimHead_performed;
     }
 
     private void OnEnable()
@@ -183,6 +192,11 @@ public class AimingInput2 : MonoBehaviour
         //Start moving analog , Attack or Charge up
         if ((newLength > MIN_WINDUP_LENGTH))
         {
+            if (_resetAttackStance != null) 
+            {
+                StopCoroutine(_resetAttackStance);
+                _isResetingStance = false;
+            }
             _idleTime = 0.0f;
 
             //Charging
@@ -231,6 +245,7 @@ public class AimingInput2 : MonoBehaviour
         }
         _arrow.SetActive(false);
         _isAttackSet = false;
+        if(!_isResetingStance) _currentStanceState = AttackStance.Torso;
     }
 
     private void SetHitboxHeight(float length)
@@ -354,9 +369,6 @@ public class AimingInput2 : MonoBehaviour
         //{
         //    _currentStanceState = AttackStance.Hips;
         //} 
-        _aimFeet.action.performed += AimFeet_performed;
-        _aimTorso.action.performed += AimTorso_performed;
-        _aimHead.action.performed += AimHead_performed;
         //switch (_currentStanceIndex)
         //{
         //    case 0:
@@ -420,16 +432,21 @@ public class AimingInput2 : MonoBehaviour
         switch (_startDirection)
         {
             case -1:
-                if (_slashDown.action.IsPressed())
+                if (_slashUp.action.IsPressed() && _slashDown.action.IsPressed())
                 {
-                    _currentAttackType = AttackType.DownSlashRight;
+                    _isAttackSet = true;
+                    Debug.Log("Special attack from the left");
+                }
+                else if (_slashDown.action.IsPressed())
+                {
                     if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
+                    else _currentAttackType = AttackType.DownSlashRight;
                     _isAttackSet = true;
                 }
                 else if (_slashUp.action.IsPressed())
                 {
-                    _currentAttackType = AttackType.UpperSlashRight;
                     if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
+                    else _currentAttackType = AttackType.UpperSlashRight;
                     _isAttackSet = true;
                 }
                 if (_currentAttackType == AttackType.HorizontalSlashLeft) 
@@ -439,16 +456,21 @@ public class AimingInput2 : MonoBehaviour
                 }
                 break;
             case 1:
-                if (_slashDown.action.IsPressed())
+                if (_slashUp.action.IsPressed() && _slashDown.action.IsPressed())
                 {
-                    _currentAttackType = AttackType.DownSlashLeft;
+                    _isAttackSet = true;
+                    Debug.Log("Special attack from the right");
+                }
+                else if (_slashDown.action.IsPressed())
+                {
                     if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
+                    else _currentAttackType = AttackType.DownSlashLeft;
                     _isAttackSet = true;
                 }
                 else if (_slashUp.action.IsPressed())
                 {
-                    _currentAttackType = AttackType.UpperSlashLeft;
                     if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
+                    _currentAttackType = AttackType.UpperSlashLeft;
                     _isAttackSet = true;
                 }
                 break;
@@ -537,42 +559,47 @@ public class AimingInput2 : MonoBehaviour
             {
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
-                if(_slashAngle > _overCommitAngle) _hasOverCommited = true;
-                _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
-            }
-            else
-            {
-                if (canRun && !_hasOverCommited)
+
+                if (!_checkFeint)
                 {
-                    CheckAttack();
-                    _slashTime = 0.0f;
-                    _slashAngle = 0.0f;
-                    _startDrawPos = Vector2.zero;
-                    canRun = false;
+                    if (_slashAngle > _overCommitAngle) _hasOverCommited = true;
+                    _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
                 }
+                else
+                {
+
+                }
+            }
+            else if (canRun && !_hasOverCommited)
+            {
+                CheckAttack();
+                _slashTime = 0.0f;
+                _slashAngle = 0.0f;
+                _startDrawPos = Vector2.zero;
+                canRun = false;
                 _isAttackSet = false;
             }
         }
-        else if(canRun && !_hasOverCommited)
+        else if (canRun && _hasOverCommited)
+        {
+            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
+            _AttackMessage.text = "Player over commited";
+            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
+            _hasOverCommited = false;
+            canRun = false;
+        }
+        else if(canRun)
         {
             CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
             canRun = false;
+            _currentStanceState = AttackStance.Torso;
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
             _isAttackSet = false;
-        }
-
-        if (canRun && _hasOverCommited)
-        {
-            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _AttackMessage.text = "Player over commited";
-            _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
-            _hasOverCommited = false;
-            canRun = false;
         }
     }
 
@@ -583,7 +610,7 @@ public class AimingInput2 : MonoBehaviour
             _AttackMessage.text = "Feint";
             Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
+            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             return;
         }
         GetpossibleAtack();
@@ -612,7 +639,7 @@ public class AimingInput2 : MonoBehaviour
         _currentAttackType = AttackType.None;
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
-        _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
+        _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
         Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
@@ -958,26 +985,37 @@ public class AimingInput2 : MonoBehaviour
         _sword.transform.rotation = Quaternion.Euler(swordRotation);
     }
 
-    private IEnumerator ResetAtackText(float time)
+    private IEnumerator ResetAttackStance(float time)
+    {
+        _isResetingStance = true;
+        yield return new WaitForSeconds(time);
+        _currentStanceState = AttackStance.Torso;
+        _isResetingStance = false;
+    }
+    private IEnumerator ResetText(float time, TextMeshPro text)
     {
         yield return new WaitForSeconds(time);
-        _AttackMessage.text = " ";
+        text.text = " ";
     }
     private void AimHead_performed(InputAction.CallbackContext obj)
     {
+        if (_resetAttackStance != null) StopCoroutine(_resetAttackStance);
         _currentStanceState = AttackStance.Head;
-        //if(_currentStanceIndex < 2) _currentStanceIndex += 1;
+        _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
 
     private void AimTorso_performed(InputAction.CallbackContext obj)
     {
+        if (_resetAttackStance != null) StopCoroutine(_resetAttackStance);
         _currentStanceState = AttackStance.Torso;
+        _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
 
     private void AimFeet_performed(InputAction.CallbackContext obj)
     {
-         _currentStanceState = AttackStance.Legs;
-        //if (_currentStanceIndex > 0) _currentStanceIndex -= 1;
+        if(_resetAttackStance != null) StopCoroutine(_resetAttackStance);
+        _currentStanceState = AttackStance.Legs;
+        _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
 
     private void HeightChange_performed(InputAction.CallbackContext obj)
