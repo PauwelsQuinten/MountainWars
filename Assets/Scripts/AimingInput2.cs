@@ -580,7 +580,7 @@ public class AimingInput2 : MonoBehaviour
     {
         if(_slashAngle < _minSlashAngle)
         {
-            _AttackMessage.text = "Faint";
+            _AttackMessage.text = "Feint";
             Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _resetAtackText = StartCoroutine(ResetAtackText(0.5f));
