@@ -416,16 +416,16 @@ public class AimingInput2 : MonoBehaviour
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
 
-                if (_slashAngle > 90) _checkFeint = false;
                 if (!_checkFeint)
                 {
                     if (CheckOverCommit()) return;
                     _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
                 }
-                else if (_startDrawPos.y > Direction.y)
+                else if (_startDrawPos.y > Direction.y && _checkFeint)
                 {
                     _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
                 }
+                else if(_startDrawPos.y < Direction.y && _checkFeint) _checkFeint = false;
             }
             else if (canRun)
             {
