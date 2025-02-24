@@ -13,7 +13,7 @@ public class SwordSwing : MonoBehaviour
     private bool _isSwinging = false;
     private Vector2 _defaultPosition;
     private float  _startSwingAngle = 0.0f;
-    private float _swingDirection = 0.0f;
+    private int _swingDirection = 0;
     private float _defaultAngle;
     private float _currentAngleMovement = 0.0f;
     private AttackStance _attackStance;
@@ -51,19 +51,16 @@ public class SwordSwing : MonoBehaviour
         _sword.transform.position = new Vector3(_sword.transform.position.x, height, 0.0f);
 
         //AdjustHeightPerspective();
-        float orientationDegree = (_animationRef) ? _animationRef.GetOrientationDegree() * Mathf.Rad2Deg : 0.0f;
+        float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
         float rotation = startDirection * _swingAngle;
 
         switch (attackType)
         {
             case AttackType.HorizontalSlashLeft:
             case AttackType.HorizontalSlashRight:
-
-
-                //minus the 90 degree because default is North
+               //minus the 90 degree because default is North
                 _sword.transform.Rotate(0.0f, 0.0f, rotation);
                 _startSwingAngle = _sword.transform.rotation.eulerAngles.z;
-
                 break;
             case AttackType.UpperSlashRight:
             case AttackType.UpperSlashLeft:
@@ -93,19 +90,21 @@ public class SwordSwing : MonoBehaviour
         float angle = _sword.transform.rotation.eulerAngles.z;
         float diff = _startSwingAngle + _swingDirection * angle;
 
-        
         if (_currentAngleMovement > _swingAngle*1.5f)
         {
             Blocking blocker = _target.GetComponent<Blocking>();
             blocker.StopParryTime();
         }
-
         else if (_currentAngleMovement > _swingAngle*0.85f)
         {
             Blocking blocker = _target.GetComponent<Blocking>();
-            blocker.StartParryTime(_attackStance);
-        }
+            if (blocker.StartHit(_attackStance, _swingDirection))
+            {
+                SetIdle();
+                _animationRef.GetHit();
+            }
 
+        }
 
 
         if (_currentAngleMovement >= _swingAngle * 2)
@@ -114,6 +113,7 @@ public class SwordSwing : MonoBehaviour
         }
        
     }
+
 
     private void SetIdle()
     {

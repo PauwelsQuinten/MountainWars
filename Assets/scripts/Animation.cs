@@ -7,7 +7,7 @@ public class WalkAnimate : MonoBehaviour
 {
     Animator _animator;
     private float _orientation = 0.0f;
-    [SerializeField] private GameObject _target;
+    private GameObject _target;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -71,13 +71,21 @@ public class WalkAnimate : MonoBehaviour
 
     public void LockOn(GameObject target)
     {
-        Debug.Log("Lock");
-        bool value = _animator.GetBool("LockOn");
-        value = !value;
-        _animator.SetBool("LockOn", value);
-
-        _target = value ? target : null;
+        //Debug.Log("Lock");
+        //bool value = _animator.GetBool("LockOn");
+        //value = !value;
+        //_animator.SetBool("LockOn", value);
+        //
+        //_target = value ? target : null;
         
+        _target = target;
+        _animator.SetBool("LockOn", _target != null);
+    }
+
+    public void GetHit()
+    {
+        Debug.Log("hit");
+        _animator.SetTrigger("GetHit");
     }
 
     public float GetOrientationDegree()
@@ -93,5 +101,11 @@ public class WalkAnimate : MonoBehaviour
     public bool IsLockedOn()
     {
         return _target != null;
+    }
+
+    public void Parried()
+    {
+        _animator.SetTrigger("Parried");
+
     }
 }
