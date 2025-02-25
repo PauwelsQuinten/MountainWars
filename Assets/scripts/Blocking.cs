@@ -347,8 +347,8 @@ public class Blocking : MonoBehaviour
         _blockState = BlockState.Idle;
         _currentBlockingTime = 0.0f;
         _accumulatedTime = 0.0f;
-        _blockPower = 0.0f;
-        _txtBlockPower.text = "";
+        //_blockPower = 0.0f;
+        //_txtBlockPower.text = "";
         //_shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
         _shield.transform.localPosition = Vector2.zero;
 
