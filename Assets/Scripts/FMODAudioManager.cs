@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.Serialization;
 
 public class FMODAudioManager : MonoBehaviour
 {
@@ -22,7 +23,22 @@ public class FMODAudioManager : MonoBehaviour
     [SerializeField, Range(0, 2)] private int _surfaceType = 0;
     public int SurfaceType => _surfaceType;
     
+    [SerializeField] private string _reverbZone = "Main";
+    public string ReverbZone => _reverbZone;
+
     //Events
+    [SerializeField] private EventReference _punch;
+    public EventReference Punch => _punch;
+    public EventReference Reverb => _reverb;
+    [SerializeField] private EventReference _reverb;
+    
+    public EventReference MainReverb => _mainReverb;
+    [SerializeField] private EventReference _mainReverb;
+    public EventReference CaveReverb => _caveReverb;
+    [SerializeField] private EventReference _caveReverb;
+    public EventReference HouseReverb => _houseReverb;
+    [SerializeField] private EventReference _houseReverb;
+    
     [SerializeField] private EventReference _braam;
     public EventReference Braam => _braam;
 
