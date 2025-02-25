@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class AimingPrototype : MonoBehaviour
 {
     //private AimInputFull _input;
+    [SerializeField] private InputActionReference GuardAction;
     [SerializeField] private InputActionReference AimAction;
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference AimHead;
@@ -34,8 +35,6 @@ public class AimingPrototype : MonoBehaviour
     private Vector2 _inputDirection = Vector2.zero;
     private Vector2 _startDirection = Vector2.zero;
     private Vector2 _previousDirection = Vector2.zero;
-    private SlashState _attackState = SlashState.Rest;
-    private MovingDirection _aimingHightState = MovingDirection.Neutral;
     
 
     private float _accumulatedTime = 0;
@@ -69,7 +68,8 @@ public class AimingPrototype : MonoBehaviour
     void Update()
     {
         Walk();
-        AnalogAiming();
+        if (!GuardAction.action.IsPressed()) 
+            AnalogAiming();
 
         ////attack animation
         //if (AimHead.action.IsPressed())
@@ -139,21 +139,11 @@ public class AimingPrototype : MonoBehaviour
 
         if ( LockOn.action.WasReleasedThisFrame())
         {
-            _animator.DoLockOn(_target);
+            _animator.LockOn(_target);
             _isLockOn = !_isLockOn;
         }
 
 
-        if (AimHead.action.IsPressed())
-        {
-            _aimingHightState = MovingDirection.MovingUp;
-        }
-        else if (AimFeet.action.IsPressed())
-        {
-            _aimingHightState = MovingDirection.MovingDown;
-        }
-        else
-            _aimingHightState = MovingDirection.Neutral;
     }
 
     private void Walk()

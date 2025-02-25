@@ -265,7 +265,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""SlashUp"",
                     ""type"": ""Button"",
-                    ""id"": ""a8de07a3-0977-4cf8-ad62-e795aa2de345"",
+                    ""id"": ""7322308a-02eb-4a79-8ddc-c7d88ac2f750"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -390,6 +390,17 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ea4d645-4504-4529-b061-ab81934c3752"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -649,7 +660,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b8d8ea05-4c58-4c74-999d-e553d57ae367"",
+                    ""id"": ""b89e2e53-ffda-443d-93c9-eb3763eca9ca"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",

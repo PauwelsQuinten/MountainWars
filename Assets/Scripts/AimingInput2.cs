@@ -27,9 +27,7 @@ public class AimingInput2 : MonoBehaviour
     private const float MAX_RELEASE_TIME = 0.5f; 
     private const float MIN_WINDUP_LENGTH = 0.15f;
     private const float MIN_CHARGEUP_TIME = 0.2f;
-    private bool _isStab = false;
-    private bool _isExhausted = false;
-    private float _restTime = 0.0f;
+    
 
     //extra state for second prototype
     [SerializeField] private GameObject _sword;
