@@ -2200,35 +2200,11 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HeroControllor, Assembly-CSharp
-        m_MethodName: MoveHorizontal
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HeroControllor, Assembly-CSharp
-        m_MethodName: Slash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/delta,/Pen/delta]'
   - m_PersistentCalls:
@@ -2300,11 +2276,35 @@ MonoBehaviour:
     m_ActionId: 6fb07406-378f-4dea-91c4-6230a82e1ac7
     m_ActionName: 'Player/Aiming[/DualShock4GamepadHID/rightStick]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1578538730}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 974f8fff-3736-4bfb-a177-994e794924b6
     m_ActionName: 'Player/SelectUpper[/DualShock4GamepadHID/rightShoulder]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1578538730}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 20e4ff11-59eb-4673-b5c5-f61b6c4a9599
     m_ActionName: 'Player/SelectLower[/DualShock4GamepadHID/rightTrigger]'
   - m_PersistentCalls:
@@ -2434,13 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AimAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _aimHead: {fileID: 8139089285512152037, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _aimFeet: {fileID: 8946815350380076863, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _aimTorso: {fileID: -4883226745432947173, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _slashUp: {fileID: 2682231151521701295, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _slashDown: {fileID: 5556842970596875931, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  arrow: {fileID: 1830086162}
+  Direction: {x: 0, y: 0}
   _speed: 10
   _texMessage: {fileID: 1603738964}
   _txtActionPower: {fileID: 1744789542}
@@ -2458,6 +2452,8 @@ MonoBehaviour:
   - {fileID: 1216080580}
   - {fileID: 2063203040}
   - {fileID: 1806691468}
+  SlashUp: 0
+  SlashDown: 0
   _slashStrength: 3
   _leaningSpeed: 2
   _MaxTimeNotLeaning: 0.5
@@ -3671,6 +3667,55 @@ RectTransform:
   m_AnchoredPosition: {x: 5.88, y: 4.3}
   m_SizeDelta: {x: 17.0259, y: 4.1252}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2004468709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2004468711}
+  - component: {fileID: 2004468710}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2004468710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004468709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f0408c171ecaf74ea8a18b358a703f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aimAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _aimHead: {fileID: 8139089285512152037, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _aimFeet: {fileID: 8946815350380076863, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _slashUp: {fileID: 2682231151521701295, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _slashDown: {fileID: 5556842970596875931, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+--- !u!4 &2004468711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004468709}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.3137705, y: 0.14754325, z: 0.23477048}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2063203040
 GameObject:
   m_ObjectHideFlags: 0
