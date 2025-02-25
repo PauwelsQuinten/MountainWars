@@ -90,7 +90,7 @@ Material:
     - _K_Rotation: 0
     - _M_Rotation: 45
     - _MagentaOpacity: 1
-    - _NoiseOpacity: 0.15
+    - _NoiseOpacity: 0
     - _PaperBrightness: 0
     - _PaperOpacity: 1
     - _Pattern_Randomness: 0
