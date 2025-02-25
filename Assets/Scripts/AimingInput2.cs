@@ -11,9 +11,9 @@ public class AimingInput2 : MonoBehaviour
 
     private SlashState state = SlashState.Windup;
     private SlashDirection slashState = SlashDirection.Neutral;
-    private AttackStance _currentStanceState = AttackStance.Torso;
+    public AttackStance CurrentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
-    private AttackType _currentAttackType = AttackType.None;
+    public AttackType CurrentAttackType = AttackType.None;
     private AttackType _previousAttack = AttackType.None;
 
     [SerializeField] private float _speed = 10.0f;
@@ -168,14 +168,14 @@ public class AimingInput2 : MonoBehaviour
         defaultPower = 5.0f;
         _txtActionPower.enabled = false;
         _startDirection = 0;
-        _currentAttackType = AttackType.None;
+        CurrentAttackType = AttackType.None;
         _isAttackSet = false;
         foreach (var hitZone in _hitZones)
         {
             hitZone.SetActive(false);
         }
         _arrow.SetActive(false);
-        if(!_isResetingStance) _currentStanceState = AttackStance.Torso;
+        if(!_isResetingStance) CurrentStanceState = AttackStance.Torso;
     }
 
     private void SetStance()
@@ -242,7 +242,7 @@ public class AimingInput2 : MonoBehaviour
 
         int index = 0;
         //Show hitZone
-        switch (_currentStanceState)
+        switch (CurrentStanceState)
         {
             case AttackStance.Head:
                 index = _isSlash ? 0 : 3;
@@ -274,12 +274,12 @@ public class AimingInput2 : MonoBehaviour
         if (angle > 110.0f + _orientationAngle - 90f || angle < 70.0f + _orientationAngle - 90f)
         {
             //_currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : _currentAttackType;
-            _currentAttackType = AttackType.HorizontalSlashLeft;
+            CurrentAttackType = AttackType.HorizontalSlashLeft;
             _isAttackSet = true;
         }
         else if(!_isAttackSet)
         {
-            _currentAttackType = AttackType.Stab;
+            CurrentAttackType = AttackType.Stab;
             _isAttackSet = true;
         }
         SetSlashType();
@@ -298,19 +298,19 @@ public class AimingInput2 : MonoBehaviour
                 }
                 else if (SlashDown)
                 {
-                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
-                    else _currentAttackType = AttackType.DownSlashRight;
+                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightDown;
+                    else CurrentAttackType = AttackType.DownSlashRight;
                     _isAttackSet = true;
                 }
                 else if (SlashUp)
                 {
-                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
-                    else _currentAttackType = AttackType.UpperSlashRight;
+                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightUp;
+                    else CurrentAttackType = AttackType.UpperSlashRight;
                     _isAttackSet = true;
                 }
-                if (_currentAttackType == AttackType.HorizontalSlashLeft) 
+                if (CurrentAttackType == AttackType.HorizontalSlashLeft) 
                 {
-                    _currentAttackType = AttackType.HorizontalSlashRight;
+                    CurrentAttackType = AttackType.HorizontalSlashRight;
                     _isAttackSet = true;
                 }
                 break;
@@ -322,14 +322,14 @@ public class AimingInput2 : MonoBehaviour
                 }
                 else if (SlashDown)
                 {
-                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightDown;
-                    else _currentAttackType = AttackType.DownSlashLeft;
+                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightDown;
+                    else CurrentAttackType = AttackType.DownSlashLeft;
                     _isAttackSet = true;
                 }
                 else if (SlashUp)
                 {
-                    if (_currentAttackType == AttackType.Stab) _currentAttackType = AttackType.StraightUp;
-                    _currentAttackType = AttackType.UpperSlashLeft;
+                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightUp;
+                    CurrentAttackType = AttackType.UpperSlashLeft;
                     _isAttackSet = true;
                 }
                 break;
@@ -338,7 +338,7 @@ public class AimingInput2 : MonoBehaviour
 
     private void SetHitboxAngle()
     {
-        switch (_currentAttackType)
+        switch (CurrentAttackType)
         {
             case AttackType.HorizontalSlashLeft:
                 _hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
@@ -465,7 +465,7 @@ public class AimingInput2 : MonoBehaviour
             _startDrawPos = Vector2.zero;
             _faintStart = Vector2.zero;
             canRun = false;
-            _currentStanceState = AttackStance.Torso;
+            CurrentStanceState = AttackStance.Torso;
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
@@ -479,9 +479,9 @@ public class AimingInput2 : MonoBehaviour
         GetpossibleAtack();
          foreach(AttackType Possebility in _possibleAttacks) 
         {
-            if (_currentAttackType == Possebility)
+            if (CurrentAttackType == Possebility)
             {
-                _currentAttackType = Possebility;
+                CurrentAttackType = Possebility;
                 SetPreviousAttacks();
                 return;
             }
@@ -499,7 +499,7 @@ public class AimingInput2 : MonoBehaviour
         //        return;
         //    }
         //}
-        _currentAttackType = AttackType.None;
+        CurrentAttackType = AttackType.None;
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
         _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
@@ -538,14 +538,14 @@ public class AimingInput2 : MonoBehaviour
 
     private void SetPreviousAttacks()
     {
-        _previousAttack = _currentAttackType;
+        _previousAttack = CurrentAttackType;
     }
 
     private void GetpossibleAtack()
     {
         _possibleAttacks.Clear();
 
-        _possibleAttacks = _attackFinder.GetpossibleAtack(_currentStanceState, _previousAttack);
+        _possibleAttacks = _attackFinder.GetpossibleAtack(CurrentStanceState, _previousAttack);
     }
 
     private void SwordVisual(float angle)
@@ -561,7 +561,7 @@ public class AimingInput2 : MonoBehaviour
     {
         _isResetingStance = true;
         yield return new WaitForSeconds(time);
-        _currentStanceState = AttackStance.Torso;
+        CurrentStanceState = AttackStance.Torso;
         _isResetingStance = false;
     }
 
@@ -574,7 +574,7 @@ public class AimingInput2 : MonoBehaviour
     public void ChangeStance(AttackStance stance)
     {
         if (_resetAttackStance != null) StopCoroutine(_resetAttackStance);
-        _currentStanceState = stance;
+        CurrentStanceState = stance;
         _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
 }

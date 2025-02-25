@@ -14,8 +14,6 @@ public class AimingTest2 : MonoBehaviour
     [SerializeField]
     private InputActionReference _powerMultiplier;
     [SerializeField]
-    private HitDetection2 _hitDetection;
-    [SerializeField]
     private InputActionReference _selectHead;
     [SerializeField]
     private InputActionReference _selectLegs;
@@ -163,7 +161,6 @@ public class AimingTest2 : MonoBehaviour
                 break;
         }
 
-        _hitDetection.GetHitPos(_direction, _attackStance, _isStab);
         _attackStance = AttackStance.Torso;
         StopCoroutine(DoTimer(0.2f));
         _buttonsPressed.Clear();
