@@ -14,32 +14,32 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private InputActionReference _slashDown;
 
-    private AimingInput2 _aimingScript;
+    public AimingInput2 AimingScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _aimingScript = FindObjectOfType<AimingInput2>();
-
         _aimFeet.action.performed += AimFeet_performed;
         _aimHead.action.performed += AimHead_performed;
     }
 
     private void Update()
     {
-        _aimingScript.Direction = _aimAction.action.ReadValue<Vector2>();
+        if (AimingScript == null) return;
+            
+        AimingScript.Direction = _aimAction.action.ReadValue<Vector2>();
 
-        if (_slashDown.action.IsPressed()) _aimingScript.SlashDown = true;
-        else _aimingScript.SlashDown = false;
-        if (_slashUp.action.IsPressed()) _aimingScript.SlashUp = true;
-        else _aimingScript.SlashUp = false;
+        if (_slashDown.action.IsPressed()) AimingScript.SlashDown = true;
+        else AimingScript.SlashDown = false;
+        if (_slashUp.action.IsPressed()) AimingScript.SlashUp = true;
+        else AimingScript.SlashUp = false;
     }
     private void AimHead_performed(InputAction.CallbackContext obj)
     {
-        _aimingScript.ChangeStance(AttackStance.Head);
+        AimingScript.ChangeStance(AttackStance.Head);
     }
 
     private void AimFeet_performed(InputAction.CallbackContext obj)
     {
-        _aimingScript.ChangeStance(AttackStance.Legs);
+        AimingScript.ChangeStance(AttackStance.Legs);
     }
 }

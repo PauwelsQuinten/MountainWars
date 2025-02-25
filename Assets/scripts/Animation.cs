@@ -6,7 +6,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class WalkAnimate : MonoBehaviour
 {
     Animator _animator;
-    private float _orientation = 0.0f;
+    public float Orientation = 0.0f;
     private GameObject _target;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,8 +30,8 @@ public class WalkAnimate : MonoBehaviour
 
         var lookDirection = _target.transform.position - transform.position;
         float angleR = Mathf.Atan2(lookDirection.y, lookDirection.x);
-        _orientation = angleR;
-        _animator.SetFloat("orientation", _orientation);
+        Orientation = angleR;
+        _animator.SetFloat("orientation", Orientation);
 
     }
 
@@ -61,9 +61,9 @@ public class WalkAnimate : MonoBehaviour
 
         if (length <= 0.01f || _target) 
             return; 
-        _orientation = Mathf.Atan2(direction.y, direction.x);
-        _orientation = (_orientation <= -3.1415f) ? Mathf.PI : _orientation;
-        _animator.SetFloat("orientation", _orientation);
+        Orientation = Mathf.Atan2(direction.y, direction.x);
+        Orientation = (Orientation <= -3.1415f) ? Mathf.PI : Orientation;
+        _animator.SetFloat("orientation", Orientation);
 
 
     }
@@ -90,12 +90,12 @@ public class WalkAnimate : MonoBehaviour
 
     public float GetOrientationDegree()
     {
-        return _orientation * Mathf.Rad2Deg;
+        return Orientation * Mathf.Rad2Deg;
     }
 
     public float GetOrientation()
     {
-        return _orientation;
+        return Orientation;
     }
 
     public bool IsLockedOn()
