@@ -25,7 +25,7 @@ public class LockOnTest1 : MonoBehaviour
         {
             _lockonTarget = collision.gameObject;
             _walkAnimate.LockOn(collision.gameObject);
-            Debug.Log($"Enter {collision.gameObject.layer}");
+            //Debug.Log($"Enter {collision.gameObject.layer}");
         }
     }
 

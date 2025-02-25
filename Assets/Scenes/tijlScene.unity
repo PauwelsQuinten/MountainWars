@@ -1299,7 +1299,6 @@ GameObject:
   - component: {fileID: 1190968914}
   - component: {fileID: 1190968913}
   - component: {fileID: 1190968918}
-  - component: {fileID: 1190968910}
   - component: {fileID: 1190968908}
   - component: {fileID: 1190968907}
   - component: {fileID: 1190968906}
@@ -1367,6 +1366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51db625e617cdb14e96cceb0f438a6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Orientation: 0
 --- !u!95 &1190968908
 Animator:
   serializedVersion: 7
@@ -1389,48 +1389,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1190968910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190968904}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AimAction: {fileID: 0}
-  _aimHead: {fileID: 0}
-  _aimFeet: {fileID: 0}
-  _aimTorso: {fileID: 0}
-  _slashUp: {fileID: 0}
-  _slashDown: {fileID: 0}
-  arrow: {fileID: 2109920522}
-  _speed: 10
-  _texMessage: {fileID: 1603738964}
-  _txtActionPower: {fileID: 1744789542}
-  _AttackMessage: {fileID: 0}
-  _sword: {fileID: 1364049632}
-  _arrow: {fileID: 2109920522}
-  radius: 0.4
-  DEFAULT_SWORD_ORIENTATION: 218
-  YRotation: 45
-  _hitZones:
-  - {fileID: 1138543119}
-  - {fileID: 1415980941}
-  - {fileID: 358807558}
-  - {fileID: 933175571}
-  - {fileID: 1216080580}
-  - {fileID: 2063203040}
-  - {fileID: 1806691468}
-  _slashStrength: 3
-  _leaningSpeed: 2
-  _MaxTimeNotLeaning: 0.5
-  _leanIndicator: {fileID: 0}
-  _overCommitAngle: 170
-  _minSlashAngle: 25
 --- !u!212 &1190968913
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1495,7 +1453,7 @@ Transform:
   m_GameObject: {fileID: 1190968904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21, y: -0.82, z: 0}
+  m_LocalPosition: {x: -0.21, y: 1.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1858,6 +1816,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1190968914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -141.4}
+--- !u!1 &1372161154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1372161156}
+  - component: {fileID: 1372161155}
+  m_Layer: 0
+  m_Name: AttackFinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1372161155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372161154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e3dd46015056c46a66989f105398fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1372161156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372161154}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.907598, y: 0.3109838, z: 0.2629498}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1396113910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,7 +2411,7 @@ Transform:
   m_GameObject: {fileID: 1578538730}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.008286797, w: 0.9999657}
-  m_LocalPosition: {x: 7.55, y: 0, z: 0}
+  m_LocalPosition: {x: -4.86, y: -2.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2452,11 +2454,9 @@ MonoBehaviour:
   SlashUp: 0
   SlashDown: 0
   _slashStrength: 3
-  _leaningSpeed: 2
-  _MaxTimeNotLeaning: 0.5
-  _leanIndicator: {fileID: 0}
   _overCommitAngle: 170
   _minSlashAngle: 25
+  _stanceResetTimer: 0
 --- !u!114 &1578538738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2520,6 +2520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51db625e617cdb14e96cceb0f438a6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Orientation: 0
 --- !u!114 &1578538741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2543,7 +2544,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578538730}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c0b7c04c472a6498e170825aeaf16b, type: 3}
   m_Name: 
@@ -2762,7 +2763,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.88, y: -4.36}
+  m_AnchoredPosition: {x: 6.28, y: -1.52}
   m_SizeDelta: {x: 17.0259, y: 4.1252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1603738962
@@ -3133,7 +3134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1806691469
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3996,3 +3997,5 @@ SceneRoots:
   - {fileID: 1122628764}
   - {fileID: 1877490631}
   - {fileID: 1580030380}
+  - {fileID: 2004468711}
+  - {fileID: 1372161156}

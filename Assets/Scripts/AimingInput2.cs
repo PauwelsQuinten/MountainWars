@@ -35,7 +35,7 @@ public class AimingInput2 : MonoBehaviour
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
-    private (float,float) _chargeZone = (-2.0f, -1.0f);
+    private (float,float) _chargeZone = (-2.0f * Mathf.Rad2Deg, -1.0f * Mathf.Rad2Deg);
     private float _currentAttackTime = 0.0f;
     private const float MAX_ATTAK_TIME = 2.0f;
     private float defaultPower = 5.0f;
@@ -79,10 +79,16 @@ public class AimingInput2 : MonoBehaviour
     private FindPossibleAttacks _attackFinder;
     private bool _isCharging;
 
+    private WalkAnimate _WalkOrientation;
+    private float _orientationAngle;
+
+    private Vector2 _faintStart;
+
     private void Start()
     {
         _startLocation = _sword.transform.position;
         _attackFinder = FindObjectOfType<FindPossibleAttacks>();
+        _WalkOrientation = GetComponent<WalkAnimate>();
 
         foreach (var hitZone in _hitZones)
         {
@@ -92,6 +98,7 @@ public class AimingInput2 : MonoBehaviour
 
     private void Update()
     {
+        _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
 
@@ -122,15 +129,15 @@ public class AimingInput2 : MonoBehaviour
             _idleTime = 0.0f;
 
             //Charging
-            Chargepower(currentAngle);
+            Chargepower(currentAngleDegree);
             if (_isCharging) return;
             //Attacking
-            SetSwingDirection();
+            SetSwingDirection(currentAngleDegree);
 
             //slashDirection or stab
             SetAttackType(newLength, currentAngleDegree);
 
-            CalculateAttackPower(newLength);
+            CalculateAttackPower(newLength, currentAngleDegree);
 
             SetHitboxAngle();
 
@@ -264,7 +271,7 @@ public class AimingInput2 : MonoBehaviour
     {
         if (_isAttackSet) return;
 
-        if (angle > 110.0f || angle < 70.0f)
+        if (angle > 110.0f + _orientationAngle - 90f || angle < 70.0f + _orientationAngle - 90f)
         {
             //_currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : _currentAttackType;
             _currentAttackType = AttackType.HorizontalSlashLeft;
@@ -379,13 +386,14 @@ public class AimingInput2 : MonoBehaviour
 
     private void Chargepower(float drawAngle)
     {
-        if (drawAngle > _chargeZone.Item1 && drawAngle < _chargeZone.Item2)
+        if (drawAngle > (_chargeZone.Item1) + _orientationAngle - 90 
+            && drawAngle < (_chargeZone.Item2) + _orientationAngle - 90)
         {
             _isCharging = true;
             if (_chargedTime < MAX_CHARGE_TIME)
                 _chargedTime += (Time.deltaTime * 4.0f);
-            _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, DEFAULT_SWORD_ORIENTATION);
-            _sword.transform.localPosition = _startLocation;
+            _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
+            _sword.transform.localPosition = Vector3.zero;
             _txtActionPower.enabled = false;
             return;
         }
@@ -395,20 +403,29 @@ public class AimingInput2 : MonoBehaviour
         _txtActionPower.text = (defaultPower + _chargedTime).ToString();
     }
 
-    private void SetSwingDirection()
+    private void SetSwingDirection(float drawAngle)
     {
+        float orientationAngle = _orientationAngle - 90f;
+        Vector2 drawAngleVector = new Vector2(Mathf.Cos(drawAngle * Mathf.Deg2Rad), Mathf.Sin(drawAngle * Mathf.Deg2Rad));
+        Vector2 orientationVector = new Vector2(Mathf.Cos(orientationAngle * Mathf.Deg2Rad), Mathf.Sin(orientationAngle * Mathf.Deg2Rad));
+        float cross = drawAngleVector.x * orientationVector.x + drawAngleVector.y * orientationVector.y;
+
         if (_startDirection == 0)
-            _startDirection = (Direction.x > 0.0f) ? 1 : -1;
+            _startDirection = (cross > 0) ? 1 : -1;
     }
 
-    private void CalculateAttackPower(float drawLength)
+    private void CalculateAttackPower(float drawLength, float currentangle)
     {
         bool canRun = false;
         if (drawLength >= 0.97f)
         {
+            if (_faintStart == Vector2.zero) _faintStart = Direction;
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
             canRun = true;
+
+            float cross = Direction.x * _faintStart.x + Direction.y * _faintStart.y;
+
             if ((int)_slashAngle <= newAngle)
             {
                 _slashAngle = newAngle;
@@ -419,15 +436,20 @@ public class AimingInput2 : MonoBehaviour
                     if (CheckOverCommit()) return;
                     _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
                 }
-                else if (_startDrawPos.y > Direction.y && _checkFeint)
+                else if (_checkFeint && _startDirection == -1)
                 {
-                    _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    if(cross < 0) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    else _checkFeint = false;
                 }
-                else if(_startDrawPos.y < Direction.y && _checkFeint) _checkFeint = false;
+                else if (_checkFeint && _startDirection == 1) 
+                {
+                    if (cross > 0) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    else _checkFeint = false;
+                }
             }
             else if (canRun)
             {
-                _checkFeint = true;
+                if(_slashAngle > 15) _checkFeint = true;
                 CheckAttack();
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
@@ -441,6 +463,7 @@ public class AimingInput2 : MonoBehaviour
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
+            _faintStart = Vector2.zero;
             canRun = false;
             _currentStanceState = AttackStance.Torso;
         }
