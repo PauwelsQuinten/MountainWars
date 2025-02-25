@@ -190,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5130076128179794588
 Transform:
   m_ObjectHideFlags: 0
@@ -393,13 +393,13 @@ GameObject:
   - component: {fileID: 7040509983695369563}
   - component: {fileID: 8010338999682594830}
   - component: {fileID: 7543476095851795945}
-  - component: {fileID: 8391430328595285604}
   - component: {fileID: 223448091233570701}
   - component: {fileID: 3557515152439904967}
   - component: {fileID: 960046400283093021}
   - component: {fileID: 1690099518976186005}
   - component: {fileID: 5495266006063797764}
   - component: {fileID: 716812571052693609}
+  - component: {fileID: 9033597014177533533}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -650,6 +650,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a8de07a3-0977-4cf8-ad62-e795aa2de345
     m_ActionName: 'Player/SlashUp[/DualShock4GamepadHID/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f04f56b0-cf67-4850-8ad5-2dc5ca13934d
+    m_ActionName: 'Player/AttackOnBlock[/DualShock4GamepadHID/rightTrigger]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -712,35 +716,6 @@ MonoBehaviour:
   _stanceResetTimer: 0
   _attackMessage: BlockPowerTxt
   _attackPower: BlockPowerTxt (1)
---- !u!114 &8391430328595285604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8330242531137365103}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00896ddb51b87574c8319019ec74bed7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GuardAction: {fileID: -5536015962278738975, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  AimAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  AimHead: {fileID: 8139089285512152037, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  AimFeet: {fileID: 8946815350380076863, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  LockOn: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _sword: {fileID: 1651686446302327220}
-  _hitZone: {fileID: 0}
-  radius: 0.4
-  movementSpeed: 3
-  _leaningSpeed: 2
-  _minDiffBetwnAnalogMov: 0.001
-  _MaxTimeNotLeaning: 0.5
-  _txtActionPower: {fileID: 0}
-  _texMessage: {fileID: 0}
-  _target: {fileID: 0}
-  _useLockOnMovement: 0
 --- !u!95 &223448091233570701
 Animator:
   serializedVersion: 7
@@ -799,15 +774,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8330242531137365103}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c0b7c04c472a6498e170825aeaf16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _shield: {fileID: 2021487225907802126}
   _attacker: {fileID: 0}
-  _useShieldAction: {fileID: -5536015962278738975, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _blockInputAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _txtBlockPower: {fileID: 0}
   _radius: 1
   _powerReducer: 20
@@ -815,7 +788,6 @@ MonoBehaviour:
   _parryAngle: 1.4
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _parryZone: {fileID: 5530381577564917557}
 --- !u!114 &5495266006063797764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,3 +817,15 @@ MonoBehaviour:
   _layersToInteractWith:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &9033597014177533533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330242531137365103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e3dd46015056c46a66989f105398fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

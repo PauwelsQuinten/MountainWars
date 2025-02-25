@@ -258,8 +258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shield: {fileID: 5600073296173455434}
   _attacker: {fileID: 0}
-  _useShieldAction: {fileID: 0}
-  _blockInputAction: {fileID: 0}
   _txtBlockPower: {fileID: 0}
   _radius: 1
   _powerReducer: 20
@@ -267,7 +265,6 @@ MonoBehaviour:
   _parryAngle: 1.75
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _parryZone: {fileID: 0}
 --- !u!114 &6121863959210014125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +282,9 @@ MonoBehaviour:
   _swingAngle: 120
   _anglePerspective: 60
   _target: {fileID: 0}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &8991820935436539667
 MonoBehaviour:
   m_ObjectHideFlags: 0

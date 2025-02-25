@@ -122,7 +122,7 @@ public class SwordSwing : MonoBehaviour
         {
             //OnStartHit?.Invoke(this, new HitEventArgs(_attackStance, _swingDirection));
             Blocking blocker = _target.GetComponent<Blocking>();
-            if (blocker.StartHit(_attackStance, _swingDirection))
+            if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
                 SetIdle();
                 _animationRef.GetHit();

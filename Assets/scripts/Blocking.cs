@@ -112,7 +112,7 @@ public class Blocking : MonoBehaviour
                     _blockPower = distance / _accumulatedTime;
                     _blockPower =(_blockPower > MAX_BLOCK_POWER)? MAX_BLOCK_POWER : _blockPower;
                     _currentBlockingTime = 0.0f;
-                    _txtBlockPower.text = $"BlockPower : {_blockPower}";
+                    //_txtBlockPower.text = $"BlockPower : {_blockPower}";
 
                 }
                 break;
@@ -150,7 +150,7 @@ public class Blocking : MonoBehaviour
     {
         _blockPower -= Time.deltaTime * _powerReducer;
         _blockPower = (_blockPower < MIN_BLOCK_POWER) ? MIN_BLOCK_POWER : _blockPower;
-        _txtBlockPower.text = $"BlockPower : {_blockPower}";
+        //_txtBlockPower.text = $"BlockPower : {_blockPower}";
     }
 
     public void SetInputDirection(Vector2 input)
@@ -185,7 +185,7 @@ public class Blocking : MonoBehaviour
         {
             _blockState = BlockState.Idle;
             _blockPower = 0.0f;
-            _txtBlockPower.text = "";
+            //_txtBlockPower.text = "";
             return true;
         }
         return false;
@@ -233,8 +233,10 @@ public class Blocking : MonoBehaviour
         return false;
     }
 
-    public bool StartHit(AttackStance height, int direction)
+    public bool StartHit(AttackStance height, int direction, GameObject attacker)
     {
+        _attacker = attacker;
+
         switch(_blockState)
         {
             case BlockState.Idle:

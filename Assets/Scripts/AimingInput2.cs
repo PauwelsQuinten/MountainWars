@@ -9,8 +9,7 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 loadDirection = Vector2.zero;
     private Vector2 slashDirection = Vector2.zero;
 
-    private SlashState state = SlashState.Windup;
-    private SlashDirection slashState = SlashDirection.Neutral;
+    
     public AttackStance CurrentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
     public AttackType CurrentAttackType = AttackType.None;
@@ -88,10 +87,11 @@ public class AimingInput2 : MonoBehaviour
 
     private void Start()
     {
-        InputManager input = FindObjectOfType<InputManager>();
-        input.AimingScript = this;
+        //InputManager input = FindObjectOfType<InputManager>();
+        //input.AimingScript = this;
         _startLocation = _sword.transform.position;
-        _attackFinder = FindObjectOfType<FindPossibleAttacks>();
+        //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
+        _attackFinder = GetComponent<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>(); ;
