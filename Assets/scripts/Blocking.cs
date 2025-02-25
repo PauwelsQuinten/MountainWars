@@ -54,12 +54,15 @@ public class Blocking : MonoBehaviour
     private int _parryDirection = 1;
     WalkAnimate _animator;
 
+    private float _angleDiffWithOrientation = 0f;
+    private bool _followOrientation;
+
     public EventHandler OnBlockedAttack;
 
     private void Start()
     {
         _animator = gameObject.GetComponent<WalkAnimate>();
-        
+        ActivateBlock(false);
     }
 
     void Update()
@@ -70,20 +73,17 @@ public class Blocking : MonoBehaviour
 
     private void BlockPrototype()
     {
-        /*if (_blockInputAction)
-            _blockInputDirection = _blockInputAction.action.ReadValue<Vector2>();*/
+        //when holding block while attacking
+        if (_followOrientation)
+        {
+            FollowTarget();
+            ReduceBlockPower();
+            return;
+        }
+
 
         float distance = _blockInputDirection.sqrMagnitude;
-
-        //if (!_useShieldAction || !_useShieldAction.action.IsPressed())
-        //{
-        //    _shield.transform.localScale = Vector3.zero; 
-        //    ResetValues();
-        //    return;
-        //}
-        //else
-        //    _shield.transform.localScale = Vector3.one; 
-
+     
         switch (_blockState)
         {
             case BlockState.Idle:
@@ -129,9 +129,7 @@ public class Blocking : MonoBehaviour
                 if (ReturnOnIdle(distance))
                     return;
 
-                _blockPower -= Time.deltaTime * _powerReducer;
-                _blockPower = (_blockPower < MIN_BLOCK_POWER) ? MIN_BLOCK_POWER : _blockPower;
-                _txtBlockPower.text = $"BlockPower : {_blockPower}";
+                ReduceBlockPower();
                 _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
                 break;
 
@@ -148,9 +146,26 @@ public class Blocking : MonoBehaviour
         }
     }
 
+    private void ReduceBlockPower()
+    {
+        _blockPower -= Time.deltaTime * _powerReducer;
+        _blockPower = (_blockPower < MIN_BLOCK_POWER) ? MIN_BLOCK_POWER : _blockPower;
+        _txtBlockPower.text = $"BlockPower : {_blockPower}";
+    }
+
     public void SetInputDirection(Vector2 input)
     {
         _blockInputDirection = input;
+    }
+
+    public void HoldBlock(bool hold)
+    {
+        float orient = _animator ? _animator.GetOrientation() : 0.0f;
+        float angleInput = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x );
+        _angleDiffWithOrientation = angleInput - orient;    
+        _followOrientation = hold;
+        if (!hold)
+            ResetValues();
     }
 
     public void ActivateBlock(bool activate)
@@ -159,7 +174,6 @@ public class Blocking : MonoBehaviour
         {
             _shield.transform.localScale = Vector3.zero;
             ResetValues();
-            return;
         }
         else
             _shield.transform.localScale = Vector3.one;
@@ -202,10 +216,8 @@ public class Blocking : MonoBehaviour
 
     private bool ParryOnZone()
     {
-
         if (_currentParryChance == ParryChanceState.Start && AroundParryZone())
         {
-            //if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle <= _startParryAngle - 2.1415f)
             if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >= _parryAngle)
             {
                 _currentParryChance = ParryChanceState.Succes;
@@ -220,19 +232,6 @@ public class Blocking : MonoBehaviour
             return true;
         return false;
     }
-
-    //Returns true when gets blocked
-    //private void OnStartHit_StartHit(object sender, SwordSwing.HitEventArgs e)
-    //{
-    //    if (!sender.Equals(this) )
-    //        StartHit(e.AttackHeight, e.Direction);
-    //}
-    //
-    //private void OnStopHit_StopHit(object sender, EventArgs e)
-    //{
-    //    if (!sender.Equals(this))
-    //        StopParryTime();
-    //}
 
     public bool StartHit(AttackStance height, int direction)
     {
@@ -362,6 +361,19 @@ public class Blocking : MonoBehaviour
         Vector2 orientationVector = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
         float cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
         return (cross * direction > 0 && Vector2.Angle(orientationVector, _blockInputDirection) < 90f);
+    }
+
+    private void FollowTarget()
+    {
+       
+       float orient = _animator ? _animator.GetOrientation() : 0.0f;
+       float newAngle = orient + _angleDiffWithOrientation;
+       //newAngle *= Mathf.Rad2Deg;
+       Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
+       _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
+
+       Debug.Log($"start: {_angleDiffWithOrientation}, new: {newAngle}");
+       
     }
 
 }

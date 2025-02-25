@@ -615,7 +615,6 @@ GameObject:
   - component: {fileID: 352975844}
   - component: {fileID: 352975843}
   - component: {fileID: 352975842}
-  - component: {fileID: 352975841}
   - component: {fileID: 352975845}
   m_Layer: 0
   m_Name: Puncher
@@ -624,28 +623,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &352975841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352975840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbc46a5596820c4da6a2923dacad132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimeToAttack: 3
-  _maxAttackTypes: 3
-  _target: {fileID: 1578538730}
-  _hitCircles:
-  - {fileID: 121027225}
-  - {fileID: 2099793376}
-  - {fileID: 1396113910}
-  - {fileID: 660842765}
-  - {fileID: 1574633419}
-  _isPassive: 0
 --- !u!95 &352975842
 Animator:
   serializedVersion: 7
@@ -1306,7 +1283,6 @@ GameObject:
   - component: {fileID: 1190968905}
   - component: {fileID: 1190968915}
   - component: {fileID: 1190968916}
-  - component: {fileID: 1190968917}
   - component: {fileID: 1190968919}
   m_Layer: 7
   m_Name: enemy
@@ -1329,8 +1305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shield: {fileID: 106223634}
   _attacker: {fileID: 352975840}
-  _useShieldAction: {fileID: 0}
-  _blockInputAction: {fileID: 0}
   _txtBlockPower: {fileID: 1877490629}
   _radius: 1
   _powerReducer: 20
@@ -1338,7 +1312,6 @@ MonoBehaviour:
   _parryAngle: 1.75
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _parryZone: {fileID: 642956282}
 --- !u!114 &1190968906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1401,13 +1374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AimAction: {fileID: 0}
-  _aimHead: {fileID: 0}
-  _aimFeet: {fileID: 0}
-  _aimTorso: {fileID: 0}
-  _slashUp: {fileID: 0}
-  _slashDown: {fileID: 0}
-  arrow: {fileID: 2109920522}
+  Direction: {x: 0, y: 0}
   _speed: 10
   _texMessage: {fileID: 1603738964}
   _txtActionPower: {fileID: 1744789542}
@@ -1425,12 +1392,12 @@ MonoBehaviour:
   - {fileID: 1216080580}
   - {fileID: 2063203040}
   - {fileID: 1806691468}
+  SlashUp: 0
+  SlashDown: 0
   _slashStrength: 3
-  _leaningSpeed: 2
-  _MaxTimeNotLeaning: 0.5
-  _leanIndicator: {fileID: 0}
   _overCommitAngle: 170
   _minSlashAngle: 25
+  _stanceResetTimer: 0
 --- !u!212 &1190968913
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1542,23 +1509,6 @@ MonoBehaviour:
   _useRandomAttackHeight: 0
   _useRandomDirection: 0
   _fromRightSide: 1
---- !u!114 &1190968917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190968904}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbc46a5596820c4da6a2923dacad132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimeToAttack: 5
-  _maxAttackTypes: 0
-  _target: {fileID: 1578538730}
-  _hitCircles: []
-  _isPassive: 1
 --- !u!143 &1190968918
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2142,6 +2092,7 @@ GameObject:
   - component: {fileID: 1578538742}
   - component: {fileID: 1578538743}
   - component: {fileID: 1578538744}
+  - component: {fileID: 1578538745}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -2343,6 +2294,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a8de07a3-0977-4cf8-ad62-e795aa2de345
     m_ActionName: 'Player/SlashUp[/DualShock4GamepadHID/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f04f56b0-cf67-4850-8ad5-2dc5ca13934d
+    m_ActionName: 'Player/AttackOnBlock[/DualShock4GamepadHID/rightTrigger]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2455,11 +2410,9 @@ MonoBehaviour:
   SlashUp: 0
   SlashDown: 0
   _slashStrength: 3
-  _leaningSpeed: 2
-  _MaxTimeNotLeaning: 0.5
-  _leanIndicator: {fileID: 0}
   _overCommitAngle: 170
   _minSlashAngle: 25
+  _stanceResetTimer: 0
 --- !u!114 &1578538738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,16 +2506,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shield: {fileID: 947690006}
   _attacker: {fileID: 1190968904}
-  _useShieldAction: {fileID: -5536015962278738975, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _blockInputAction: {fileID: -3185918567908105075, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _txtBlockPower: {fileID: 1877490629}
   _radius: 1
-  _powerReducer: 20
+  _powerReducer: 4
   _maxTimeHoldBlock: 0.15
   _parryAngle: 1.4
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _parryZone: {fileID: 57567210}
 --- !u!114 &1578538743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2592,6 +2542,18 @@ MonoBehaviour:
   _layersToInteractWith:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &1578538745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578538730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e3dd46015056c46a66989f105398fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1580030377
 GameObject:
   m_ObjectHideFlags: 0
@@ -3999,3 +3961,4 @@ SceneRoots:
   - {fileID: 1122628764}
   - {fileID: 1877490631}
   - {fileID: 1580030380}
+  - {fileID: 2004468711}

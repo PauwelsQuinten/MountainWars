@@ -9,8 +9,6 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 loadDirection = Vector2.zero;
     private Vector2 slashDirection = Vector2.zero;
 
-    private SlashState state = SlashState.Windup;
-    private SlashDirection slashState = SlashDirection.Neutral;
     private AttackStance _currentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
     private AttackType _currentAttackType = AttackType.None;
@@ -554,4 +552,6 @@ public class AimingInput2 : MonoBehaviour
         _currentStanceState = stance;
         _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
+
+    
 }
