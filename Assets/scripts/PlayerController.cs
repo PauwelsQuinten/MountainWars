@@ -2,6 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//---------------------------------------------------
+//PROTOTYPE NOTES
+//-first: use RTrigger to lock the guard if held previously.
+//-second: use R analog button to lock guard if held previously
+
 public enum FightStyle
 {
     Sword,
@@ -118,27 +123,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    #region FightStyle
+
+    #region FightStyle (prototype 1)
+
     private void _attackGuard_performed(InputAction.CallbackContext context)
     {
-        if (_fightStyle == FightStyle.Shield)
-        {
-            _shield.HoldBlock(true);
-            _fightStyle = FightStyle.Combo;
-        }
+        AttackGuardMode(true);
     }
 
     private void _attackGuard_Canceled(InputAction.CallbackContext context)
     {
-        _shield.ActivateBlock(false);
+        AttackGuardMode(false);
 
-        if (_guardAction.IsPressed())
-            _fightStyle = FightStyle.Shield;
-        else
+    }
+    
+    private void _gaurdAction_IsInProgress(InputAction.CallbackContext context)
+    {
+        if (_fightStyle != FightStyle.Combo)
         {
-            _fightStyle = FightStyle.Sword;
-            _shield.HoldBlock(false);
-
+            _fightStyle = FightStyle.Shield;
+            _shield.ActivateBlock(true);
         }
 
     }
@@ -153,12 +157,34 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void _gaurdAction_IsInProgress(InputAction.CallbackContext context)
+
+    private void AttackGuardMode(bool start)
     {
-        if (_fightStyle != FightStyle.Combo)
+        if (start)
         {
-            _fightStyle = FightStyle.Shield;
-            _shield.ActivateBlock(true);
+            if (_fightStyle == FightStyle.Shield)
+            {
+                _shield.HoldBlock(true);
+                _fightStyle = FightStyle.Combo;
+            }
+        }
+        else
+        {
+            _shield.HoldBlock(false);
+
+            if (_guardAction.IsPressed())
+            {
+                _fightStyle = FightStyle.Shield;
+                _shield.ActivateBlock(true);
+            }
+
+            else
+            {
+                _fightStyle = FightStyle.Sword;
+                _shield.ActivateBlock(false);
+
+            }
+
         }
 
     }
@@ -167,6 +193,38 @@ public class PlayerController : MonoBehaviour
 
     //---------------------------------------------------------------
     //SIMPLE EVENT CALL FUNCTIONS
+    #region AnalogClicks (prototype2)
+
+    private void _aimHead_performed(InputAction.CallbackContext obj)
+    {
+        if (_fightStyle ==FightStyle.Shield)
+        {
+            _fightStyle = FightStyle.Combo;
+            _shield.HoldBlock(true);
+        }
+        else
+        {
+            AttackGuardMode(false);
+            _Sword.ChangeStance(AttackStance.Head);
+        }
+    }
+ 
+    private void _aimFeet_performed(InputAction.CallbackContext obj)
+    {
+        if (_fightStyle == FightStyle.Shield)
+        {
+            _fightStyle = FightStyle.Combo;
+            _shield.HoldBlock(true);
+        }
+        else
+        {
+            AttackGuardMode(false);
+            _Sword.ChangeStance(AttackStance.Legs);
+        }
+
+    }
+
+    #endregion AnalogClicks
 
     #region MyRegion
     private void _slashUp_canceled(InputAction.CallbackContext obj)
@@ -188,17 +246,6 @@ public class PlayerController : MonoBehaviour
     {
         _Sword.SlashDown = true;
     }
-
-    private void _aimHead_performed(InputAction.CallbackContext obj)
-    {
-        _Sword.ChangeStance(AttackStance.Head);
-    }
-
-    private void _aimFeet_performed(InputAction.CallbackContext obj)
-    {
-        _Sword.ChangeStance(AttackStance.Legs);
-    }
-
     private void _moveAction_performed(InputAction.CallbackContext obj)
     {
         _characterMovement.SetInputDirection(_moveAction.ReadValue<Vector2>());
