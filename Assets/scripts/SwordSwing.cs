@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 public class SwordSwing : MonoBehaviour
@@ -7,16 +8,33 @@ public class SwordSwing : MonoBehaviour
     [SerializeField] float _swingAngle = 90.0f;
     [SerializeField] float _anglePerspective = 71.0f;
     [SerializeField] private GameObject _target;
+    [SerializeField] private LayerMask _targetMask;
 
     private WalkAnimate _animationRef;
+    private SphereCollider _targetCollider;
 
     private bool _isSwinging = false;
     private Vector2 _defaultPosition;
-    private float  _startSwingAngle = 0.0f;
+    private float _startSwingAngle = 0.0f;
     private int _swingDirection = 0;
     private float _defaultAngle;
     private float _currentAngleMovement = 0.0f;
     private AttackStance _attackStance;
+
+    public EventHandler OnStopHit;
+    public EventHandler<HitEventArgs> OnStartHit;
+    public class HitEventArgs : EventArgs
+    {
+        public AttackStance AttackHeight { get; }
+        public int Direction { get; }
+
+        public HitEventArgs(AttackStance param1, int param2)
+        {
+            AttackHeight = param1;
+            Direction = param2;
+        }
+    }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,7 +42,9 @@ public class SwordSwing : MonoBehaviour
         _animationRef = GetComponent<WalkAnimate>();
         _defaultAngle = _sword.transform.rotation.eulerAngles.z;
         _defaultPosition = _sword.transform.position;
-
+        _targetCollider = gameObject.AddComponent<SphereCollider>();
+        _targetCollider.isTrigger = false;
+        _targetCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -84,19 +104,23 @@ public class SwordSwing : MonoBehaviour
 
     private void Swing()
     {
+        MoveHitCollider();
+
         _currentAngleMovement += _swingSpeed * Time.fixedDeltaTime;
         _sword.transform.Rotate(0.0f, 0.0f, _swingDirection * _swingSpeed * Time.fixedDeltaTime);
         //_sword.transform.rotation = Quaternion.Euler(_anglePerspective, 0.0f, _sword.transform.rotation.z);
         float angle = _sword.transform.rotation.eulerAngles.z;
         float diff = _startSwingAngle + _swingDirection * angle;
 
-        if (_currentAngleMovement > _swingAngle*1.5f)
+        if (_target && _currentAngleMovement > _swingAngle*1.5f)
         {
+            //OnStopHit?.Invoke(this, EventArgs.Empty);
             Blocking blocker = _target.GetComponent<Blocking>();
             blocker.StopParryTime();
         }
-        else if (_currentAngleMovement > _swingAngle*0.85f)
+        else if (_target && _currentAngleMovement > _swingAngle*0.85f)
         {
+            //OnStartHit?.Invoke(this, new HitEventArgs(_attackStance, _swingDirection));
             Blocking blocker = _target.GetComponent<Blocking>();
             if (blocker.StartHit(_attackStance, _swingDirection))
             {
@@ -111,14 +135,40 @@ public class SwordSwing : MonoBehaviour
         {
             SetIdle();
         }
-       
     }
+       
+    //public void GetKnocked()
+    //{
+    //    SetIdle();
+    //    _animationRef.GetHit();
+    //}
 
+    private void MoveHitCollider()
+    {
+        float radius = 1.7f;
+        float orientation = _animationRef.GetOrientation();
+        _targetCollider.center = new Vector3(Mathf.Cos(orientation) * radius, Mathf.Sin(orientation) * radius, 0.0f);
+
+        Collider[] hitColliders = Physics.OverlapSphere(_targetCollider.center, _targetCollider.radius, _targetMask);
+        bool foundTarget = false; 
+        foreach (Collider hitCollider in hitColliders)
+        {
+            if (_target == null && hitCollider is CharacterController)
+            {
+                _target = hitCollider.gameObject;
+                foundTarget = true;
+                break;
+            }
+            else if (_target != null &&!foundTarget && hitCollider is not CharacterController)
+                _target = null;
+        }
+        if (hitColliders.Length == 0)
+            _target = null; 
+    }
 
     private void SetIdle()
     {
         float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
-
 
         _isSwinging = false;
         _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, _defaultAngle + orientationDegree -90f);
@@ -142,8 +192,7 @@ public class SwordSwing : MonoBehaviour
             _sword.transform.Rotate(_anglePerspective, 0f, 0f);        
             
         }
-
     }
 
-    
+
 }

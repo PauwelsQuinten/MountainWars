@@ -59,8 +59,7 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 loadDirection = Vector2.zero;
     private Vector2 slashDirection = Vector2.zero;
 
-    private SlashState state = SlashState.Windup;
-    private SlashDirection slashState = SlashDirection.Neutral;
+    
     private AttackStance _currentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
     private AttackType _currentAttackType = AttackType.None;
@@ -161,11 +160,16 @@ public class AimingInput2 : MonoBehaviour
         AnalogAiming4();
     }
 
+    public void SetInputDirection(Vector2 input)
+    {
+        _direction = input;
+    }
+
     private void AnalogAiming4()
     {
         //get angle
-        if (AimAction)
-            _direction = AimAction.action.ReadValue<Vector2>();
+        /*if (AimAction)
+            _direction = AimAction.action.ReadValue<Vector2>();*/
         float newLength = _direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(_direction.y, _direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;

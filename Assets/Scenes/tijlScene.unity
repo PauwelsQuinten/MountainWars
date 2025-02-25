@@ -1520,7 +1520,10 @@ MonoBehaviour:
   _swingSpeed: 300
   _swingAngle: 120
   _anglePerspective: 60
-  _target: {fileID: 1578538730}
+  _target: {fileID: 0}
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &1190968916
 MonoBehaviour:
   m_ObjectHideFlags: 0

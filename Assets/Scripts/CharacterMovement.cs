@@ -24,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update()
     {
-        GetInput();
+        //GetInput();
         Move();
         SetRotation();
     }
@@ -33,6 +33,11 @@ public class CharacterMovement : MonoBehaviour
     {
         if (_movementAction)
             _movement = _movementAction.action.ReadValue<Vector2>();
+    }
+
+    public void SetInputDirection(Vector2 direction)
+    {
+        _movement = direction;
     }
 
     private void Move()
