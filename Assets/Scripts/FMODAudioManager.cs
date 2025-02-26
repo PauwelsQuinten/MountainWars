@@ -32,13 +32,6 @@ public class FMODAudioManager : MonoBehaviour
     public EventReference Reverb => _reverb;
     [SerializeField] private EventReference _reverb;
     
-    public EventReference MainReverb => _mainReverb;
-    [SerializeField] private EventReference _mainReverb;
-    public EventReference CaveReverb => _caveReverb;
-    [SerializeField] private EventReference _caveReverb;
-    public EventReference HouseReverb => _houseReverb;
-    [SerializeField] private EventReference _houseReverb;
-    
     [SerializeField] private EventReference _braam;
     public EventReference Braam => _braam;
 

@@ -520,27 +520,6 @@ MonoBehaviour:
       Data3: -1804302693
       Data4: 83767355
     Path: event:/Reverb
-  _mainReverb:
-    Guid:
-      Data1: 1905160234
-      Data2: 1081820009
-      Data3: 174168758
-      Data4: 139533731
-    Path: snapshot:/MainReverb
-  _caveReverb:
-    Guid:
-      Data1: 914903728
-      Data2: 1122255552
-      Data3: 786892982
-      Data4: -119376873
-    Path: snapshot:/CaveReverb
-  _houseReverb:
-    Guid:
-      Data1: -1216497249
-      Data2: 1106734570
-      Data3: -2084274541
-      Data4: -1706147000
-    Path: snapshot:/HouseReverb
   _braam:
     Guid:
       Data1: 1301568869

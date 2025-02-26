@@ -1,6 +1,8 @@
+using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private EventInstance _groundInstance;
     private int _surfaceType = 0;
     private bool isGrounded = false;
-
+    private ATTRIBUTES_3D attributes;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask groundLayer;
 
@@ -19,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _surfaceType = FMODAudioManager.instance.SurfaceType;
         _groundInstance = RuntimeManager.CreateInstance(FMODAudioManager.instance.Ground);
+        attributes = FMODUnity.RuntimeUtils.To3DAttributes(transform);
+        _groundInstance.set3DAttributes(attributes);
+
     }
 
     void Update()

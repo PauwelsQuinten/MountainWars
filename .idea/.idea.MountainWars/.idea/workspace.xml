@@ -7,8 +7,9 @@
     <list default="true" id="766a9715-31b3-4479-9cf0-c70e7ba75ea4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioTestPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioTestPlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/FMODAudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FMODAudioManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Reverb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Reverb.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,15 +83,13 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="10404">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="10404" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -117,7 +116,8 @@
       <workItem from="1740146818366" duration="1211000" />
       <workItem from="1740148056184" duration="1942000" />
       <workItem from="1740385514454" duration="13846000" />
-      <workItem from="1740490396248" duration="7754000" />
+      <workItem from="1740490396248" duration="8603000" />
+      <workItem from="1740564508246" duration="4312000" />
     </task>
     <servers />
   </component>
