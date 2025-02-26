@@ -33,7 +33,6 @@ public class LockOnTest1 : MonoBehaviour
         if (_lockonTarget == collision.gameObject)
         {
             _walkAnimate.LockOn(null);
-            Debug.Log($"Leave {collision.gameObject.layer}");
         }
     }
 

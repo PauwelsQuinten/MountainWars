@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private SwordParry _SwordParry;
 
     private FightStyle _fightStyle = FightStyle.Sword;
-
+    private Vector2 _storedInput = Vector2.zero;
 
     #region Initialising
     void Start()
@@ -108,8 +108,9 @@ public class PlayerController : MonoBehaviour
         }
         else 
         {
-            _Sword.Direction = _aimAction.ReadValue<Vector2>();
-            _SwordParry.SetSwordMovent(_aimAction.ReadValue<Vector2>());
+            _storedInput = _aimAction.ReadValue<Vector2>();
+            _Sword.Direction = _storedInput;
+            _SwordParry.SetSwordMovent(_storedInput);
         }
 
     }
@@ -122,6 +123,7 @@ public class PlayerController : MonoBehaviour
         }
         else 
         {
+            _storedInput = Vector2.zero;
             _Sword.Direction = Vector2.zero;
             _SwordParry.SetSwordMovent(Vector2.zero);
         }
@@ -257,7 +259,24 @@ public class PlayerController : MonoBehaviour
     }
     private void _moveAction_performed(InputAction.CallbackContext obj)
     {
-        _characterMovement.SetInputDirection(_moveAction.ReadValue<Vector2>());
+        float speed = 1.0f;
+        switch(_fightStyle)
+        {
+            case FightStyle.Shield:
+                speed = 0.4f;
+                break;
+            case FightStyle.Combo:
+                speed = (_storedInput.magnitude > 0.2f)? 0f : 0.4f;
+                break;
+            case FightStyle.Sword:
+                speed = (_storedInput.magnitude > 0.2f)? 0f : 1f;
+                break;
+            default:
+                break;
+        }
+
+        
+        _characterMovement.SetInputDirection(_moveAction.ReadValue<Vector2>() * speed);
     }
 
     private void _moveAction_Canceled(InputAction.CallbackContext obj)
