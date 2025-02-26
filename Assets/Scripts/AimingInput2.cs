@@ -82,11 +82,13 @@ public class AimingInput2 : MonoBehaviour
     private WalkAnimate _WalkOrientation;
     private float _orientationAngle;
 
-    private Vector2 _faintStart;
+    private float _feintStartAngle;
     [SerializeField] private string _attackMessage;
     [SerializeField] private string _attackPower;
 
     private LockOnTest1 _lockOnScript;
+    private bool _feinted;
+    private bool _attemptedAttack;
 
     private void Start()
     {
@@ -425,12 +427,9 @@ public class AimingInput2 : MonoBehaviour
         bool canRun = false;
         if (drawLength >= 0.97f)
         {
-            if (_faintStart == Vector2.zero) _faintStart = Direction;
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
             canRun = true;
-
-            float cross = Direction.x * _faintStart.x + Direction.y * _faintStart.y;
 
             if ((int)_slashAngle <= newAngle)
             {
@@ -444,23 +443,35 @@ public class AimingInput2 : MonoBehaviour
                 }
                 else if (_checkFeint && _startDirection == -1)
                 {
-                    if(cross < 0) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
-                    else _checkFeint = false;
+                    if(_feintStartAngle < currentangle - 90f) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    else
+                    {
+                        _feinted = false;
+                        _checkFeint = false;
+                        _feintStartAngle = 0f;
+                    }
                 }
                 else if (_checkFeint && _startDirection == 1) 
                 {
-                    if (cross > 0) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
-                    else _checkFeint = false;
+                    if (_feintStartAngle > currentangle - 90f) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    else 
+                    {
+                        _feinted = false;
+                        _checkFeint = false;
+                        _feintStartAngle = 0f;
+                    }
                 }
             }
             else if (canRun)
             {
-                if(_slashAngle > 15) _checkFeint = true;
+                if (_feintStartAngle == 0 && _slashAngle > 15) _feintStartAngle = currentangle - 90;
+                if (_slashAngle > 15 && _attemptedAttack) _checkFeint = true;
                 CheckAttack();
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;
                 canRun = false;
+                _attemptedAttack = true;
             }
         }
         else if(canRun)
@@ -469,7 +480,7 @@ public class AimingInput2 : MonoBehaviour
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
-            _faintStart = Vector2.zero;
+            _feintStartAngle = 0;
             canRun = false;
             CurrentStanceState = AttackStance.Torso;
         }
@@ -488,6 +499,13 @@ public class AimingInput2 : MonoBehaviour
             if (CurrentAttackType == Possebility)
             {
                 CurrentAttackType = Possebility;
+                if (_feinted) 
+                {
+                    _feinted = false;
+                    _checkFeint = false;
+                    _feintStartAngle = 0f;
+                    return;
+                }
                 Attack();
                 SetPreviousAttacks();
                 return;
@@ -525,6 +543,7 @@ public class AimingInput2 : MonoBehaviour
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
+            _feintStartAngle = 0;
             return true;
         }
         return false;
@@ -538,6 +557,8 @@ public class AimingInput2 : MonoBehaviour
             Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
+            _feinted = true;
+            _attemptedAttack = false;
             return true;
         }
         return false;
@@ -560,7 +581,7 @@ public class AimingInput2 : MonoBehaviour
         Sprite sword = _sword.GetComponent<SpriteRenderer>().sprite;
         float swordlength = Mathf.Sqrt((sword.rect.width * sword.rect.width) + (sword.rect.height * sword.rect.height));
         float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
-        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
+        //if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
     }
 
     private void SwordVisual(float angle)
