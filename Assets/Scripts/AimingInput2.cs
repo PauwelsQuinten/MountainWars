@@ -280,7 +280,7 @@ public class AimingInput2 : MonoBehaviour
 
         if (angle > 110.0f + _orientationAngle - 90f || angle < 70.0f + _orientationAngle - 90f)
         {
-            //_currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : _currentAttackType;
+            //_currentAttackType = (_currentAttackType == AttackType.Swing) ? AttackType.HorizontalSlashLeft : _currentAttackType;
             CurrentAttackType = AttackType.HorizontalSlashLeft;
             _isAttackSet = true;
         }

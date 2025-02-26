@@ -317,7 +317,7 @@ public class Blocking : MonoBehaviour
             _currentParryAngle = 0.0f;
             _startParryVector = _blockInputDirection;
 
-            if (_currentParryChance == ParryChanceState.None)
+            if (_currentParryChance == ParryChanceState.None || direction == 0)
             {
                 Debug.Log("Wrong start height");
                 _currentParryChance = ParryChanceState.Stop;
@@ -359,10 +359,19 @@ public class Blocking : MonoBehaviour
 
     private bool SuccesFullBlock(AttackStance height, int direction)
     {
+        float maxAcceptedAngle = 90.0f;
+        float minAcceptedAngle = 30.0f;
+        if (direction == 0)
+        {
+            maxAcceptedAngle = 30f;
+            minAcceptedAngle = 0.0f;
+        }
+
         float orientation = _animator.GetOrientation();
         Vector2 orientationVector = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
         float cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
-        return (cross * direction > 0 && Vector2.Angle(orientationVector, _blockInputDirection) < 90f);
+        float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
+        return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
     }
 
     private void FollowTarget()

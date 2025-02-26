@@ -20,6 +20,8 @@ public class SwordSwing : MonoBehaviour
     private float _defaultAngle;
     private float _currentAngleMovement = 0.0f;
     private AttackStance _attackStance;
+    private Vector3 _currentOrientationVector;
+    private Vector3 _startStabVector;
 
     public EventHandler OnStopHit;
     public EventHandler<HitEventArgs> OnStartHit;
@@ -53,7 +55,7 @@ public class SwordSwing : MonoBehaviour
 
         if (_isSwinging)
         {
-            Swing();
+            Attack();
         }
         else
             PointToTarget();
@@ -71,7 +73,8 @@ public class SwordSwing : MonoBehaviour
         _sword.transform.position = new Vector3(_sword.transform.position.x, height, 0.0f);
 
         //AdjustHeightPerspective();
-        float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
+        float orientation = (_animationRef) ? _animationRef.GetOrientation()  : 0.0f;
+        float orientationDegree = orientation * Mathf.Rad2Deg;
         float rotation = startDirection * _swingAngle;
 
         switch (attackType)
@@ -79,7 +82,7 @@ public class SwordSwing : MonoBehaviour
             case AttackType.HorizontalSlashLeft:
             case AttackType.HorizontalSlashRight:
                //minus the 90 degree because default is North
-                _sword.transform.Rotate(0.0f, 0.0f, rotation);
+                _sword.transform.Rotate(0.0f, 0.0f, orientationDegree);
                 _startSwingAngle = _sword.transform.rotation.eulerAngles.z;
                 break;
             case AttackType.UpperSlashRight:
@@ -87,47 +90,71 @@ public class SwordSwing : MonoBehaviour
                 break;
             case AttackType.DownSlashRight:
             case AttackType.DownSlashLeft:
-                //minus the 90 degree because default is North
-                _sword.transform.Rotate(0.0f, 0.0f, rotation);
-                _sword.transform.Rotate(0.0f, rotation, 0.0f);
-                _startSwingAngle = _sword.transform.rotation.eulerAngles.z;
+                
                 break;
             case AttackType.StraightUp:
             case AttackType.StraightDown:
                 break;
             case AttackType.Stab:
+                _currentOrientationVector = new Vector3(Mathf.Cos(orientation), Mathf.Sin(orientation), 0f);
+                _sword.transform.position -= _currentOrientationVector * 0.75f;
+                _startStabVector = _sword.transform.position;
+                _swingDirection = 0;
                 break;
             case AttackType.None:
                 break;
         }
     }
 
-    private void Swing()
+    private void Attack()
     {
         MoveHitCollider();
 
-        _currentAngleMovement += _swingSpeed * Time.fixedDeltaTime;
-        _sword.transform.Rotate(0.0f, 0.0f, _swingDirection * _swingSpeed * Time.fixedDeltaTime);
-        //_sword.transform.rotation = Quaternion.Euler(_anglePerspective, 0.0f, _sword.transform.rotation.z);
-        float angle = _sword.transform.rotation.eulerAngles.z;
-        float diff = _startSwingAngle + _swingDirection * angle;
+        if (_swingDirection == 0)
+            Stab();
 
-        if (_target && _currentAngleMovement > _swingAngle*1.5f)
+        else
+            Swing();
+    }
+
+    private void Stab()
+    {
+        _currentAngleMovement += 1.5f * Time.fixedDeltaTime;
+        _sword.transform.position = _startStabVector + _currentOrientationVector * _currentAngleMovement;
+
+        if (_currentAngleMovement > 1.5f)
+            SetIdle();
+        else if (_currentAngleMovement > 0.85f)
         {
-            //OnStopHit?.Invoke(this, EventArgs.Empty);
-            Blocking blocker = _target.GetComponent<Blocking>();
-            blocker.StopParryTime();
-        }
-        else if (_target && _currentAngleMovement > _swingAngle*0.85f)
-        {
-            //OnStartHit?.Invoke(this, new HitEventArgs(_attackStance, _swingDirection));
             Blocking blocker = _target.GetComponent<Blocking>();
             if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
                 SetIdle();
                 _animationRef.GetHit();
             }
+        }
+    }
 
+    private void Swing()
+    {
+        _currentAngleMovement += _swingSpeed * Time.fixedDeltaTime;
+        _sword.transform.Rotate(0.0f, 0.0f, _swingDirection * _swingSpeed * Time.fixedDeltaTime);
+        float angle = _sword.transform.rotation.eulerAngles.z;
+        float diff = _startSwingAngle + _swingDirection * angle;
+
+        if (_target && _currentAngleMovement > _swingAngle * 1.5f)
+        {
+            Blocking blocker = _target.GetComponent<Blocking>();
+            blocker.StopParryTime();
+        }
+        else if (_target && _currentAngleMovement > _swingAngle * 0.85f)
+        {
+            Blocking blocker = _target.GetComponent<Blocking>();
+            if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
+            {
+                SetIdle();
+                _animationRef.GetHit();
+            }
         }
 
 
@@ -136,7 +163,7 @@ public class SwordSwing : MonoBehaviour
             SetIdle();
         }
     }
-       
+
     //public void GetKnocked()
     //{
     //    SetIdle();

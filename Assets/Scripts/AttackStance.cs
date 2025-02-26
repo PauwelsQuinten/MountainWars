@@ -1,6 +1,6 @@
 ﻿public enum AttackStance
 {
-    Head,
-    Torso,
-    Legs
+    Head =1,
+    Torso = 0,
+    Legs=-1
 }

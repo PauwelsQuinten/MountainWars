@@ -155,7 +155,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Stab"",
+                    ""name"": ""Swing"",
                     ""type"": ""Button"",
                     ""id"": ""80bcd864-3c44-42d8-8507-d5d5a8f7ad09"",
                     ""expectedControlType"": """",
@@ -566,7 +566,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Stab"",
+                    ""action"": ""Swing"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1282,7 +1282,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Slash = m_Player.FindAction("Slash", throwIfNotFound: true);
-        m_Player_Stab = m_Player.FindAction("Stab", throwIfNotFound: true);
+        m_Player_Stab = m_Player.FindAction("Swing", throwIfNotFound: true);
         m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
         m_Player_SelectUpper = m_Player.FindAction("SelectUpper", throwIfNotFound: true);
         m_Player_SelectMiddle = m_Player.FindAction("SelectMiddle", throwIfNotFound: true);
@@ -1448,7 +1448,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Slash => m_Wrapper.m_Player_Slash;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Stab".
+        /// Provides access to the underlying input action "Player/Swing".
         /// </summary>
         public InputAction @Stab => m_Wrapper.m_Player_Stab;
         /// <summary>
@@ -2006,7 +2006,7 @@ public partial class @AimInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSlash(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Stab" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Swing" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
