@@ -60,6 +60,12 @@ public class AIController : MonoBehaviour
         _animator.Parried();
 
     }
+    
+    public void Disarmed()
+    {
+        _animator.Disarmed();
+
+    }
 
     // Update is called once per frame
     void Update()

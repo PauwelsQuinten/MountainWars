@@ -134,7 +134,7 @@ public class SwordSwing : MonoBehaviour
 
         }
 
-        else if (_target && _currentAngleMovement > 1.05f)
+        else if (_target && _currentAngleMovement > 1.25f)
         {
             Blocking blocker = _target.GetComponent<Blocking>();
             SwordParry swordParry = _target.GetComponent<SwordParry>();

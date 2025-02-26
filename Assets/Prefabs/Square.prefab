@@ -842,4 +842,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parryAngle: 60
+  _parryAngle: 45
+  _timeForDisarming: 1
