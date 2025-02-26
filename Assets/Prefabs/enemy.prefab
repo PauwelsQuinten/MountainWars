@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 6121863959210014125}
   - component: {fileID: 8991820935436539667}
   - component: {fileID: 7001357602489952156}
+  - component: {fileID: 5738643356528873569}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sword: {fileID: 8838536944917441207}
   _swingSpeed: 300
+  _stabSpeed: 5
   _swingAngle: 120
   _anglePerspective: 60
   _target: {fileID: 0}
@@ -319,6 +321,19 @@ MonoBehaviour:
   _layersToInteractWith:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &5738643356528873569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parryAngle: 50
 --- !u!1 &7598009601137933699
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class SwordSwing : MonoBehaviour
 {
     [SerializeField] GameObject _sword;
     [SerializeField] float _swingSpeed = 25f;
+    [SerializeField] float _stabSpeed = 25f;
     [SerializeField] float _swingAngle = 90.0f;
     [SerializeField] float _anglePerspective = 71.0f;
     [SerializeField] private GameObject _target;
@@ -119,16 +120,31 @@ public class SwordSwing : MonoBehaviour
 
     private void Stab()
     {
-        _currentAngleMovement += 1.5f * Time.fixedDeltaTime;
+        _currentAngleMovement +=_stabSpeed * Time.fixedDeltaTime;
         _sword.transform.position = _startStabVector + _currentOrientationVector * _currentAngleMovement;
 
-        if (_currentAngleMovement > 1.5f)
+        if (_currentAngleMovement > 2.0f)
+        {
             SetIdle();
-        else if (_currentAngleMovement > 0.85f)
+            if (_target)
+            {
+                SwordParry swordParry = _target.GetComponent<SwordParry>();
+                swordParry.StartParry(false, null);
+            }
+
+        }
+
+        else if (_target && _currentAngleMovement > 1.05f)
         {
             Blocking blocker = _target.GetComponent<Blocking>();
-            if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
+            SwordParry swordParry = _target.GetComponent<SwordParry>();
+            if (swordParry && swordParry.IsParrying())
             {
+                swordParry.StartParry(true, gameObject);
+            }
+            else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
+            {
+                //attack was succesfully blocked
                 SetIdle();
                 _animationRef.GetHit();
             }
@@ -193,7 +209,7 @@ public class SwordSwing : MonoBehaviour
             _target = null; 
     }
 
-    private void SetIdle()
+    public void SetIdle()
     {
         float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
 

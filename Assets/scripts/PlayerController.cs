@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private CharacterMovement _characterMovement;
     private Blocking _shield;
     private AimingInput2 _Sword;
+    private SwordParry _SwordParry;
 
     private FightStyle _fightStyle = FightStyle.Sword;
 
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         //_shield = GetComponent<Shield>();
         _shield = GetComponent<Blocking>();
         _Sword = GetComponent<AimingInput2>();
+        _SwordParry = GetComponent<SwordParry>();
     }
 
     private void OnEnable()
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
         else 
         {
             _Sword.Direction = _aimAction.ReadValue<Vector2>();
+            _SwordParry.SetSwordMovent(_aimAction.ReadValue<Vector2>());
         }
 
     }
@@ -120,6 +123,7 @@ public class PlayerController : MonoBehaviour
         else 
         {
             _Sword.Direction = Vector2.zero;
+            _SwordParry.SetSwordMovent(Vector2.zero);
         }
     }
 
@@ -128,13 +132,18 @@ public class PlayerController : MonoBehaviour
 
     private void _attackGuard_performed(InputAction.CallbackContext context)
     {
-        AttackGuardMode(true);
+        if (_fightStyle == FightStyle.Sword)
+            _SwordParry.StartParryMode(true);
+        else
+            AttackGuardMode(true);
     }
 
     private void _attackGuard_Canceled(InputAction.CallbackContext context)
     {
-        AttackGuardMode(false);
-
+        if (_fightStyle == FightStyle.Sword)
+            _SwordParry.StartParryMode(false);
+        else
+            AttackGuardMode(false);
     }
     
     private void _gaurdAction_IsInProgress(InputAction.CallbackContext context)

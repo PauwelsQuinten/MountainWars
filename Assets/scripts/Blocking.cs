@@ -223,6 +223,7 @@ public class Blocking : MonoBehaviour
                 _currentParryChance = ParryChanceState.Succes;
                 AIController attComp = _attacker.GetComponent<AIController>();
                 attComp.Parried();
+                _attacker = null;
             }
 
             return true;
@@ -264,9 +265,9 @@ public class Blocking : MonoBehaviour
                 else
                 {
                     //_attacker.GetComponent<SwordSwing>().GetKnocked();
-
                     return true;
                 }
+                _attacker = null;
                 break;
             case BlockState.Broken:
                 //would be cruel to get hit when broken
@@ -369,8 +370,11 @@ public class Blocking : MonoBehaviour
 
         float orientation = _animator.GetOrientation();
         Vector2 orientationVector = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
-        float cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
-        float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
+        float cross = orientationVector.x * _shield.transform.localPosition.y - orientationVector.y * _shield.transform.localPosition.x;
+        //cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
+        float blockAngle = Vector2.Angle(orientationVector, _shield.transform.localPosition);
+        //float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
+
         return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
     }
 
@@ -382,8 +386,6 @@ public class Blocking : MonoBehaviour
        //newAngle *= Mathf.Rad2Deg;
        Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
        _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
-
-       Debug.Log($"start: {_angleDiffWithOrientation}, new: {newAngle}");
        
     }
 

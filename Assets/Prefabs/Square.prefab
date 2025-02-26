@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 5495266006063797764}
   - component: {fileID: 716812571052693609}
   - component: {fileID: 9033597014177533533}
+  - component: {fileID: 4342285136588083338}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -601,7 +602,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8330242531137365103}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
@@ -829,3 +830,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e3dd46015056c46a66989f105398fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4342285136588083338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330242531137365103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parryAngle: 60
