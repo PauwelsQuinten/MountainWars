@@ -16,7 +16,6 @@ public class FindPossibleAttacks : MonoBehaviour
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
@@ -26,12 +25,9 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.StraightDown);
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -48,7 +44,6 @@ public class FindPossibleAttacks : MonoBehaviour
                     case AttackStance.Head:
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.StraightDown);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
@@ -58,12 +53,9 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.StraightDown);
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -78,7 +70,6 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -88,7 +79,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -98,7 +88,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
@@ -109,7 +98,6 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -119,7 +107,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -129,7 +116,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
@@ -140,7 +126,6 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -150,7 +135,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -160,7 +144,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -175,7 +158,6 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -185,7 +167,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -195,76 +176,12 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
                         _possibleAttacks.Add(AttackType.HorizontalSlashRight);
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-                        break;
-                }
-                break;
-            case AttackType.StraightUp:
-                switch (stance)
-                {
-                    case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightDown);
-                        _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-
-                        break;
-                    case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
-                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-                        break;
-                    case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
-                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-                        break;
-                }
-                break;
-            case AttackType.StraightDown:
-                switch (stance)
-                {
-                    case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
-                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-                        break;
-                    case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
-                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _possibleAttacks.Add(AttackType.UpperSlashRight);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
-                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
-                        _possibleAttacks.Add(AttackType.DownSlashLeft);
-                        _possibleAttacks.Add(AttackType.DownSlashRight);
-                        _possibleAttacks.Add(AttackType.Stab);
-                        break;
-                    case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
-                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
-                        _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                 }
@@ -288,7 +205,6 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -298,7 +214,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
@@ -308,7 +223,6 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.StraightUp);
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.HorizontalSlashLeft);

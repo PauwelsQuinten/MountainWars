@@ -86,6 +86,8 @@ public class AimingInput2 : MonoBehaviour
     [SerializeField] private string _attackMessage;
     [SerializeField] private string _attackPower;
 
+    private LockOnTest1 _lockOnScript;
+
     private void Start()
     {
         InputManager input = FindObjectOfType<InputManager>();
@@ -94,8 +96,9 @@ public class AimingInput2 : MonoBehaviour
         _attackFinder = FindObjectOfType<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
-        _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>(); ;
-        _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>(); ;
+        _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
+        _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
+        _lockOnScript = GetComponent<LockOnTest1>();
 
         //foreach (var hitZone in _hitZones)
         //{
@@ -305,14 +308,12 @@ public class AimingInput2 : MonoBehaviour
                 }
                 else if (SlashDown)
                 {
-                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightDown;
-                    else CurrentAttackType = AttackType.DownSlashRight;
+                    CurrentAttackType = AttackType.DownSlashRight;
                     _isAttackSet = true;
                 }
                 else if (SlashUp)
                 {
-                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightUp;
-                    else CurrentAttackType = AttackType.UpperSlashRight;
+                    CurrentAttackType = AttackType.UpperSlashRight;
                     _isAttackSet = true;
                 }
                 if (CurrentAttackType == AttackType.HorizontalSlashLeft) 
@@ -329,13 +330,11 @@ public class AimingInput2 : MonoBehaviour
                 }
                 else if (SlashDown)
                 {
-                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightDown;
-                    else CurrentAttackType = AttackType.DownSlashLeft;
+                    CurrentAttackType = AttackType.DownSlashLeft;
                     _isAttackSet = true;
                 }
                 else if (SlashUp)
                 {
-                    if (CurrentAttackType == AttackType.Stab) CurrentAttackType = AttackType.StraightUp;
                     CurrentAttackType = AttackType.UpperSlashLeft;
                     _isAttackSet = true;
                 }
@@ -345,46 +344,46 @@ public class AimingInput2 : MonoBehaviour
 
     private void SetHitboxAngle()
     {
-        switch (CurrentAttackType)
-        {
-            case AttackType.HorizontalSlashLeft:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f + 180f);
-                break;
-            case AttackType.HorizontalSlashRight:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                break;
-            case AttackType.DownSlashRight:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
-                break;
-            case AttackType.UpperSlashRight:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
-                break;
-            case AttackType.DownSlashLeft:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f + 180f);
-                break;
-            case AttackType.UpperSlashLeft:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f - 180f);
-                break;
-            case AttackType.Stab:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-                break;
-            case AttackType.StraightUp:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-                break;
-            case AttackType.StraightDown:
-                //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-                //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -90.0f);
-                break;
-            default: break;
-        }
+        //switch (CurrentAttackType)
+        //{
+        //    case AttackType.HorizontalSlashLeft:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f + 180f);
+        //        break;
+        //    case AttackType.HorizontalSlashRight:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        //        break;
+        //    case AttackType.DownSlashRight:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
+        //        break;
+        //    case AttackType.UpperSlashRight:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
+        //        break;
+        //    case AttackType.DownSlashLeft:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f + 180f);
+        //        break;
+        //    case AttackType.UpperSlashLeft:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f - 180f);
+        //        break;
+        //    case AttackType.Stab:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        //        break;
+        //    case AttackType.StraightUp:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+        //        break;
+        //    case AttackType.StraightDown:
+        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
+        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -90.0f);
+        //        break;
+        //    default: break;
+        //}
         //_arrow.transform.position = _hitZones[_currentHitBoxIndex].transform.position;
         //Vector3 arrowAngle = _hitZones[_currentHitBoxIndex].transform.eulerAngles;
         //arrowAngle.z -= 90;
@@ -489,6 +488,7 @@ public class AimingInput2 : MonoBehaviour
             if (CurrentAttackType == Possebility)
             {
                 CurrentAttackType = Possebility;
+                Attack();
                 SetPreviousAttacks();
                 return;
             }
@@ -553,6 +553,14 @@ public class AimingInput2 : MonoBehaviour
         _possibleAttacks.Clear();
 
         _possibleAttacks = _attackFinder.GetpossibleAtack(CurrentStanceState, _previousAttack);
+    }
+
+    private void Attack()
+    {
+        Sprite sword = _sword.GetComponent<SpriteRenderer>().sprite;
+        float swordlength = Mathf.Sqrt((sword.rect.width * sword.rect.width) + (sword.rect.height * sword.rect.height));
+        float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
+        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
     }
 
     private void SwordVisual(float angle)

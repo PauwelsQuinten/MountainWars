@@ -72,9 +72,6 @@ public class SwordSwing : MonoBehaviour
                 _sword.transform.Rotate(0.0f, rotation, 0.0f);
                 _startSwingAngle = _sword.transform.rotation.eulerAngles.z;
                 break;
-            case AttackType.StraightUp:
-            case AttackType.StraightDown:
-                break;
             case AttackType.Stab:
                 break;
             case AttackType.None:

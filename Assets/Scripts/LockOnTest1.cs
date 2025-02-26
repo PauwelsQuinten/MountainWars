@@ -3,7 +3,7 @@ using UnityEngine;
 public class LockOnTest1 : MonoBehaviour
 {
     private SphereCollider _collider;
-    private GameObject _lockonTarget;
+    public GameObject LockOnTarget;
     private WalkAnimate _walkAnimate;
     [SerializeField] private float _lockonRadius;
     [SerializeField] private LayerMask _layersToInteractWith;
@@ -22,7 +22,7 @@ public class LockOnTest1 : MonoBehaviour
     {
         if ((_layersToInteractWith.value &(1<<collision.gameObject.layer)) != 0)
         {
-            _lockonTarget = collision.gameObject;
+            LockOnTarget = collision.gameObject;
             _walkAnimate.LockOn(collision.gameObject);
             //Debug.Log($"Enter {collision.gameObject.layer}");
         }
@@ -30,7 +30,7 @@ public class LockOnTest1 : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        if (_lockonTarget == collision.gameObject)
+        if (LockOnTarget == collision.gameObject)
         {
             _walkAnimate.LockOn(null);
             Debug.Log($"Leave {collision.gameObject.layer}");
