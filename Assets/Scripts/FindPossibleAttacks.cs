@@ -190,14 +190,23 @@ public class FindPossibleAttacks : MonoBehaviour
                 switch (stance)
                 {
                     case AttackStance.Head:
-                        _possibleAttacks.Add(AttackType.None);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Torso:
-                        _possibleAttacks.Add(AttackType.None);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
                         break;
                     case AttackStance.Legs:
-                        _possibleAttacks.Add(AttackType.None);
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.Stab);
                         break;
                 }
                 break;

@@ -289,7 +289,7 @@ public class AimingInput2 : MonoBehaviour
             CurrentAttackType = AttackType.HorizontalSlashLeft;
             _isAttackSet = true;
         }
-        else if(!_isAttackSet)
+        else
         {
             CurrentAttackType = AttackType.Stab;
             _isAttackSet = true;
@@ -394,8 +394,12 @@ public class AimingInput2 : MonoBehaviour
 
     private void Chargepower(float drawAngle)
     {
-        if (drawAngle > (_chargeZone.Item1) + _orientationAngle - 90 
-            && drawAngle < (_chargeZone.Item2) + _orientationAngle - 90)
+        float newOrientationAngle = 0f;
+        if (_orientationAngle < 0) newOrientationAngle = _orientationAngle + 90 + 180;
+        else newOrientationAngle = _orientationAngle - 90;
+
+        if (drawAngle > (_chargeZone.Item1) + newOrientationAngle
+            && drawAngle < (_chargeZone.Item2) + newOrientationAngle)
         {
             _isCharging = true;
             if (_chargedTime < MAX_CHARGE_TIME)
@@ -413,9 +417,11 @@ public class AimingInput2 : MonoBehaviour
 
     private void SetSwingDirection(float drawAngle)
     {
-        float orientationAngle = _orientationAngle - 90f;
+        float newOrientationAngle = 0f;
+        if (_orientationAngle < 0) newOrientationAngle = _orientationAngle + 90 + 180;
+        else newOrientationAngle = _orientationAngle - 90;
         Vector2 drawAngleVector = new Vector2(Mathf.Cos(drawAngle * Mathf.Deg2Rad), Mathf.Sin(drawAngle * Mathf.Deg2Rad));
-        Vector2 orientationVector = new Vector2(Mathf.Cos(orientationAngle * Mathf.Deg2Rad), Mathf.Sin(orientationAngle * Mathf.Deg2Rad));
+        Vector2 orientationVector = new Vector2(Mathf.Cos(newOrientationAngle * Mathf.Deg2Rad), Mathf.Sin(newOrientationAngle * Mathf.Deg2Rad));
         float cross = drawAngleVector.x * orientationVector.x + drawAngleVector.y * orientationVector.y;
 
         if (_startDirection == 0)
@@ -511,19 +517,6 @@ public class AimingInput2 : MonoBehaviour
                 return;
             }
         }
-        //foreach (AttackType overCommit in _OverComitAttacks)
-        //{
-        //    if (_currentAttackType == overCommit)
-        //    {
-        //        _currentAttackType = AttackType.None;
-        //        StopCoroutine(ResetAtackText(0.5f));
-        //        _AttackMessage.text = "Player over commited";
-        //        StartCoroutine(ResetAtackText(0.5f));
-        //        Debug.Log("Player over commited");
-        //        SetPreviousAttacks();
-        //        return;
-        //    }
-        //}
         CurrentAttackType = AttackType.None;
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
@@ -581,7 +574,7 @@ public class AimingInput2 : MonoBehaviour
         Sprite sword = _sword.GetComponent<SpriteRenderer>().sprite;
         float swordlength = Mathf.Sqrt((sword.rect.width * sword.rect.width) + (sword.rect.height * sword.rect.height));
         float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
-        //if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
+        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
     }
 
     private void SwordVisual(float angle)
