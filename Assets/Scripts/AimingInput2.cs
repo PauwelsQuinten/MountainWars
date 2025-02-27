@@ -31,7 +31,6 @@ public class AimingInput2 : MonoBehaviour
 
     //extra state for second prototype
     [SerializeField] private GameObject _sword;
-    [SerializeField] private GameObject _arrow;
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
@@ -89,6 +88,9 @@ public class AimingInput2 : MonoBehaviour
     private LockOnTest1 _lockOnScript;
     private bool _feinted;
     private bool _attemptedAttack;
+    private float _damage;
+    private bool _overcommited;
+    private bool _canRun;
 
     private void Start()
     {
@@ -101,11 +103,6 @@ public class AimingInput2 : MonoBehaviour
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
         _lockOnScript = GetComponent<LockOnTest1>();
-
-        //foreach (var hitZone in _hitZones)
-        //{
-        //    hitZone.SetActive(false);
-        //}
     }
 
     private void Update()
@@ -151,8 +148,6 @@ public class AimingInput2 : MonoBehaviour
 
             CalculateAttackPower(newLength, currentAngleDegree);
 
-            SetHitboxAngle();
-
             //decrease power the longer your arm is stretched out in front
             if ((currentAngleDegree < 110.0f && currentAngleDegree > 70.0f) || newLength < MIN_WINDUP_LENGTH)
             {
@@ -186,72 +181,11 @@ public class AimingInput2 : MonoBehaviour
         //{
         //    hitZone.SetActive(false);
         //}
-        _arrow.SetActive(false);
         if(!_isResetingStance) CurrentStanceState = AttackStance.Torso;
     }
 
     private void SetStance()
     {
-        //_previousStance = _currentStanceState;
-        //if (_previousAttack == AttackType.StraightUp ||
-        //     _previousAttack == AttackType.UpperSlashRight ||
-        //     _previousAttack == AttackType.UpperSlashLeft)
-        //{
-        //    if (_currentStanceState == AttackStance.Legs)
-        //    {
-        //        _currentStanceState = AttackStance.Hips;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if(_currentStanceState == AttackStance.Hips)
-        //    {
-        //        _currentStanceState = AttackStance.Shoulders;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Shoulders)
-        //    {
-        //        _currentStanceState = AttackStance.Head;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //}
-
-        //if (_previousAttack == AttackType.StraightDown ||
-        //     _previousAttack == AttackType.DownSlashLeft ||
-        //     _previousAttack == AttackType.DownSlashRight)
-        //{
-        //    if (_currentStanceState == AttackStance.Head)
-        //    {
-        //        _currentStanceState = AttackStance.Shoulders;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Shoulders)
-        //    {
-        //        _currentStanceState = AttackStance.Hips;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Hips) 
-        //    {
-        //        _currentStanceState = AttackStance.Legs;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //}
-
-        //if (_previousAttack == AttackType.None)
-        //{
-        //    _currentStanceState = AttackStance.Hips;
-        //} 
-        //switch (_currentStanceIndex)
-        //{
-        //    case 0:
-        //        _currentStanceState = AttackStance.Legs;
-        //        break;
-        //    case 1:
-        //        _currentStanceState = AttackStance.Torso;
-        //        break;
-        //    case 2:
-        //        _currentStanceState = AttackStance.Head;
-        //        break;
-        //}
-
         int index = 0;
         //Show hitZone
         switch (CurrentStanceState)
@@ -268,15 +202,6 @@ public class AimingInput2 : MonoBehaviour
 
         }
         _currentHitBoxIndex = index;
-        //_hitZones[index].SetActive(true);
-        _arrow.SetActive(true);
-        //if (_previousAttack != AttackType.None)
-        //{
-        //    _hitZones[index].SetActive(true);
-        //    _arrow.SetActive(true);
-        //}
-
-        SetHitboxAngle();
     }
 
     private void SetAttackType(float drawLength, float angle)
@@ -344,54 +269,6 @@ public class AimingInput2 : MonoBehaviour
         }
     }
 
-    private void SetHitboxAngle()
-    {
-        //switch (CurrentAttackType)
-        //{
-        //    case AttackType.HorizontalSlashLeft:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f + 180f);
-        //        break;
-        //    case AttackType.HorizontalSlashRight:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        //        break;
-        //    case AttackType.DownSlashRight:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f);
-        //        break;
-        //    case AttackType.UpperSlashRight:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f);
-        //        break;
-        //    case AttackType.DownSlashLeft:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 45.0f + 180f);
-        //        break;
-        //    case AttackType.UpperSlashLeft:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -45.0f - 180f);
-        //        break;
-        //    case AttackType.Stab:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(0.45f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        //        break;
-        //    case AttackType.StraightUp:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-        //        break;
-        //    case AttackType.StraightDown:
-        //        //_hitZones[_currentHitBoxIndex].transform.localScale = new Vector3(1.4f, 0.45f, 0.0f);
-        //        //_hitZones[_currentHitBoxIndex].transform.rotation = Quaternion.Euler(0.0f, 0.0f, -90.0f);
-        //        break;
-        //    default: break;
-        //}
-        //_arrow.transform.position = _hitZones[_currentHitBoxIndex].transform.position;
-        //Vector3 arrowAngle = _hitZones[_currentHitBoxIndex].transform.eulerAngles;
-        //arrowAngle.z -= 90;
-        //_arrow.transform.rotation = Quaternion.Euler(arrowAngle);
-    }
-
     private void Chargepower(float drawAngle)
     {
         float newOrientationAngle = 0f;
@@ -430,26 +307,33 @@ public class AimingInput2 : MonoBehaviour
 
     private void CalculateAttackPower(float drawLength, float currentangle)
     {
-        bool canRun = false;
+        if (_feinted) _canRun = false;
         if (drawLength >= 0.97f)
         {
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
-            canRun = true;
 
-            if ((int)_slashAngle <= newAngle)
+            if ((int)_slashAngle < newAngle)
             {
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
+                _canRun = true;
 
                 if (!_checkFeint)
                 {
-                    if (CheckOverCommit()) return;
-                    _texMessage.text = $"Slash power: {(_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime}";
+                    if (CheckOverCommit())
+                    {
+                        _overcommited = true;
+                        return;
+                    }
+                    else _overcommited = false;
+                    _damage = (int)((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5;
+                    _damage = Mathf.Clamp(_damage, 0, 10);
+                    _texMessage.text = $"Slash power: {_damage}";
                 }
                 else if (_checkFeint && _startDirection == -1)
                 {
-                    if(_feintStartAngle < currentangle - 90f) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
+                    if (_feintStartAngle < currentangle - 90f) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
                     else
                     {
                         _feinted = false;
@@ -457,10 +341,10 @@ public class AimingInput2 : MonoBehaviour
                         _feintStartAngle = 0f;
                     }
                 }
-                else if (_checkFeint && _startDirection == 1) 
+                else if (_checkFeint && _startDirection == 1)
                 {
                     if (_feintStartAngle > currentangle - 90f) _checkFeint = !CheckFeint(_slashAngle, 90, _slashTime);
-                    else 
+                    else
                     {
                         _feinted = false;
                         _checkFeint = false;
@@ -468,7 +352,7 @@ public class AimingInput2 : MonoBehaviour
                     }
                 }
             }
-            else if (canRun)
+            else if (_canRun && !_feinted && !_overcommited)
             {
                 if (_feintStartAngle == 0 && _slashAngle > 15) _feintStartAngle = currentangle - 90;
                 if (_slashAngle > 15 && _attemptedAttack) _checkFeint = true;
@@ -476,18 +360,18 @@ public class AimingInput2 : MonoBehaviour
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;
-                canRun = false;
+                _canRun = false;
                 _attemptedAttack = true;
             }
         }
-        else if(canRun)
+        else if (_canRun && !_feinted && !_overcommited)
         {
             CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
             _feintStartAngle = 0;
-            canRun = false;
+            _canRun = false;
             CurrentStanceState = AttackStance.Torso;
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
@@ -505,13 +389,11 @@ public class AimingInput2 : MonoBehaviour
             if (CurrentAttackType == Possebility)
             {
                 CurrentAttackType = Possebility;
-                if (_feinted) 
-                {
-                    _feinted = false;
-                    _checkFeint = false;
-                    _feintStartAngle = 0f;
-                    return;
-                }
+
+                _feinted = false;
+                _checkFeint = false;
+                _feintStartAngle = 0f;
+                _overcommited = false;
                 Attack();
                 SetPreviousAttacks();
                 return;
@@ -532,7 +414,6 @@ public class AimingInput2 : MonoBehaviour
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _AttackMessage.text = "Player over commited";
             _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
-            CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
@@ -571,10 +452,10 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
-        Sprite sword = _sword.GetComponent<SpriteRenderer>().sprite;
-        float swordlength = Mathf.Sqrt((sword.rect.width * sword.rect.width) + (sword.rect.height * sword.rect.height));
+        SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
+        float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
-        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(this.gameObject);
+        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(gameObject, _damage);
     }
 
     private void SwordVisual(float angle)
