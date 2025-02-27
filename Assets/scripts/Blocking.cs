@@ -75,6 +75,7 @@ public class Blocking : MonoBehaviour
     void Update()
     {
         BlockPrototype();
+        Debug.Log("updating");
 
     }
 
@@ -98,7 +99,7 @@ public class Blocking : MonoBehaviour
 
     public void HoldBlock(bool hold)
     {
-        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+        if (!_shield && hold)
             return;
 
         float orient = _animator ? _animator.GetOrientation() : 0.0f;
@@ -189,6 +190,8 @@ public class Blocking : MonoBehaviour
             _shield = _heldEquipment.GetEquipment(EquipmentType.Weapon);
         else
             _shield = null;
+
+        GetComponent<PlayerController>().ShieldBroke();
     }
 
     private void ReduceBlockPower()

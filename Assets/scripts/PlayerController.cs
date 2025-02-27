@@ -308,7 +308,15 @@ public class PlayerController : MonoBehaviour
 #endregion MyRegion
 
     //---------------------------------------------------------------
-    //PRIVATE FUNCTIONS
+    //Public FUNCTIONS
 
+    public void ShieldBroke()
+    {
+        if (_fightStyle == FightStyle.Combo)
+        {
+            AttackGuardMode(false);
+        }
+
+    }
     
 }
