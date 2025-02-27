@@ -45,9 +45,11 @@ public class SwordSwing : MonoBehaviour
         _animationRef = GetComponent<WalkAnimate>();
         _defaultAngle = _sword.transform.rotation.eulerAngles.z;
         _defaultPosition = _sword.transform.position;
+
         _targetCollider = gameObject.AddComponent<SphereCollider>();
         _targetCollider.isTrigger = false;
         _targetCollider.enabled = false;
+        _targetCollider.radius = 2f;
     }
 
     // Update is called once per frame
@@ -98,7 +100,7 @@ public class SwordSwing : MonoBehaviour
                 break;
             case AttackType.Stab:
                 _currentOrientationVector = new Vector3(Mathf.Cos(orientation), Mathf.Sin(orientation), 0f);
-                _sword.transform.position -= _currentOrientationVector * 0.75f;
+                _sword.transform.position -= _currentOrientationVector * 1.25f;
                 _startStabVector = _sword.transform.position;
                 _swingDirection = 0;
                 break;
@@ -134,7 +136,7 @@ public class SwordSwing : MonoBehaviour
 
         }
 
-        else if (_target && _currentAngleMovement > 1.25f)
+        else if (_target && _currentAngleMovement > 0.75f)
         {
             Blocking blocker = _target.GetComponent<Blocking>();
             SwordParry swordParry = _target.GetComponent<SwordParry>();
@@ -188,7 +190,7 @@ public class SwordSwing : MonoBehaviour
 
     private void MoveHitCollider()
     {
-        float radius = 1.7f;
+        float radius = _targetCollider.radius;
         float orientation = _animationRef.GetOrientation();
         _targetCollider.center = new Vector3(Mathf.Cos(orientation) * radius, Mathf.Sin(orientation) * radius, 0.0f);
 

@@ -5,6 +5,7 @@ public enum ParryState
 {
     Idle,
     Parry,
+    Failed,
     Dissarm
 }
 
@@ -44,7 +45,7 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            //Stop sword attack
+            //Failled sword attack
             SwordSwing sw = _attacker.GetComponent <SwordSwing>();
             sw.SetIdle();
             //Set parried animation to attacker
@@ -108,6 +109,10 @@ public class SwordParry : MonoBehaviour
             FailParry();
             Debug.Log("Time up!!");
         }
+        else if (!isGoing)
+        {
+            _parryFase = ParryState.Idle;
+        }
 
     }
 
@@ -120,7 +125,7 @@ public class SwordParry : MonoBehaviour
     {
         float angle = Vector2.Angle(_inputSwordMovement, controlVector) ;
         float fullRot = _inputSwordMovement.magnitude;
-        if (/*UsedCorrectParryDirection() &&*/ angle > _currentParryAngle && fullRot > 0.6f)
+        if (/*UsedCorrectParryDirection() &&*/ angle >= _currentParryAngle && fullRot > 0.6f)
         {
             _currentParryAngle = angle;
             return true;
@@ -135,7 +140,7 @@ public class SwordParry : MonoBehaviour
         _walkAnimate.GetHit();
         _attacker = null;
         _parryState = false;
-        _parryFase = ParryState.Idle;
+        _parryFase = ParryState.Failed;
         _currentParryAngle = 0f;
     }
 

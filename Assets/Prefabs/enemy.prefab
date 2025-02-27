@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8207070954374663966
 Transform:
   m_ObjectHideFlags: 0
@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 1507786585731368943}
   - component: {fileID: 1270820464630759298}
   - component: {fileID: 5683024219843129120}
+  - component: {fileID: 8748730601481261615}
   - component: {fileID: 7056237991796404707}
   - component: {fileID: 6121863959210014125}
   - component: {fileID: 8991820935436539667}
@@ -245,6 +246,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Orientation: 0
+--- !u!114 &8748730601481261615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f615b397372cf5745a3ffb64292c150c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponPrefab: {fileID: 0}
+  _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
+  _armorPrefab: {fileID: 0}
 --- !u!114 &7056237991796404707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,15 +273,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c0b7c04c472a6498e170825aeaf16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shield: {fileID: 5600073296173455434}
-  _attacker: {fileID: 0}
-  _txtBlockPower: {fileID: 0}
+  _txtBlockName: 
   _radius: 1
   _powerReducer: 20
   _maxTimeHoldBlock: 0.15
   _parryAngle: 1.75
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
+  _tempShieldDamageOnUse: 5
 --- !u!114 &6121863959210014125
 MonoBehaviour:
   m_ObjectHideFlags: 0

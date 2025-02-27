@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public enum ParryChanceState
 {
     Start,
-    Stop,
+    Failled,
     None,
     Succes
 }
@@ -25,17 +25,19 @@ public enum BlockState
 
 public class Blocking : MonoBehaviour
 {
-    [SerializeField] private GameObject _shield;
-    [SerializeField] private GameObject _attacker;
-    [SerializeField] private TextMeshPro _txtBlockPower;
+    //[SerializeField] private GameObject _shield;
+    [SerializeField] private string _txtBlockName;
+    private TextMeshPro _txtBlockPower;
     [SerializeField] private float _radius = 0.5f;
     [SerializeField] private float _powerReducer = 0.1f;
     [SerializeField] private float _maxTimeHoldBlock = 0.15f;
     [SerializeField] private float _parryAngle = 1.75f;
     [SerializeField] private bool _acceptBothParryDierctions = true;
     [SerializeField] private bool _acceptAllHeightsToParry = true;
+    [SerializeField] private float _tempShieldDamageOnUse = 5f;
 
-
+    private HeldEquipment _heldEquipment;
+    private GameObject _attacker;
     private Vector2 _previousDirection;
     private Vector2 _blockInputDirection;
     private const float MIN_DIFF_BETWEEN_INPUT = 0.00125f;
@@ -61,7 +63,11 @@ public class Blocking : MonoBehaviour
 
     private void Start()
     {
+        _heldEquipment = GetComponent<HeldEquipment>();
         _animator = gameObject.GetComponent<WalkAnimate>();
+        var obj = GameObject.Find(_txtBlockName);
+        if (obj)
+            _txtBlockPower = obj.GetComponent<TextMeshPro>();   
         ActivateBlock(false);
     }
 
@@ -71,8 +77,115 @@ public class Blocking : MonoBehaviour
 
     }
 
+    //-------------------------------------------------------
+    //Public functions
+
+
+    public void ActivateBlock(bool activate)
+    {
+        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+            return;
+
+        if (!activate)
+        {
+            _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.zero;
+            ResetValues();
+        }
+        else
+            _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.one;
+    }
+
+    public void HoldBlock(bool hold)
+    {
+        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+            return;
+
+        float orient = _animator ? _animator.GetOrientation() : 0.0f;
+        float angleInput = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x );
+        _angleDiffWithOrientation = angleInput - orient;    
+        _followOrientation = hold;
+        if (!hold)
+            ResetValues();
+    }
+
+    public bool StartHit(AttackStance height, int direction, GameObject attacker)
+    {
+        //Check if shield is equiped before trying to Block
+        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+            return false;
+
+        _attacker = attacker;
+
+        switch(_blockState)
+        {
+            case BlockState.Idle:
+                _animator.GetHit();
+                _blockState = BlockState.Broken;
+                //Hit
+                break;
+            case BlockState.MovingShield:
+                StartParryTime(height, direction); 
+                if (_currentParryChance == ParryChanceState.Failled)
+                {
+                    _animator.GetHit();
+                    _blockState = BlockState.Broken;
+                }
+
+                break;
+            case BlockState.HoldBlock:
+            case BlockState.WeakeningBlock:
+                //Block
+                if (!SuccesFullBlock(height, direction))
+                {
+                    _animator.GetHit();
+                    _blockState = BlockState.Broken;
+                }
+                else
+                {
+                    _heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse);
+                    return true;
+                }
+                _attacker = null;
+                break;
+            case BlockState.Broken:
+                //would be cruel to get hit when broken
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    public void SetInputDirection(Vector2 input)
+    {
+        _blockInputDirection = input;
+    }
+
+    public void StopParryTime()
+     {
+        _currentParryChance = ParryChanceState.None;
+        //Debug.Log($"Failled!!!");
+     }
+ 
+
+    //-------------------------------------------------------
+    //private functions
+
+    private void ReduceBlockPower()
+    {
+        _blockPower -= Time.deltaTime * _powerReducer;
+        _blockPower = (_blockPower < MIN_BLOCK_POWER) ? MIN_BLOCK_POWER : _blockPower;
+        if (_txtBlockPower)
+            _txtBlockPower.text = $"BlockPower : {_blockPower}";
+
+    }
+
     private void BlockPrototype()
     {
+        //Check if shield is equiped before trying to Block
+        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+            return;
+
         //when holding block while attacking
         if (_followOrientation)
         {
@@ -96,12 +209,18 @@ public class Blocking : MonoBehaviour
 
             case BlockState.MovingShield:
                 _accumulatedTime += Time.deltaTime;
-                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
 
-                if (!ParryOnZone())
+                if (!SuccesfullParryOnZone())
                 {
                     _animator.GetHit();
                     _blockState = BlockState.Broken;
+                    if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse * 0.25f))
+                    {
+                        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.zero;
+                        ResetValues();
+                    }
+
                 }
 
                 if (!DetectAnalogMovement())
@@ -112,7 +231,8 @@ public class Blocking : MonoBehaviour
                     _blockPower = distance / _accumulatedTime;
                     _blockPower =(_blockPower > MAX_BLOCK_POWER)? MAX_BLOCK_POWER : _blockPower;
                     _currentBlockingTime = 0.0f;
-                    //_txtBlockPower.text = $"BlockPower : {_blockPower}";
+                    if (_txtBlockPower)
+                        _txtBlockPower.text = $"BlockPower : {_blockPower}";
 
                 }
                 break;
@@ -130,7 +250,7 @@ public class Blocking : MonoBehaviour
                     return;
 
                 ReduceBlockPower();
-                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
                 break;
 
             case BlockState.Broken:
@@ -138,7 +258,6 @@ public class Blocking : MonoBehaviour
                 if (_currentBrokenTime >= 1.0f)
                 {
                     ResetValues();
-                    _blockState = BlockState.Idle;
                     _currentBrokenTime = 0.0f;
                 }
                 break;
@@ -146,46 +265,15 @@ public class Blocking : MonoBehaviour
         }
     }
 
-    private void ReduceBlockPower()
-    {
-        _blockPower -= Time.deltaTime * _powerReducer;
-        _blockPower = (_blockPower < MIN_BLOCK_POWER) ? MIN_BLOCK_POWER : _blockPower;
-        //_txtBlockPower.text = $"BlockPower : {_blockPower}";
-    }
-
-    public void SetInputDirection(Vector2 input)
-    {
-        _blockInputDirection = input;
-    }
-
-    public void HoldBlock(bool hold)
-    {
-        float orient = _animator ? _animator.GetOrientation() : 0.0f;
-        float angleInput = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x );
-        _angleDiffWithOrientation = angleInput - orient;    
-        _followOrientation = hold;
-        if (!hold)
-            ResetValues();
-    }
-
-    public void ActivateBlock(bool activate)
-    {
-        if (!activate)
-        {
-            _shield.transform.localScale = Vector3.zero;
-            ResetValues();
-        }
-        else
-            _shield.transform.localScale = Vector3.one;
-    }
- 
     private bool ReturnOnIdle(float distance)
     {
         if (distance < 0.1f)
         {
             _blockState = BlockState.Idle;
             _blockPower = 0.0f;
-            //_txtBlockPower.text = "";
+            if (_txtBlockPower)
+                _txtBlockPower.text = "";
+
             return true;
         }
         return false;
@@ -208,13 +296,14 @@ public class Blocking : MonoBehaviour
         _currentBlockingTime = 0.0f;
         _accumulatedTime = 0.0f;
         //_blockPower = 0.0f;
-        //_txtBlockPower.text = "";
+        if (_txtBlockPower)
+            _txtBlockPower.text = "";
         //_shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
-        _shield.transform.localPosition = Vector2.zero;
+        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = Vector2.zero;
 
     }
 
-    private bool ParryOnZone()
+    private bool SuccesfullParryOnZone()
     {
         if (_currentParryChance == ParryChanceState.Start && AroundParryZone())
         {
@@ -234,50 +323,8 @@ public class Blocking : MonoBehaviour
         return false;
     }
 
-    public bool StartHit(AttackStance height, int direction, GameObject attacker)
-    {
-        _attacker = attacker;
 
-        switch(_blockState)
-        {
-            case BlockState.Idle:
-                _animator.GetHit();
-                _blockState = BlockState.Broken;
-                //Hit
-                break;
-            case BlockState.MovingShield:
-                StartParryTime(height, direction); 
-                if (_currentParryChance == ParryChanceState.Stop)
-                {
-                    _animator.GetHit();
-                    _blockState = BlockState.Broken;
-                }
-
-                break;
-            case BlockState.HoldBlock:
-            case BlockState.WeakeningBlock:
-                //Block
-                if (!SuccesFullBlock(height, direction))
-                {
-                    _animator.GetHit();
-                    _blockState = BlockState.Broken;
-                }
-                else
-                {
-                    //_attacker.GetComponent<SwordSwing>().GetKnocked();
-                    return true;
-                }
-                _attacker = null;
-                break;
-            case BlockState.Broken:
-                //would be cruel to get hit when broken
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
-
+    //return true when succesfully blocked
     private void StartParryTime(AttackStance height, int direction)
     {
         if (_currentParryChance == ParryChanceState.None)
@@ -287,7 +334,7 @@ public class Blocking : MonoBehaviour
             if (_startParryAngle == 0f )
             {
                 Debug.Log("To Slow");
-                _currentParryChance = ParryChanceState.Stop;
+                _currentParryChance = ParryChanceState.Failled;
                 return;
             }
 
@@ -321,18 +368,13 @@ public class Blocking : MonoBehaviour
             if (_currentParryChance == ParryChanceState.None || direction == 0)
             {
                 Debug.Log("Wrong start height");
-                _currentParryChance = ParryChanceState.Stop;
+                _currentParryChance = ParryChanceState.Failled;
                 return;
             }
             //Debug.Log($"Start!!!");
         }
     }
 
-    public void StopParryTime()
-     {
-        _currentParryChance = ParryChanceState.None;
-        //Debug.Log($"Stop!!!");
-     }
 
     private bool AroundParryZone()
     {
@@ -345,7 +387,7 @@ public class Blocking : MonoBehaviour
         }
 
         Debug.Log($"Faill, angleDiff = {Mathf.Abs(angle - _currentParryAngle)} ");
-        _currentParryChance = ParryChanceState.Stop;
+        _currentParryChance = ParryChanceState.Failled;
         return false;
     }
 
@@ -370,9 +412,9 @@ public class Blocking : MonoBehaviour
 
         float orientation = _animator.GetOrientation();
         Vector2 orientationVector = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
-        float cross = orientationVector.x * _shield.transform.localPosition.y - orientationVector.y * _shield.transform.localPosition.x;
+        float cross = orientationVector.x * _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition.y - orientationVector.y * _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition.x;
         //cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
-        float blockAngle = Vector2.Angle(orientationVector, _shield.transform.localPosition);
+        float blockAngle = Vector2.Angle(orientationVector, _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition);
         //float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
 
         return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
@@ -385,7 +427,7 @@ public class Blocking : MonoBehaviour
        float newAngle = orient + _angleDiffWithOrientation;
        //newAngle *= Mathf.Rad2Deg;
        Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
-       _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
+        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
        
     }
 
