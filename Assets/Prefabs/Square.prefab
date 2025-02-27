@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1502964419226634910
 Transform:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f615b397372cf5745a3ffb64292c150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponPrefab: {fileID: 0}
+  _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
   _shieldPrefab: {fileID: 7955614898218700654, guid: 536b96b0c58bf3346b93d30059be1c0e, type: 3}
   _armorPrefab: {fileID: 0}
 --- !u!143 &8010338999682594830
@@ -600,7 +600,6 @@ MonoBehaviour:
   _texMessage: {fileID: 0}
   _txtActionPower: {fileID: 0}
   _AttackMessage: {fileID: 0}
-  _sword: {fileID: 1651686446302327220}
   _arrow: {fileID: 1795910611375564864}
   radius: 0.4
   DEFAULT_SWORD_ORIENTATION: 218
@@ -660,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d796705fe7c57f468154e1f3d7ab0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _movementAction: {fileID: 0}
   _movementSpeed: 5
   _rotationSpeed: 0
   CurrentCharacterOrientation: 0
@@ -683,7 +682,7 @@ MonoBehaviour:
   _parryAngle: 1.4
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _tempShieldDamageOnUse: 5
+  _tempShieldDamageOnUse: 40
 --- !u!114 &5495266006063797764
 MonoBehaviour:
   m_ObjectHideFlags: 0

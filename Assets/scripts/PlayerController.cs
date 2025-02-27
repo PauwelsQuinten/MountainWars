@@ -173,6 +173,9 @@ public class PlayerController : MonoBehaviour
     {
         if (start)
         {
+            if (!GetComponent<HeldEquipment>().HoldSwordAndShield())
+                return;
+
             if (_fightStyle == FightStyle.Shield)
             {
                 _shield.HoldBlock(true);
@@ -210,6 +213,9 @@ public class PlayerController : MonoBehaviour
     {
         if (_fightStyle ==FightStyle.Shield)
         {
+            if (!GetComponent<HeldEquipment>().HoldSwordAndShield())
+                return;
+
             _fightStyle = FightStyle.Combo;
             _shield.HoldBlock(true);
         }
@@ -224,6 +230,9 @@ public class PlayerController : MonoBehaviour
     {
         if (_fightStyle == FightStyle.Shield)
         {
+            if (!GetComponent<HeldEquipment>().HoldSwordAndShield())
+                return;
+
             _fightStyle = FightStyle.Combo;
             _shield.HoldBlock(true);
         }

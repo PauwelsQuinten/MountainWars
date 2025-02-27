@@ -42,6 +42,7 @@ public class HeldEquipment : MonoBehaviour
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
+            Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
         }
@@ -61,6 +62,11 @@ public class HeldEquipment : MonoBehaviour
     public GameObject GetEquipment(EquipmentType type)
     {
         return _fullEquipment[type].GetEquipment();
+    }
+
+    public bool HoldSwordAndShield()
+    {
+        return _fullEquipment[EquipmentType.Weapon] && _fullEquipment[EquipmentType.Shield];
     }
 
 }

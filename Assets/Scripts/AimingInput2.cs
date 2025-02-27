@@ -29,7 +29,7 @@ public class AimingInput2 : MonoBehaviour
     
 
     //extra state for second prototype
-    [SerializeField] private GameObject _sword;
+    private GameObject _sword;
     [SerializeField] private GameObject _arrow;
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
@@ -89,7 +89,6 @@ public class AimingInput2 : MonoBehaviour
     {
         //InputManager input = FindObjectOfType<InputManager>();
         //input.AimingScript = this;
-        _startLocation = _sword.transform.position;
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
         _attackFinder = GetComponent<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
@@ -97,6 +96,8 @@ public class AimingInput2 : MonoBehaviour
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>(); ;
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>(); ;
 
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        _startLocation = _sword.transform.position;
         //foreach (var hitZone in _hitZones)
         //{
         //    hitZone.SetActive(false);

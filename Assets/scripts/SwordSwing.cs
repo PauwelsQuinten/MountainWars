@@ -43,6 +43,8 @@ public class SwordSwing : MonoBehaviour
     void Start()
     {
         _animationRef = GetComponent<WalkAnimate>();
+
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
         _defaultAngle = _sword.transform.rotation.eulerAngles.z;
         _defaultPosition = _sword.transform.position;
 

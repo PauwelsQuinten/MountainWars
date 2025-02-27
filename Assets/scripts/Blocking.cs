@@ -25,7 +25,7 @@ public enum BlockState
 
 public class Blocking : MonoBehaviour
 {
-    //[SerializeField] private GameObject _shield;
+    [SerializeField] private GameObject _shield;
     [SerializeField] private string _txtBlockName;
     private TextMeshPro _txtBlockPower;
     [SerializeField] private float _radius = 0.5f;
@@ -64,6 +64,7 @@ public class Blocking : MonoBehaviour
     private void Start()
     {
         _heldEquipment = GetComponent<HeldEquipment>();
+        _shield = _heldEquipment.GetEquipment(EquipmentType.Shield);
         _animator = gameObject.GetComponent<WalkAnimate>();
         var obj = GameObject.Find(_txtBlockName);
         if (obj)
@@ -83,16 +84,16 @@ public class Blocking : MonoBehaviour
 
     public void ActivateBlock(bool activate)
     {
-        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+        if (!_shield)
             return;
 
         if (!activate)
         {
-            _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.zero;
+            //_shield.transform.localScale = Vector3.zero;
             ResetValues();
         }
-        else
-            _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.one;
+        //else
+            //_shield.transform.localScale = Vector3.one;
     }
 
     public void HoldBlock(bool hold)
@@ -111,8 +112,11 @@ public class Blocking : MonoBehaviour
     public bool StartHit(AttackStance height, int direction, GameObject attacker)
     {
         //Check if shield is equiped before trying to Block
-        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+        if (_shield == null)
+        {
+            _animator.GetHit();
             return false;
+        }
 
         _attacker = attacker;
 
@@ -142,7 +146,10 @@ public class Blocking : MonoBehaviour
                 }
                 else
                 {
-                    _heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse);
+                    if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
+                    {
+                        SwitchToSword();
+                    }
                     return true;
                 }
                 _attacker = null;
@@ -155,7 +162,6 @@ public class Blocking : MonoBehaviour
         }
         return false;
     }
-
     public void SetInputDirection(Vector2 input)
     {
         _blockInputDirection = input;
@@ -171,6 +177,15 @@ public class Blocking : MonoBehaviour
     //-------------------------------------------------------
     //private functions
 
+
+    private void SwitchToSword()
+    {
+        if (_heldEquipment.HoldsEquipment(EquipmentType.Weapon))
+            _shield = _heldEquipment.GetEquipment(EquipmentType.Weapon);
+        else
+            _shield = null;
+    }
+
     private void ReduceBlockPower()
     {
         _blockPower -= Time.deltaTime * _powerReducer;
@@ -183,7 +198,7 @@ public class Blocking : MonoBehaviour
     private void BlockPrototype()
     {
         //Check if shield is equiped before trying to Block
-        if (!_heldEquipment.HoldsEquipment(EquipmentType.Shield))
+        if (_shield == null)
             return;
 
         //when holding block while attacking
@@ -209,7 +224,7 @@ public class Blocking : MonoBehaviour
 
             case BlockState.MovingShield:
                 _accumulatedTime += Time.deltaTime;
-                _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
 
                 if (!SuccesfullParryOnZone())
                 {
@@ -217,9 +232,9 @@ public class Blocking : MonoBehaviour
                     _blockState = BlockState.Broken;
                     if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse * 0.25f))
                     {
-                        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localScale = Vector3.zero;
-                        ResetValues();
+                        SwitchToSword();
                     }
+                    ResetValues();
 
                 }
 
@@ -250,7 +265,7 @@ public class Blocking : MonoBehaviour
                     return;
 
                 ReduceBlockPower();
-                _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
                 break;
 
             case BlockState.Broken:
@@ -299,7 +314,8 @@ public class Blocking : MonoBehaviour
         if (_txtBlockPower)
             _txtBlockPower.text = "";
         //_shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
-        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = Vector2.zero;
+        if (_shield)
+            _shield.transform.localPosition = Vector2.zero;
 
     }
 
@@ -412,9 +428,9 @@ public class Blocking : MonoBehaviour
 
         float orientation = _animator.GetOrientation();
         Vector2 orientationVector = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
-        float cross = orientationVector.x * _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition.y - orientationVector.y * _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition.x;
+        float cross = orientationVector.x * _shield.transform.localPosition.y - orientationVector.y * _shield.transform.localPosition.x;
         //cross = orientationVector.x * _blockInputDirection.y - orientationVector.y * _blockInputDirection.x;
-        float blockAngle = Vector2.Angle(orientationVector, _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition);
+        float blockAngle = Vector2.Angle(orientationVector, _shield.transform.localPosition);
         //float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
 
         return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
@@ -422,12 +438,13 @@ public class Blocking : MonoBehaviour
 
     private void FollowTarget()
     {
-       
+        if (_shield == null) return; 
+
        float orient = _animator ? _animator.GetOrientation() : 0.0f;
        float newAngle = orient + _angleDiffWithOrientation;
        //newAngle *= Mathf.Rad2Deg;
        Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
-        _heldEquipment.GetEquipment(EquipmentType.Shield).transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
+        _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
        
     }
 

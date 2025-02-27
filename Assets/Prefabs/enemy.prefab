@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f615b397372cf5745a3ffb64292c150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponPrefab: {fileID: 0}
+  _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
   _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
   _armorPrefab: {fileID: 0}
 --- !u!114 &7056237991796404707
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e55df681e0b0ff4f8f37bdf00eda3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sword: {fileID: 8838536944917441207}
+  _sword: {fileID: 0}
   _swingSpeed: 300
   _stabSpeed: 4
   _swingAngle: 120
@@ -453,7 +453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7339664305130033346
 Transform:
   m_ObjectHideFlags: 0
