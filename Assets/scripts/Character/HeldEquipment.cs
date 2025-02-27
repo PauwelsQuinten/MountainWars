@@ -9,7 +9,8 @@ public class HeldEquipment : MonoBehaviour
     [SerializeField] private Equipment _shieldPrefab;
     [SerializeField] private Equipment _armorPrefab;
     private Dictionary<EquipmentType, Equipment> _fullEquipment = new Dictionary<EquipmentType, Equipment>();
-
+    private bool _readyToPickup = false;
+    private Equipment _foundEquipment;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class HeldEquipment : MonoBehaviour
         if (_weaponPrefab != null)
         {
             var weapon = Instantiate(_weaponPrefab, gameObject.transform);
+            weapon.GetComponent<SphereCollider>().enabled = false;
             _fullEquipment[EquipmentType.Weapon] = weapon;
         }
         
@@ -24,6 +26,7 @@ public class HeldEquipment : MonoBehaviour
         if (_shieldPrefab != null)
         {
             var shield = Instantiate(_shieldPrefab, gameObject.transform);
+            shield.GetComponent<SphereCollider>().enabled = false;
             _fullEquipment[EquipmentType.Shield] = shield;
         }
 
@@ -31,6 +34,7 @@ public class HeldEquipment : MonoBehaviour
         if (_armorPrefab != null)
         {
             var armor = Instantiate(_armorPrefab, gameObject.transform);
+            armor.GetComponent<SphereCollider>().enabled = false;
             _fullEquipment[EquipmentType.Armor] = armor;
         }
 
@@ -49,11 +53,6 @@ public class HeldEquipment : MonoBehaviour
         return true;
     }
 
-    public void PickupEquipment(Equipment equipment)
-    {
-        _fullEquipment[equipment.GetEquipmentType()] = equipment;
-    }
-
     public bool HoldsEquipment(EquipmentType type)
     {
         return _fullEquipment[type] != null;
@@ -67,6 +66,33 @@ public class HeldEquipment : MonoBehaviour
     public bool HoldSwordAndShield()
     {
         return _fullEquipment[EquipmentType.Weapon] && _fullEquipment[EquipmentType.Shield];
+    }
+
+    public void PickupNewEquipment(Equipment equipment)
+    {
+        _foundEquipment = equipment;
+    }
+
+    public void SetLookForPickup()
+    {
+        if (_foundEquipment == null)
+            return;
+
+        var equipment = _foundEquipment;
+        if (_fullEquipment[_foundEquipment.GetEquipmentType()] != null)
+        {
+            _foundEquipment = _fullEquipment[_foundEquipment.GetEquipmentType()];
+            _fullEquipment[_foundEquipment.GetEquipmentType()].transform.parent = null;
+        }
+        else
+            _foundEquipment = null;
+        
+        equipment.transform.parent = transform;
+        equipment.transform.localPosition = Vector3.zero;
+        _fullEquipment[equipment.GetEquipmentType()] = equipment;
+        GetComponent<Blocking>().NewShield();
+
+
     }
 
 }

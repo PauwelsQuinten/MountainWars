@@ -16,7 +16,6 @@ public class Equipment : MonoBehaviour
 
     private float _currentDurability = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _currentDurability = _maxDurability;
@@ -37,5 +36,21 @@ public class Equipment : MonoBehaviour
     {
         return gameObject;
     }
-   
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other is CharacterController)
+        {
+            other.GetComponent<HeldEquipment>().PickupNewEquipment(this);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other is CharacterController)
+        {
+            other.GetComponent<HeldEquipment>().PickupNewEquipment(null);
+        }
+    }
+
 }

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _aimTorso;
     private InputAction _slashUp;
     private InputAction _slashDown;
+    private InputAction _pickup;
 
     private CharacterMovement _characterMovement;
     private Blocking _shield;
@@ -63,8 +64,9 @@ public class PlayerController : MonoBehaviour
         _slashDown.canceled += _slashDown_canceled;
         _slashUp.performed += _slashUp_performed;
         _slashUp.canceled += _slashUp_canceled;
-    }
 
+        _pickup.performed += _pickup_performed;
+    }
     private void OnDisable()
     {
         _guardAction.performed -= _gaurdAction_IsInProgress;
@@ -83,6 +85,9 @@ public class PlayerController : MonoBehaviour
         _slashDown.canceled -= _slashDown_canceled;
         _slashUp.performed -= _slashUp_performed;
         _slashUp.canceled -= _slashUp_canceled;
+
+        _pickup.performed -= _pickup_performed;
+
     }
 
     private void InitInputActions()
@@ -96,9 +101,16 @@ public class PlayerController : MonoBehaviour
         _aimTorso = inputActionAsset.FindAction("Player/SelectMiddle");
         _slashUp = inputActionAsset.FindAction("Player/SlashUp");
         _slashDown = inputActionAsset.FindAction("Player/SlashDown");
+        _pickup = inputActionAsset.FindAction("Player/Pickup");
     }
 
     #endregion Initialising
+
+
+    private void _pickup_performed(InputAction.CallbackContext obj)
+    {
+        GetComponent<HeldEquipment>().SetLookForPickup();
+    }
 
     private void _aimAction_performed(InputAction.CallbackContext obj)
     {

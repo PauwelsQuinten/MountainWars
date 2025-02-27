@@ -172,6 +172,11 @@ public class Blocking : MonoBehaviour
         _currentParryChance = ParryChanceState.None;
         //Debug.Log($"Failled!!!");
      }
+
+    public void NewShield()
+    {
+        _shield = _heldEquipment.GetEquipment(EquipmentType.Shield);
+    }
  
 
     //-------------------------------------------------------
