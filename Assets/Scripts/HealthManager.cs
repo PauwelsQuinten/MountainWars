@@ -9,10 +9,16 @@ public class HealthManager : MonoBehaviour
     private float _damageDropOff;
     [SerializeField]
     private SpriteRenderer _healthBar;
+    [SerializeField]
+    private SpriteRenderer _bloodBar;
     [SerializeField, Range(0.0f, 10.0f)]
     private int _physique;
     [SerializeField]
     private int _baseLimbHealth;
+    [SerializeField]
+    private float _maxBlood;
+    [SerializeField]
+    private float _bleedOutSpeed;
     [SerializeField]
     private GameObject _headBones;
     [SerializeField]
@@ -33,6 +39,7 @@ public class HealthManager : MonoBehaviour
     private float _currentHealth;
     private float _maxHealth;
     private float _bleedOutRate;
+    private float _currentBlood;
 
     private void Start()
     {
@@ -46,17 +53,22 @@ public class HealthManager : MonoBehaviour
         }
 
         _currentHealth = _maxHealth;
+        _currentBlood = _maxBlood;
     }
 
     private void Update()
     {
-        _currentHealth -= _bleedOutRate * Time.deltaTime;
+        _currentBlood -= _bleedOutRate * Time.deltaTime;
 
         Vector2 healthBarSize = new Vector2(_currentHealth / _maxHealth, 1);
         _healthBar.size = healthBarSize;
         _healthBar.gameObject.transform.localPosition = new Vector3(0 - ((1 - healthBarSize.x) / 2), 0, 0);
 
-        if (_currentHealth <= 0) Destroy(gameObject);
+        Vector2 bloodBarSize = new Vector2(_currentBlood / _maxBlood, 1);
+        _bloodBar.size = bloodBarSize;
+        _bloodBar.gameObject.transform.localPosition = new Vector3(0 - ((1 - bloodBarSize.x) / 2), 0, 0);
+
+        if (_currentHealth <= 0 || _currentBlood <= 0) Destroy(gameObject);
     }
     public void GotHit(List<BodyParts> partsHit, float damage)
     {
@@ -69,11 +81,12 @@ public class HealthManager : MonoBehaviour
                 damageTaken -= (int)(index * _damageDropOff);
                 _bodyPartCurrentHealth[part] -= damageTaken;
                 _currentHealth -= damage;
+                index++;
 
                 if(_bodyPartCurrentHealth[part] <= 0)
                 {
                     if (part == BodyParts.Head || part == BodyParts.Torso) _currentHealth = 0;
-                    else _bleedOutRate += 60;
+                    else _bleedOutRate += _bleedOutSpeed;
                 }
             }
             else

@@ -55,6 +55,7 @@ public class HitDetection : MonoBehaviour
 
     private void DetermineAtackType()
     {
+        _partsHit.Clear();
         switch (_attackType)
         {
             case AttackType.UpperSlashRight:
