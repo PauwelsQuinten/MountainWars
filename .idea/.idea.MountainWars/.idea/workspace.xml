@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MountainWars/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Audio.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/FMODAudioManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FMODAudioManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Reverb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Reverb.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,6 +117,7 @@
       <workItem from="1740385514454" duration="13846000" />
       <workItem from="1740490396248" duration="8603000" />
       <workItem from="1740564508246" duration="4312000" />
+      <workItem from="1740728201219" duration="3998000" />
     </task>
     <servers />
   </component>

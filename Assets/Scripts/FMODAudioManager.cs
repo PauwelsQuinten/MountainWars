@@ -23,8 +23,16 @@ public class FMODAudioManager : MonoBehaviour
     [SerializeField, Range(0, 2)] private int _surfaceType = 0;
     public int SurfaceType => _surfaceType;
     
+    [SerializeField, Range(0, 2)] private int _progress = 0;
+    public int Progress => _progress;
+
+    [SerializeField, Range(0, 1)] private float _threatLevel = 0.0f;
+    public float ThreatLevel => _threatLevel;
+    
     [SerializeField] private string _reverbZone = "Main";
     public string ReverbZone => _reverbZone;
+    
+    
 
     //Events
     [SerializeField] private EventReference _punch;
@@ -37,4 +45,7 @@ public class FMODAudioManager : MonoBehaviour
 
     [SerializeField] private EventReference _ground;
     public EventReference Ground => _ground;
+    
+    [SerializeField] private EventReference _music;
+    public EventReference Music => _music;
 }

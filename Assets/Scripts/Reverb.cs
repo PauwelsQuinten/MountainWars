@@ -20,7 +20,6 @@ public class Reverb : MonoBehaviour
         _reverbInstance.set3DAttributes(_attributes);
         _reverbInstance.setParameterByNameWithLabel("ReverbZone", _reverbZone, false);
         _reverbInstance.start();
-        Debug.Log("Reverb instance started with zone: " + _reverbZone);
     }
 
     private void Update()
@@ -29,7 +28,6 @@ public class Reverb : MonoBehaviour
         _reverbInstance.setParameterByNameWithLabel("ReverbZone", _reverbZone, false);
         _attributes = RuntimeUtils.To3DAttributes(transform);
         _reverbInstance.set3DAttributes(_attributes);
-        Debug.Log("Reverb Zone in Update: " + _reverbZone);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -53,11 +51,9 @@ public class Reverb : MonoBehaviour
     private void UpdateReverbZone()
     {
         _reverbInstance.setParameterByNameWithLabel("ReverbZone", _reverbZone, false);
-        Debug.Log("Updated Reverb Zone to: " + _reverbZone);
 
         // Check if the parameter was set correctly
         _reverbInstance.getParameterByName("ReverbZone", out float value);
-        Debug.Log("ReverbZone parameter value: " + value);
     }
 
     private void OnDestroy()
