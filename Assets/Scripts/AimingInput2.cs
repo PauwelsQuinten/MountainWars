@@ -31,7 +31,6 @@ public class AimingInput2 : MonoBehaviour
     //extra state for second prototype
     private GameObject _sword;
     [SerializeField] private GameObject _arrow;
-    [SerializeField] private GameObject _sword;
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;

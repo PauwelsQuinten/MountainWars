@@ -536,6 +536,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f04f56b0-cf67-4850-8ad5-2dc5ca13934d
     m_ActionName: 'Player/AttackOnBlock[/DualShock4GamepadHID/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9523c117-dfcb-4af8-8b8b-4627d51ffb80
+    m_ActionName: 'Player/Pickup[/DualShock4GamepadHID/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
