@@ -103,7 +103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &829366919967957976
 Transform:
   m_ObjectHideFlags: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
   _slashStrength: 3
   _overCommitAngle: 170
   _minSlashAngle: 25
-  _stanceResetTimer: 0
+  _stanceResetTimer: 1
   _attackMessage: BlockPowerTxt
   _attackPower: BlockPowerTxt (1)
 --- !u!95 &223448091233570701
@@ -710,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3fa92c97340d444a36b4a14735d50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LockOnTarget: {fileID: 0}
   _lockonRadius: 5
   _layersToInteractWith:
     serializedVersion: 2

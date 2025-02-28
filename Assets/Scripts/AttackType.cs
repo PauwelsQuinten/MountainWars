@@ -6,8 +6,6 @@
     DownSlashLeft,
     HorizontalSlashLeft,
     HorizontalSlashRight,
-    StraightUp,
-    StraightDown,
     Stab,
     None
 }

@@ -98,9 +98,6 @@ public class SwordSwing : MonoBehaviour
             case AttackType.DownSlashLeft:
                 
                 break;
-            case AttackType.StraightUp:
-            case AttackType.StraightDown:
-                break;
             case AttackType.Stab:
                 _currentOrientationVector = new Vector3(Mathf.Cos(orientation), Mathf.Sin(orientation), 0f);
                 _sword.transform.position -= _currentOrientationVector * 1.25f;
