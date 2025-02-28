@@ -11,7 +11,7 @@ public enum FightStyle
 {
     Sword,
     Shield,
-    Combo
+    Combo,
 }
 public class PlayerController : MonoBehaviour
 {
@@ -20,12 +20,13 @@ public class PlayerController : MonoBehaviour
     private InputAction _aimAction;
     private InputAction _guardAction;
     private InputAction _attackGuard;
-    private InputAction _aimHead;
-    private InputAction _aimFeet;
-    private InputAction _aimTorso;
-    private InputAction _slashUp;
-    private InputAction _slashDown;
-    private InputAction _pickup;
+    private InputAction _aimHeadAction;
+    private InputAction _aimFeetAction;
+    private InputAction _aimTorsoAction;
+    private InputAction _slashUpAction;
+    private InputAction _slashDownAction;
+    private InputAction _pickupAction;
+    private InputAction _dodgeAction;
 
     private CharacterMovement _characterMovement;
     private Blocking _shield;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private FightStyle _fightStyle = FightStyle.Sword;
     private Vector2 _storedInput = Vector2.zero;
+    private bool _isJumping = false;
 
     #region Initialising
     void Start()
@@ -58,14 +60,15 @@ public class PlayerController : MonoBehaviour
         _aimAction.performed += _aimAction_performed;
         _aimAction.canceled += _aimAction_Canceled;
 
-        _aimFeet.performed += _aimFeet_performed;
-        _aimHead.performed += _aimHead_performed;
-        _slashDown.performed += _slashDown_performed;
-        _slashDown.canceled += _slashDown_canceled;
-        _slashUp.performed += _slashUp_performed;
-        _slashUp.canceled += _slashUp_canceled;
+        _aimFeetAction.performed += _aimFeet_performed;
+        _aimHeadAction.performed += _aimHead_performed;
+        _slashDownAction.performed += _slashDown_performed;
+        _slashDownAction.canceled += _slashDown_canceled;
+        _slashUpAction.performed += _slashUp_performed;
+        _slashUpAction.canceled += _slashUp_canceled;
 
-        _pickup.performed += _pickup_performed;
+        _pickupAction.performed += _pickup_performed;
+        _dodgeAction.performed += _dodge_performed;
     }
     private void OnDisable()
     {
@@ -79,14 +82,15 @@ public class PlayerController : MonoBehaviour
         _aimAction.performed -= _aimAction_performed;
         _aimAction.canceled -= _aimAction_Canceled;
 
-        _aimFeet.performed -= _aimFeet_performed;
-        _aimHead.performed -= _aimHead_performed;
-        _slashDown.performed -= _slashDown_performed;
-        _slashDown.canceled -= _slashDown_canceled;
-        _slashUp.performed -= _slashUp_performed;
-        _slashUp.canceled -= _slashUp_canceled;
+        _aimFeetAction.performed -= _aimFeet_performed;
+        _aimHeadAction.performed -= _aimHead_performed;
+        _slashDownAction.performed -= _slashDown_performed;
+        _slashDownAction.canceled -= _slashDown_canceled;
+        _slashUpAction.performed -= _slashUp_performed;
+        _slashUpAction.canceled -= _slashUp_canceled;
 
-        _pickup.performed -= _pickup_performed;
+        _pickupAction.performed -= _pickup_performed;
+        _dodgeAction.performed -= _dodge_performed;
 
     }
 
@@ -96,12 +100,13 @@ public class PlayerController : MonoBehaviour
         _aimAction = inputActionAsset.FindAction("Player/Aiming");
         _guardAction = inputActionAsset.FindAction("Player/UseBlock");
         _attackGuard = inputActionAsset.FindAction("Player/AttackOnBlock");
-        _aimHead = inputActionAsset.FindAction("Player/SelectUpper");
-        _aimFeet = inputActionAsset.FindAction("Player/SelectLower");
-        _aimTorso = inputActionAsset.FindAction("Player/SelectMiddle");
-        _slashUp = inputActionAsset.FindAction("Player/SlashUp");
-        _slashDown = inputActionAsset.FindAction("Player/SlashDown");
-        _pickup = inputActionAsset.FindAction("Player/Pickup");
+        _aimHeadAction = inputActionAsset.FindAction("Player/SelectUpper");
+        _aimFeetAction = inputActionAsset.FindAction("Player/SelectLower");
+        _aimTorsoAction = inputActionAsset.FindAction("Player/SelectMiddle");
+        _slashUpAction = inputActionAsset.FindAction("Player/SlashUp");
+        _slashDownAction = inputActionAsset.FindAction("Player/SlashDown");
+        _pickupAction = inputActionAsset.FindAction("Player/Pickup");
+        _dodgeAction = inputActionAsset.FindAction("Player/Dodge");
     }
 
     #endregion Initialising
@@ -111,9 +116,20 @@ public class PlayerController : MonoBehaviour
     {
         GetComponent<HeldEquipment>().SetLookForPickup();
     }
+    
+    private void _dodge_performed(InputAction.CallbackContext obj)
+    {
+        _isJumping = true;
+        Vector2 jumpInput = _moveAction.ReadValue<Vector2>();
+        GetComponent<Dodge>().StartJump(jumpInput);
+    }
+
 
     private void _aimAction_performed(InputAction.CallbackContext obj)
     {
+        if (_isJumping)
+            return;
+
         if (_fightStyle == FightStyle.Shield)
         {
             _shield.SetInputDirection(_aimAction.ReadValue<Vector2>());
@@ -176,6 +192,8 @@ public class PlayerController : MonoBehaviour
         {
             _fightStyle = FightStyle.Sword;
             _shield.ActivateBlock(false);
+            _shield.SetInputDirection(Vector2.zero);
+
         }
 
     }
@@ -280,6 +298,9 @@ public class PlayerController : MonoBehaviour
     }
     private void _moveAction_performed(InputAction.CallbackContext obj)
     {
+        if (_isJumping)
+            return;
+
         float speed = 1.0f;
         switch(_fightStyle)
         {
@@ -318,6 +339,12 @@ public class PlayerController : MonoBehaviour
         }
 
         GetComponent<AimingInput2>().SwordBroke();
+    }
+
+    public void JumpFinished()
+    {
+        _isJumping = false;
+        GetComponent<Dodge>().StartCooldown();
     }
     
 }

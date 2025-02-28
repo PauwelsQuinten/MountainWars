@@ -12,6 +12,8 @@ public class Equipment : MonoBehaviour
 {
     [SerializeField] private EquipmentType _equipmentType = EquipmentType.Weapon;
     [SerializeField] private float _maxDurability = 100f;
+    [Range(0.5f, 3f)]
+    [SerializeField] private float _attack = 3f;
     [Range(1f, 5f)]
     [SerializeField] private float _weight = 2f;//for attck speed and power outage
 
@@ -36,6 +38,11 @@ public class Equipment : MonoBehaviour
     public GameObject GetEquipment()
     {
         return gameObject;
+    }
+    
+    public float GetEquipmentstrength()
+    {
+        return _attack;
     }
 
     private void OnTriggerEnter(Collider other)

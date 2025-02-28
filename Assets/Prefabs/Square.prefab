@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 716812571052693609}
   - component: {fileID: 9033597014177533533}
   - component: {fileID: 4342285136588083338}
+  - component: {fileID: 174136612062864949}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -579,13 +580,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.61
+  m_Height: 1.02
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.86, z: 0}
 --- !u!114 &7543476095851795945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,3 +747,18 @@ MonoBehaviour:
   _tempSwordDamage: 25
   _parryAngle: 35
   _timeForDisarming: 1
+--- !u!114 &174136612062864949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330242531137365103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493488a1d5a7a0a45918eeb6a77438c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpDistanceMultiplier: 2
+  _jumpSpeed: 50
+  _cooldownTime: 0.3

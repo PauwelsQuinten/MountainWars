@@ -34,6 +34,7 @@ public class Blocking : MonoBehaviour
     [SerializeField] private float _parryAngle = 1.75f;
     [SerializeField] private bool _acceptBothParryDierctions = true;
     [SerializeField] private bool _acceptAllHeightsToParry = true;
+    [SerializeField] private bool _parryFromSameDirection = true;
     [SerializeField] private float _tempShieldDamageOnUse = 5f;
 
     private HeldEquipment _heldEquipment;
@@ -422,7 +423,11 @@ public class Blocking : MonoBehaviour
             return true;
 
         float cross = _startParryVector.x * _blockInputDirection.y - _startParryVector.y * _blockInputDirection.x;
-        return (cross * _parryDirection < 0);
+
+        if (_parryFromSameDirection)
+            return (cross * _parryDirection < 0);
+        else
+            return (cross * _parryDirection > 0);
     }
 
     private bool SuccesFullBlock(AttackStance height, int direction)

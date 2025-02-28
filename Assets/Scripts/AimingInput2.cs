@@ -101,6 +101,7 @@ public class AimingInput2 : MonoBehaviour
         _WalkOrientation = GetComponent<WalkAnimate>();
         _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
         _startLocation = _sword.transform.position;
+        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
 
         if (GetComponent<AIController>() != null)
             return;

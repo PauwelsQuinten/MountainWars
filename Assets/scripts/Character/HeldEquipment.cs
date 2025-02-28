@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class HeldEquipment : MonoBehaviour
 {
@@ -94,6 +92,7 @@ public class HeldEquipment : MonoBehaviour
             _foundEquipment = _fullEquipment[targetedtype];
             _fullEquipment[targetedtype].transform.parent = null;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().enabled = true;
+            _fullEquipment[targetedtype].GetComponent<SphereCollider>().isTrigger = true;
 
         }
         else
@@ -108,6 +107,7 @@ public class HeldEquipment : MonoBehaviour
         equipment.transform.parent = transform;
         equipment.transform.localPosition = Vector3.zero;
         equipment.GetComponent<SphereCollider>().enabled = false;
+        equipment.GetComponent<SphereCollider>().isTrigger = false;
         _fullEquipment[equipment.GetEquipmentType()] = equipment;
 
         switch(equipment.GetEquipmentType())
