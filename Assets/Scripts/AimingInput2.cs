@@ -454,6 +454,7 @@ public class AimingInput2 : MonoBehaviour
     {
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
+        if(_lockOnScript.LockOnTarget == null) return;
         float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
         if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(gameObject, _damage);
     }
