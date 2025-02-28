@@ -92,12 +92,15 @@ public class AimingInput2 : MonoBehaviour
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
         _attackFinder = GetComponent<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        _startLocation = _sword.transform.position;
+
+        if (GetComponent<AIController>() != null)
+            return;
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>(); ;
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>(); ;
 
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        _startLocation = _sword.transform.position;
         //foreach (var hitZone in _hitZones)
         //{
         //    hitZone.SetActive(false);
@@ -106,6 +109,9 @@ public class AimingInput2 : MonoBehaviour
 
     private void Update()
     {
+        if (GetComponent<AIController>() != null)
+            return;
+
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
@@ -161,7 +167,7 @@ public class AimingInput2 : MonoBehaviour
             ResetValues();
         }
         //Force direction to be correct on idle
-        if (newLength < MIN_WINDUP_LENGTH)
+        if (_sword && newLength < MIN_WINDUP_LENGTH)
         {
             _sword.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
@@ -170,8 +176,12 @@ public class AimingInput2 : MonoBehaviour
 
     private void ResetValues()
     {
-        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
-        _sword.transform.localPosition = _startLocation;
+        if (_sword)
+        {
+            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+            _sword.transform.localPosition = _startLocation;
+        }
+
         _chargedTime = 0.0f;
         defaultPower = 5.0f;
         //_txtActionPower.enabled = false;
@@ -182,71 +192,14 @@ public class AimingInput2 : MonoBehaviour
         //{
         //    hitZone.SetActive(false);
         //}
-        _arrow.SetActive(false);
+        if (_arrow)
+            _arrow.SetActive(false);
         if(!_isResetingStance) CurrentStanceState = AttackStance.Torso;
     }
 
     private void SetStance()
     {
-        //_previousStance = _currentStanceState;
-        //if (_previousAttack == AttackType.StraightUp ||
-        //     _previousAttack == AttackType.UpperSlashRight ||
-        //     _previousAttack == AttackType.UpperSlashLeft)
-        //{
-        //    if (_currentStanceState == AttackStance.Legs)
-        //    {
-        //        _currentStanceState = AttackStance.Hips;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if(_currentStanceState == AttackStance.Hips)
-        //    {
-        //        _currentStanceState = AttackStance.Shoulders;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Shoulders)
-        //    {
-        //        _currentStanceState = AttackStance.Head;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //}
-
-        //if (_previousAttack == AttackType.StraightDown ||
-        //     _previousAttack == AttackType.DownSlashLeft ||
-        //     _previousAttack == AttackType.DownSlashRight)
-        //{
-        //    if (_currentStanceState == AttackStance.Head)
-        //    {
-        //        _currentStanceState = AttackStance.Shoulders;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Shoulders)
-        //    {
-        //        _currentStanceState = AttackStance.Hips;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //    else if (_currentStanceState == AttackStance.Hips) 
-        //    {
-        //        _currentStanceState = AttackStance.Legs;
-        //        _ChangedStanceThisAction = true;
-        //    }
-        //}
-
-        //if (_previousAttack == AttackType.None)
-        //{
-        //    _currentStanceState = AttackStance.Hips;
-        //} 
-        //switch (_currentStanceIndex)
-        //{
-        //    case 0:
-        //        _currentStanceState = AttackStance.Legs;
-        //        break;
-        //    case 1:
-        //        _currentStanceState = AttackStance.Torso;
-        //        break;
-        //    case 2:
-        //        _currentStanceState = AttackStance.Head;
-        //        break;
-        //}
+        
 
         int index = 0;
         //Show hitZone
@@ -400,8 +353,12 @@ public class AimingInput2 : MonoBehaviour
             _isCharging = true;
             if (_chargedTime < MAX_CHARGE_TIME)
                 _chargedTime += (Time.deltaTime * 4.0f);
-            _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
-            _sword.transform.localPosition = Vector3.zero;
+            if (_sword)
+            {
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
+                _sword.transform.localPosition = Vector3.zero;
+            }
+
             _txtActionPower.enabled = false;
             return;
         }
@@ -558,6 +515,8 @@ public class AimingInput2 : MonoBehaviour
 
     private void SwordVisual(float angle)
     {
+        if (!_sword)
+            return;
         //Sword follows analog -> visualization 
         _sword.transform.localPosition = new Vector3(Direction.x * radius, Direction.y * radius, 0.0f);
         Vector3 swordRotation = new Vector3(0, 0, angle);
@@ -585,4 +544,33 @@ public class AimingInput2 : MonoBehaviour
         CurrentStanceState = stance;
         _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
+
+    public void NewSword()
+    {
+        if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+            _sword.transform.localScale = Vector3.zero;
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        radius = 0.4f;
+    }
+
+    public void SwordBroke()
+    {
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Weapon))
+            return;
+
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Shield))
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
+            radius = 1.0f;
+        }
+
+        else
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Fist);
+            _sword.transform.localScale = Vector3.one;
+            radius = 1.5f;
+        }
+
+    }
+
 }

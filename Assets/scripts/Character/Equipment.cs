@@ -4,7 +4,8 @@ public enum EquipmentType
 {
     Weapon,
     Shield,
-    Armor
+    Armor,
+    Fist
 }
 
 public class Equipment : MonoBehaviour
@@ -54,3 +55,30 @@ public class Equipment : MonoBehaviour
     }
 
 }
+
+//Add toAImInput2
+//
+//  public void NewSword()
+//    {
+//        if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+//            _sword.transform.localScale = Vector3.zero;
+//        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+//        radius = 0.4f;
+//    }
+//    public void SwordBroke()
+//    {
+//        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Weapon))
+//            return;
+//        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Shield))
+//        {
+//            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
+//            radius = 1.0f;
+//        }
+//        else
+//        {
+//            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Fist);
+//            _sword.transform.localScale = Vector3.one;
+//            radius = 1.5f;
+//        }
+//    }
+//

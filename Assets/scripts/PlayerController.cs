@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviour
             AttackGuardMode(false);
         }
 
+        GetComponent<AimingInput2>().SwordBroke();
     }
     
 }

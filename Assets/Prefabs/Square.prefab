@@ -556,6 +556,7 @@ MonoBehaviour:
   _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
   _shieldPrefab: {fileID: 7955614898218700654, guid: 536b96b0c58bf3346b93d30059be1c0e, type: 3}
   _armorPrefab: {fileID: 0}
+  _fistPrefab: {fileID: 7955614898218700654, guid: 19bc52072a63a0c40ac21e9cbb859ec4, type: 3}
 --- !u!143 &8010338999682594830
 CharacterController:
   m_ObjectHideFlags: 0
@@ -675,6 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c0b7c04c472a6498e170825aeaf16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shield: {fileID: 0}
   _txtBlockName: BlockPowerTxt (1)
   _radius: 1
   _powerReducer: 20
@@ -736,5 +738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tempSwordDamage: 25
   _parryAngle: 35
   _timeForDisarming: 1

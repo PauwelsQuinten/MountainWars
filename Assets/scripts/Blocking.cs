@@ -75,7 +75,6 @@ public class Blocking : MonoBehaviour
     void Update()
     {
         BlockPrototype();
-        Debug.Log("updating");
 
     }
 
@@ -147,7 +146,9 @@ public class Blocking : MonoBehaviour
                 }
                 else
                 {
-                    if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
+                    var equipmentType = _shield.GetComponent<Equipment>().GetEquipmentType();
+                    //if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
+                    if (!_heldEquipment.EquipmentEnduresHit(equipmentType, _tempShieldDamageOnUse))
                     {
                         SwitchToSword();
                     }

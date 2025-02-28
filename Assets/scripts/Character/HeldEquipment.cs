@@ -8,6 +8,7 @@ public class HeldEquipment : MonoBehaviour
     [SerializeField] private Equipment _weaponPrefab;
     [SerializeField] private Equipment _shieldPrefab;
     [SerializeField] private Equipment _armorPrefab;
+    [SerializeField] private Equipment _fistPrefab;
     private Dictionary<EquipmentType, Equipment> _fullEquipment = new Dictionary<EquipmentType, Equipment>();
     private bool _readyToPickup = false;
     private Equipment _foundEquipment;
@@ -36,6 +37,14 @@ public class HeldEquipment : MonoBehaviour
             var armor = Instantiate(_armorPrefab, gameObject.transform);
             armor.GetComponent<SphereCollider>().enabled = false;
             _fullEquipment[EquipmentType.Armor] = armor;
+        }
+
+         _fullEquipment.Add(EquipmentType.Fist, null);
+        if (_fistPrefab != null)
+        {
+            var fist = Instantiate(_fistPrefab, gameObject.transform);
+            fist.transform.localScale = Vector3.zero;
+            _fullEquipment[EquipmentType.Fist] = fist;
         }
 
        
@@ -73,26 +82,54 @@ public class HeldEquipment : MonoBehaviour
         _foundEquipment = equipment;
     }
 
-    public void SetLookForPickup()
+    public void SetLookForPickup(bool drop = false)
     {
-        if (_foundEquipment == null)
+        if (_foundEquipment == null && !drop)
             return;
 
         var equipment = _foundEquipment;
-        if (_fullEquipment[_foundEquipment.GetEquipmentType()] != null)
+        EquipmentType targetedtype = drop? EquipmentType.Weapon : _foundEquipment.GetEquipmentType();
+        if (_fullEquipment[targetedtype] != null)
         {
-            _foundEquipment = _fullEquipment[_foundEquipment.GetEquipmentType()];
-            _fullEquipment[_foundEquipment.GetEquipmentType()].transform.parent = null;
+            _foundEquipment = _fullEquipment[targetedtype];
+            _fullEquipment[targetedtype].transform.parent = null;
+            _fullEquipment[targetedtype].GetComponent<SphereCollider>().enabled = true;
+
         }
         else
             _foundEquipment = null;
         
+        if (equipment == null)
+        {
+            _fullEquipment[EquipmentType.Weapon] = equipment;
+            return;
+        }
+
         equipment.transform.parent = transform;
         equipment.transform.localPosition = Vector3.zero;
+        equipment.GetComponent<SphereCollider>().enabled = false;
         _fullEquipment[equipment.GetEquipmentType()] = equipment;
-        GetComponent<Blocking>().NewShield();
 
-
+        switch(equipment.GetEquipmentType())
+        {
+            case EquipmentType.Weapon:
+                GetComponent<AimingInput2>().NewSword();
+                break;
+            case EquipmentType.Shield:
+                GetComponent<Blocking>().NewShield();
+                break;
+        }
+        
     }
+
+
+    public void DropSword()
+    {
+        if (_fullEquipment[EquipmentType.Weapon] != null)
+        {
+            SetLookForPickup(true);
+        }
+    }
+
 
 }

@@ -11,6 +11,7 @@ public enum ParryState
 
 public class SwordParry : MonoBehaviour
 {
+    [SerializeField] private float _tempSwordDamage = 25f;
     private bool _parryMode = false;
     private bool _parryState = false;
     private GameObject _attacker;
@@ -63,11 +64,14 @@ public class SwordParry : MonoBehaviour
             _disarmTime += Time.deltaTime;
             
 
-            Debug.Log($"{Vector2.Distance(_startParryVector, _inputSwordMovement)}");
+            //Debug.Log($"{Vector2.Distance(_startParryVector, _inputSwordMovement)}");
             if (Vector2.Distance(_startParryVector, _inputSwordMovement) < 0.1f)
             {
-                AIController attComp = _attacker.GetComponent<AIController>();
-                attComp.Disarmed();
+                //AIController attComp = _attacker.GetComponent<AIController>();
+                //attComp.Disarmed();
+                Debug.Log("Disarm");
+                _attacker.GetComponent<HeldEquipment>().DropSword();
+                _attacker.GetComponent<SwordSwing>().SwordBroke();
                 _attacker = null;
                 _disarmTime = 0;
                 _parryFase = ParryState.Idle;
@@ -142,6 +146,10 @@ public class SwordParry : MonoBehaviour
         _parryState = false;
         _parryFase = ParryState.Failed;
         _currentParryAngle = 0f;
+        if (!GetComponent<HeldEquipment>().EquipmentEnduresHit(EquipmentType.Weapon, _tempSwordDamage))
+        {
+            GetComponent<AimingInput2>().SwordBroke();  
+        }
     }
 
     public bool IsParrying()

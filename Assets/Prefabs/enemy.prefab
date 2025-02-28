@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 8991820935436539667}
   - component: {fileID: 7001357602489952156}
   - component: {fileID: 5738643356528873569}
+  - component: {fileID: 6167809968341975677}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -204,13 +205,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.9333334
+  m_Height: 1.39
   m_Radius: 0.7
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.7, z: 0}
 --- !u!95 &1270820464630759298
 Animator:
   serializedVersion: 7
@@ -261,6 +262,7 @@ MonoBehaviour:
   _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
   _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
   _armorPrefab: {fileID: 0}
+  _fistPrefab: {fileID: 7955614898218700654, guid: 19bc52072a63a0c40ac21e9cbb859ec4, type: 3}
 --- !u!114 &7056237991796404707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c0b7c04c472a6498e170825aeaf16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shield: {fileID: 0}
   _txtBlockName: 
   _radius: 1
   _powerReducer: 20
@@ -293,11 +296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e55df681e0b0ff4f8f37bdf00eda3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sword: {fileID: 0}
   _swingSpeed: 300
   _stabSpeed: 4
   _swingAngle: 120
   _anglePerspective: 60
+  _attackRange: 1.5
   _target: {fileID: 0}
   _targetMask:
     serializedVersion: 2
@@ -319,6 +322,7 @@ MonoBehaviour:
   _attackType: 8
   _useRandomAttackHeight: 0
   _useRandomDirection: 0
+  _useRandomAttackTypes: 0
   _fromRightSide: 1
 --- !u!114 &7001357602489952156
 MonoBehaviour:
@@ -348,8 +352,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tempSwordDamage: 25
   _parryAngle: 50
   _timeForDisarming: 0.5
+--- !u!114 &6167809968341975677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Direction: {x: 0, y: 0}
+  CurrentStanceState: 0
+  CurrentAttackType: 9
+  _speed: 10
+  _texMessage: {fileID: 0}
+  _txtActionPower: {fileID: 0}
+  _AttackMessage: {fileID: 0}
+  _arrow: {fileID: 0}
+  radius: 10
+  DEFAULT_SWORD_ORIENTATION: 218
+  YRotation: 45
+  SlashUp: 0
+  SlashDown: 0
+  _slashStrength: 0
+  _overCommitAngle: 170
+  _minSlashAngle: 25
+  _stanceResetTimer: 0
+  _attackMessage: 
+  _attackPower: 
 --- !u!1 &7598009601137933699
 GameObject:
   m_ObjectHideFlags: 0

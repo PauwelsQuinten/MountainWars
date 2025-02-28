@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 public class SwordSwing : MonoBehaviour
 {
-    [SerializeField] GameObject _sword;
+    GameObject _sword;
     [SerializeField] float _swingSpeed = 25f;
     [SerializeField] float _stabSpeed = 25f;
     [SerializeField] float _swingAngle = 90.0f;
     [SerializeField] float _anglePerspective = 71.0f;
+    [SerializeField] float _attackRange = 1.5f;
     [SerializeField] private GameObject _target;
     [SerializeField] private LayerMask _targetMask;
 
@@ -51,7 +52,7 @@ public class SwordSwing : MonoBehaviour
         _targetCollider = gameObject.AddComponent<SphereCollider>();
         _targetCollider.isTrigger = false;
         _targetCollider.enabled = false;
-        _targetCollider.radius = 2f;
+        _targetCollider.radius = _attackRange;
     }
 
     // Update is called once per frame
@@ -86,8 +87,8 @@ public class SwordSwing : MonoBehaviour
         {
             case AttackType.HorizontalSlashLeft:
             case AttackType.HorizontalSlashRight:
-               //minus the 90 degree because default is North
-                _sword.transform.Rotate(0.0f, 0.0f, orientationDegree);
+                _sword.transform.Rotate(0.0f, 0.0f, -_swingAngle*0.5f);
+                //_sword.transform.Rotate(0.0f, 0.0f, orientationDegree);
                 _startSwingAngle = _sword.transform.rotation.eulerAngles.z;
                 break;
             case AttackType.UpperSlashRight:
@@ -240,6 +241,38 @@ public class SwordSwing : MonoBehaviour
             
         }
     }
+
+    //--------------------------------------------------
+    //SwordParry stuff
+
+    public void NewSword()
+    {
+        if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+            _sword.transform.localScale = Vector3.zero;
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        //radius = 0.4f;
+    }
+
+    public void SwordBroke()
+    {
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Weapon))
+            return;
+
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Shield))
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
+            //radius = 1.0f;
+        }
+
+        else
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Fist);
+            _sword.transform.localScale = Vector3.one;
+            //radius = 1.5f;
+        }
+
+    }
+
 
 
 }
