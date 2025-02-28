@@ -132,6 +132,8 @@ public class SwordSwing : MonoBehaviour
             {
                 SwordParry swordParry = _target.GetComponent<SwordParry>();
                 swordParry.StartParry(false, null);
+                Blocking blocker = _target.GetComponent<Blocking>();
+                blocker.StopParryTime();
             }
 
         }

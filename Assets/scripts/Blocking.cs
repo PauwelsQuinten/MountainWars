@@ -391,7 +391,7 @@ public class Blocking : MonoBehaviour
             _currentParryAngle = 0.0f;
             _startParryVector = _blockInputDirection;
 
-            if (_currentParryChance == ParryChanceState.None || direction == 0)
+            if (_currentParryChance == ParryChanceState.None /*|| direction == 0*/)
             {
                 Debug.Log("Wrong start height");
                 _currentParryChance = ParryChanceState.Failled;
@@ -425,9 +425,9 @@ public class Blocking : MonoBehaviour
         float cross = _startParryVector.x * _blockInputDirection.y - _startParryVector.y * _blockInputDirection.x;
 
         if (_parryFromSameDirection)
-            return (cross * _parryDirection < 0);
+            return (cross * _parryDirection <= 0);
         else
-            return (cross * _parryDirection > 0);
+            return (cross * _parryDirection >= 0);
     }
 
     private bool SuccesFullBlock(AttackStance height, int direction)
