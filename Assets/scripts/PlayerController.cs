@@ -308,10 +308,10 @@ public class PlayerController : MonoBehaviour
                 speed = 0.4f;
                 break;
             case FightStyle.Combo:
-                speed = (_storedInput.magnitude > 0.2f)? 0f : 0.4f;
+                speed = 0.4f;
+                //speed = (_storedInput.magnitude > 0.2f)? 0f : 0.4f;
                 break;
             case FightStyle.Sword:
-                speed = (_storedInput.magnitude > 0.2f)? 0f : 1f;
                 break;
             default:
                 break;

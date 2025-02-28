@@ -12,6 +12,7 @@ public enum ParryState
 public class SwordParry : MonoBehaviour
 {
     [SerializeField] private float _tempSwordDamage = 25f;
+    [SerializeField] private bool _parryFromSameDirection = false;
     private bool _parryMode = false;
     private bool _parryState = false;
     private GameObject _attacker;
@@ -26,6 +27,8 @@ public class SwordParry : MonoBehaviour
 
     private float _disarmTime = 0.0f;
     [SerializeField]private float _timeForDisarming = 0.5f;
+    private int _direction = 0;
+
 
     void Start()
     {
@@ -39,14 +42,14 @@ public class SwordParry : MonoBehaviour
             return;
 
         //if (_parryState && !AroundParryZone())
-        if (_parryFase == ParryState.Parry && !AroundParryZone(_startParryVector))
+        if (_parryFase == ParryState.Parry && !AroundParryZone(_startParryVector) && CorrectDirection())
         {
             FailParry();
         }
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            //Failled sword attack
+            //Succcesfull parry 
             SwordSwing sw = _attacker.GetComponent <SwordSwing>();
             sw.SetIdle();
             //Set parried animation to attacker
@@ -94,7 +97,7 @@ public class SwordParry : MonoBehaviour
         _parryMode = start;
     }
 
-    public void StartParry(bool isGoing, GameObject attacker)
+    public void StartParry(bool isGoing, GameObject attacker, int direction = 0)
     {
         
         //check for parrystate to make sure it is only set once
@@ -105,6 +108,7 @@ public class SwordParry : MonoBehaviour
             _startParryVector = _inputSwordMovement;
             _currentParryAngle = 0f;
             _parryState = isGoing;
+            _direction = direction;
             _parryFase = ParryState.Parry;
         }
         //else if (!isGoing && _parryState)
@@ -155,6 +159,16 @@ public class SwordParry : MonoBehaviour
     public bool IsParrying()
     {
         return  _parryMode;
+    }
+
+    private bool CorrectDirection()
+    {
+        float cross = _startParryVector.x * _inputSwordMovement.y - _startParryVector.y * _inputSwordMovement.x;
+
+        if (_parryFromSameDirection)
+            return (cross * _direction <= 0);
+        else
+            return (cross * _direction >= 0);
     }
 
 }
