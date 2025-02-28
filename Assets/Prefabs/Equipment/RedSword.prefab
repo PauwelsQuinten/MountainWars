@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _equipmentType: 0
   _maxDurability: 100
+  _attack: 1.97
   _weight: 2
 --- !u!212 &5413534055230705163
 SpriteRenderer:

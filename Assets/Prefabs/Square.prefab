@@ -689,7 +689,8 @@ MonoBehaviour:
   _parryAngle: 1.4
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
-  _tempShieldDamageOnUse: 40
+  _parryFromSameDirection: 1
+  _tempShieldDamageOnUse: 15
 --- !u!114 &5495266006063797764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,7 +745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tempSwordDamage: 25
+  _tempSwordDamage: 15
+  _parryFromSameDirection: 0
   _parryAngle: 35
   _timeForDisarming: 1
 --- !u!114 &174136612062864949

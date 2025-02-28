@@ -173,7 +173,11 @@ public class PlayerController : MonoBehaviour
         if (_fightStyle == FightStyle.Sword)
             _SwordParry.StartParryMode(false);
         else
+        {
             AttackGuardMode(false);
+            _shield.SetInputDirection(Vector2.zero);
+        }
+
     }
     
     private void _gaurdAction_IsInProgress(InputAction.CallbackContext context)
@@ -253,6 +257,7 @@ public class PlayerController : MonoBehaviour
         {
             AttackGuardMode(false);
             _Sword.ChangeStance(AttackStance.Head);
+            _shield.SetInputDirection(Vector2.zero);
         }
     }
  
@@ -268,7 +273,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            AttackGuardMode(false);
+            AttackGuardMode(false);           
+            _shield.SetInputDirection(Vector2.zero);
             _Sword.ChangeStance(AttackStance.Legs);
         }
 
