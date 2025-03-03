@@ -1337,7 +1337,7 @@ MonoBehaviour:
   _healthBar: {fileID: 4961313179270149180}
   _bloodBar: {fileID: 4514591629196839228}
   _physique: 6
-  _baseLimbHealth: 75
+  _baseLimbHealth: 200
   _maxBlood: 100
   _bleedOutSpeed: 7.5
   _headBones: {fileID: 3692997956248682001}
