@@ -62,7 +62,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlackDottedAmount: 0
+    - _BlackDottedAmount: 0.468
+    - _BlackMaskColor: 0
     - _BlackOpacity: 1
     - _C_Rotation: 0.262
     - _ColorMaskFuzziness: 0

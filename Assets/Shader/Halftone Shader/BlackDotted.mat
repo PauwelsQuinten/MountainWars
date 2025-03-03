@@ -55,7 +55,7 @@ Material:
     - _DotSizeMaxM: 1
     - _DotSizeMaxY: 1
     - _DotSizeMinC: 0.4
-    - _DotSizeMinK: 0.215
+    - _DotSizeMinK: 0.452
     - _DotSizeMinM: 0.4
     - _DotSizeMinY: 0.4
     - _Dots_Scale: 301
