@@ -45,8 +45,6 @@ public class HealthManager : MonoBehaviour
     {
         InitBodyParts();
 
-        _bodyPartCurrentHealth = _bodyPartMaxHealth;
-
         foreach (var bodypart in _bodyPartCurrentHealth)
         {
             _maxHealth += bodypart.Value;
@@ -130,5 +128,7 @@ public class HealthManager : MonoBehaviour
         _bodyPartMaxHealth.Add(BodyParts.RightLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
         _bodyPartMaxHealth.Add(BodyParts.LeftArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
         _bodyPartMaxHealth.Add(BodyParts.RightArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
+
+        _bodyPartCurrentHealth = _bodyPartMaxHealth;
     }
 }

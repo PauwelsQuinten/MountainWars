@@ -190,6 +190,7 @@ public class AimingInput2 : MonoBehaviour
         _startDirection = 0;
         CurrentAttackType = AttackType.None;
         _isAttackSet = false;
+        _feinted = false;
         //foreach (var hitZone in _hitZones)
         //{
         //    hitZone.SetActive(false);
@@ -201,8 +202,6 @@ public class AimingInput2 : MonoBehaviour
 
     private void SetStance()
     {
-        
-
         int index = 0;
         //Show hitZone
         switch (CurrentStanceState)
@@ -216,7 +215,6 @@ public class AimingInput2 : MonoBehaviour
             case AttackStance.Legs:
                 index = _isSlash ? 2 : 5;
                 break;
-
         }
         _currentHitBoxIndex = index;
     }
@@ -359,6 +357,7 @@ public class AimingInput2 : MonoBehaviour
                     {
                         _feinted = false;
                         _checkFeint = false;
+                        Debug.Log($"set CheckFeint{_checkFeint}");
                         _feintStartAngle = 0f;
                     }
                 }
@@ -369,21 +368,27 @@ public class AimingInput2 : MonoBehaviour
                     {
                         _feinted = false;
                         _checkFeint = false;
+                        Debug.Log($"set CheckFeint{_checkFeint}");
                         _feintStartAngle = 0f;
                     }
                 }
             }
             else if (_canRun && !_feinted && !_overcommited)
             {
+                _canRun = false;
+                _attemptedAttack = true;
                 if (_feintStartAngle == 0 && _slashAngle > 15) _feintStartAngle = currentangle - 90;
-                if (_slashAngle > 15 && _attemptedAttack) _checkFeint = true;
-                CheckAttack();
+                if (_slashAngle > 15 && _attemptedAttack)
+                {
+                    _checkFeint = true;
+                    Debug.Log($"set CheckFeint{_checkFeint}");
+                }
+                if(!_checkFeint)CheckAttack();
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;
-                _canRun = false;
-                _attemptedAttack = true;
             }
+            if(_feinted) _feinted = false;
         }
         else if (_canRun && !_feinted && !_overcommited)
         {
@@ -398,6 +403,7 @@ public class AimingInput2 : MonoBehaviour
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
             _isAttackSet = false;
+            _feinted = false;
         }
     }
 
@@ -413,6 +419,7 @@ public class AimingInput2 : MonoBehaviour
 
                 _feinted = false;
                 _checkFeint = false;
+                Debug.Log($"set CheckFeint{_checkFeint}");
                 _feintStartAngle = 0f;
                 _overcommited = false;
                 Attack();
@@ -537,7 +544,5 @@ public class AimingInput2 : MonoBehaviour
             _sword.transform.localScale = Vector3.one;
             radius = 1.5f;
         }
-
     }
-
 }
