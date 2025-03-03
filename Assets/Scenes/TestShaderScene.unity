@@ -391,7 +391,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 78b8ef71e449fac47a6d493cd32d3b77, type: 2}
+  - {fileID: 2100000, guid: fcfff9ff98d6f194ab600569e8e1d63e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5311,7 +5311,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f38e69f2690b4bc44b4d37046afb1d4e, type: 2}
+  - {fileID: 2100000, guid: fcfff9ff98d6f194ab600569e8e1d63e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5352,7 +5352,7 @@ Transform:
   m_GameObject: {fileID: 921802254}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -62, y: 6.9, z: 0}
+  m_LocalPosition: {x: -64.71, y: 7.71, z: 0}
   m_LocalScale: {x: 1.5546811, y: 1.6717, z: 1.6717}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16167,7 +16167,7 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 5, y: 0.5, z: 0.5}
+      - m_Value: {x: 1.53, y: 0.5, z: 0.5}
         m_Name: BloodVelocity
         m_Overridden: 1
     m_Vector4f:
