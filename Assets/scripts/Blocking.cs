@@ -1,27 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-
-public enum ParryChanceState
-{
-    Start,
-    Failled,
-    None,
-    Succes
-}
-public enum BlockState
-{
-    Idle,
-    MovingShield,
-    HoldBlock,
-    WeakeningBlock,
-    Broken
-}
 
 public class Blocking : MonoBehaviour
 {

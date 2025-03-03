@@ -617,7 +617,7 @@ MonoBehaviour:
   SlashUp: 0
   SlashDown: 0
   _slashStrength: 3
-  _overCommitAngle: 170
+  _overCommitAngle: 175
   _minSlashAngle: 25
   _stanceResetTimer: 1
   _attackMessage: BlockPowerTxt
@@ -768,6 +768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpDistanceMultiplier: 2
-  _jumpSpeed: 20
-  _cooldownTime: 0.15
+  _jumpSpeed: 10
+  _cooldownTime: 0.1
   CanJump: 1

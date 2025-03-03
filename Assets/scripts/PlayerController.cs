@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _slashDownAction;
     private InputAction _pickupAction;
     private InputAction _dodgeAction;
+    private InputAction _cancelShieldHoldAction;
 
     private CharacterMovement _characterMovement;
     private Blocking _shield;
@@ -52,15 +53,15 @@ public class PlayerController : MonoBehaviour
         InitInputActions();
         _guardAction.performed += _gaurdAction_IsInProgress;
         _guardAction.canceled += _gaurdAction_Canceled;
-        _attackGuard.performed += _attackGuard_performed;
-        _attackGuard.canceled += _attackGuard_Canceled;
+        //_attackGuard.performed += _attackGuard_performed;
+        //_attackGuard.canceled += _attackGuard_Canceled;
 
         _moveAction.performed += _moveAction_performed;
         _moveAction.canceled += _moveAction_Canceled;
         _aimAction.performed += _aimAction_performed;
         _aimAction.canceled += _aimAction_Canceled;
 
-        //_aimFeetAction.performed += _aimFeet_performed;
+        _aimFeetAction.performed += _aimFeet_performed;
         _aimHeadAction.performed += _aimHead_performed;
         //_slashDownAction.performed += _slashDown_performed;
         //_slashDownAction.canceled += _slashDown_canceled;
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         _pickupAction.performed += _pickup_performed;
         _dodgeAction.performed += _dodge_performed;
+        _cancelShieldHoldAction.performed += _CancelShield_Performed;
     }
     private void OnDisable()
     {
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
         _slashDownAction = inputActionAsset.FindAction("Player/SlashDown");
         _pickupAction = inputActionAsset.FindAction("Player/Pickup");
         _dodgeAction = inputActionAsset.FindAction("Player/Dodge");
+        _cancelShieldHoldAction = inputActionAsset.FindAction("Player/CancelShield");
     }
 
     #endregion Initialising
@@ -205,6 +208,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void _CancelShield_Performed(InputAction.CallbackContext context)
+    {
+        if (_fightStyle == FightStyle.Combo)
+        {
+            AttackGuardMode(false);
+            _Sword.ChangeStance(AttackStance.Head);
+            _shield.SetInputDirection(Vector2.zero);
+        }
+    }
+
 
     private void AttackGuardMode(bool start)
     {
@@ -274,13 +287,6 @@ public class PlayerController : MonoBehaviour
             _fightStyle = FightStyle.Combo;
             _shield.HoldBlock(true);
         }
-        else
-        {
-            AttackGuardMode(false);           
-            _shield.SetInputDirection(Vector2.zero);
-            _Sword.ChangeStance(AttackStance.Legs);
-        }
-
     }
 
     #endregion AnalogClicks

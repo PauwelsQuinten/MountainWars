@@ -83,7 +83,8 @@ public class HealthManager : MonoBehaviour
 
                 if(_bodyPartCurrentHealth[part] <= 0)
                 {
-                    if (part == BodyParts.Head || part == BodyParts.Torso) _currentHealth = 0;
+                    if (part == BodyParts.Head) _currentHealth = 0;
+                    else if(part == BodyParts.Torso) _bleedOutRate += _bleedOutSpeed * 1.5f;
                     else _bleedOutRate += _bleedOutSpeed;
                 }
             }

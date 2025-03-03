@@ -94,7 +94,6 @@ public class SwordParry : MonoBehaviour
                 return;
             }
         }
-
     }
 
     public void StartParryMode(bool start)
