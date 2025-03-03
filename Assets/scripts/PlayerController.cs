@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private FightStyle _fightStyle = FightStyle.Sword;
     private Vector2 _storedInput = Vector2.zero;
-    private bool _isJumping = false;
+    public bool IsJumping = false;
 
     #region Initialising
     void Start()
@@ -60,12 +60,12 @@ public class PlayerController : MonoBehaviour
         _aimAction.performed += _aimAction_performed;
         _aimAction.canceled += _aimAction_Canceled;
 
-        _aimFeetAction.performed += _aimFeet_performed;
+        //_aimFeetAction.performed += _aimFeet_performed;
         _aimHeadAction.performed += _aimHead_performed;
-        _slashDownAction.performed += _slashDown_performed;
-        _slashDownAction.canceled += _slashDown_canceled;
-        _slashUpAction.performed += _slashUp_performed;
-        _slashUpAction.canceled += _slashUp_canceled;
+        //_slashDownAction.performed += _slashDown_performed;
+        //_slashDownAction.canceled += _slashDown_canceled;
+        //_slashUpAction.performed += _slashUp_performed;
+        //_slashUpAction.canceled += _slashUp_canceled;
 
         _pickupAction.performed += _pickup_performed;
         _dodgeAction.performed += _dodge_performed;
@@ -119,7 +119,8 @@ public class PlayerController : MonoBehaviour
     
     private void _dodge_performed(InputAction.CallbackContext obj)
     {
-        _isJumping = true;
+        if (!GetComponent<Dodge>().CanJump) return;
+        IsJumping = true;
         Vector2 jumpInput = _moveAction.ReadValue<Vector2>();
         GetComponent<Dodge>().StartJump(jumpInput);
     }
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     private void _aimAction_performed(InputAction.CallbackContext obj)
     {
-        if (_isJumping)
+        if (IsJumping)
             return;
 
         if (_fightStyle == FightStyle.Shield)
@@ -163,7 +164,10 @@ public class PlayerController : MonoBehaviour
     private void _attackGuard_performed(InputAction.CallbackContext context)
     {
         if (_fightStyle == FightStyle.Sword)
+        {
+            _Sword.IsParrying = true;
             _SwordParry.StartParryMode(true);
+        }
         else
             AttackGuardMode(true);
     }
@@ -171,13 +175,15 @@ public class PlayerController : MonoBehaviour
     private void _attackGuard_Canceled(InputAction.CallbackContext context)
     {
         if (_fightStyle == FightStyle.Sword)
+        {
+            _Sword.IsParrying = false;
             _SwordParry.StartParryMode(false);
+        }
         else
         {
             AttackGuardMode(false);
             _shield.SetInputDirection(Vector2.zero);
         }
-
     }
     
     private void _gaurdAction_IsInProgress(InputAction.CallbackContext context)
@@ -187,7 +193,6 @@ public class PlayerController : MonoBehaviour
             _fightStyle = FightStyle.Shield;
             _shield.ActivateBlock(true);
         }
-
     }
 
     private void _gaurdAction_Canceled(InputAction.CallbackContext context)
@@ -197,9 +202,7 @@ public class PlayerController : MonoBehaviour
             _fightStyle = FightStyle.Sword;
             _shield.ActivateBlock(false);
             _shield.SetInputDirection(Vector2.zero);
-
         }
-
     }
 
 
@@ -304,7 +307,7 @@ public class PlayerController : MonoBehaviour
     }
     private void _moveAction_performed(InputAction.CallbackContext obj)
     {
-        if (_isJumping)
+        if (IsJumping)
             return;
 
         float speed = 1.0f;
@@ -346,11 +349,4 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<AimingInput2>().SwordBroke();
     }
-
-    public void JumpFinished()
-    {
-        _isJumping = false;
-        GetComponent<Dodge>().StartCooldown();
-    }
-    
 }

@@ -23,6 +23,8 @@ public class SwordParry : MonoBehaviour
     private float _currentParryAngle = 0f;
     private Vector2 _startParryVector;
     private Vector2 _secondParryVector;
+    private float _parryPower = 10;
+    private float _attackPower;
     [SerializeField]private float _parryAngle = 90f;
 
     private float _disarmTime = 0.0f;
@@ -49,18 +51,21 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            //Succcesfull parry 
-            SwordSwing sw = _attacker.GetComponent <SwordSwing>();
-            sw.SetIdle();
-            //Set parried animation to attacker
-            AIController attComp = _attacker.GetComponent<AIController>();
-            attComp.Parried();
-            _parryState = false; 
+            if(_attackPower <= _parryPower)
+            {
+                //Succcesfull parry 
+                SwordSwing sw = _attacker.GetComponent<SwordSwing>();
+                sw.SetIdle();
+                //Set parried animation to attacker
+                AIController attComp = _attacker.GetComponent<AIController>();
+                attComp.Parried();
+                _parryState = false;
 
-            //Set to disarm
-            _parryFase = ParryState.Dissarm;
-            _currentParryAngle = 0;
-            _secondParryVector = _inputSwordMovement;
+                //Set to disarm
+                _parryFase = ParryState.Dissarm;
+                _currentParryAngle = 0;
+                _secondParryVector = _inputSwordMovement;
+            }
         }
         else if (_parryFase == ParryState.Dissarm)
         {
@@ -97,9 +102,9 @@ public class SwordParry : MonoBehaviour
         _parryMode = start;
     }
 
-    public void StartParry(bool isGoing, GameObject attacker, int direction = 0)
+    public void StartParry(bool isGoing, GameObject attacker, int power, int direction = 0)
     {
-        
+        _attackPower = power;
         //check for parrystate to make sure it is only set once
         //if (isGoing && !_parryState)
         if (isGoing && _parryFase == ParryState.Idle)

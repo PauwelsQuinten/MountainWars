@@ -91,6 +91,7 @@ public class AimingInput2 : MonoBehaviour
     private float _damage;
     private bool _overcommited;
     private bool _canRun;
+    public bool IsParrying;
 
     private void Start()
     {
@@ -115,7 +116,6 @@ public class AimingInput2 : MonoBehaviour
     {
         if (GetComponent<AIController>() != null)
             return;
-
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
@@ -409,6 +409,7 @@ public class AimingInput2 : MonoBehaviour
 
     private void CheckAttack()
     {
+        if (IsParrying) return;
         //if (CheckFeint(_slashAngle, _minSlashAngle)) return;
         GetpossibleAtack();
          foreach(AttackType Possebility in _possibleAttacks) 

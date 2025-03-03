@@ -35,6 +35,8 @@ public class SwordSwing : MonoBehaviour
     private Vector3 _currentOrientationVector;
     private Vector3 _startStabVector;
     private NpcAttackState _currentState = NpcAttackState.Start;
+    private int _power = 10;
+    private HealthManager _healthManager;
 
     public EventHandler OnStopHit;
     public EventHandler<HitEventArgs> OnStartHit;
@@ -43,10 +45,13 @@ public class SwordSwing : MonoBehaviour
         public AttackStance AttackHeight { get; }
         public int Direction { get; }
 
-        public HitEventArgs(AttackStance param1, int param2)
+        public int Power { get; }
+
+        public HitEventArgs(AttackStance param1, int param2, int power)
         {
             AttackHeight = param1;
             Direction = param2;
+            Power = power;
         }
     }
 
@@ -54,6 +59,7 @@ public class SwordSwing : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _healthManager = GetComponent<HealthManager>();
         _animationRef = GetComponent<WalkAnimate>();
 
         _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
@@ -64,6 +70,9 @@ public class SwordSwing : MonoBehaviour
         _targetCollider.isTrigger = false;
         _targetCollider.enabled = false;
         _targetCollider.radius = _attackRange;
+
+        if(_healthManager.Physique > 5) _power -=  5 - _healthManager.Physique;
+        else if (_healthManager.Physique < 5) _power -= 5 -_healthManager.Physique;
     }
 
     // Update is called once per frame
@@ -141,7 +150,7 @@ public class SwordSwing : MonoBehaviour
             if (_target)
             {
                 SwordParry swordParry = _target.GetComponent<SwordParry>();
-                swordParry.StartParry(false, null);
+                swordParry.StartParry(false, null, 0);
                 Blocking blocker = _target.GetComponent<Blocking>();
                 blocker.StopParryTime();
             }
@@ -154,7 +163,7 @@ public class SwordSwing : MonoBehaviour
             SwordParry swordParry = _target.GetComponent<SwordParry>();
             if (swordParry && swordParry.IsParrying())
             {
-                swordParry.StartParry(true, gameObject);
+                swordParry.StartParry(true, gameObject, _power);
             }
             else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
@@ -223,7 +232,7 @@ public class SwordSwing : MonoBehaviour
             SwordParry swordParry = _target.GetComponent<SwordParry>();
             Blocking blocker = _target.GetComponent<Blocking>();
             blocker.StopParryTime();
-            swordParry.StartParry(false, null);
+            swordParry.StartParry(false, null, 0);
 
         }
 
@@ -235,7 +244,7 @@ public class SwordSwing : MonoBehaviour
             Blocking blocker = _target.GetComponent<Blocking>();
             if (swordParry && swordParry.IsParrying())
             {
-                swordParry.StartParry(true, gameObject);
+                swordParry.StartParry(true, gameObject,_power);
             }
             else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
@@ -336,9 +345,5 @@ public class SwordSwing : MonoBehaviour
             _sword.transform.localScale = Vector3.one;
             //radius = 1.5f;
         }
-
     }
-
-
-
 }

@@ -7,26 +7,19 @@ public class Dodge : MonoBehaviour
     [SerializeField]private float _jumpSpeed = 1f;
     [SerializeField]private float _cooldownTime = 1f;
     private Vector3 _startLocation;
-    private bool _inCooldown = false;
-    Coroutine _coroutine = null;
+    private Coroutine _Cooldown;
+    private Coroutine _jumping;
+    public bool CanJump = true;
 
     public void StartJump(Vector3 direction )
     {
-        if (_inCooldown )
-            return;
-
-        _inCooldown = true;
+        if (!CanJump) return;
+        CanJump = false;
         _startLocation = transform.position;
         float distance = direction.magnitude * _jumpDistanceMultiplier;
         direction = direction.normalized;
 
-        _coroutine = StartCoroutine(Jumping(direction, distance));
-    }
-
-    public void StartCooldown()
-    {
-        StartCoroutine(CoolDown());
-
+        _jumping = StartCoroutine(Jumping(direction, distance));
     }
 
     IEnumerator Jumping(Vector3 direction, float distance )
@@ -36,17 +29,13 @@ public class Dodge : MonoBehaviour
             transform.position += _jumpSpeed * Time.deltaTime * direction;
             yield return null;
         }
-        GetComponent<PlayerController>().JumpFinished();
+        GetComponent<PlayerController>().IsJumping = false;
+        _Cooldown = StartCoroutine(CoolDown());
     }
 
     IEnumerator CoolDown()
     {
         yield return new WaitForSeconds(_cooldownTime);
-        _inCooldown = false;
-/*
-        if( _coroutine != null)
-            StopCoroutine(_coroutine);*/
+        CanJump = true;
     }
-
-    
 }

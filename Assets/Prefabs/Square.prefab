@@ -541,6 +541,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9523c117-dfcb-4af8-8b8b-4627d51ffb80
     m_ActionName: 'Player/Pickup[/DualShock4GamepadHID/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bfc06b42-6aab-4fb5-a3a5-e5845d389952
+    m_ActionName: 'Player/Dodge[/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -618,6 +622,7 @@ MonoBehaviour:
   _stanceResetTimer: 1
   _attackMessage: BlockPowerTxt
   _attackPower: BlockPowerTxt (1)
+  IsParrying: 0
 --- !u!95 &223448091233570701
 Animator:
   serializedVersion: 7
@@ -704,6 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  IsJumping: 0
 --- !u!114 &716812571052693609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,5 +768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpDistanceMultiplier: 2
-  _jumpSpeed: 50
-  _cooldownTime: 0.3
+  _jumpSpeed: 20
+  _cooldownTime: 0.15
+  CanJump: 1

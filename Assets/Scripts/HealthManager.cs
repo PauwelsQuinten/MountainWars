@@ -11,8 +11,8 @@ public class HealthManager : MonoBehaviour
     private SpriteRenderer _healthBar;
     [SerializeField]
     private SpriteRenderer _bloodBar;
-    [SerializeField, Range(0.0f, 10.0f)]
-    private int _physique;
+    [Range(0.0f, 10.0f)]
+    public int Physique;
     [SerializeField]
     private int _baseLimbHealth;
     [SerializeField]
@@ -122,12 +122,12 @@ public class HealthManager : MonoBehaviour
 
     private void InitBodyParts()
     {
-        _bodyPartMaxHealth.Add(BodyParts.Head, (int)((_baseLimbHealth * 0.75f) + (((_baseLimbHealth * 0.75f) / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.Torso, (int)((_baseLimbHealth * 2) + (((_baseLimbHealth * 2) / 100) * _physique))); 
-        _bodyPartMaxHealth.Add(BodyParts.LeftLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.RightLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.LeftArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.RightArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
+        _bodyPartMaxHealth.Add(BodyParts.Head, (int)((_baseLimbHealth * 0.75f) + (((_baseLimbHealth * 0.75f) / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.Torso, (int)((_baseLimbHealth * 2) + (((_baseLimbHealth * 2) / 100) * Physique))); 
+        _bodyPartMaxHealth.Add(BodyParts.LeftLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.RightLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.LeftArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.RightArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
 
         _bodyPartCurrentHealth = _bodyPartMaxHealth;
     }

@@ -130,6 +130,4 @@ public class HeldEquipment : MonoBehaviour
             SetLookForPickup(true);
         }
     }
-
-
 }

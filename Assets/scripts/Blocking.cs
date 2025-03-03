@@ -76,7 +76,6 @@ public class Blocking : MonoBehaviour
     void Update()
     {
         BlockPrototype();
-
     }
 
     //-------------------------------------------------------
@@ -447,7 +446,8 @@ public class Blocking : MonoBehaviour
         float blockAngle = Vector2.Angle(orientationVector, _shield.transform.localPosition);
         //float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
 
-        return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
+        bool succes = cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
+        return succes;
     }
 
     private void FollowTarget()
@@ -461,5 +461,4 @@ public class Blocking : MonoBehaviour
         _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
        
     }
-
 }
