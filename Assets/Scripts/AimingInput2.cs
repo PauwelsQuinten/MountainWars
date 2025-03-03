@@ -9,8 +9,7 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 loadDirection = Vector2.zero;
     private Vector2 slashDirection = Vector2.zero;
 
-    private SlashState state = SlashState.Windup;
-    private SlashDirection slashState = SlashDirection.Neutral;
+    
     public AttackStance CurrentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
     public AttackType CurrentAttackType = AttackType.None;
@@ -30,7 +29,8 @@ public class AimingInput2 : MonoBehaviour
     
 
     //extra state for second prototype
-    [SerializeField] private GameObject _sword;
+    private GameObject _sword;
+    [SerializeField] private GameObject _arrow;
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
@@ -94,11 +94,17 @@ public class AimingInput2 : MonoBehaviour
 
     private void Start()
     {
-        InputManager input = FindObjectOfType<InputManager>();
-        input.AimingScript = this;
-        _startLocation = _sword.transform.position;
-        _attackFinder = FindObjectOfType<FindPossibleAttacks>();
+        //InputManager input = FindObjectOfType<InputManager>();
+        //input.AimingScript = this;
+        //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
+        _attackFinder = GetComponent<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        _startLocation = _sword.transform.position;
+        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
+
+        if (GetComponent<AIController>() != null)
+            return;
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
@@ -107,6 +113,9 @@ public class AimingInput2 : MonoBehaviour
 
     private void Update()
     {
+        if (GetComponent<AIController>() != null)
+            return;
+
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
@@ -160,7 +169,7 @@ public class AimingInput2 : MonoBehaviour
             ResetValues();
         }
         //Force direction to be correct on idle
-        if (newLength < MIN_WINDUP_LENGTH)
+        if (_sword && newLength < MIN_WINDUP_LENGTH)
         {
             _sword.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
@@ -169,8 +178,12 @@ public class AimingInput2 : MonoBehaviour
 
     private void ResetValues()
     {
-        _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
-        _sword.transform.localPosition = _startLocation;
+        if (_sword)
+        {
+            _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
+            _sword.transform.localPosition = _startLocation;
+        }
+
         _chargedTime = 0.0f;
         defaultPower = 5.0f;
         //_txtActionPower.enabled = false;
@@ -181,11 +194,15 @@ public class AimingInput2 : MonoBehaviour
         //{
         //    hitZone.SetActive(false);
         //}
+        if (_arrow)
+            _arrow.SetActive(false);
         if(!_isResetingStance) CurrentStanceState = AttackStance.Torso;
     }
 
     private void SetStance()
     {
+        
+
         int index = 0;
         //Show hitZone
         switch (CurrentStanceState)
@@ -210,7 +227,7 @@ public class AimingInput2 : MonoBehaviour
 
         if (angle > 110.0f + _orientationAngle - 90f || angle < 70.0f + _orientationAngle - 90f)
         {
-            //_currentAttackType = (_currentAttackType == AttackType.Stab) ? AttackType.HorizontalSlashLeft : _currentAttackType;
+            //_currentAttackType = (_currentAttackType == AttackType.Swing) ? AttackType.HorizontalSlashLeft : _currentAttackType;
             CurrentAttackType = AttackType.HorizontalSlashLeft;
             _isAttackSet = true;
         }
@@ -281,8 +298,12 @@ public class AimingInput2 : MonoBehaviour
             _isCharging = true;
             if (_chargedTime < MAX_CHARGE_TIME)
                 _chargedTime += (Time.deltaTime * 4.0f);
-            _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
-            _sword.transform.localPosition = Vector3.zero;
+            if (_sword)
+            {
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
+                _sword.transform.localPosition = Vector3.zero;
+            }
+
             _txtActionPower.enabled = false;
             return;
         }
@@ -461,6 +482,8 @@ public class AimingInput2 : MonoBehaviour
 
     private void SwordVisual(float angle)
     {
+        if (!_sword)
+            return;
         //Sword follows analog -> visualization 
         _sword.transform.localPosition = new Vector3(Direction.x * radius, Direction.y * radius, 0.0f);
         Vector3 swordRotation = new Vector3(0, 0, angle);
@@ -488,4 +511,33 @@ public class AimingInput2 : MonoBehaviour
         CurrentStanceState = stance;
         _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
+
+    public void NewSword()
+    {
+        if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+            _sword.transform.localScale = Vector3.zero;
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        radius = 0.4f;
+    }
+
+    public void SwordBroke()
+    {
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Weapon))
+            return;
+
+        if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Shield))
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
+            radius = 1.0f;
+        }
+
+        else
+        {
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Fist);
+            _sword.transform.localScale = Vector3.one;
+            radius = 1.5f;
+        }
+
+    }
+
 }

@@ -10,6 +10,7 @@ public class AIController : MonoBehaviour
     [SerializeField] AttackType _attackType = AttackType.HorizontalSlashRight;
     [SerializeField] bool _useRandomAttackHeight = false;
     [SerializeField] bool _useRandomDirection = false;
+    [SerializeField] bool _useRandomAttackTypes = false;
     private SwordSwing _swordSwing;
     private WalkAnimate _animator;
     [SerializeField] private bool _fromRightSide = true;
@@ -39,6 +40,10 @@ public class AIController : MonoBehaviour
      private void Action_performed()
     {
 
+        if (_useRandomAttackTypes)
+        {
+            _attackType = (Random.Range(0, 2) > 0)? AttackType.Stab : AttackType.HorizontalSlashLeft;
+        }
         if (_useRandomAttackHeight)
         {
             _height = (AttackStance) Random.Range(-1, 2);
@@ -60,10 +65,15 @@ public class AIController : MonoBehaviour
         _animator.Parried();
 
     }
+    
+    public void Disarmed()
+    {
+        _animator.Disarmed();
+
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

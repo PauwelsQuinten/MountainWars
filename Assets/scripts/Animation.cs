@@ -84,7 +84,6 @@ public class WalkAnimate : MonoBehaviour
 
     public void GetHit()
     {
-        Debug.Log("hit");
         _animator.SetTrigger("GetHit");
     }
 
@@ -106,6 +105,12 @@ public class WalkAnimate : MonoBehaviour
     public void Parried()
     {
         _animator.SetTrigger("Parried");
+
+    }
+    
+    public void Disarmed()
+    {
+        _animator.SetTrigger("Disarmed");
 
     }
 }
