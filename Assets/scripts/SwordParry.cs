@@ -51,7 +51,13 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            if (_attackPower <= _parryPower) GetComponent<HeldEquipment>().DropSword();
+            if (_attackPower > _parryPower)
+            {
+                Debug.Log(_direction);
+                GetComponent<HeldEquipment>().DropSword(_direction, true);
+                GetComponent<AimingInput2>().SwordBroke();
+            }
+
 
             //Succcesfull parry 
             SwordSwing sw = _attacker.GetComponent<SwordSwing>();
@@ -76,9 +82,12 @@ public class SwordParry : MonoBehaviour
             {
                 //AIController attComp = _attacker.GetComponent<AIController>();
                 //attComp.Disarmed();
-                Debug.Log("Disarm");
-                _attacker.GetComponent<HeldEquipment>().DropSword();
-                _attacker.GetComponent<SwordSwing>().SwordBroke();
+                if (_attackPower <= _parryPower)
+                {
+                    Debug.Log("Disarm");
+                    _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    _attacker.GetComponent<SwordSwing>().SwordBroke();
+                }
                 _attacker = null;
                 _disarmTime = 0;
                 _parryFase = ParryState.Idle;

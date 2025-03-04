@@ -244,7 +244,7 @@ public class SwordSwing : MonoBehaviour
             Blocking blocker = _target.GetComponent<Blocking>();
             if (swordParry && swordParry.IsParrying())
             {
-                swordParry.StartParry(true, gameObject,_power);
+                swordParry.StartParry(true, gameObject,_power, _swingDirection);
             }
             else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeldEquipment : MonoBehaviour
@@ -10,6 +12,7 @@ public class HeldEquipment : MonoBehaviour
     private Dictionary<EquipmentType, Equipment> _fullEquipment = new Dictionary<EquipmentType, Equipment>();
     private bool _readyToPickup = false;
     private Equipment _foundEquipment;
+    private Coroutine _goFlyCoroutine;
 
     private void Start()
     {
@@ -81,7 +84,7 @@ public class HeldEquipment : MonoBehaviour
         _foundEquipment = equipment;
     }
 
-    public void SetLookForPickup(bool drop = false)
+    public void SetLookForPickup(bool drop = false, int direction = 1, bool goFly = false)
     {
         if (_foundEquipment == null && !drop)
             return;
@@ -91,11 +94,22 @@ public class HeldEquipment : MonoBehaviour
         if (_fullEquipment[targetedtype] != null)
         {
             _foundEquipment = _fullEquipment[targetedtype];
-            if (targetedtype == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             _fullEquipment[targetedtype].transform.parent = null;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().enabled = true;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().isTrigger = true;
 
+            if (goFly)
+            {
+                float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
+                Transform t = Instantiate(transform);
+                t.rotation = Quaternion.Euler(new Vector3(0,0,t.rotation.z + (orientation - 90)));
+
+                if (direction == 1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
+                else if (direction == -1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
+                else if (direction == 0) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.forward * 6, 2, 1, _fullEquipment[targetedtype].transform));
+
+                Destroy(t.gameObject);
+            }
         }
         else
             _foundEquipment = null;
@@ -108,7 +122,6 @@ public class HeldEquipment : MonoBehaviour
 
         equipment.transform.parent = transform;
         equipment.transform.localPosition = Vector3.zero;
-        if (targetedtype == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = true;
         equipment.GetComponent<SphereCollider>().enabled = false;
         equipment.GetComponent<SphereCollider>().isTrigger = false;
         _fullEquipment[equipment.GetEquipmentType()] = equipment;
@@ -126,11 +139,24 @@ public class HeldEquipment : MonoBehaviour
     }
 
 
-    public void DropSword()
+    public void DropSword(int direction = 1, bool goFly = false)
     {
         if (_fullEquipment[EquipmentType.Weapon] != null)
         {
-            SetLookForPickup(true);
+            SetLookForPickup(true, direction, goFly);
         }
+    }
+
+    IEnumerator LaunchSword(Vector3 startPos, Vector3 direction, float distance, float speed, Transform obj)
+    {
+        while (Vector3.Distance(startPos, obj.position) <= distance)
+        {
+            obj.position += speed * Time.deltaTime * direction;
+            yield return null;
+        }
+
+        Vector3 resetZ = obj.position;
+        resetZ.z = 0;
+        obj.position = resetZ;
     }
 }

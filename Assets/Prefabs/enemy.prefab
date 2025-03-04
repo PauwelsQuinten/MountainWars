@@ -1445,7 +1445,7 @@ MonoBehaviour:
   _damageDropOff: 3
   _healthBar: {fileID: 4961313179270149180}
   _bloodBar: {fileID: 4018039580721747147}
-  Physique: 5
+  Physique: 10
   _baseLimbHealth: 150
   _maxBlood: 100
   _bleedOutSpeed: 15
