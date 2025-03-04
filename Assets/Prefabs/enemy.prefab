@@ -1015,6 +1015,8 @@ GameObject:
   - component: {fileID: 7001357602489952156}
   - component: {fileID: 1040378317105738873}
   - component: {fileID: 5272246963900886498}
+  - component: {fileID: 6877221868267869703}
+  - component: {fileID: 2858818397358706671}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -1234,8 +1236,8 @@ MonoBehaviour:
   _height: 1
   _attackType: 4
   _useRandomAttackHeight: 0
-  _useRandomDirection: 1
-  _useRandomAttackTypes: 1
+  _useRandomDirection: 0
+  _useRandomAttackTypes: 0
   _fromRightSide: 1
 --- !u!114 &7001357602489952156
 MonoBehaviour:
@@ -1290,6 +1292,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitbox: {fileID: 523663563073365224}
   _arrow: {fileID: 7598009601137933699}
+--- !u!114 &6877221868267869703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1496a05de41d149bec49541e24e6ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetMasks:
+    serializedVersion: 2
+    m_Bits: 64
+  _rangeOfSight: 6
+--- !u!114 &2858818397358706671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada63f89263cd4241b35e4f630ddd45a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7598009601137933699
 GameObject:
   m_ObjectHideFlags: 0

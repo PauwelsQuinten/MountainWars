@@ -465,34 +465,34 @@ public class HitDetection : MonoBehaviour
                     case AttackStance.Torso:
                         if (_torsoPartInFront == BodyParts.LeftArm)
                         {
-                            Debug.Log("hit left arm and torso"); 
+                            //Debug.Log("hit left arm and torso"); 
                             _AttackMessage.text = "hit left arm and torso";
                             _partsHit.Add(BodyParts.LeftArm);
                             _partsHit.Add(BodyParts.Torso);
                         }
                         else if (_torsoPartInFront == BodyParts.RightArm) 
                         {
-                            Debug.Log("hit torso and right arm"); 
+                            //Debug.Log("hit torso and right arm"); 
                             _AttackMessage.text = "hit torso and right arm";
                             _partsHit.Add(BodyParts.Torso);
                             _partsHit.Add(BodyParts.RightArm);
                         }
                         else if (_torsoPartInFront == BodyParts.Torso) 
                         {
-                            Debug.Log("hit right arm and torso"); 
+                            //Debug.Log("hit right arm and torso"); 
                             _AttackMessage.text = "hit right arm and torso";
                             _partsHit.Add(BodyParts.RightArm);
                             _partsHit.Add(BodyParts.Torso);
                         }
                         else if (_torsoPartInFront == BodyParts.Weapon) 
                         { 
-                            Debug.Log("hit weapon"); 
+                            //Debug.Log("hit weapon"); 
                             _AttackMessage.text = "hit weapon";
                             _partsHit.Add(BodyParts.Weapon);
                         }
                         else if (_torsoPartInFront == BodyParts.Shield) 
                         { 
-                            Debug.Log("hit shield");
+                            //Debug.Log("hit shield");
                             _AttackMessage.text = "hit shield";
                             _partsHit.Add(BodyParts.Shield);
                         }
@@ -500,13 +500,13 @@ public class HitDetection : MonoBehaviour
                     case AttackStance.Legs:
                         if (_legPartInFront == BodyParts.LeftLeg) 
                         { 
-                            Debug.Log("hit left leg"); 
+                            //Debug.Log("hit left leg"); 
                             _AttackMessage.text = "hit left leg";
                             _partsHit.Add(BodyParts.LeftLeg);
                         }
                         else if (_legPartInFront == BodyParts.RightLeg) 
                         { 
-                            Debug.Log("hit right leg"); 
+                            //Debug.Log("hit right leg"); 
                             _AttackMessage.text = "hit right leg";
                             _partsHit.Add(BodyParts.RightLeg);
                         }
@@ -518,7 +518,7 @@ public class HitDetection : MonoBehaviour
                 {
                     case AttackStance.Head:
                         { 
-                            Debug.Log("hit head"); 
+                            //Debug.Log("hit head"); 
                             _AttackMessage.text = "hit head";
                             _partsHit.Add(BodyParts.Head);
                         }
@@ -526,31 +526,31 @@ public class HitDetection : MonoBehaviour
                     case AttackStance.Torso:
                         if (_torsoPartInFront == BodyParts.LeftArm) 
                         {
-                            Debug.Log("hit left arm"); 
+                            //Debug.Log("hit left arm"); 
                             _AttackMessage.text = "hit left arm";
                             _partsHit.Add(BodyParts.LeftArm);
                         }
                         else if (_torsoPartInFront == BodyParts.RightArm) 
                         {
-                            Debug.Log("hit right arm"); 
+                            //Debug.Log("hit right arm"); 
                             _AttackMessage.text = "hit right arm";
                             _partsHit.Add(BodyParts.RightArm);
                         }
                         else if (_torsoPartInFront == BodyParts.Torso) 
                         {
-                            Debug.Log("hit torso"); 
+                            //Debug.Log("hit torso"); 
                             _AttackMessage.text = "hit torso";
                             _partsHit.Add(BodyParts.Torso);
                         }
                         else if (_torsoPartInFront == BodyParts.Weapon) 
                         { 
-                            Debug.Log("hit weapon"); 
+                            //Debug.Log("hit weapon"); 
                             _AttackMessage.text = "hit weapon";
                             _partsHit.Add(BodyParts.Weapon);
                         }
                         else if (_torsoPartInFront == BodyParts.Shield) 
                         { 
-                            Debug.Log("hit shield");
+                            //Debug.Log("hit shield");
                             _AttackMessage.text = "hit shield";
                             _partsHit.Add(BodyParts.Shield);
                         }
@@ -558,13 +558,13 @@ public class HitDetection : MonoBehaviour
                     case AttackStance.Legs:
                         if (_legPartInFront == BodyParts.LeftLeg) 
                         {
-                            Debug.Log("hit left leg");
+                            //Debug.Log("hit left leg");
                             _AttackMessage.text = "hit left leg";
                             _partsHit.Add(BodyParts.LeftLeg);
                         }
                         else if (_legPartInFront == BodyParts.RightLeg) 
                         {
-                            Debug.Log("hit right leg");
+                            //Debug.Log("hit right leg");
                             _AttackMessage.text = "hit right leg";
                             _partsHit.Add(BodyParts.RightLeg);
                         }

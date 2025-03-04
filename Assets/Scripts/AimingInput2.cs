@@ -15,7 +15,7 @@ public class AimingInput2 : MonoBehaviour
     public AttackType CurrentAttackType = AttackType.None;
     private AttackType _previousAttack = AttackType.None;
 
-    [SerializeField] private float _speed = 10.0f;
+    //[SerializeField] private float _speed = 10.0f;
     [SerializeField] private TextMeshPro _texMessage;
     [SerializeField] private TextMeshPro _txtActionPower;
     [SerializeField] private TextMeshPro _AttackMessage;
@@ -31,7 +31,7 @@ public class AimingInput2 : MonoBehaviour
     //extra state for second prototype
     private GameObject _sword;
     [SerializeField] private GameObject _arrow;
-    [SerializeField] private float radius = 10.0f;
+    [SerializeField] public float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
     private (float,float) _chargeZone = (-2.0f * Mathf.Rad2Deg, -1.0f * Mathf.Rad2Deg);
@@ -339,7 +339,8 @@ public class AimingInput2 : MonoBehaviour
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
                 _canRun = true;
-
+                var comp = GetComponent<GoapPlanner>();
+                if (comp) comp.UpdateSwingSpeed(_slashAngle / _slashTime);
                 if (!_checkFeint)
                 {
                     if (CheckOverCommit())

@@ -263,7 +263,7 @@ public class SwordSwing : MonoBehaviour
         float orientation = _animationRef.GetOrientation();
         _targetCollider.center = new Vector3(Mathf.Cos(orientation) * radius, Mathf.Sin(orientation) * radius, 0.0f);
 
-        Collider[] hitColliders = Physics.OverlapSphere(_targetCollider.center, _targetCollider.radius, _targetMask);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position +_targetCollider.center, _targetCollider.radius, _targetMask);
         bool foundTarget = false; 
         foreach (Collider hitCollider in hitColliders)
         {

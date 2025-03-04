@@ -131,5 +131,10 @@ public class HeldEquipment : MonoBehaviour
         }
     }
 
+    public Vector3 GetEquipmentLocation(EquipmentType equipment)
+    {
+        return _fullEquipment[equipment].transform.position;
+    }
+
 
 }
