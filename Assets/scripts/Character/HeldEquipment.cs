@@ -53,6 +53,7 @@ public class HeldEquipment : MonoBehaviour
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
+            if (equipmentType == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
@@ -90,6 +91,7 @@ public class HeldEquipment : MonoBehaviour
         if (_fullEquipment[targetedtype] != null)
         {
             _foundEquipment = _fullEquipment[targetedtype];
+            if (targetedtype == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             _fullEquipment[targetedtype].transform.parent = null;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().enabled = true;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().isTrigger = true;
@@ -106,6 +108,7 @@ public class HeldEquipment : MonoBehaviour
 
         equipment.transform.parent = transform;
         equipment.transform.localPosition = Vector3.zero;
+        if (targetedtype == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = true;
         equipment.GetComponent<SphereCollider>().enabled = false;
         equipment.GetComponent<SphereCollider>().isTrigger = false;
         _fullEquipment[equipment.GetEquipmentType()] = equipment;

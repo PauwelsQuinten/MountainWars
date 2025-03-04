@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
         InitInputActions();
         _guardAction.performed += _gaurdAction_IsInProgress;
         _guardAction.canceled += _gaurdAction_Canceled;
-        //_attackGuard.performed += _attackGuard_performed;
-        //_attackGuard.canceled += _attackGuard_Canceled;
+        _attackGuard.performed += _attackGuard_performed;
+        _attackGuard.canceled += _attackGuard_Canceled;
 
         _moveAction.performed += _moveAction_performed;
         _moveAction.canceled += _moveAction_Canceled;
@@ -171,8 +171,6 @@ public class PlayerController : MonoBehaviour
             _Sword.IsParrying = true;
             _SwordParry.StartParryMode(true);
         }
-        else
-            AttackGuardMode(true);
     }
 
     private void _attackGuard_Canceled(InputAction.CallbackContext context)
@@ -181,11 +179,6 @@ public class PlayerController : MonoBehaviour
         {
             _Sword.IsParrying = false;
             _SwordParry.StartParryMode(false);
-        }
-        else
-        {
-            AttackGuardMode(false);
-            _shield.SetInputDirection(Vector2.zero);
         }
     }
     

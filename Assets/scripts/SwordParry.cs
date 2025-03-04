@@ -23,7 +23,7 @@ public class SwordParry : MonoBehaviour
     private float _currentParryAngle = 0f;
     private Vector2 _startParryVector;
     private Vector2 _secondParryVector;
-    private float _parryPower = 10;
+    private float _parryPower = 13;
     private float _attackPower;
     [SerializeField]private float _parryAngle = 90f;
 
@@ -51,21 +51,20 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            if(_attackPower <= _parryPower)
-            {
-                //Succcesfull parry 
-                SwordSwing sw = _attacker.GetComponent<SwordSwing>();
-                sw.SetIdle();
-                //Set parried animation to attacker
-                AIController attComp = _attacker.GetComponent<AIController>();
-                attComp.Parried();
-                _parryState = false;
+            if (_attackPower <= _parryPower) GetComponent<HeldEquipment>().DropSword();
 
-                //Set to disarm
-                _parryFase = ParryState.Dissarm;
-                _currentParryAngle = 0;
-                _secondParryVector = _inputSwordMovement;
-            }
+            //Succcesfull parry 
+            SwordSwing sw = _attacker.GetComponent<SwordSwing>();
+            sw.SetIdle();
+            //Set parried animation to attacker
+            AIController attComp = _attacker.GetComponent<AIController>();
+            attComp.Parried();
+            _parryState = false;
+
+            //Set to disarm
+            _parryFase = ParryState.Dissarm;
+            _currentParryAngle = 0;
+            _secondParryVector = _inputSwordMovement;
         }
         else if (_parryFase == ParryState.Dissarm)
         {
