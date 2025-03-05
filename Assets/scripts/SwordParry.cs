@@ -31,10 +31,13 @@ public class SwordParry : MonoBehaviour
     [SerializeField]private float _timeForDisarming = 0.5f;
     private int _direction = 0;
 
+    [SerializeField] private int _staminaCost;
+    private StaminaManager _staminaManager;
 
     void Start()
     {
        _walkAnimate = GetComponent<WalkAnimate>();
+        _staminaManager = GetComponent<StaminaManager>();
     }
 
    
@@ -51,50 +54,63 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            if (_attackPower > _parryPower)
+            if(_staminaCost < _staminaManager.CurrentStamina)
             {
-                Debug.Log(_direction);
-                GetComponent<HeldEquipment>().DropSword(_direction, true);
-                GetComponent<AimingInput2>().SwordBroke();
+                _staminaManager.CurrentStamina -= _staminaCost;
+                if (_attackPower > _parryPower)
+                {
+                    GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    GetComponent<AimingInput2>().SwordBroke();
+                }
+
+                if (_attackPower < _parryPower - 6)
+                {
+                    GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    GetComponent<AimingInput2>().SwordBroke();
+                }
+
+
+                //Succcesfull parry 
+                SwordSwing sw = _attacker.GetComponent<SwordSwing>();
+                sw.SetIdle();
+                //Set parried animation to attacker
+                AIController attComp = _attacker.GetComponent<AIController>();
+                attComp.Parried();
+                _parryState = false;
+
+                //Set to disarm
+                _parryFase = ParryState.Dissarm;
+                _currentParryAngle = 0;
+                _secondParryVector = _inputSwordMovement;
             }
-
-
-            //Succcesfull parry 
-            SwordSwing sw = _attacker.GetComponent<SwordSwing>();
-            sw.SetIdle();
-            //Set parried animation to attacker
-            AIController attComp = _attacker.GetComponent<AIController>();
-            attComp.Parried();
-            _parryState = false;
-
-            //Set to disarm
-            _parryFase = ParryState.Dissarm;
-            _currentParryAngle = 0;
-            _secondParryVector = _inputSwordMovement;
         }
         else if (_parryFase == ParryState.Dissarm)
         {
             _disarmTime += Time.deltaTime;
-            
+
 
             //Debug.Log($"{Vector2.Distance(_startParryVector, _inputSwordMovement)}");
             if (Vector2.Distance(_startParryVector, _inputSwordMovement) < 0.1f)
             {
-                //AIController attComp = _attacker.GetComponent<AIController>();
-                //attComp.Disarmed();
-                if (_attackPower <= _parryPower)
+                if (_staminaCost < _staminaManager.CurrentStamina)
                 {
-                    Debug.Log("Disarm");
-                    _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
-                    _attacker.GetComponent<SwordSwing>().SwordBroke();
+                    _staminaManager.CurrentStamina -= _staminaCost;
+                    //AIController attComp = _attacker.GetComponent<AIController>();
+                    //attComp.Disarmed();
+                    if (_attackPower <= _parryPower)
+                    {
+                        Debug.Log("Disarm");
+                        _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
+                        _attacker.GetComponent<SwordSwing>().SwordBroke();
+                    }
+                    _attacker = null;
+                    _disarmTime = 0;
+                    _parryFase = ParryState.Idle;
+                    return;
                 }
-                _attacker = null;
-                _disarmTime = 0;
-                _parryFase = ParryState.Idle;
-                return;
             }
 
-            if (_disarmTime >=  _timeForDisarming)
+            if (_disarmTime >= _timeForDisarming)
             {
                 _attacker = null;
                 _disarmTime = 0;

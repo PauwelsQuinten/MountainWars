@@ -23,7 +23,7 @@ public class LockOnTest1 : MonoBehaviour
         if ((_layersToInteractWith.value &(1<<collision.gameObject.layer)) != 0)
         {
             LockOnTarget = collision.gameObject;
-            _walkAnimate.LockOn(collision.gameObject);
+            if(_walkAnimate != null)_walkAnimate.LockOn(LockOnTarget);
             //Debug.Log($"Enter {collision.gameObject.layer}");
         }
     }
@@ -32,7 +32,7 @@ public class LockOnTest1 : MonoBehaviour
     {
         if (LockOnTarget == collision.gameObject)
         {
-            _walkAnimate.LockOn(null);
+            if (_walkAnimate != null) _walkAnimate.LockOn(null);
         }
     }
 }

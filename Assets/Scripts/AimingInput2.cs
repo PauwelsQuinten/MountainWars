@@ -93,6 +93,9 @@ public class AimingInput2 : MonoBehaviour
     private bool _canRun;
     public bool IsParrying;
 
+    [SerializeField] private int _staminaCost;
+    private StaminaManager _staminaManager;
+
     private void Start()
     {
         //InputManager input = FindObjectOfType<InputManager>();
@@ -110,6 +113,7 @@ public class AimingInput2 : MonoBehaviour
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
         _lockOnScript = GetComponent<LockOnTest1>();
+        _staminaManager = GetComponent<StaminaManager>();
     }
 
     private void Update()
@@ -167,6 +171,7 @@ public class AimingInput2 : MonoBehaviour
         else
         {
             ResetValues();
+            _staminaManager.IsAttacking = false;
         }
         //Force direction to be correct on idle
         if (_sword && newLength < MIN_WINDUP_LENGTH)
@@ -329,6 +334,7 @@ public class AimingInput2 : MonoBehaviour
         if (_feinted) _canRun = false;
         if (drawLength >= 0.97f)
         {
+            _staminaManager.IsAttacking = true;
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
 
@@ -481,6 +487,10 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
+        if (CurrentAttackType == AttackType.Stab && _staminaManager.CurrentStamina > _staminaCost) _staminaManager.DepleteStamina(_staminaCost);
+        else if(_staminaManager.CurrentStamina > _staminaCost * 1.5f) _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
+        else return;
+
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         if(_lockOnScript.LockOnTarget == null) return;

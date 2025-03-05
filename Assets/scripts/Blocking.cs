@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -41,11 +42,18 @@ public class Blocking : MonoBehaviour
 
     public EventHandler OnBlockedAttack;
 
+    private float _blockStrenght = 13;
+    private float _attackPower;
+
+    [SerializeField] private int _staminaCost;
+    private StaminaManager _staminaManager;
+
     private void Start()
     {
         _heldEquipment = GetComponent<HeldEquipment>();
         _shield = _heldEquipment.GetEquipment(EquipmentType.Shield);
         _animator = gameObject.GetComponent<WalkAnimate>();
+        _staminaManager = GetComponent<StaminaManager>();
         var obj = GameObject.Find(_txtBlockName);
         if (obj)
             _txtBlockPower = obj.GetComponent<TextMeshPro>();   
@@ -90,6 +98,8 @@ public class Blocking : MonoBehaviour
 
     public bool StartHit(AttackStance height, int direction, GameObject attacker)
     {
+        SwordSwing swing = attacker.GetComponent<SwordSwing>();
+        if(swing != null)_attackPower = swing.Power;
         //Check if shield is equiped before trying to Block
         if (_shield == null)
         {
@@ -125,6 +135,19 @@ public class Blocking : MonoBehaviour
                 }
                 else
                 {
+                    if (_staminaCost > _staminaManager.CurrentStamina) 
+                    {
+                        _animator.GetHit();
+                        _blockState = BlockState.Broken;
+                        Knockback();
+                        return false;
+                    }
+                    if(_attackPower > _blockPower) 
+                    {
+                        _staminaManager.CurrentStamina -= _staminaCost * 1.5f;
+                        Knockback();
+                    }
+                    else _staminaManager.CurrentStamina -= _staminaCost;
                     var equipmentType = _shield.GetComponent<Equipment>().GetEquipmentType();
                     //if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
                     if (!_heldEquipment.EquipmentEnduresHit(equipmentType, _tempShieldDamageOnUse))
@@ -439,5 +462,27 @@ public class Blocking : MonoBehaviour
        Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
         _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
        
+    }
+
+    private void Knockback()
+    {
+        float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
+        Transform t = Instantiate(transform);
+        t.rotation = Quaternion.Euler(new Vector3(0, 0, t.rotation.z + (orientation - 90)));
+        StartCoroutine(DoKnockback(transform.position, -t.up * 6, 1, 10, transform));
+        Destroy(t.gameObject);
+    }
+
+    IEnumerator DoKnockback(Vector3 startPos, Vector3 direction, float distance, float speed, Transform obj)
+    {
+        while (Vector3.Distance(startPos, obj.position) <= distance)
+        {
+            obj.position += speed * Time.deltaTime * direction;
+            yield return null;
+        }
+
+        Vector3 resetZ = obj.position;
+        resetZ.z = 0;
+        obj.position = resetZ;
     }
 }

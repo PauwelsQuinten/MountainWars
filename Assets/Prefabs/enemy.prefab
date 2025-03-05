@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5880454959900362240}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Bones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1394,6 +1394,7 @@ MonoBehaviour:
   _targetMask:
     serializedVersion: 2
     m_Bits: 64
+  Power: 10
 --- !u!114 &8991820935436539667
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -106,7 +106,7 @@ public class HeldEquipment : MonoBehaviour
 
                 if (direction == 1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
                 else if (direction == -1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
-                else if (direction == 0) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.forward * 6, 2, 1, _fullEquipment[targetedtype].transform));
+                else if (direction == 0) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.up * 6, 2, 1, _fullEquipment[targetedtype].transform));
 
                 Destroy(t.gameObject);
             }
