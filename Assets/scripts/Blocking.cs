@@ -144,7 +144,7 @@ public class Blocking : MonoBehaviour
                     }
                     if(_attackPower > _blockPower) 
                     {
-                        _staminaManager.CurrentStamina -= _staminaCost * 1.5f;
+                        _staminaManager.DepleteStamina(_staminaCost);
                         Knockback();
                     }
                     else _staminaManager.CurrentStamina -= _staminaCost;
@@ -339,7 +339,7 @@ public class Blocking : MonoBehaviour
         {
             if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >= _parryAngle)
             {
-                _staminaManager.CurrentStamina -= _staminaCost;
+                _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
                 _currentParryChance = ParryChanceState.Succes;
                 AIController attComp = _attacker.GetComponent<AIController>();
                 attComp.Parried();

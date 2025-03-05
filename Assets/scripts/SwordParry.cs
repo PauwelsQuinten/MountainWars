@@ -56,7 +56,7 @@ public class SwordParry : MonoBehaviour
         {
             if(_staminaCost < _staminaManager.CurrentStamina)
             {
-                _staminaManager.CurrentStamina -= _staminaCost;
+                _staminaManager.DepleteStamina(_staminaCost);
                 if (_attackPower > _parryPower)
                 {
                     GetComponent<HeldEquipment>().DropSword(_direction, true);
@@ -94,7 +94,7 @@ public class SwordParry : MonoBehaviour
             {
                 if (_staminaCost < _staminaManager.CurrentStamina)
                 {
-                    _staminaManager.CurrentStamina -= _staminaCost;
+                    _staminaManager.DepleteStamina(_staminaCost);
                     //AIController attComp = _attacker.GetComponent<AIController>();
                     //attComp.Disarmed();
                     if (_attackPower <= _parryPower)
@@ -198,5 +198,4 @@ public class SwordParry : MonoBehaviour
         else
             return (cross * _direction >= 0);
     }
-
 }
