@@ -82,6 +82,13 @@ public class WalkAnimate : MonoBehaviour
         _animator.SetBool("LockOn", _target != null);
     }
 
+    public void Rotate(float angle)
+    {
+        _animator.SetFloat("orientation", angle);
+        Orientation = angle;
+    }
+
+
     public void GetHit()
     {
         _animator.SetTrigger("GetHit");
@@ -89,12 +96,13 @@ public class WalkAnimate : MonoBehaviour
 
     public float GetOrientationDegree()
     {
-        return Orientation * Mathf.Rad2Deg;
+        return _animator.GetFloat("orientation") * Mathf.Rad2Deg;
     }
 
     public float GetOrientation()
     {
-        return Orientation;
+        return _animator.GetFloat("orientation");
+        //return Orientation;
     }
 
     public bool IsLockedOn()

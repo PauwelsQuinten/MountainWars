@@ -1,21 +1,20 @@
 using UnityEngine;
 
-public class GoapGoal : MonoBehaviour
+public interface Goals
 {
-    private WorldState _desiredWorldStateRef;
+    bool IsVallid(WorldState currentWorldState);
+}
 
+public class GoapGoal : MonoBehaviour, Goals
+{
+    public WorldState DesiredWorldState;
 
-    void Start()
+    private void Start()
     {
-        
+        DesiredWorldState = GetComponent<WorldState>();    
     }
 
-    void Update()
-    {
-        
-    }
-
-    public bool IsVallid()
+    public virtual bool IsVallid(WorldState currentWorldState)
     {
 
         return true; 

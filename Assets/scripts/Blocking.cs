@@ -28,7 +28,7 @@ public class Blocking : MonoBehaviour
     [SerializeField] private GameObject _shield;
     [SerializeField] private string _txtBlockName;
     private TextMeshPro _txtBlockPower;
-    [SerializeField] private float _radius = 0.5f;
+    [SerializeField] public float Radius = 0.5f;
     [SerializeField] private float _powerReducer = 0.1f;
     [SerializeField] private float _maxTimeHoldBlock = 0.15f;
     [SerializeField] private float _parryAngle = 1.75f;
@@ -234,7 +234,7 @@ public class Blocking : MonoBehaviour
 
             case BlockState.MovingShield:
                 _accumulatedTime += Time.deltaTime;
-                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * Radius, _blockInputDirection.y * Radius, 0.0f);
 
                 if (!SuccesfullParryOnZone())
                 {
@@ -275,7 +275,7 @@ public class Blocking : MonoBehaviour
                     return;
 
                 ReduceBlockPower();
-                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
+                _shield.transform.localPosition = new Vector3(_blockInputDirection.x * Radius, _blockInputDirection.y * Radius, 0.0f);
                 break;
 
             case BlockState.Broken:
@@ -458,7 +458,7 @@ public class Blocking : MonoBehaviour
        float newAngle = orient + _angleDiffWithOrientation;
        //newAngle *= Mathf.Rad2Deg;
        Vector2 angleVector = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle));
-        _shield.transform.localPosition = new Vector3(angleVector.x * _radius, angleVector.y * _radius, 0.0f);
+        _shield.transform.localPosition = new Vector3(angleVector.x * Radius, angleVector.y * Radius, 0.0f);
        
     }
 
