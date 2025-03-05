@@ -56,14 +56,16 @@ public class SwordSwing : MonoBehaviour
     {
         _animationRef = GetComponent<WalkAnimate>();
 
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        _defaultAngle = _sword.transform.rotation.eulerAngles.z;
-        _defaultPosition = _sword.transform.position;
-
         _targetCollider = gameObject.AddComponent<SphereCollider>();
         _targetCollider.isTrigger = false;
         _targetCollider.enabled = false;
         _targetCollider.radius = _attackRange;
+
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        if (_sword == null)
+            return;
+        _defaultAngle = _sword.transform.rotation.eulerAngles.z;
+        _defaultPosition = _sword.transform.position;
     }
 
     // Update is called once per frame
@@ -293,7 +295,8 @@ public class SwordSwing : MonoBehaviour
     private void PointToTarget()
     {
         float orientationDegree = (_animationRef) ? _animationRef.GetOrientation() * Mathf.Rad2Deg : 0.0f;
-        _sword.transform.rotation = Quaternion.Euler(_anglePerspective, 0.0f, orientationDegree + _defaultAngle - 90f);        
+        if (_sword)
+            _sword.transform.rotation = Quaternion.Euler(_anglePerspective, 0.0f, orientationDegree + _defaultAngle - 90f);        
 
     }
 

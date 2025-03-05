@@ -16,6 +16,7 @@ public class Equipment : MonoBehaviour
     [SerializeField] private float _attack = 3f;
     [Range(1f, 5f)]
     [SerializeField] private float _weight = 2f;//for attck speed and power outage
+    [SerializeField] private float _range = 1f;
 
     private float _currentDurability = 0f;
 
@@ -43,6 +44,11 @@ public class Equipment : MonoBehaviour
     public float GetEquipmentstrength()
     {
         return _attack;
+    }
+     
+    public float GetAttackRange()
+    {
+        return _range;
     }
 
     private void OnTriggerEnter(Collider other)

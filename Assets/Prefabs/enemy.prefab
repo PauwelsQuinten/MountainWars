@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f615b397372cf5745a3ffb64292c150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
+  _weaponPrefab: {fileID: 0}
   _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
   _armorPrefab: {fileID: 0}
   _fistPrefab: {fileID: 7955614898218700654, guid: 19bc52072a63a0c40ac21e9cbb859ec4, type: 3}
@@ -1321,11 +1321,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allActionPrefabs:
-  - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
-  - {fileID: 8755546181411344372, guid: f1f92da2fd9d62e48af66fafeddad861, type: 3}
   - {fileID: 4740772555733712272, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
+  - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
+  - {fileID: 5998032691256654599, guid: e581c1b91475b5a4f937a47889ff7df2, type: 3}
+  - {fileID: 5998032691256654599, guid: 4bbbaec962fa65b4f8d5865a945f2ea8, type: 3}
+  - {fileID: 8755546181411344372, guid: f1f92da2fd9d62e48af66fafeddad861, type: 3}
+  - {fileID: 8755546181411344372, guid: 34d6d526b991bd34e99025796049769a, type: 3}
   - {fileID: 6395140987632738559, guid: 2f61f2a9e7cc3034cba6e3b4ac21c7c8, type: 3}
+  - {fileID: -7133606080354707173, guid: 70a457b656deaef4f80ef22170e1b591, type: 3}
+  - {fileID: -5187573346907028395, guid: 44bb65cd9e6ef1644b8661d6cfd3aefa, type: 3}
+  - {fileID: -5187573346907028395, guid: 800efbfb40129b74999cec8fa6bb91a1, type: 3}
+  - {fileID: -5187573346907028395, guid: 7c5dc44ebc6f9624592188d17104af62, type: 3}
   _allGoalPrefabs:
+  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
   - {fileID: -1599951491606956843, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
 --- !u!1 &7598009601137933699

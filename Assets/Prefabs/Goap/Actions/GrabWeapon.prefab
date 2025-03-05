@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1055349673473537665}
-  - component: {fileID: 4740772555733712272}
+  - component: {fileID: 8755546181411344372}
   - component: {fileID: 7101675145210251205}
   - component: {fileID: 9095045994170797754}
   m_Layer: 0
-  m_Name: Idle
+  m_Name: GrabWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4740772555733712272
+--- !u!114 &8755546181411344372
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7471205787815986531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17d5479e74024704e8cab6f2d5e88396, type: 3}
+  m_Script: {fileID: 11500000, guid: f305a552b8e03574982cfe1fbf03f963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Cost: 1
@@ -75,7 +75,7 @@ MonoBehaviour:
   _targetShieldPossesion: 4
   _targetBehaviour: 4
   _hasTarget: 4
-  _WeaponDistance: 4
+  _WeaponDistance: 10
   _ShieldDistance: 4
   _weaponMovement: 9000
   _shieldMovement: 9000
@@ -84,7 +84,7 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 4
   _shieldPossesion: 4
-  _behaviour: 6
+  _behaviour: 4
 --- !u!114 &9095045994170797754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +117,6 @@ MonoBehaviour:
   _shieldOrientation: 9000
   _weaponOrientation: 9000
   _swingSpeed: 9000
-  _weaponPossesion: 4
+  _weaponPossesion: 0
   _shieldPossesion: 4
-  _behaviour: 5
+  _behaviour: 4

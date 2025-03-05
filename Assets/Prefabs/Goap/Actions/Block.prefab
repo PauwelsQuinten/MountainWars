@@ -49,6 +49,7 @@ MonoBehaviour:
   Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
+  _actionMaxRunTime: 3
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,8 +64,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
   _worldStateType: 1
-  _targetWeaponDistance: 9000
-  _targetShieldDistance: 9000
+  _targetWeaponDistance: 4
+  _targetShieldDistance: 4
   _targetWeaponMovement: 9000
   _targetShieldMovement: 9000
   _targetShieldOrientation: 9000
@@ -72,8 +73,10 @@ MonoBehaviour:
   _targetSwingSpeed: 9000
   _targetWeaponPossesion: 4
   _targetShieldPossesion: 4
-  _WeaponDistance: 9000
-  _ShieldDistance: 9000
+  _targetBehaviour: 4
+  _hasTarget: 4
+  _WeaponDistance: 4
+  _ShieldDistance: 4
   _weaponMovement: 9000
   _shieldMovement: 0.5
   _shieldOrientation: 9000
@@ -81,6 +84,7 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 4
   _shieldPossesion: 4
+  _behaviour: 4
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,8 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
   _worldStateType: 0
-  _targetWeaponDistance: 9000
-  _targetShieldDistance: 9000
+  _targetWeaponDistance: 4
+  _targetShieldDistance: 4
   _targetWeaponMovement: 9000
   _targetShieldMovement: 9000
   _targetShieldOrientation: 9000
@@ -104,8 +108,10 @@ MonoBehaviour:
   _targetSwingSpeed: 9000
   _targetWeaponPossesion: 4
   _targetShieldPossesion: 4
-  _WeaponDistance: 9000
-  _ShieldDistance: 9000
+  _targetBehaviour: 4
+  _hasTarget: 4
+  _WeaponDistance: 4
+  _ShieldDistance: 4
   _weaponMovement: 9000
   _shieldMovement: 9000
   _shieldOrientation: 9000
@@ -113,3 +119,4 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 4
   _shieldPossesion: 0
+  _behaviour: 4

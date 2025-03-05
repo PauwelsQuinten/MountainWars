@@ -60,8 +60,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
   _worldStateType: 0
-  _targetWeaponDistance: 9000
-  _targetShieldDistance: 9000
+  _targetWeaponDistance: 4
+  _targetShieldDistance: 4
   _targetWeaponMovement: 9000
   _targetShieldMovement: 9000
   _targetShieldOrientation: 9000
@@ -70,8 +70,9 @@ MonoBehaviour:
   _targetWeaponPossesion: 4
   _targetShieldPossesion: 4
   _targetBehaviour: 4
-  _WeaponDistance: 9000
-  _ShieldDistance: 9000
+  _hasTarget: 4
+  _WeaponDistance: 4
+  _ShieldDistance: 4
   _weaponMovement: 9000
   _shieldMovement: 9000
   _shieldOrientation: 9000

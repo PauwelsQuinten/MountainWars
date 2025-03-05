@@ -37,14 +37,15 @@ public class GoapPlanner : MonoBehaviour
         if (_activeGoal == null || _actionPlan.Count == 0)
             _activeGoal = SelectCurrentGoal();
 
-        if (_actionPlan.Count == 0)
-            Plan(_activeGoal.DesiredWorldState);
+       
+        if (_actionPlan.Count == 0 && !Plan(_activeGoal.DesiredWorldState))
+            _activeGoal.SetInvallid();
         else
             ExecutePlan();
 
     }
 
-    private void Plan(WorldState desiredWorldState)
+    private bool Plan(WorldState desiredWorldState)
     {
         _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);
 
@@ -58,7 +59,7 @@ public class GoapPlanner : MonoBehaviour
                 if (action.IsVallid(_currentWorldState) && action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key))
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
-                    if (score < lowestScore)
+                    if (score < lowestScore && !_actionPlan.Contains(action))
                     {
                         lowestScore = score;
                         cheapestAction = action;
@@ -70,17 +71,20 @@ public class GoapPlanner : MonoBehaviour
                     action.SatisfyingWorldState._worldStateValues2[desiredState.Key] == desiredState.Value)
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
-                    if (score < lowestScore)
+                    if (score < lowestScore && !_actionPlan.Contains(action))
                     {
                         lowestScore = score;
                         cheapestAction = action;
                     }
                 }
             }
+            if (cheapestAction == null)
+                return false;
             _actionPlan.Add(cheapestAction);
             Plan(cheapestAction.DesiredWorldState);
             _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);//reset here back to startvalue before recursion
         }
+        return true;
     }
 
     private GoapGoal SelectCurrentGoal()
