@@ -211,7 +211,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void AttackGuardMode(bool start)
     {
         if (start)
@@ -254,20 +253,7 @@ public class PlayerController : MonoBehaviour
 
     private void _aimHead_performed(InputAction.CallbackContext obj)
     {
-        if (_fightStyle ==FightStyle.Shield)
-        {
-            if (!GetComponent<HeldEquipment>().HoldSwordAndShield())
-                return;
-
-            _fightStyle = FightStyle.Combo;
-            _shield.HoldBlock(true);
-        }
-        else
-        {
-            AttackGuardMode(false);
-            _Sword.ChangeStance(AttackStance.Head);
-            _shield.SetInputDirection(Vector2.zero);
-        }
+         _Sword.ChangeStance(AttackStance.Head);
     }
  
     private void _aimFeet_performed(InputAction.CallbackContext obj)

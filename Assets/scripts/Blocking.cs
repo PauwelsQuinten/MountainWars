@@ -226,6 +226,7 @@ public class Blocking : MonoBehaviour
         switch (_blockState)
         {
             case BlockState.Idle:
+                if(_staminaManager != null) _staminaManager.IsBlocking = false;
                 if (DetectAnalogMovement())
                 {
                     _blockState = BlockState.MovingShield;
@@ -234,6 +235,7 @@ public class Blocking : MonoBehaviour
                 break;
 
             case BlockState.MovingShield:
+                if (_staminaManager != null) _staminaManager.IsBlocking = true;
                 _accumulatedTime += Time.deltaTime;
                 _shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
 
@@ -264,6 +266,7 @@ public class Blocking : MonoBehaviour
                 break;
 
             case BlockState.HoldBlock:
+                if (_staminaManager != null) _staminaManager.IsBlocking = true;
                 _currentBlockingTime += Time.deltaTime;
                 if (_currentBlockingTime > _maxTimeHoldBlock)
                 {
@@ -336,6 +339,7 @@ public class Blocking : MonoBehaviour
         {
             if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >= _parryAngle)
             {
+                _staminaManager.CurrentStamina -= _staminaCost;
                 _currentParryChance = ParryChanceState.Succes;
                 AIController attComp = _attacker.GetComponent<AIController>();
                 attComp.Parried();
