@@ -1,17 +1,25 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum EWorldState
 {
-    TargetWeaponDistance,
-    TargetShieldDistance,
     TargetWeaponMovement,
     TargetShieldMovement,
     TargetShieldOrientation,
     TargetWeaponOrientation,
     TargetSwingSpeed,
+
+    WeaponMovement,
+    ShieldMovement,
+    ShieldOrientation,
+    WeaponOrientation,
+    SwingSpeed,
+    //list1 -2 line----
+    TargetWeaponDistance,
+    TargetShieldDistance,
     TargetWeaponPosesion,
     TargetShieldPosesion,
     TargetBehaviour,
@@ -20,15 +28,9 @@ public enum EWorldState
 
     WeaponDistance,
     ShieldDistance,
-    WeaponMovement,
-    ShieldMovement,
-    ShieldOrientation,
-    WeaponOrientation,
-    SwingSpeed,
     WeaponPosesion,
     ShieldPosesion,
     Behaviour,
-
 }
 
 public enum StateType
@@ -62,6 +64,7 @@ public class WorldState : MonoBehaviour
 {
     //only the currentWorldState in the planner should update
     [SerializeField] private bool _shouldUpdate=false;
+    [SerializeField] private List<EWorldState> _lowtoHighPriority = new List<EWorldState>();
     public StateType _worldStateType = StateType.Desired;
     private const float DEFAULT_VALUE = 9000;
     //Target
@@ -119,52 +122,67 @@ public class WorldState : MonoBehaviour
             _shieldPossesion = _shield? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
         }
 
+        if (_lowtoHighPriority.Count > 0)
+        {
+            foreach(var item in _lowtoHighPriority)
+            {
+                if( (int)item >= 10 )//List 2
+                {
+                    _worldStateValues2.Add(item, WorldStateValue.DontCare);
+                }
+                else //list 1
+                {
+                    _worldStateValues.Add(item, DEFAULT_VALUE);
+                }
+            }
+        }
+
 
         if (_targetWeaponDistance != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add( EWorldState.TargetWeaponDistance, _targetWeaponDistance);
+            _worldStateValues2[EWorldState.TargetWeaponDistance] = _targetWeaponDistance;
         if (_targetShieldDistance != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.TargetShieldDistance, _targetShieldDistance);
+            _worldStateValues2[EWorldState.TargetShieldDistance] = _targetShieldDistance;
         if (_targetWeaponMovement != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.TargetWeaponMovement, _targetWeaponMovement);
+            _worldStateValues[EWorldState.TargetWeaponMovement] = _targetWeaponMovement;
         if (_targetShieldMovement != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.TargetShieldMovement, _targetShieldMovement);
+            _worldStateValues[EWorldState.TargetShieldMovement] = _targetShieldMovement;
         if (_targetShieldOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.TargetShieldOrientation, _targetShieldOrientation);
+            _worldStateValues[EWorldState.TargetShieldOrientation] = _targetShieldOrientation   ;
         if (_targetWeaponOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.TargetWeaponOrientation, _targetWeaponOrientation);
+            _worldStateValues[EWorldState.TargetWeaponOrientation] = _targetWeaponOrientation;
         if (_targetSwingSpeed != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.TargetSwingSpeed, _targetSwingSpeed);
+            _worldStateValues[EWorldState.TargetSwingSpeed] = _targetSwingSpeed;
         if (_targetWeaponPossesion != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.TargetWeaponPosesion, _targetWeaponPossesion);
+            _worldStateValues2[EWorldState.TargetWeaponPosesion] = _targetWeaponPossesion;
         if (_targetShieldPossesion != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.TargetShieldPosesion, _targetShieldPossesion);
+            _worldStateValues2[EWorldState.TargetShieldPosesion] = _targetShieldPossesion;
         if (_targetBehaviour != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.TargetBehaviour, _targetBehaviour);
+            _worldStateValues2[EWorldState.TargetBehaviour] = _targetBehaviour;
         if (_hasTarget != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.HasTarget, _hasTarget);
+            _worldStateValues2[EWorldState.HasTarget] = _hasTarget;
         if (_targetDistance != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.TargetDistance, _targetDistance);
+            _worldStateValues2[EWorldState.TargetDistance] = _targetDistance;
 
         if (_WeaponDistance != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.WeaponDistance, _WeaponDistance);
+            _worldStateValues2[EWorldState.WeaponDistance] = _WeaponDistance;
         if (_ShieldDistance != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.ShieldDistance, _ShieldDistance);
+            _worldStateValues2[EWorldState.ShieldDistance] = _ShieldDistance;
         if (_weaponMovement != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.WeaponMovement, _weaponMovement);
+            _worldStateValues[EWorldState.WeaponMovement] = _weaponMovement;
         if (_shieldMovement != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.ShieldMovement, _shieldMovement);
+            _worldStateValues[EWorldState.ShieldMovement] = _shieldMovement;
         if (_shieldOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.ShieldOrientation, _shieldOrientation);
+            _worldStateValues[EWorldState.ShieldOrientation] = _shieldOrientation;
         if (_weaponOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.WeaponOrientation, _weaponOrientation);
+            _worldStateValues[EWorldState.WeaponOrientation] = _weaponOrientation;
         if (_swingSpeed != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues.Add(EWorldState.SwingSpeed, _swingSpeed);
+            _worldStateValues[EWorldState.SwingSpeed] = _swingSpeed;
         if (_weaponPossesion != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.WeaponPosesion, _weaponPossesion);
+            _worldStateValues2[EWorldState.WeaponPosesion] = _weaponPossesion;
         if (_shieldPossesion != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.ShieldPosesion, _shieldPossesion);
+            _worldStateValues2[EWorldState.ShieldPosesion] = _shieldPossesion;
         if (_behaviour != WorldStateValue.DontCare || _shouldUpdate)
-            _worldStateValues2.Add(EWorldState.Behaviour, _behaviour);
+            _worldStateValues2[EWorldState.Behaviour] = _behaviour;
 
     }
 

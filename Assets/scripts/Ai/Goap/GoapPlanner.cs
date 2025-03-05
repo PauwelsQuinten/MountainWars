@@ -78,6 +78,7 @@ public class GoapPlanner : MonoBehaviour
                     }
                 }
             }
+            
             if (cheapestAction == null)
                 return false;
             _actionPlan.Add(cheapestAction);

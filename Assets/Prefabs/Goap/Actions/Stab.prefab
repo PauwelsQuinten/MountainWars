@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
+  _lowtoHighPriority: 
   _worldStateType: 1
   _targetWeaponDistance: 4
   _targetShieldDistance: 4
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
+  _lowtoHighPriority: 
   _worldStateType: 0
   _targetWeaponDistance: 4
   _targetShieldDistance: 4
