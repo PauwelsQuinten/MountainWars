@@ -435,6 +435,7 @@ MonoBehaviour:
   _texMessage: {fileID: 0}
   _txtActionPower: {fileID: 0}
   _AttackMessage: {fileID: 0}
+  _sword: {fileID: 0}
   _arrow: {fileID: 1795910611375564864}
   radius: 0.4
   DEFAULT_SWORD_ORIENTATION: 218
@@ -613,7 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxStamina: 100
-  _waitForRegen: 2
+  _waitForRegen: 0.5
   BaseStaminaRegenRate: 5
   CurrentStamina: 0
   IsAttacking: 0

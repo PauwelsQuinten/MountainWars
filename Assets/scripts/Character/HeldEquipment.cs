@@ -14,7 +14,7 @@ public class HeldEquipment : MonoBehaviour
     private Equipment _foundEquipment;
     private Coroutine _goFlyCoroutine;
 
-    private void Start()
+    private void Awake()
     {
         _fullEquipment.Add(EquipmentType.Weapon, null);
         if (_weaponPrefab != null)
@@ -47,9 +47,6 @@ public class HeldEquipment : MonoBehaviour
             fist.transform.localScale = Vector3.zero;
             _fullEquipment[EquipmentType.Fist] = fist;
         }
-
-       
-        
     }
 
     public bool EquipmentEnduresHit(EquipmentType equipmentType, float damage)

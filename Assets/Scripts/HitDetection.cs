@@ -663,4 +663,9 @@ public class HitDetection : MonoBehaviour
     {
         _torsoPartInFront = partInFront;
     }
+
+    private void OnDestroy()
+    {
+        _AttackMessage.enabled = true;
+    }
 }

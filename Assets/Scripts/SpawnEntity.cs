@@ -6,6 +6,8 @@ public class SpawnEntity : MonoBehaviour
     [SerializeField] private Vector3 spawnPos;
     [SerializeField] private GameObject spawnPrefab;
     [SerializeField] private bool _canSpawnMore;
+    private GameObject spawnedPrefabPrefab;
+
     void Start()
     {
         StartCoroutine(Spawn());
@@ -20,6 +22,8 @@ public class SpawnEntity : MonoBehaviour
     private IEnumerator Spawn()
     {
         yield return null;
-        Instantiate(spawnPrefab, spawnPos, Quaternion.identity);
+        spawnedPrefabPrefab = Instantiate(spawnPrefab, spawnPos, Quaternion.identity);
+
+        if(spawnedPrefabPrefab.GetComponent<AimingInput2>() != null) spawnedPrefabPrefab.GetComponent<AimingInput2>().initPlayer();
     }
 }

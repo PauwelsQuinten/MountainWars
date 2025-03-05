@@ -1373,6 +1373,7 @@ MonoBehaviour:
   _acceptAllHeightsToParry: 1
   _parryFromSameDirection: 1
   _tempShieldDamageOnUse: 5
+  _staminaCost: 0
 --- !u!114 &6121863959210014125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1409,10 +1410,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _testButton: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _height: 1
-  _attackType: 4
+  _attackType: 6
   _useRandomAttackHeight: 0
-  _useRandomDirection: 1
-  _useRandomAttackTypes: 1
+  _useRandomDirection: 0
+  _useRandomAttackTypes: 0
   _fromRightSide: 1
 --- !u!114 &7001357602489952156
 MonoBehaviour:

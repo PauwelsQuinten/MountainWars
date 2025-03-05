@@ -26,10 +26,10 @@ public class AimingInput2 : MonoBehaviour
     private const float MAX_RELEASE_TIME = 0.5f; 
     private const float MIN_WINDUP_LENGTH = 0.15f;
     private const float MIN_CHARGEUP_TIME = 0.2f;
-    
+
 
     //extra state for second prototype
-    private GameObject _sword;
+    [SerializeField] private GameObject _sword;
     [SerializeField] private GameObject _arrow;
     [SerializeField] private float radius = 10.0f;
     private Vector2 _startLocation = Vector2.zero;
@@ -96,28 +96,20 @@ public class AimingInput2 : MonoBehaviour
     [SerializeField] private int _staminaCost;
     private StaminaManager _staminaManager;
 
+    private bool _isInitialized;
+
     private void Start()
     {
         //InputManager input = FindObjectOfType<InputManager>();
         //input.AimingScript = this;
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
-        _attackFinder = GetComponent<FindPossibleAttacks>();
-        _WalkOrientation = GetComponent<WalkAnimate>();
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        _startLocation = _sword.transform.position;
-        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
 
-        if (GetComponent<AIController>() != null)
-            return;
-        _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
-        _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
-        _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
-        _lockOnScript = GetComponent<LockOnTest1>();
-        _staminaManager = GetComponent<StaminaManager>();
+        //initPlayer();
     }
 
     private void Update()
     {
+        if (!_isInitialized) return;
         if (GetComponent<AIController>() != null)
             return;
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
@@ -143,6 +135,7 @@ public class AimingInput2 : MonoBehaviour
         //Start moving analog , Attack or Charge up
         if ((newLength > MIN_WINDUP_LENGTH))
         {
+            if(_staminaManager != null) _staminaManager.IsAttacking = true;
             if (_resetAttackStance != null) 
             {
                 StopCoroutine(_resetAttackStance);
@@ -171,7 +164,7 @@ public class AimingInput2 : MonoBehaviour
         else
         {
             ResetValues();
-            _staminaManager.IsAttacking = false;
+            if (_staminaManager != null) _staminaManager.IsAttacking = false;
         }
         //Force direction to be correct on idle
         if (_sword && newLength < MIN_WINDUP_LENGTH)
@@ -334,7 +327,6 @@ public class AimingInput2 : MonoBehaviour
         if (_feinted) _canRun = false;
         if (drawLength >= 0.97f)
         {
-            _staminaManager.IsAttacking = true;
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
 
@@ -487,15 +479,18 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
-        if (CurrentAttackType == AttackType.Stab && _staminaManager.CurrentStamina > _staminaCost) _staminaManager.DepleteStamina(_staminaCost);
-        else if(_staminaManager.CurrentStamina > _staminaCost * 1.5f) _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
-        else return;
-
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         if(_lockOnScript.LockOnTarget == null) return;
         float enemyDistance = Vector2.Distance(_lockOnScript.LockOnTarget.transform.position, transform.position);
-        if (swordlength >= enemyDistance) _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(gameObject, _damage);
+        if (swordlength >= enemyDistance)
+        {
+            _lockOnScript.LockOnTarget.GetComponent<HitDetection>().HitDetected(gameObject, _damage);
+
+            if (CurrentAttackType == AttackType.Stab && _staminaManager.CurrentStamina > _staminaCost) _staminaManager.DepleteStamina(_staminaCost);
+            else if (_staminaManager.CurrentStamina > _staminaCost * 1.5f) _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
+            else return;
+        }
     }
 
     private void SwordVisual(float angle)
@@ -555,5 +550,23 @@ public class AimingInput2 : MonoBehaviour
             _sword.transform.localScale = Vector3.one;
             radius = 1.5f;
         }
+    }
+
+    public void initPlayer()
+    {
+        _attackFinder = GetComponent<FindPossibleAttacks>();
+        _WalkOrientation = GetComponent<WalkAnimate>();
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        _startLocation = _sword.transform.position;
+        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
+
+        if (GetComponent<AIController>() != null)
+            return;
+        _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
+        _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
+        _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
+        _lockOnScript = GetComponent<LockOnTest1>();
+        _staminaManager = GetComponent<StaminaManager>();
+        _isInitialized = true;
     }
 }
