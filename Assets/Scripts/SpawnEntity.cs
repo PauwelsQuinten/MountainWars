@@ -22,7 +22,7 @@ public class SpawnEntity : MonoBehaviour
     private IEnumerator Spawn()
     {
         yield return null;
-        spawnedPrefabPrefab = Instantiate(spawnPrefab, spawnPos, Quaternion.identity);
+        spawnedPrefabPrefab = Instantiate(spawnPrefab, transform.position + spawnPos, Quaternion.identity);
 
         if(spawnedPrefabPrefab.GetComponent<AimingInput2>() != null) spawnedPrefabPrefab.GetComponent<AimingInput2>().initPlayer();
     }
