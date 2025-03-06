@@ -122,6 +122,7 @@ public class WorldState : MonoBehaviour
             _shieldPossesion = _shield? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
         }
 
+        //When using a priority list for your desiredState
         if (_lowtoHighPriority.Count > 0)
         {
             foreach(var item in _lowtoHighPriority)

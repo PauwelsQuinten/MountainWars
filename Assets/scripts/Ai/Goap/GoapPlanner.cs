@@ -59,7 +59,7 @@ public class GoapPlanner : MonoBehaviour
                 if (action.IsVallid(_currentWorldState) && action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key))
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
-                    if (score < lowestScore && !_actionPlan.Contains(action))
+                    if (score < lowestScore )
                     {
                         lowestScore = score;
                         cheapestAction = action;
@@ -71,7 +71,7 @@ public class GoapPlanner : MonoBehaviour
                     action.SatisfyingWorldState._worldStateValues2[desiredState.Key] == desiredState.Value)
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
-                    if (score < lowestScore && !_actionPlan.Contains(action))
+                    if (score < lowestScore)
                     {
                         lowestScore = score;
                         cheapestAction = action;
@@ -81,6 +81,9 @@ public class GoapPlanner : MonoBehaviour
             
             if (cheapestAction == null)
                 return false;
+            //Remove previous inserted action, it is pointless to be called more times then once in the plan. so only call them with the highest priority
+            if (_actionPlan.Contains(cheapestAction))
+                _actionPlan.Remove(cheapestAction);
             _actionPlan.Add(cheapestAction);
             Plan(cheapestAction.DesiredWorldState);
             _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);//reset here back to startvalue before recursion
