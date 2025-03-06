@@ -1,27 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-
-public enum ParryChanceState
-{
-    Start,
-    Failled,
-    None,
-    Succes
-}
-public enum BlockState
-{
-    Idle,
-    MovingShield,
-    HoldBlock,
-    WeakeningBlock,
-    Broken
-}
 
 public class Blocking : MonoBehaviour
 {
@@ -62,11 +42,18 @@ public class Blocking : MonoBehaviour
 
     public EventHandler OnBlockedAttack;
 
+    private float _blockStrenght = 13;
+    private float _attackPower;
+
+    [SerializeField] private int _staminaCost;
+    private StaminaManager _staminaManager;
+
     private void Start()
     {
         _heldEquipment = GetComponent<HeldEquipment>();
         _shield = _heldEquipment.GetEquipment(EquipmentType.Shield);
         _animator = gameObject.GetComponent<WalkAnimate>();
+        _staminaManager = GetComponent<StaminaManager>();
         var obj = GameObject.Find(_txtBlockName);
         if (obj)
             _txtBlockPower = obj.GetComponent<TextMeshPro>();   
@@ -76,7 +63,6 @@ public class Blocking : MonoBehaviour
     void Update()
     {
         BlockPrototype();
-
     }
 
     //-------------------------------------------------------
@@ -112,6 +98,8 @@ public class Blocking : MonoBehaviour
 
     public bool StartHit(AttackStance height, int direction, GameObject attacker)
     {
+        SwordSwing swing = attacker.GetComponent<SwordSwing>();
+        if(swing != null)_attackPower = swing.Power;
         //Check if shield is equiped before trying to Block
         if (_shield == null)
         {
@@ -147,6 +135,19 @@ public class Blocking : MonoBehaviour
                 }
                 else
                 {
+                    if (_staminaCost > _staminaManager.CurrentStamina) 
+                    {
+                        _animator.GetHit();
+                        _blockState = BlockState.Broken;
+                        Knockback();
+                        return false;
+                    }
+                    if(_attackPower > _blockPower) 
+                    {
+                        _staminaManager.DepleteStamina(_staminaCost);
+                        Knockback();
+                    }
+                    else _staminaManager.CurrentStamina -= _staminaCost;
                     var equipmentType = _shield.GetComponent<Equipment>().GetEquipmentType();
                     //if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
                     if (!_heldEquipment.EquipmentEnduresHit(equipmentType, _tempShieldDamageOnUse))
@@ -225,6 +226,7 @@ public class Blocking : MonoBehaviour
         switch (_blockState)
         {
             case BlockState.Idle:
+                if(_staminaManager != null) _staminaManager.IsBlocking = false;
                 if (DetectAnalogMovement())
                 {
                     _blockState = BlockState.MovingShield;
@@ -233,6 +235,7 @@ public class Blocking : MonoBehaviour
                 break;
 
             case BlockState.MovingShield:
+                if (_staminaManager != null) _staminaManager.IsBlocking = true;
                 _accumulatedTime += Time.deltaTime;
                 _shield.transform.localPosition = new Vector3(_blockInputDirection.x * Radius, _blockInputDirection.y * Radius, 0.0f);
 
@@ -263,6 +266,7 @@ public class Blocking : MonoBehaviour
                 break;
 
             case BlockState.HoldBlock:
+                if (_staminaManager != null) _staminaManager.IsBlocking = true;
                 _currentBlockingTime += Time.deltaTime;
                 if (_currentBlockingTime > _maxTimeHoldBlock)
                 {
@@ -335,6 +339,7 @@ public class Blocking : MonoBehaviour
         {
             if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >= _parryAngle)
             {
+                _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
                 _currentParryChance = ParryChanceState.Succes;
                 AIController attComp = _attacker.GetComponent<AIController>();
                 attComp.Parried();
@@ -447,7 +452,8 @@ public class Blocking : MonoBehaviour
         float blockAngle = Vector2.Angle(orientationVector, _shield.transform.localPosition);
         //float blockAngle = Vector2.Angle(orientationVector, _blockInputDirection);
 
-        return cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
+        bool succes = cross * direction >= 0 && blockAngle < maxAcceptedAngle && blockAngle > minAcceptedAngle;
+        return succes;
     }
 
     private void FollowTarget()
@@ -462,4 +468,25 @@ public class Blocking : MonoBehaviour
        
     }
 
+    private void Knockback()
+    {
+        float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
+        Transform t = Instantiate(transform);
+        t.rotation = Quaternion.Euler(new Vector3(0, 0, t.rotation.z + (orientation - 90)));
+        StartCoroutine(DoKnockback(transform.position, -t.up * 6, 1, 10, transform));
+        Destroy(t.gameObject);
+    }
+
+    IEnumerator DoKnockback(Vector3 startPos, Vector3 direction, float distance, float speed, Transform obj)
+    {
+        while (Vector3.Distance(startPos, obj.position) <= distance)
+        {
+            obj.position += speed * Time.deltaTime * direction;
+            yield return null;
+        }
+
+        Vector3 resetZ = obj.position;
+        resetZ.z = 0;
+        obj.position = resetZ;
+    }
 }

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeldEquipment : MonoBehaviour
@@ -10,8 +12,9 @@ public class HeldEquipment : MonoBehaviour
     private Dictionary<EquipmentType, Equipment> _fullEquipment = new Dictionary<EquipmentType, Equipment>();
     private bool _readyToPickup = false;
     private Equipment _foundEquipment;
+    private Coroutine _goFlyCoroutine;
 
-    private void Start()
+    private void Awake()
     {
         _fullEquipment.Add(EquipmentType.Weapon, null);
         if (_weaponPrefab != null)
@@ -44,15 +47,13 @@ public class HeldEquipment : MonoBehaviour
             fist.transform.localScale = Vector3.zero;
             _fullEquipment[EquipmentType.Fist] = fist;
         }
-
-       
-        
     }
 
     public bool EquipmentEnduresHit(EquipmentType equipmentType, float damage)
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
+            if (equipmentType == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
@@ -83,7 +84,7 @@ public class HeldEquipment : MonoBehaviour
         _foundEquipment = equipment;
     }
 
-    public void SetLookForPickup(bool drop = false)
+    public void SetLookForPickup(bool drop = false, int direction = 1, bool goFly = false)
     {
         if (_foundEquipment == null && !drop)
             return;
@@ -97,6 +98,18 @@ public class HeldEquipment : MonoBehaviour
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().enabled = true;
             _fullEquipment[targetedtype].GetComponent<SphereCollider>().isTrigger = true;
 
+            if (goFly)
+            {
+                float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
+                Transform t = Instantiate(transform);
+                t.rotation = Quaternion.Euler(new Vector3(0,0,t.rotation.z + (orientation - 90)));
+
+                if (direction == 1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
+                else if (direction == -1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
+                else if (direction == 0) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.up * 6, 2, 1, _fullEquipment[targetedtype].transform));
+
+                Destroy(t.gameObject);
+            }
         }
         else
             _foundEquipment = null;
@@ -126,11 +139,11 @@ public class HeldEquipment : MonoBehaviour
     }
 
 
-    public void DropSword()
+    public void DropSword(int direction = 1, bool goFly = false)
     {
         if (_fullEquipment[EquipmentType.Weapon] != null)
         {
-            SetLookForPickup(true);
+            SetLookForPickup(true, direction, goFly);
         }
     }
 
@@ -139,5 +152,16 @@ public class HeldEquipment : MonoBehaviour
         return _fullEquipment[equipment].transform.position;
     }
 
+    IEnumerator LaunchSword(Vector3 startPos, Vector3 direction, float distance, float speed, Transform obj)
+    {
+        while (Vector3.Distance(startPos, obj.position) <= distance)
+        {
+            obj.position += speed * Time.deltaTime * direction;
+            yield return null;
+        }
 
+        Vector3 resetZ = obj.position;
+        resetZ.z = 0;
+        obj.position = resetZ;
+    }
 }

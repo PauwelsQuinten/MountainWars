@@ -53,20 +53,17 @@ public class Equipment : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other is CharacterController)
-        {
-            other.GetComponent<HeldEquipment>().PickupNewEquipment(this);
-        }
+        CharacterController controller = other.GetComponent<CharacterController>();
+        if (controller == null) return;
+        other.GetComponent<HeldEquipment>().PickupNewEquipment(this);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other is CharacterController)
-        {
-            other.GetComponent<HeldEquipment>().PickupNewEquipment(null);
-        }
+        CharacterController controller = other.GetComponent<CharacterController>();
+        if (controller == null) return;
+        other.GetComponent<HeldEquipment>().PickupNewEquipment(null);
     }
-
 }
 
 //Add toAImInput2

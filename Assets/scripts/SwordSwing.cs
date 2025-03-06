@@ -35,6 +35,8 @@ public class SwordSwing : MonoBehaviour
     private Vector3 _currentOrientationVector;
     private Vector3 _startStabVector;
     private NpcAttackState _currentState = NpcAttackState.Start;
+    public int Power = 10;
+    private HealthManager _healthManager;
 
     public EventHandler OnStopHit;
     public EventHandler<HitEventArgs> OnStartHit;
@@ -43,10 +45,13 @@ public class SwordSwing : MonoBehaviour
         public AttackStance AttackHeight { get; }
         public int Direction { get; }
 
-        public HitEventArgs(AttackStance param1, int param2)
+        public int Power { get; }
+
+        public HitEventArgs(AttackStance param1, int param2, int power)
         {
             AttackHeight = param1;
             Direction = param2;
+            Power = power;
         }
     }
 
@@ -54,6 +59,7 @@ public class SwordSwing : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _healthManager = GetComponent<HealthManager>();
         _animationRef = GetComponent<WalkAnimate>();
 
         _targetCollider = gameObject.AddComponent<SphereCollider>();
@@ -66,6 +72,8 @@ public class SwordSwing : MonoBehaviour
             return;
         _defaultAngle = _sword.transform.rotation.eulerAngles.z;
         _defaultPosition = _sword.transform.position;
+        if(_healthManager.Physique > 5) Power -=  5 - _healthManager.Physique;
+        else if (_healthManager.Physique < 5) Power -= 5 -_healthManager.Physique;
     }
 
     // Update is called once per frame
@@ -143,7 +151,7 @@ public class SwordSwing : MonoBehaviour
             if (_target)
             {
                 SwordParry swordParry = _target.GetComponent<SwordParry>();
-                swordParry.StartParry(false, null);
+                swordParry.StartParry(false, null, 0);
                 Blocking blocker = _target.GetComponent<Blocking>();
                 blocker.StopParryTime();
             }
@@ -156,7 +164,7 @@ public class SwordSwing : MonoBehaviour
             SwordParry swordParry = _target.GetComponent<SwordParry>();
             if (swordParry && swordParry.IsParrying())
             {
-                swordParry.StartParry(true, gameObject);
+                swordParry.StartParry(true, gameObject, Power);
             }
             else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
@@ -173,51 +181,6 @@ public class SwordSwing : MonoBehaviour
         _sword.transform.Rotate(0.0f, 0.0f, _swingDirection * _swingSpeed * Time.fixedDeltaTime);
         float angle = _sword.transform.rotation.eulerAngles.z;
         float diff = _startSwingAngle + _swingDirection * angle;
-        //SwordParry swordParry = null;
-        //Blocking blocker = null;
-        //if (_target)
-        //{
-        //    swordParry = _target.GetComponent<SwordParry>();
-        //    blocker = _target.GetComponent<Blocking>();
-        //}
-
-
-        //switch(_currentState)
-        //{
-        //    case NpcAttackState.Start:
-        //        if (_currentAngleMovement > _swingAngle * 0.85f)
-        //            _currentState = NpcAttackState.StartParry;
-        //            break;
-        //
-        //    case NpcAttackState.StartParry:
-        //        swordParry = _target.GetComponent<SwordParry>();
-        //        blocker = _target.GetComponent<Blocking>();
-        //        if (swordParry && swordParry.IsParrying())
-        //        {
-        //            swordParry.StartParry(true, gameObject);
-        //        }
-        //        else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
-        //        {
-        //            SetIdle();
-        //            _animationRef.GetHit();
-        //        }
-        //        
-        //        _currentState = NpcAttackState.BlockTime;
-        //        break;
-        //
-        //    case NpcAttackState.BlockTime:
-        //        if (_currentAngleMovement > _swingAngle * 1.5f)
-        //        {
-        //            _currentState = NpcAttackState.StopParry;
-        //        }
-        //
-        //        break;
-        //        case NpcAttackState.StopParry:
-        //
-        //}
-
-
-//--------------------------------------------------------------
 
 
         if (_target && _currentAngleMovement > _swingAngle * 1.5f)
@@ -225,7 +188,7 @@ public class SwordSwing : MonoBehaviour
             SwordParry swordParry = _target.GetComponent<SwordParry>();
             Blocking blocker = _target.GetComponent<Blocking>();
             blocker.StopParryTime();
-            swordParry.StartParry(false, null);
+            swordParry.StartParry(false, null, 0);
 
         }
 
@@ -237,7 +200,7 @@ public class SwordSwing : MonoBehaviour
             Blocking blocker = _target.GetComponent<Blocking>();
             if (swordParry && swordParry.IsParrying())
             {
-                swordParry.StartParry(true, gameObject);
+                swordParry.StartParry(true, gameObject,Power, _swingDirection);
             }
             else if (blocker.StartHit(_attackStance, _swingDirection, gameObject))
             {
@@ -339,9 +302,5 @@ public class SwordSwing : MonoBehaviour
             _sword.transform.localScale = Vector3.one;
             //radius = 1.5f;
         }
-
     }
-
-
-
 }

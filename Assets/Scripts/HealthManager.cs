@@ -9,10 +9,16 @@ public class HealthManager : MonoBehaviour
     private float _damageDropOff;
     [SerializeField]
     private SpriteRenderer _healthBar;
-    [SerializeField, Range(0.0f, 10.0f)]
-    private int _physique;
+    [SerializeField]
+    private SpriteRenderer _bloodBar;
+    [Range(0.0f, 10.0f)]
+    public int Physique;
     [SerializeField]
     private int _baseLimbHealth;
+    [SerializeField]
+    private float _maxBlood;
+    [SerializeField]
+    private float _bleedOutSpeed;
     [SerializeField]
     private GameObject _headBones;
     [SerializeField]
@@ -33,12 +39,11 @@ public class HealthManager : MonoBehaviour
     private float _currentHealth;
     private float _maxHealth;
     private float _bleedOutRate;
+    private float _currentBlood;
 
     private void Start()
     {
         InitBodyParts();
-
-        _bodyPartCurrentHealth = _bodyPartMaxHealth;
 
         foreach (var bodypart in _bodyPartCurrentHealth)
         {
@@ -46,17 +51,22 @@ public class HealthManager : MonoBehaviour
         }
 
         _currentHealth = _maxHealth;
+        _currentBlood = _maxBlood;
     }
 
     private void Update()
     {
-        _currentHealth -= _bleedOutRate * Time.deltaTime;
+        _currentBlood -= _bleedOutRate * Time.deltaTime;
 
         Vector2 healthBarSize = new Vector2(_currentHealth / _maxHealth, 1);
         _healthBar.size = healthBarSize;
         _healthBar.gameObject.transform.localPosition = new Vector3(0 - ((1 - healthBarSize.x) / 2), 0, 0);
 
-        if (_currentHealth <= 0) Destroy(gameObject);
+        Vector2 bloodBarSize = new Vector2(_currentBlood / _maxBlood, 1);
+        _bloodBar.size = bloodBarSize;
+        _bloodBar.gameObject.transform.localPosition = new Vector3(0 - ((1 - bloodBarSize.x) / 2), 0, 0);
+
+        if (_currentHealth <= 0 || _currentBlood <= 0) Destroy(gameObject);
     }
     public void GotHit(List<BodyParts> partsHit, float damage)
     {
@@ -69,11 +79,13 @@ public class HealthManager : MonoBehaviour
                 damageTaken -= (int)(index * _damageDropOff);
                 _bodyPartCurrentHealth[part] -= damageTaken;
                 _currentHealth -= damage;
+                index++;
 
                 if(_bodyPartCurrentHealth[part] <= 0)
                 {
-                    if (part == BodyParts.Head || part == BodyParts.Torso) _currentHealth = 0;
-                    else _bleedOutRate += 60;
+                    if (part == BodyParts.Head) _currentHealth = 0;
+                    else if(part == BodyParts.Torso) _bleedOutRate += _bleedOutSpeed * 1.5f;
+                    else _bleedOutRate += _bleedOutSpeed;
                 }
             }
             else
@@ -111,11 +123,13 @@ public class HealthManager : MonoBehaviour
 
     private void InitBodyParts()
     {
-        _bodyPartMaxHealth.Add(BodyParts.Head, (int)((_baseLimbHealth * 0.75f) + (((_baseLimbHealth * 0.75f) / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.Torso, (int)((_baseLimbHealth * 2) + (((_baseLimbHealth * 2) / 100) * _physique))); 
-        _bodyPartMaxHealth.Add(BodyParts.LeftLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.RightLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.LeftArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
-        _bodyPartMaxHealth.Add(BodyParts.RightArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * _physique)));
+        _bodyPartMaxHealth.Add(BodyParts.Head, (int)((_baseLimbHealth * 0.75f) + (((_baseLimbHealth * 0.75f) / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.Torso, (int)((_baseLimbHealth * 2) + (((_baseLimbHealth * 2) / 100) * Physique))); 
+        _bodyPartMaxHealth.Add(BodyParts.LeftLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.RightLeg, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.LeftArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+        _bodyPartMaxHealth.Add(BodyParts.RightArm, (int)(_baseLimbHealth + ((_baseLimbHealth / 100) * Physique)));
+
+        _bodyPartCurrentHealth = _bodyPartMaxHealth;
     }
 }

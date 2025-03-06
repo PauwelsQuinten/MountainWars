@@ -23,16 +23,21 @@ public class SwordParry : MonoBehaviour
     private float _currentParryAngle = 0f;
     private Vector2 _startParryVector;
     private Vector2 _secondParryVector;
+    private float _parryPower = 13;
+    private float _attackPower;
     [SerializeField]private float _parryAngle = 90f;
 
     private float _disarmTime = 0.0f;
     [SerializeField]private float _timeForDisarming = 0.5f;
     private int _direction = 0;
 
+    [SerializeField] private int _staminaCost;
+    private StaminaManager _staminaManager;
 
     void Start()
     {
        _walkAnimate = GetComponent<WalkAnimate>();
+        _staminaManager = GetComponent<StaminaManager>();
     }
 
    
@@ -49,39 +54,63 @@ public class SwordParry : MonoBehaviour
         //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
-            //Succcesfull parry 
-            SwordSwing sw = _attacker.GetComponent <SwordSwing>();
-            sw.SetIdle();
-            //Set parried animation to attacker
-            AIController attComp = _attacker.GetComponent<AIController>();
-            attComp.Parried();
-            _parryState = false; 
+            if(_staminaCost < _staminaManager.CurrentStamina)
+            {
+                _staminaManager.DepleteStamina(_staminaCost);
+                if (_attackPower > _parryPower)
+                {
+                    GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    GetComponent<AimingInput2>().SwordBroke();
+                }
 
-            //Set to disarm
-            _parryFase = ParryState.Dissarm;
-            _currentParryAngle = 0;
-            _secondParryVector = _inputSwordMovement;
+                if (_attackPower < _parryPower - 6)
+                {
+                    GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    GetComponent<AimingInput2>().SwordBroke();
+                }
+
+
+                //Succcesfull parry 
+                SwordSwing sw = _attacker.GetComponent<SwordSwing>();
+                sw.SetIdle();
+                //Set parried animation to attacker
+                AIController attComp = _attacker.GetComponent<AIController>();
+                attComp.Parried();
+                _parryState = false;
+
+                //Set to disarm
+                _parryFase = ParryState.Dissarm;
+                _currentParryAngle = 0;
+                _secondParryVector = _inputSwordMovement;
+            }
         }
         else if (_parryFase == ParryState.Dissarm)
         {
             _disarmTime += Time.deltaTime;
-            
+
 
             //Debug.Log($"{Vector2.Distance(_startParryVector, _inputSwordMovement)}");
             if (Vector2.Distance(_startParryVector, _inputSwordMovement) < 0.1f)
             {
-                //AIController attComp = _attacker.GetComponent<AIController>();
-                //attComp.Disarmed();
-                Debug.Log("Disarm");
-                _attacker.GetComponent<HeldEquipment>().DropSword();
-                _attacker.GetComponent<SwordSwing>().SwordBroke();
-                _attacker = null;
-                _disarmTime = 0;
-                _parryFase = ParryState.Idle;
-                return;
+                if (_staminaCost < _staminaManager.CurrentStamina)
+                {
+                    _staminaManager.DepleteStamina(_staminaCost);
+                    //AIController attComp = _attacker.GetComponent<AIController>();
+                    //attComp.Disarmed();
+                    if (_attackPower <= _parryPower)
+                    {
+                        Debug.Log("Disarm");
+                        _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
+                        _attacker.GetComponent<SwordSwing>().SwordBroke();
+                    }
+                    _attacker = null;
+                    _disarmTime = 0;
+                    _parryFase = ParryState.Idle;
+                    return;
+                }
             }
 
-            if (_disarmTime >=  _timeForDisarming)
+            if (_disarmTime >= _timeForDisarming)
             {
                 _attacker = null;
                 _disarmTime = 0;
@@ -89,7 +118,6 @@ public class SwordParry : MonoBehaviour
                 return;
             }
         }
-
     }
 
     public void StartParryMode(bool start)
@@ -97,9 +125,9 @@ public class SwordParry : MonoBehaviour
         _parryMode = start;
     }
 
-    public void StartParry(bool isGoing, GameObject attacker, int direction = 0)
+    public void StartParry(bool isGoing, GameObject attacker, int power, int direction = 0)
     {
-        
+        _attackPower = power;
         //check for parrystate to make sure it is only set once
         //if (isGoing && !_parryState)
         if (isGoing && _parryFase == ParryState.Idle)
@@ -170,5 +198,4 @@ public class SwordParry : MonoBehaviour
         else
             return (cross * _direction >= 0);
     }
-
 }

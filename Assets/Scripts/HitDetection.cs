@@ -55,6 +55,7 @@ public class HitDetection : MonoBehaviour
 
     private void DetermineAtackType()
     {
+        _partsHit.Clear();
         switch (_attackType)
         {
             case AttackType.UpperSlashRight:
@@ -661,5 +662,10 @@ public class HitDetection : MonoBehaviour
     public void SetPartInFrontTorso(BodyParts partInFront)
     {
         _torsoPartInFront = partInFront;
+    }
+
+    private void OnDestroy()
+    {
+        _AttackMessage.enabled = true;
     }
 }
