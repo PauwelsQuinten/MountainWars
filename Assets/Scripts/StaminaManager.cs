@@ -6,7 +6,7 @@ public class StaminaManager : MonoBehaviour
     [SerializeField] int _maxStamina;
     [SerializeField] float _waitForRegen;
 
-    SpriteRenderer _staminahBar;
+    SpriteRenderer _staminaBar;
 
     public float BaseStaminaRegenRate;
     private float _currentStaminaRegenRate;
@@ -20,12 +20,13 @@ public class StaminaManager : MonoBehaviour
 
     private void Start()
     {
-        _staminahBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
+        _staminaBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
         CurrentStamina = _maxStamina;
         _currentStaminaRegenRate = BaseStaminaRegenRate;
     }
     private void Update()
     {
+        if (_staminaBar.enabled == false) return;
         SetStaminaBar();
         RegenStamina();
     }
@@ -42,8 +43,8 @@ public class StaminaManager : MonoBehaviour
     private void SetStaminaBar()
     {
         Vector2 staminaBarSize = new Vector2(CurrentStamina / _maxStamina, 1);
-        _staminahBar.size = staminaBarSize;
-        _staminahBar.gameObject.transform.localPosition = new Vector3(0 - ((1f - staminaBarSize.x) / 2f), 0, 0);
+        _staminaBar.size = staminaBarSize;
+        _staminaBar.gameObject.transform.localPosition = new Vector3(0 - ((1f - staminaBarSize.x) / 2f), 0, 0);
     }
 
     private void RegenStamina()

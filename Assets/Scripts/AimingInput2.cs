@@ -17,8 +17,6 @@ public class AimingInput2 : MonoBehaviour
 
     [SerializeField] private float _speed = 10.0f;
     [SerializeField] private TextMeshPro _texMessage;
-    [SerializeField] private TextMeshPro _txtActionPower;
-    [SerializeField] private TextMeshPro _AttackMessage;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
@@ -103,13 +101,14 @@ public class AimingInput2 : MonoBehaviour
         //InputManager input = FindObjectOfType<InputManager>();
         //input.AimingScript = this;
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
-
-        //initPlayer();
+        _WalkOrientation = GetComponent<WalkAnimate>();
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        _startLocation = _sword.transform.position;
+        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
     }
 
     private void Update()
     {
-        if (!_isInitialized) return;
         if (GetComponent<AIController>() != null)
             return;
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
@@ -132,6 +131,9 @@ public class AimingInput2 : MonoBehaviour
             _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
         }
 
+        SwordVisual(currentAngleDegree);
+
+        if (!_isInitialized) return;
         //Start moving analog , Attack or Charge up
         if ((newLength > MIN_WINDUP_LENGTH))
         {
@@ -171,7 +173,6 @@ public class AimingInput2 : MonoBehaviour
         {
             _sword.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
         }
-        SwordVisual(currentAngleDegree);
     }
 
     private void ResetValues()
@@ -299,8 +300,6 @@ public class AimingInput2 : MonoBehaviour
                 _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
                 _sword.transform.localPosition = Vector3.zero;
             }
-
-            _txtActionPower.enabled = false;
             return;
         }
         else _isCharging = false;
@@ -428,8 +427,6 @@ public class AimingInput2 : MonoBehaviour
         }
         CurrentAttackType = AttackType.None;
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-        _AttackMessage.text = "Attack was invalid";
-        _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
         Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
@@ -439,8 +436,6 @@ public class AimingInput2 : MonoBehaviour
         if (_slashAngle > _overCommitAngle)
         {
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _AttackMessage.text = "Player over commited";
-            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
@@ -454,10 +449,6 @@ public class AimingInput2 : MonoBehaviour
     {
         if (angle < minAngle && time < 0.5f)
         {
-            _AttackMessage.text = "Feint";
-            Debug.Log(_AttackMessage.text);
-            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _feinted = true;
             _attemptedAttack = false;
             return true;
@@ -512,12 +503,6 @@ public class AimingInput2 : MonoBehaviour
         _isResetingStance = false;
     }
 
-    private IEnumerator ResetText(float time, TextMeshPro text)
-    {
-        yield return new WaitForSeconds(time);
-        text.text = " ";
-    }
-
     public void ChangeStance(AttackStance stance)
     {
         if (_resetAttackStance != null) StopCoroutine(_resetAttackStance);
@@ -555,16 +540,10 @@ public class AimingInput2 : MonoBehaviour
     public void initPlayer()
     {
         _attackFinder = GetComponent<FindPossibleAttacks>();
-        _WalkOrientation = GetComponent<WalkAnimate>();
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        _startLocation = _sword.transform.position;
-        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
 
         if (GetComponent<AIController>() != null)
             return;
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
-        _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
-        _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
         _lockOnScript = GetComponent<LockOnTest1>();
         _staminaManager = GetComponent<StaminaManager>();
         _isInitialized = true;
