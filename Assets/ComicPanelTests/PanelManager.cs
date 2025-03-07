@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PanelManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference _interaction;
     [SerializeField] private bool _doPanelClimb;
     [SerializeField] private float _camZoomSpeed;
     [SerializeField] private float _camMoveSpeed;
@@ -15,6 +17,8 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private PanelTrigger _panel2Trigger;
     [SerializeField] private PanelTrigger _panel2Trigger2;
     [SerializeField] private PanelTrigger _panel3Trigger;
+    [SerializeField] private PanelTrigger _panel3Trigger2;
+
 
     [SerializeField] private List<GameObject> _panelsScene = new List<GameObject>();
     [SerializeField] private List<GameObject> _panelsView = new List<GameObject>();
@@ -25,24 +29,69 @@ public class PanelManager : MonoBehaviour
     private GameObject _teleportedFromTrigger;
     private bool _camCanMove;
     private GameObject _staminaBar;
+    private bool _isNearTree;
+    private bool _isInTree;
  
     private void Start()
     {
         _staminaBar = _camera.GetComponentInChildren<SpriteRenderer>().gameObject;
         _panel1Trigger.TriggerEnter += Panel1Enter_Performed;
         _panel1Trigger.TriggerExit += Panel1Exit_Performed;
+
         _panel2Trigger.TriggerEnter += Panel2Enter_Performed;
         _panel2Trigger.TriggerExit += Panel2Exit_Performed;
+
         _panel2Trigger2.TriggerEnter += Panel2Enter2_Performed;
         _panel2Trigger2.TriggerExit += Panel2Exit2_Performed;
+
         _panel3Trigger.TriggerEnter += Panel3Enter_Performed;
         _panel3Trigger.TriggerExit += Panel3Exit_Performed;
 
+        _panel3Trigger2.TriggerEnter += Panel3Enter2_Performed;
+        _panel3Trigger2.TriggerExit += Panel3Exit2_Performed;
+
+    }
+
+    private void Update()
+    {
+        if(_isNearTree && _interaction.action.WasPerformedThisFrame())
+        {
+            _isInTree = true;
+            _isNearTree = false;
+            _camCanMove = false;
+            SetPlayerPos(_spawnPos[5].position, 2);
+            SetPanel(2, 3);
+
+            Vector3 playerFromPos = _panelsView[2].transform.position;
+            Vector3 playerToPos = _panelsView[3].transform.position;
+            playerFromPos.y += 10.8f / 2;
+            playerToPos.y -= 10.8f / 2;
+            SetCameraPos(3, playerFromPos, playerToPos);
+            SetCamSize(2 ,1, true);
+
+            if (_player != null)_player.GetComponent<CharacterController>().enabled = false;
+        }
+        else if(_isInTree && _interaction.action.WasPerformedThisFrame())
+        {
+            _isInTree = false;
+            _camCanMove = true;
+            SetPlayerPos(_spawnPos[4].position, 2);
+            SetPanel(3, 2);
+
+            Vector3 playerFromPos = _panelsView[3].transform.position;
+            Vector3 playerToPos = _panelsView[2].transform.position;
+            playerFromPos.y += 10.8f / 2;
+            playerToPos.y -= 10.8f / 2;
+            SetCameraPos(2, playerFromPos, playerToPos);
+            SetCamSize(2, 0);
+
+            if (_player != null) _player.GetComponent<CharacterController>().enabled = true;
+        }
     }
 
     private void SetPanel(int CurrentIndex, int newIndex)
     {
-        _panelsScene[CurrentIndex].SetActive(false);
+        if(!_isInTree && CurrentIndex != 3)_panelsScene[CurrentIndex].SetActive(false);
         _panelsScene[newIndex].SetActive(true);
     }
     private void SetPlayerPos(Vector3 pos, int index)
@@ -66,6 +115,19 @@ public class PanelManager : MonoBehaviour
             cam.transform.parent = _panelsScene[index].transform;
             cam.transform.localPosition = new Vector3(0, 0, -10);
         }
+    }
+
+    private void SetCamSize(int index, float size, bool setPos = false)
+    {
+        Camera cam = _panelsScene[index].GetComponentInChildren<Camera>();
+        if (cam == null) cam = _player.GetComponentInChildren<Camera>();
+        cam.orthographicSize = 5 + size;
+
+        if (!setPos) return;
+        Vector3 newPos = cam.transform.localPosition;
+        newPos.x += size;
+        newPos.y += size * 2;
+        cam.transform.localPosition = newPos;
     }
 
     private void SetCameraPos(int index, Vector3 playerSpawnPos, Vector3 playerToPos)
@@ -161,6 +223,16 @@ public class PanelManager : MonoBehaviour
         if (sender as GameObject != _teleportedFromTrigger) _CanTeleport = true;
     }
 
+    private void Panel3Enter2_Performed(object sender, EventArgs e)
+    {
+        _isNearTree = true;
+    }
+
+    private void Panel3Exit2_Performed(object sender, EventArgs e)
+    {
+        _isNearTree = false;
+    }
+
     private IEnumerator DoMoveCam(Vector3 newCamPos, Vector3 spawnPos, Vector3 toPos)
     {
         if(_player != null) _player.GetComponent<CharacterController>().enabled = false;
@@ -229,7 +301,7 @@ public class PanelManager : MonoBehaviour
             yield return null;
         }
         _camera.orthographicSize = camSize;
-        if (_player != null) _player.GetComponent<CharacterController>().enabled = true;
+        if (_player != null && !_isInTree) _player.GetComponent<CharacterController>().enabled = true;
         _staminaBar.SetActive(true);
     }
 }

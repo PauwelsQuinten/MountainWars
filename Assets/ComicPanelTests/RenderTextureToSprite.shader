@@ -7,8 +7,11 @@ Shader "Custom/RenderTextureToSprite"
     }
         SubShader
     {
-        Tags { "RenderType" = "Opaque" }
+        Tags { "RenderType" = "Transparent" }
         LOD 100
+
+        // Set blending mode
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
