@@ -59,25 +59,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
+  _lowtoHighPriority: 
   _worldStateType: 0
-  _targetWeaponDistance: 4
-  _targetShieldDistance: 4
+  _targetWeaponDistance: 0
+  _targetShieldDistance: 0
   _targetWeaponMovement: 9000
   _targetShieldMovement: 9000
-  _targetShieldOrientation: 9000
-  _targetWeaponOrientation: 9000
+  _targetShieldOrientation: 0
+  _targetWeaponOrientation: 0
   _targetSwingSpeed: 9000
-  _targetWeaponPossesion: 4
-  _targetShieldPossesion: 4
-  _targetBehaviour: 4
-  _hasTarget: 4
-  _WeaponDistance: 4
-  _ShieldDistance: 4
+  _targetWeaponPossesion: 0
+  _targetShieldPossesion: 0
+  _targetBehaviour: 0
+  _hasTarget: 0
+  _targetDistance: 0
+  _WeaponDistance: 0
+  _ShieldDistance: 0
   _weaponMovement: 9000
   _shieldMovement: 9000
-  _shieldOrientation: 9000
-  _weaponOrientation: 9000
+  _shieldOrientation: 0
+  _weaponOrientation: 0
   _swingSpeed: 9000
-  _weaponPossesion: 4
-  _shieldPossesion: 4
+  _weaponPossesion: 0
+  _shieldPossesion: 0
   _behaviour: 5

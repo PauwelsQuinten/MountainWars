@@ -7,6 +7,8 @@ public interface Actions
     void UpdateAction(WorldState currentWorldState);
     bool IsVallid(WorldState currentWorldState);
     bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> _comparedWorldState);
+    void StartAction(WorldState currentWorldState);
+
 }
 
 public class GoapAction : MonoBehaviour, Actions
@@ -14,9 +16,9 @@ public class GoapAction : MonoBehaviour, Actions
     public float Cost = 1.0f;
     public WorldState DesiredWorldState;
     public WorldState SatisfyingWorldState;
-    [SerializeField] float _actionMaxRunTime = 3f;
-    private bool _isActivated = false;
-    private Coroutine _actionCoroutine;
+    [SerializeField] protected float _actionMaxRunTime = 3f;
+    protected bool _isActivated = false;
+    protected Coroutine _actionCoroutine;
 
     virtual protected void Start()
     {
@@ -29,6 +31,14 @@ public class GoapAction : MonoBehaviour, Actions
                 SatisfyingWorldState = item;
         }
     }
+    public virtual void StartAction(WorldState currentWorldState)
+    {
+        if (_isActivated)
+            return;
+        _isActivated = true;
+        _actionCoroutine = StartCoroutine(StartTimer(_actionMaxRunTime));
+    }
+
 
     public virtual void UpdateAction(WorldState currentWorldState)
     {
@@ -43,9 +53,10 @@ public class GoapAction : MonoBehaviour, Actions
 
     virtual public bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> _comparedWorldState)
     {
+        //set to complete if runtime runs out, done by coroutine started at startAction()
+        //set to complete by UpdateAction()
         if (!_isActivated)
         {
-            //set to complete if runtime runs out
             Debug.Log("action finished");
             return true;
         }
@@ -74,17 +85,15 @@ public class GoapAction : MonoBehaviour, Actions
         return true;
     }
 
-    public void StartAction()
-    {
-        if (_isActivated)
-            return;
-        _isActivated = true;
-        _actionCoroutine = StartCoroutine(StartTimer(_actionMaxRunTime));
-    }
-
-    IEnumerator StartTimer(float runTime)
+    protected IEnumerator StartTimer(float runTime)
     {
         yield return new WaitForSeconds(runTime);
         _isActivated = false;
+    }
+
+    protected void ActionCompleted()
+    {
+        _isActivated = false;
+        StopCoroutine(_actionCoroutine);
     }
 }

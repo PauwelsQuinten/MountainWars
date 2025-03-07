@@ -409,13 +409,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.02
+  m_Height: 1
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: -0.86, z: 0}
+  m_Center: {x: 0, y: -0.8, z: 0}
 --- !u!114 &7543476095851795945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +431,6 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   CurrentStanceState: 1
   CurrentAttackType: 9
-  _speed: 10
   _texMessage: {fileID: 0}
   _txtActionPower: {fileID: 0}
   _AttackMessage: {fileID: 0}
@@ -497,9 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d796705fe7c57f468154e1f3d7ab0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementAction: {fileID: 0}
   _movementSpeed: 5
-  _rotationSpeed: 0
   CurrentCharacterOrientation: 0
 --- !u!114 &1690099518976186005
 MonoBehaviour:
@@ -515,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shield: {fileID: 0}
   _txtBlockName: BlockPowerTxt (1)
-  _radius: 1
+  Radius: 0.5
   _powerReducer: 20
   _maxTimeHoldBlock: 0.15
   _parryAngle: 1.4

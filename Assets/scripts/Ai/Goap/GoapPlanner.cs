@@ -2,9 +2,17 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharacterMentality
+{
+    Agresive,
+    Defensive,
+    Technocal
+}
+
 public class GoapPlanner : MonoBehaviour
 {
-    [SerializeField] private List<GoapAction>_allActionPrefabs ;
+    [SerializeField] private CharacterMentality _characterMentality = CharacterMentality.Agresive;
+    [SerializeField] private List<GoapAction>_allActionPrefabs;
     [SerializeField] private List<GoapGoal>_allGoalPrefabs;
     private List<GoapAction>_allActions = new List<GoapAction>();
     private List<GoapGoal>_allGoals = new List<GoapGoal>();
@@ -56,7 +64,10 @@ public class GoapPlanner : MonoBehaviour
 
             foreach( var action in _allActions)
             {
-                if (action.IsVallid(_currentWorldState) && action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key))
+                if (!action.IsVallid(_currentWorldState))
+                    continue;
+
+                if (action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key))
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
                     if (score < lowestScore )
@@ -64,10 +75,9 @@ public class GoapPlanner : MonoBehaviour
                         lowestScore = score;
                         cheapestAction = action;
                     }
-
                     
                 }
-                else if (action.IsVallid(_currentWorldState) && action.SatisfyingWorldState._worldStateValues2.ContainsKey(desiredState.Key) &&
+                else if (action.SatisfyingWorldState._worldStateValues2.ContainsKey(desiredState.Key) &&
                     action.SatisfyingWorldState._worldStateValues2[desiredState.Key] == desiredState.Value)
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
@@ -84,8 +94,11 @@ public class GoapPlanner : MonoBehaviour
             //Remove previous inserted action, it is pointless to be called more times then once in the plan. so only call them with the highest priority
             if (_actionPlan.Contains(cheapestAction))
                 _actionPlan.Remove(cheapestAction);
+
             _actionPlan.Add(cheapestAction);
-            Plan(cheapestAction.DesiredWorldState);
+            if (!Plan(cheapestAction.DesiredWorldState))
+                return false;
+
             _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);//reset here back to startvalue before recursion
         }
         return true;
@@ -93,12 +106,22 @@ public class GoapPlanner : MonoBehaviour
 
     private GoapGoal SelectCurrentGoal()
     {
+        float highstScore = 0;
+        GoapGoal bestGoal = null;
+
         foreach(var goal in _allGoals)
         {
-            if (goal.IsVallid(_currentWorldState))
-                return goal;
+            if (!goal.IsVallid(_currentWorldState))
+                continue;
+            
+            float score = goal.GoalScore(_characterMentality, _currentWorldState);
+            if (score > highstScore)
+            {
+                highstScore = score;
+                bestGoal = goal;
+            }
         }
-        return new GoapGoal();
+        return bestGoal;
     }
 
     private void ExecutePlan()
@@ -108,7 +131,7 @@ public class GoapPlanner : MonoBehaviour
         else
         {
             _activeAction = _actionPlan[_actionPlan.Count - 1];
-            _activeAction.StartAction();
+            _activeAction.StartAction(_currentWorldState);
         }
 
         if (_activeAction.IsCompleted(_currentWorldState, _comparedWorldState))
@@ -118,7 +141,8 @@ public class GoapPlanner : MonoBehaviour
         }
     }
 
-    //Update Worldstate from AIPerception components (eyes & hearing = Lockon test)
+    //region Update Worldstate from AIPerception components (eyes & hearing = Lockon test)
+    #region WorldStateUpdates
     public void SetTarget(GameObject target)
     {
         _currentWorldState.SetTargetValues(target);
@@ -128,4 +152,5 @@ public class GoapPlanner : MonoBehaviour
     {
         _currentWorldState.UpddateSwingSpeed(speed);
     }
+    #endregion WorldStateUpdates
 }

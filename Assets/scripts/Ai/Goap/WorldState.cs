@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum EWorldState
 {
@@ -41,13 +42,13 @@ public enum StateType
 
 public enum WorldStateValue
 {
+    DontCare,//--DEFAULT : Set to this value if you want to ignore the worldstate--
+
     InPosesion,
     NotInPosesion,
 
     NeedsLower,
     NeedsHigher,
-
-    DontCare,//--DEFAULT : Set to this value if you want to ignore the worldstate--
 
     Idle,
     Rotating,
@@ -57,7 +58,11 @@ public enum WorldStateValue
 
     InRange,
     OutOfRange,
-    FarAway
+    FarAway,
+
+    OnRight,
+    OnCenter,
+    OnLeft
 }
 
 public class WorldState : MonoBehaviour
@@ -68,15 +73,16 @@ public class WorldState : MonoBehaviour
     public StateType _worldStateType = StateType.Desired;
     private const float DEFAULT_VALUE = 9000;
     //Target
+    private HeldEquipment _targetEquipment;
     private GameObject _target;
-    private GameObject _targetWeapon;
-    private GameObject _targetShield;
+    //private GameObject _targetWeapon;
+    //private GameObject _targetShield;
     [SerializeField] private WorldStateValue _targetWeaponDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetShieldDistance = WorldStateValue.DontCare;
     [SerializeField] private float _targetWeaponMovement = DEFAULT_VALUE; 
     [SerializeField] private float _targetShieldMovement = DEFAULT_VALUE; 
-    [SerializeField] private float _targetShieldOrientation = DEFAULT_VALUE;
-    [SerializeField] private float _targetWeaponOrientation = DEFAULT_VALUE;
+    [SerializeField] private WorldStateValue _targetShieldOrientation = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _targetWeaponOrientation = WorldStateValue.DontCare;
     [SerializeField] private float _targetSwingSpeed = DEFAULT_VALUE;
     [SerializeField] private WorldStateValue _targetWeaponPossesion = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetShieldPossesion = WorldStateValue.DontCare;
@@ -85,14 +91,16 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _targetDistance = WorldStateValue.DontCare;
 
     //Self
-    private GameObject _weapon;
-    private GameObject _shield;
+    //private GameObject _weapon;
+    //private GameObject _shield;
+    private HeldEquipment _npcEquipment;
+    private Equipment _foundEquipment;
     [SerializeField] private WorldStateValue _WeaponDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _ShieldDistance = WorldStateValue.DontCare;
     [SerializeField] private float _weaponMovement = DEFAULT_VALUE; 
-    [SerializeField] private float _shieldMovement  = DEFAULT_VALUE;
-    [SerializeField] private float _shieldOrientation = DEFAULT_VALUE;
-    [SerializeField] private float _weaponOrientation = DEFAULT_VALUE;
+    [SerializeField] private float _shieldMovement = DEFAULT_VALUE;
+    [SerializeField] private WorldStateValue _shieldOrientation = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _weaponOrientation = WorldStateValue.DontCare;
     [SerializeField] private float _swingSpeed = DEFAULT_VALUE;
     [SerializeField] private WorldStateValue _weaponPossesion = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _shieldPossesion = WorldStateValue.DontCare;
@@ -100,6 +108,7 @@ public class WorldState : MonoBehaviour
 
     //Helper state 
     private float _targetOrientation = 0.0f;
+    private float _orientation = 0.0f;
     private float _targetWeaponRange = 0.0f;
     private float _weaponRange = 0.0f;
     private float _Orientation = 0.0f;
@@ -112,22 +121,15 @@ public class WorldState : MonoBehaviour
 
     void Start()
     {
-        if (GetComponent<HeldEquipment>() != null && _shouldUpdate)
-        {
-            _weapon = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-            _weaponPossesion = _weapon? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
-            _weaponRange = _weapon? _weapon.GetComponent<Equipment>().GetAttackRange() : 0f;
-
-            _shield = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
-            _shieldPossesion = _shield? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
-        }
+        UpdateHeldEquipment();
+        UpdateTargetHeldEquipment();
 
         //When using a priority list for your desiredState
         if (_lowtoHighPriority.Count > 0)
         {
-            foreach(var item in _lowtoHighPriority)
+            foreach (var item in _lowtoHighPriority)
             {
-                if( (int)item >= 10 )//List 2
+                if ((int)item >= 10)//List 2
                 {
                     _worldStateValues2.Add(item, WorldStateValue.DontCare);
                 }
@@ -147,10 +149,10 @@ public class WorldState : MonoBehaviour
             _worldStateValues[EWorldState.TargetWeaponMovement] = _targetWeaponMovement;
         if (_targetShieldMovement != DEFAULT_VALUE || _shouldUpdate)
             _worldStateValues[EWorldState.TargetShieldMovement] = _targetShieldMovement;
-        if (_targetShieldOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues[EWorldState.TargetShieldOrientation] = _targetShieldOrientation   ;
-        if (_targetWeaponOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues[EWorldState.TargetWeaponOrientation] = _targetWeaponOrientation;
+        if (_targetShieldOrientation != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.TargetShieldOrientation] = _targetShieldOrientation;
+        if (_targetWeaponOrientation != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.TargetWeaponOrientation] = _targetWeaponOrientation;
         if (_targetSwingSpeed != DEFAULT_VALUE || _shouldUpdate)
             _worldStateValues[EWorldState.TargetSwingSpeed] = _targetSwingSpeed;
         if (_targetWeaponPossesion != WorldStateValue.DontCare || _shouldUpdate)
@@ -172,10 +174,10 @@ public class WorldState : MonoBehaviour
             _worldStateValues[EWorldState.WeaponMovement] = _weaponMovement;
         if (_shieldMovement != DEFAULT_VALUE || _shouldUpdate)
             _worldStateValues[EWorldState.ShieldMovement] = _shieldMovement;
-        if (_shieldOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues[EWorldState.ShieldOrientation] = _shieldOrientation;
-        if (_weaponOrientation != DEFAULT_VALUE || _shouldUpdate)
-            _worldStateValues[EWorldState.WeaponOrientation] = _weaponOrientation;
+        if (_shieldOrientation != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.ShieldOrientation] = _shieldOrientation;
+        if (_weaponOrientation != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.WeaponOrientation] = _weaponOrientation;
         if (_swingSpeed != DEFAULT_VALUE || _shouldUpdate)
             _worldStateValues[EWorldState.SwingSpeed] = _swingSpeed;
         if (_weaponPossesion != WorldStateValue.DontCare || _shouldUpdate)
@@ -186,94 +188,132 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.Behaviour] = _behaviour;
 
     }
-
     public void UpdateWorldState()
     {
-        if (_target == null || !_shouldUpdate)
+        if (!_shouldUpdate)
             return;
 
-        //TARGET UPDATE
-        _worldStateValues2[EWorldState.TargetDistance] = (Vector3.Distance(_target.transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
-        _worldStateValues2[EWorldState.TargetWeaponDistance] = (Vector3.Distance(_targetWeapon.transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
-        _worldStateValues2[EWorldState.TargetShieldDistance] = (Vector3.Distance(_targetShield.transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
-        _worldStateValues[EWorldState.TargetWeaponMovement] = Vector2.Distance(_target.transform.position, _targetWeapon.transform.position);
-        _worldStateValues[EWorldState.TargetShieldMovement] = Vector2.Distance(_target.transform.position, _targetShield.transform.position);
-        _targetOrientation = _target.GetComponent<WalkAnimate>().GetOrientation();
-        if (_worldStateValues[EWorldState.TargetWeaponMovement] >=  _weaponMaxMovement * 0.5f )
+        //NPC UPDATE WITHOUT FOUND TARGET
+        if (!_target)
         {
-            var dif = _targetWeapon.transform.position - _target.transform.position;
-            //_worldStateValues[EWorldState.TargetWeaponOrientation] = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
-            _worldStateValues[EWorldState.TargetWeaponOrientation] = Mathf.Atan2(dif.y, dif.x);
-            
+            //WEAPON
+            _orientation = GetComponent<WalkAnimate>().GetOrientation();
+            if (_npcEquipment.GetEquipment(EquipmentType.Weapon))
+            {
+                _worldStateValues2[EWorldState.WeaponDistance] = WorldStateValue.OutOfRange;
+                _worldStateValues[EWorldState.WeaponMovement] =
+                    Vector2.Distance(transform.position, _npcEquipment.GetEquipment(EquipmentType.Weapon).transform.position);
+                if (_worldStateValues[EWorldState.WeaponMovement] >= _weaponMaxMovement * 0.5f)
+                {
+                    CalculateOrientation(EquipmentType.Weapon, EWorldState.WeaponOrientation, false);
+                }
+            }
+            //if weapon is unequiped but found one
+            else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Weapon)
+                _worldStateValues2[EWorldState.WeaponDistance] =
+                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+
+
+            //SHIELD
+            if (_npcEquipment.GetEquipment(EquipmentType.Shield))
+            {
+                _worldStateValues2[EWorldState.ShieldDistance] = WorldStateValue.OutOfRange;
+                _worldStateValues[EWorldState.ShieldMovement] =
+                    Vector2.Distance(transform.position, _npcEquipment.GetEquipment(EquipmentType.Shield).transform.position);
+                if (_worldStateValues[EWorldState.ShieldMovement] >= _shieldMaxMovement * 0.5f)
+                {
+                    CalculateOrientation(EquipmentType.Shield, EWorldState.ShieldOrientation, false);
+                }
+            }
+            //if shield is unequiped but found one
+            else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Shield)
+                _worldStateValues2[EWorldState.ShieldDistance] = 
+                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f? WorldStateValue.OutOfRange : WorldStateValue.InRange;
         }
-        if (_worldStateValues[EWorldState.TargetShieldMovement] >= _shieldMaxMovement * 0.5f )
+        else
         {
-            var dif = _targetShield.transform.position - _target.transform.position;
-            //_worldStateValues[EWorldState.TargetWeaponOrientation] = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
-            _worldStateValues[EWorldState.TargetShieldOrientation] = Mathf.Atan2(dif.y, dif.x);
-            
+           //TARGET UPDATE
+            //Target
+            _worldStateValues2[EWorldState.TargetDistance] = (Vector3.Distance(_target.transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+            _targetOrientation = _target.GetComponent<WalkAnimate>().GetOrientation();
+
+            //WEAPON
+            if (_targetEquipment.GetEquipment(EquipmentType.Weapon) != null)
+            {
+                _worldStateValues2[EWorldState.TargetWeaponDistance] = (Vector3.Distance(_targetEquipment.GetEquipment(EquipmentType.Weapon).transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                _worldStateValues[EWorldState.TargetWeaponMovement] = Vector2.Distance(_target.transform.position, _targetEquipment.GetEquipment(EquipmentType.Weapon).transform.position);
+                if (_worldStateValues[EWorldState.TargetWeaponMovement] >= _weaponMaxMovement * 0.5f)
+                {
+                   CalculateOrientation(EquipmentType.Weapon, EWorldState.TargetWeaponOrientation, true);
+
+                }
+            }
+
+            //SHIELD
+            if (_targetEquipment.GetEquipment(EquipmentType.Shield) != null)
+            {
+                _worldStateValues2[EWorldState.TargetShieldDistance] = (Vector3.Distance(_targetEquipment.GetEquipment(EquipmentType.Shield).transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                _worldStateValues[EWorldState.TargetShieldMovement] = Vector2.Distance(_target.transform.position, _targetEquipment.GetEquipment(EquipmentType.Shield).transform.position);
+                if (_worldStateValues[EWorldState.TargetShieldMovement] >= _shieldMaxMovement * 0.5f)
+                {
+                    CalculateOrientation(EquipmentType.Shield, EWorldState.TargetShieldOrientation, true);
+                }
+            }
+            //--------------------------------------------------------------------------------------------------------------
+
+
+            //NPC UPDATE
+            //WEAPON
+            _orientation = GetComponent<WalkAnimate>().GetOrientation();
+            if (_npcEquipment.GetEquipment(EquipmentType.Weapon))
+            {
+                _worldStateValues2[EWorldState.WeaponDistance] = 
+                    (Vector3.Distance(_npcEquipment.GetEquipment(EquipmentType.Weapon).transform.position, _target.transform.position) > _weaponRange) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                _worldStateValues[EWorldState.WeaponMovement] = 
+                    Vector2.Distance(transform.position, _npcEquipment.GetEquipment(EquipmentType.Weapon).transform.position);
+                if (_worldStateValues[EWorldState.WeaponMovement] >= _weaponMaxMovement * 0.5f)
+                {
+                 
+                    CalculateOrientation(EquipmentType.Weapon, EWorldState.WeaponOrientation, false);
+                }
+            }
+            //if weapon is unequiped but found one
+            else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Weapon) 
+                _worldStateValues2[EWorldState.WeaponDistance] = 
+                    (Vector3.Distance(_foundEquipment.transform.position, transform.position) > 0.2f) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+
+
+            //SHIELD
+            if (_npcEquipment.GetEquipment(EquipmentType.Shield))
+            {
+                _worldStateValues2[EWorldState.ShieldDistance] =
+                    (Vector3.Distance(_npcEquipment.GetEquipment(EquipmentType.Shield).transform.position, _target.transform.position) > _weaponRange) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                _worldStateValues[EWorldState.ShieldMovement] =
+                    Vector2.Distance(transform.position, _npcEquipment.GetEquipment(EquipmentType.Shield).transform.position);
+                if (_worldStateValues[EWorldState.ShieldMovement] >= _shieldMaxMovement * 0.5f)
+                {
+                    CalculateOrientation(EquipmentType.Shield, EWorldState.ShieldOrientation, false);
+
+                }
+            }
+            //if shield is unequiped but found one
+            else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Shield)
+                _worldStateValues2[EWorldState.ShieldDistance] =
+                    (Vector3.Distance(_foundEquipment.transform.position, transform.position) > 0.2f) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+
         }
-
-        //NPC UPDATE
-        if (_weapon)
-        {
-            _worldStateValues2[EWorldState.WeaponDistance] = (Vector3.Distance(_weapon.transform.position, _target.transform.position) > _weaponRange) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
-            _worldStateValues[EWorldState.WeaponMovement] = Vector2.Distance(transform.position, _weapon.transform.position);
-        }
-
-        if (_shield)
-        {
-            _worldStateValues2[EWorldState.ShieldDistance] = (Vector3.Distance(_shield.transform.position, _target.transform.position) > _weaponRange) ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
-            _worldStateValues[EWorldState.ShieldMovement] = Vector2.Distance(transform.position, _shield.transform.position);
-        }
-
-        _targetOrientation = _target.GetComponent<WalkAnimate>().GetOrientation();
-        if (_weapon && _worldStateValues[EWorldState.WeaponMovement] >= _weaponMaxMovement * 0.5f)
-        {
-            var dif = _weapon.transform.position - transform.position;
-            //_worldStateValues[EWorldState.TargetWeaponOrientation] = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
-            _worldStateValues[EWorldState.WeaponOrientation] = Mathf.Atan2(dif.y, dif.x);
-
-        }
-        if (_shield && _worldStateValues[EWorldState.ShieldMovement] >= _shieldMaxMovement * 0.5f)
-        {
-            var dif = _shield.transform.position - transform.position;
-            //_worldStateValues[EWorldState.TargetWeaponOrientation] = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
-            _worldStateValues[EWorldState.ShieldOrientation] = Mathf.Atan2(dif.y, dif.x);
-
-        }
-
-
 
     }
 
-    public void SetTargetValues(GameObject target)
+    private void CalculateOrientation(EquipmentType type, EWorldState listKey, bool target)
     {
-        _target = target;
-        _worldStateValues2[EWorldState.HasTarget] = _target? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
-
-        if (!target)
-            return;
-        _weaponMaxMovement = target.GetComponent<AimingInput2>().radius;
-        _shieldMaxMovement = target.GetComponent<Blocking>().Radius;
-       
-        _targetWeapon = target.GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        if (_targetWeapon)
-        {
-            _targetWeaponPossesion = WorldStateValue.InPosesion;
-            _worldStateValues2[EWorldState.TargetWeaponPosesion] = WorldStateValue.InPosesion;
-        }
-
-        
-        _targetShield = target.GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
-        if (_targetShield)
-        {
-            _targetShieldPossesion = WorldStateValue.InPosesion;
-            _worldStateValues2[EWorldState.TargetShieldPosesion] = WorldStateValue.InPosesion;
-        }
-
-       
-       
+        var dif = target?
+            _targetEquipment.GetEquipment(type).transform.position - transform.position : _npcEquipment.GetEquipment(type).transform.position - transform.position;
+        float angle = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
+        if (Mathf.Abs(angle) < Mathf.PI * 0.5f)
+            _worldStateValues2[listKey] = WorldStateValue.OnRight;
+        else
+            _worldStateValues2[listKey] = WorldStateValue.OnLeft;
     }
 
     //Return Dictionary with the enums that differ and bool isDesiredStateBigger  
@@ -302,6 +342,56 @@ public class WorldState : MonoBehaviour
         return listOfDifference;
     }
 
+    //WorldState Setters from actions or GoapPlanner
+    #region public Setter/Getters
+
+    public void UpdateHeldEquipment()
+    {
+        _npcEquipment = GetComponent<HeldEquipment>();
+        if (_npcEquipment != null && _shouldUpdate)
+        {
+            var _weapon = _npcEquipment.GetEquipment(EquipmentType.Weapon);
+            _weaponPossesion = _weapon ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
+            _worldStateValues2[EWorldState.WeaponPosesion] = _weaponPossesion;
+            _weaponRange = _weapon ? _weapon.GetComponent<Equipment>().GetAttackRange() + transform.localScale.x *0.5f : 0f;
+
+            var _shield = _npcEquipment.GetEquipment(EquipmentType.Shield);
+            _shieldPossesion = _shield ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
+            _worldStateValues2[EWorldState.ShieldPosesion] = _shieldPossesion;
+
+            _weaponMaxMovement = GetComponent<AimingInput2>().radius;
+            _shieldMaxMovement = GetComponent<Blocking>().Radius;
+        }
+    }
+    
+    public void UpdateTargetHeldEquipment()
+    {
+        if (_target == null)
+            return;
+
+        _targetEquipment = _target.GetComponent<HeldEquipment>();
+        if (_targetEquipment != null && _shouldUpdate)
+        {
+            var _weapon = _targetEquipment.GetEquipment(EquipmentType.Weapon);
+            _targetWeaponPossesion = _weapon ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
+            _worldStateValues2[EWorldState.TargetWeaponPosesion] = _targetWeaponPossesion;
+            _targetWeaponRange = _weapon ? _weapon.GetComponent<Equipment>().GetAttackRange() : 0f;
+
+            var _shield = _targetEquipment.GetEquipment(EquipmentType.Shield);
+            _targetShieldPossesion = _shield ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
+            _worldStateValues2[EWorldState.TargetShieldPosesion] = _targetShieldPossesion;
+        }
+    }
+
+
+    public void SetTargetValues(GameObject target)
+    {
+        _target = target;
+        _worldStateValues2[EWorldState.HasTarget] = _target? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
+
+        UpdateTargetHeldEquipment();
+    }
+       
     public GameObject GetTarget() { return _target; }
     public GameObject GetOwner() { return gameObject; }
     
@@ -315,4 +405,10 @@ public class WorldState : MonoBehaviour
 
     }
 
+    public void FoundEquipment(Equipment equipment)
+    {
+        _foundEquipment = equipment;
+    }
+
+    #endregion public Setters
 }

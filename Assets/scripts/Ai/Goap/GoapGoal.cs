@@ -3,8 +3,8 @@ using UnityEngine;
 public interface Goals
 {
     bool IsVallid(WorldState currentWorldState);
-
     void SetInvallid();
+    float GoalScore(CharacterMentality menatlity, WorldState currentWorldState);
 }
 
 public class GoapGoal : MonoBehaviour, Goals
@@ -25,5 +25,10 @@ public class GoapGoal : MonoBehaviour, Goals
     public void SetInvallid()
     {
         _isVallid = false;
+    }
+
+    public virtual float GoalScore(CharacterMentality menatlity, WorldState currentWorldState)
+    {
+        return 0.75f;
     }
 }

@@ -8,12 +8,12 @@ public class BlockAction : GoapAction
     {
         var owner = currentWorldState.GetOwner();
         Blocking blockComp = owner.GetComponent<Blocking>();
-        float targetWeaponOrientation = currentWorldState._worldStateValues[EWorldState.TargetWeaponOrientation];
-        Vector3 incomingVec = new Vector3(Mathf.Cos(targetWeaponOrientation), Mathf.Sin(targetWeaponOrientation), 0f);
-        float reflectionNrm = owner.GetComponent<WalkAnimate>().Orientation;
-        Vector3 reflectionVec = new Vector3(Mathf.Cos(reflectionNrm), Mathf.Sin(reflectionNrm), 0f);
-        Vector3 blockAngle = Vector3.Reflect(incomingVec, reflectionVec);
-        blockComp.SetInputDirection(blockAngle);
+        WorldStateValue targetWeaponOrientation = currentWorldState._worldStateValues2[EWorldState.TargetWeaponOrientation];
+        //Vector3 incomingVec = new Vector3(Mathf.Cos(targetWeaponOrientation), Mathf.Sin(targetWeaponOrientation), 0f);
+        //float reflectionNrm = owner.GetComponent<WalkAnimate>().Orientation;
+        //Vector3 reflectionVec = new Vector3(Mathf.Cos(reflectionNrm), Mathf.Sin(reflectionNrm), 0f);
+        //Vector3 blockAngle = Vector3.Reflect(incomingVec, reflectionVec);
+        //blockComp.SetInputDirection(blockAngle);
     }
 
     public override bool IsVallid(WorldState currentWorldState) 

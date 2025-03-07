@@ -4,12 +4,11 @@ using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField]
-    private InputActionReference _movementAction;
+    
     [SerializeField]
     private float _movementSpeed;
-    [SerializeField]
-    private float _rotationSpeed;
+    //[SerializeField]
+    //private float _rotationSpeed;
 
     private CharacterController _controller;
     private Vector2 _movement;
@@ -25,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         Move();
-        SetRotation();
+        //SetRotation();
     }
 
    

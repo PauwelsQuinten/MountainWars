@@ -356,7 +356,7 @@ public class AimingInput2 : MonoBehaviour
                     {
                         _feinted = false;
                         _checkFeint = false;
-                        Debug.Log($"set CheckFeint{_checkFeint}");
+                        //Debug.Log($"set CheckFeint{_checkFeint}");
                         _feintStartAngle = 0f;
                     }
                 }
@@ -367,7 +367,7 @@ public class AimingInput2 : MonoBehaviour
                     {
                         _feinted = false;
                         _checkFeint = false;
-                        Debug.Log($"set CheckFeint{_checkFeint}");
+                        //Debug.Log($"set CheckFeint{_checkFeint}");
                         _feintStartAngle = 0f;
                     }
                 }
@@ -380,7 +380,7 @@ public class AimingInput2 : MonoBehaviour
                 if (_slashAngle > 15 && _attemptedAttack)
                 {
                     _checkFeint = true;
-                    Debug.Log($"set CheckFeint{_checkFeint}");
+                    //Debug.Log($"set CheckFeint{_checkFeint}");
                 }
                 if(!_checkFeint)CheckAttack();
                 _slashTime = 0.0f;
@@ -419,7 +419,7 @@ public class AimingInput2 : MonoBehaviour
 
                 _feinted = false;
                 _checkFeint = false;
-                Debug.Log($"set CheckFeint{_checkFeint}");
+                //Debug.Log($"set CheckFeint{_checkFeint}");
                 _feintStartAngle = 0f;
                 _overcommited = false;
                 Attack();
@@ -431,7 +431,7 @@ public class AimingInput2 : MonoBehaviour
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
         _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
-        Debug.Log("Attack was invalid!");
+       //Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
 
@@ -456,7 +456,7 @@ public class AimingInput2 : MonoBehaviour
         if (angle < minAngle && time < 0.5f)
         {
             _AttackMessage.text = "Feint";
-            Debug.Log(_AttackMessage.text);
+            //Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _feinted = true;
@@ -528,9 +528,15 @@ public class AimingInput2 : MonoBehaviour
 
     public void NewSword()
     {
-        if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+        if (_sword == null)
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+
+        //Hide fist away when it was selected
+        else if (_sword.GetComponent<Equipment>().GetEquipmentType() == EquipmentType.Fist)
+        {
             _sword.transform.localScale = Vector3.zero;
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+            _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
+        }
         radius = 0.4f;
     }
 
@@ -558,8 +564,12 @@ public class AimingInput2 : MonoBehaviour
         _attackFinder = GetComponent<FindPossibleAttacks>();
         _WalkOrientation = GetComponent<WalkAnimate>();
         _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
-        _startLocation = _sword.transform.position;
-        _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
+        if (_sword)
+        {
+            _startLocation = _sword.transform.position;
+            _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
+        }
+
 
         if (GetComponent<AIController>() != null)
             return;

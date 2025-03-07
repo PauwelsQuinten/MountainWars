@@ -666,6 +666,7 @@ public class HitDetection : MonoBehaviour
 
     private void OnDestroy()
     {
-        _AttackMessage.enabled = true;
+        if (_AttackMessage)
+            _AttackMessage.enabled = true;
     }
 }
