@@ -6,7 +6,7 @@ public interface Actions
 {
     void UpdateAction(WorldState currentWorldState);
     bool IsVallid(WorldState currentWorldState);
-    bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> _comparedWorldState);
+    bool IsCompleted(WorldState current, WorldState activeActionDesiredState);
     void StartAction(WorldState currentWorldState);
 
 }
@@ -51,7 +51,7 @@ public class GoapAction : MonoBehaviour, Actions
         return true;
     }
 
-    virtual public bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> _comparedWorldState)
+    virtual public bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
         //set to complete if runtime runs out, done by coroutine started at startAction()
         //set to complete by UpdateAction()
@@ -61,12 +61,11 @@ public class GoapAction : MonoBehaviour, Actions
             return true;
         }
 
-
         if (SatisfyingWorldState._worldStateValues.Count != 0)
         {
             foreach (KeyValuePair<EWorldState, float> updatingState in SatisfyingWorldState._worldStateValues)
             {
-                if (Mathf.Abs(updatingState.Value - currentWorldState._worldStateValues[updatingState.Key]) >= 0.1f)
+                if (/*_comparedWorldState.ContainsKey(updatingState.Key) && */Mathf.Abs(updatingState.Value - currentWorldState._worldStateValues[updatingState.Key]) >= 0.1f)
                     return false;
             }
         }
@@ -74,7 +73,7 @@ public class GoapAction : MonoBehaviour, Actions
         {
             foreach (KeyValuePair<EWorldState, WorldStateValue> updatingState in SatisfyingWorldState._worldStateValues2)
             {
-                if (updatingState.Value - currentWorldState._worldStateValues2[updatingState.Key] != 0)
+                if (/*_comparedWorldState.ContainsKey(updatingState.Key) &&*/ updatingState.Value - currentWorldState._worldStateValues2[updatingState.Key] != 0)
                     return false;
             }
         }

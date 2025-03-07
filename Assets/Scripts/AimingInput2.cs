@@ -54,6 +54,7 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 _startDrawPos;
     private float _slashAngle;
     private float _slashTime;
+    private float _speed;
     [SerializeField]
     private float _slashStrength;
 
@@ -184,6 +185,7 @@ public class AimingInput2 : MonoBehaviour
 
         _chargedTime = 0.0f;
         defaultPower = 5.0f;
+        _speed = 0f;
         //_txtActionPower.enabled = false;
         _startDirection = 0;
         CurrentAttackType = AttackType.None;
@@ -335,8 +337,12 @@ public class AimingInput2 : MonoBehaviour
                 _slashAngle = newAngle;
                 _slashTime += Time.deltaTime;
                 _canRun = true;
+
                 var comp = GetComponent<GoapPlanner>();
                 if (comp) comp.UpdateSwingSpeed(_slashAngle / _slashTime);
+                else
+                    _speed = _slashAngle / _slashTime;
+
                 if (!_checkFeint)
                 {
                     if (CheckOverCommit())
@@ -580,4 +586,10 @@ public class AimingInput2 : MonoBehaviour
         _staminaManager = GetComponent<StaminaManager>();
         _isInitialized = true;
     }
+
+    public float GetSwingSpeed()
+    {
+        return _speed;
+    }
+
 }

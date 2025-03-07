@@ -1185,6 +1185,7 @@ GameObject:
   - component: {fileID: 1270820464630759298}
   - component: {fileID: 5683024219843129120}
   - component: {fileID: 8488203019512847478}
+  - component: {fileID: 7265519261552917844}
   - component: {fileID: 7056237991796404707}
   - component: {fileID: 6121863959210014125}
   - component: {fileID: 8991820935436539667}
@@ -1193,7 +1194,6 @@ GameObject:
   - component: {fileID: 5272246963900886498}
   - component: {fileID: 6877221868267869703}
   - component: {fileID: 2858818397358706671}
-  - component: {fileID: 7265519261552917844}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -1292,7 +1292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponPrefab: {fileID: 0}
-  _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
+  _shieldPrefab: {fileID: 0}
   _armorPrefab: {fileID: 0}
   _fistPrefab: {fileID: 7955614898218700654, guid: 19bc52072a63a0c40ac21e9cbb859ec4, type: 3}
 --- !u!143 &1507786585731368943
@@ -1369,6 +1369,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 4
   CurrentCharacterOrientation: 0
+--- !u!114 &7265519261552917844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Direction: {x: 0, y: 0}
+  CurrentStanceState: 0
+  CurrentAttackType: 7
+  _texMessage: {fileID: 0}
+  _txtActionPower: {fileID: 0}
+  _AttackMessage: {fileID: 0}
+  _sword: {fileID: 0}
+  _arrow: {fileID: 0}
+  radius: 0.4
+  DEFAULT_SWORD_ORIENTATION: 218
+  YRotation: 45
+  SlashUp: 0
+  SlashDown: 0
+  _slashStrength: 0
+  _overCommitAngle: 170
+  _minSlashAngle: 25
+  _stanceResetTimer: 0
+  _attackMessage: 
+  _attackPower: 
+  IsParrying: 0
+  _staminaCost: 0
 --- !u!114 &7056237991796404707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1466,8 +1499,8 @@ MonoBehaviour:
   _healthBar: {fileID: 4961313179270149180}
   _bloodBar: {fileID: 4018039580721747147}
   Physique: 10
-  _baseLimbHealth: 150
-  _maxBlood: 100
+  _baseLimbHealth: 150000
+  _maxBlood: 10000
   _bleedOutSpeed: 15
   _headBones: {fileID: 3692997956248682001}
   _torsoBones: {fileID: 4357181827622217348}
@@ -1521,6 +1554,7 @@ MonoBehaviour:
   _allActionPrefabs:
   - {fileID: 4740772555733712272, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
   - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
+  - {fileID: 3614961667598669404, guid: 404090f8eebef7a40a80f3f006b5a4e4, type: 3}
   - {fileID: 5998032691256654599, guid: e581c1b91475b5a4f937a47889ff7df2, type: 3}
   - {fileID: 5998032691256654599, guid: 4bbbaec962fa65b4f8d5865a945f2ea8, type: 3}
   - {fileID: 8755546181411344372, guid: f1f92da2fd9d62e48af66fafeddad861, type: 3}
@@ -1534,43 +1568,10 @@ MonoBehaviour:
   - {fileID: 2198598258197355828, guid: b012526216312804f8d85a43d61e0fab, type: 3}
   _allGoalPrefabs:
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
+  - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
   - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
-  - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
   - {fileID: -1599951491606956843, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
---- !u!114 &7265519261552917844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7178124529579999126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 728674ad164d25b4c999a49a6af283ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Direction: {x: 0, y: 0}
-  CurrentStanceState: 0
-  CurrentAttackType: 7
-  _texMessage: {fileID: 0}
-  _txtActionPower: {fileID: 0}
-  _AttackMessage: {fileID: 0}
-  _sword: {fileID: 0}
-  _arrow: {fileID: 0}
-  radius: 10
-  DEFAULT_SWORD_ORIENTATION: 218
-  YRotation: 45
-  SlashUp: 0
-  SlashDown: 0
-  _slashStrength: 0
-  _overCommitAngle: 170
-  _minSlashAngle: 25
-  _stanceResetTimer: 0
-  _attackMessage: 
-  _attackPower: 
-  IsParrying: 0
-  _staminaCost: 0
 --- !u!1 &7598009601137933699
 GameObject:
   m_ObjectHideFlags: 0

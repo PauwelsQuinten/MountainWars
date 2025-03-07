@@ -69,8 +69,8 @@ MonoBehaviour:
   _worldStateType: 0
   _targetWeaponDistance: 0
   _targetShieldDistance: 0
-  _targetWeaponMovement: 9000
-  _targetShieldMovement: 9000
+  _targetWeaponMovement: 0
+  _targetShieldMovement: 0
   _targetShieldOrientation: 0
   _targetWeaponOrientation: 0
   _targetSwingSpeed: 9000
@@ -81,8 +81,8 @@ MonoBehaviour:
   _targetDistance: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
-  _weaponMovement: 9000
-  _shieldMovement: 9000
+  _weaponMovement: 0
+  _shieldMovement: 0
   _shieldOrientation: 0
   _weaponOrientation: 0
   _swingSpeed: 9000
@@ -106,8 +106,8 @@ MonoBehaviour:
   _worldStateType: 1
   _targetWeaponDistance: 0
   _targetShieldDistance: 0
-  _targetWeaponMovement: 9000
-  _targetShieldMovement: 9000
+  _targetWeaponMovement: 0
+  _targetShieldMovement: 0
   _targetShieldOrientation: 0
   _targetWeaponOrientation: 0
   _targetSwingSpeed: 9000
@@ -118,8 +118,8 @@ MonoBehaviour:
   _targetDistance: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
-  _weaponMovement: 9000
-  _shieldMovement: 9000
+  _weaponMovement: 0
+  _shieldMovement: 0
   _shieldOrientation: 0
   _weaponOrientation: 0
   _swingSpeed: 9000

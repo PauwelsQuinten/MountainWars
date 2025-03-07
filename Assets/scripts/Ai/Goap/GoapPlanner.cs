@@ -67,7 +67,7 @@ public class GoapPlanner : MonoBehaviour
                 if (!action.IsVallid(_currentWorldState))
                     continue;
 
-                if (action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key))
+                if (action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key) )
                 {
                     float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
                     if (score < lowestScore )
@@ -128,13 +128,15 @@ public class GoapPlanner : MonoBehaviour
     {
         if (_activeAction)
             _activeAction.UpdateAction(_currentWorldState);
-        else
+        else if (_actionPlan.Count > 0)
         {
             _activeAction = _actionPlan[_actionPlan.Count - 1];
             _activeAction.StartAction(_currentWorldState);
         }
+        else
+            return;
 
-        if (_activeAction.IsCompleted(_currentWorldState, _comparedWorldState))
+        if (_activeAction.IsCompleted(_currentWorldState, _activeAction.DesiredWorldState))
         {
             _actionPlan.RemoveAt(_actionPlan.Count - 1);
             _activeAction = null;

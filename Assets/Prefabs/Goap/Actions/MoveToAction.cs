@@ -88,9 +88,9 @@ public class MoveToAction : GoapAction
         npcComp.SetInputDirection(targetDir);
     }
 
-    public override bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> _comparedWorldState)
+    public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
-        if(base.IsCompleted(currentWorldState, _comparedWorldState))
+        if(base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
             npcComp.SetInputDirection(Vector2.zero);
             Debug.Log("walk finished");

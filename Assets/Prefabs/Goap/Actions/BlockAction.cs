@@ -6,14 +6,36 @@ public class BlockAction : GoapAction
 
     public override void UpdateAction(WorldState currentWorldState)
     {
-        var owner = currentWorldState.GetOwner();
+        GameObject owner = currentWorldState.GetOwner();
         Blocking blockComp = owner.GetComponent<Blocking>();
+
+        float orientAngle = owner.GetComponent<WalkAnimate>().GetOrientation();
         WorldStateValue targetWeaponOrientation = currentWorldState._worldStateValues2[EWorldState.TargetWeaponOrientation];
-        //Vector3 incomingVec = new Vector3(Mathf.Cos(targetWeaponOrientation), Mathf.Sin(targetWeaponOrientation), 0f);
-        //float reflectionNrm = owner.GetComponent<WalkAnimate>().Orientation;
-        //Vector3 reflectionVec = new Vector3(Mathf.Cos(reflectionNrm), Mathf.Sin(reflectionNrm), 0f);
-        //Vector3 blockAngle = Vector3.Reflect(incomingVec, reflectionVec);
-        //blockComp.SetInputDirection(blockAngle);
+        Debug.Log($"{targetWeaponOrientation}");
+        float blockAngle = 0f;
+        switch(targetWeaponOrientation)
+        {
+            case WorldStateValue.OnRight:
+                blockAngle = Mathf.PI * 0.25f + orientAngle;
+                break;
+            case WorldStateValue.OnLeft: 
+                blockAngle = -Mathf.PI *0.25f + orientAngle;
+                break;
+            case WorldStateValue.OnCenter:
+                blockAngle = 0f + orientAngle;
+                break;
+            case WorldStateValue.DontCare:
+                //Debug.Log($"zero");
+                //blockComp.SetInputDirection(Vector2.zero);
+                return;
+            default:
+                break;
+        }
+
+        Vector3 blockVec = new Vector2(Mathf.Cos(blockAngle), Mathf.Sin(blockAngle));
+
+        blockComp.SetInputDirection(blockVec);
+
     }
 
     public override bool IsVallid(WorldState currentWorldState) 
@@ -22,27 +44,17 @@ public class BlockAction : GoapAction
         //return currentWorldState._worldStateValues2[EWorldState.ShieldPosesion] == WorldStateValue.InPosesion;
     }
 
-    public override bool IsCompleted(WorldState currentWorldState, Dictionary<EWorldState, WorldStateValue> comparedWorldStat)
+    public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
-        if (SatisfyingWorldState._worldStateValues.Count !=0)
+        if (base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
-            foreach (KeyValuePair<EWorldState, float> updatingState in SatisfyingWorldState._worldStateValues)
-            {
-                if (Mathf.Abs(updatingState.Value - currentWorldState._worldStateValues[updatingState.Key]) >= 0.1f)
-                    return false;
-            }
+            GameObject owner = currentWorldState.GetOwner();
+            Blocking blockComp = owner.GetComponent<Blocking>();
+            blockComp.SetInputDirection(Vector2.zero);
+            return true;
         }
-        if (SatisfyingWorldState._worldStateValues2.Count != 0)
-        {
-            foreach (KeyValuePair<EWorldState, WorldStateValue> updatingState in SatisfyingWorldState._worldStateValues2)
-            {
-                if (updatingState.Value - currentWorldState._worldStateValues2[updatingState.Key] != 0)
-                    return false;
-            }
-        }
+        return false;
 
-        Debug.Log("finish block");
-        return true;
     }
 
 }
