@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AimingInput2 : MonoBehaviour
 {
@@ -65,8 +66,6 @@ public class AimingInput2 : MonoBehaviour
 
     [SerializeField]
     private float _overCommitAngle = 170f;
-    [SerializeField]
-    private float _minSlashAngle = 25f;
 
     private Coroutine _resetAtackText;
     private Coroutine _resetAttackStance;
@@ -83,6 +82,7 @@ public class AimingInput2 : MonoBehaviour
     private float _orientationAngle;
 
     private float _feintStartAngle;
+    [SerializeField] float _minFeintAngle = 15;
     [SerializeField] private string _attackMessage;
     [SerializeField] private string _attackPower;
 
@@ -99,6 +99,10 @@ public class AimingInput2 : MonoBehaviour
 
     private bool _isInitialized;
 
+    private int _power = 10;
+    private HealthManager _healthManager;
+    private WalkAnimate _animationRef;
+
     private void Start()
     {
         //InputManager input = FindObjectOfType<InputManager>();
@@ -106,6 +110,10 @@ public class AimingInput2 : MonoBehaviour
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
 
         //initPlayer();
+        _healthManager = GetComponent<HealthManager>();
+        _animationRef = GetComponent<WalkAnimate>();
+        if (_healthManager.Physique > 5) _power -= 5 - _healthManager.Physique;
+        else if (_healthManager.Physique < 5) _power -= 5 - _healthManager.Physique;
     }
 
     private void Update()
@@ -152,6 +160,21 @@ public class AimingInput2 : MonoBehaviour
 
             //slashDirection or stab
             SetAttackType(newLength, currentAngleDegree);
+
+            if (CurrentAttackType == AttackType.Stab)
+            {
+                Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+                SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+                if (swordParry && swordParry.IsParrying())
+                {
+                    swordParry.StartParry(true, gameObject, _power);
+                }
+                else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+                {
+                    //attack was succesfully blocked
+                    _animationRef.GetHit();
+                }
+            }
 
             CalculateAttackPower(newLength, currentAngleDegree);
 
@@ -345,8 +368,26 @@ public class AimingInput2 : MonoBehaviour
 
                 if (!_checkFeint)
                 {
+                    if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab)
+                    {
+                        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+                        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+                        if (swordParry && swordParry.IsParrying())
+                        {
+                            swordParry.StartParry(true, gameObject, _power, _startDirection);
+                        }
+                        else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+                        {
+                            _animationRef.GetHit();
+                        }
+                    }
+
                     if (CheckOverCommit())
                     {
+                        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+                        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+                        blocker.StopParryTime();
+                        swordParry.StartParry(false, null, 0);
                         _overcommited = true;
                         return;
                     }
@@ -382,8 +423,8 @@ public class AimingInput2 : MonoBehaviour
             {
                 _canRun = false;
                 _attemptedAttack = true;
-                if (_feintStartAngle == 0 && _slashAngle > 15) _feintStartAngle = currentangle - 90;
-                if (_slashAngle > 15 && _attemptedAttack)
+                if (_feintStartAngle == 0 && _slashAngle > _minFeintAngle) _feintStartAngle = currentangle - 90;
+                if (_slashAngle > _minFeintAngle && _attemptedAttack)
                 {
                     _checkFeint = true;
                     //Debug.Log($"set CheckFeint{_checkFeint}");
@@ -461,6 +502,13 @@ public class AimingInput2 : MonoBehaviour
     {
         if (angle < minAngle && time < 0.5f)
         {
+            if(CurrentAttackType != AttackType.Stab)
+            {
+                SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+                Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+                blocker.StopParryTime();
+                swordParry.StartParry(false, null, 0);
+            }
             _AttackMessage.text = "Feint";
             //Debug.Log(_AttackMessage.text);
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
@@ -486,6 +534,11 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
+        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+        swordParry.StartParry(false, null, 0);
+        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+        blocker.StopParryTime();
+
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         if(_lockOnScript.LockOnTarget == null) return;

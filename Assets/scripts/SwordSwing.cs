@@ -155,7 +155,6 @@ public class SwordSwing : MonoBehaviour
                 Blocking blocker = _target.GetComponent<Blocking>();
                 blocker.StopParryTime();
             }
-
         }
 
         else if (_target && _currentAngleMovement > 0.75f)
