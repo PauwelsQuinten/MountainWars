@@ -38,13 +38,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Heigth: 0.81
+    - _Heigth: 0.66
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Sharpness: 1.07
+    - _Sharpness: -4.43
     - _SineRepetitions: 5
-    - _power: 1
-    - _rotate: 5
+    - _power: 1.29
+    - _rotate: 1
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
