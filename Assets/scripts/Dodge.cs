@@ -39,11 +39,13 @@ public class Dodge : MonoBehaviour
 
     IEnumerator Jumping(Vector3 direction, float distance )
     {
-        while(Vector3.Distance(_startLocation, transform.position) < distance)
+        //GetComponent<PlayerController>().enabled = false;
+        while (Vector3.Distance(_startLocation, transform.position) < distance)
         {
             transform.position += _jumpSpeed * Time.deltaTime * direction;
             yield return null;
         }
+        //GetComponent<PlayerController>().enabled = true;
         GetComponent<PlayerController>().IsJumping = false;
         _Cooldown = StartCoroutine(CoolDown());
     }
