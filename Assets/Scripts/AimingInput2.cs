@@ -534,10 +534,13 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
-        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-        swordParry.StartParry(false, null, 0);
-        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-        blocker.StopParryTime();
+        if(CurrentAttackType == AttackType.Stab)
+        {
+            SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+            swordParry.StartParry(false, null, 0);
+            Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+            blocker.StopParryTime();
+        }
 
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
