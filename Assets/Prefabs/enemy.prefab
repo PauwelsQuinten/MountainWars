@@ -1191,9 +1191,12 @@ GameObject:
   - component: {fileID: 8991820935436539667}
   - component: {fileID: 7001357602489952156}
   - component: {fileID: 1040378317105738873}
+  - component: {fileID: 7789665880943887232}
   - component: {fileID: 5272246963900886498}
   - component: {fileID: 6877221868267869703}
   - component: {fileID: 2858818397358706671}
+  - component: {fileID: 4121201304227673282}
+  - component: {fileID: 3015266335009458249}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -1396,8 +1399,8 @@ MonoBehaviour:
   SlashDown: 0
   _slashStrength: 0
   _overCommitAngle: 170
-  _minSlashAngle: 25
   _stanceResetTimer: 0
+  _minFeintAngle: 15
   _attackMessage: 
   _attackPower: 
   IsParrying: 0
@@ -1432,7 +1435,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7178124529579999126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e55df681e0b0ff4f8f37bdf00eda3b8, type: 3}
   m_Name: 
@@ -1454,7 +1457,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7178124529579999126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f2a1b6804581944ea9fbc9394dc0ad7, type: 3}
   m_Name: 
@@ -1508,6 +1511,18 @@ MonoBehaviour:
   _rightArmBones: {fileID: 1842616260163702580}
   _leftLegBones: {fileID: 6700248288666433370}
   _rightLegBones: {fileID: 5074149845227839809}
+--- !u!114 &7789665880943887232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e3dd46015056c46a66989f105398fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5272246963900886498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,11 +1582,46 @@ MonoBehaviour:
   - {fileID: 3780376838653854026, guid: 48c2508d423c2554d8ca21dafc1178bd, type: 3}
   - {fileID: 2198598258197355828, guid: b012526216312804f8d85a43d61e0fab, type: 3}
   _allGoalPrefabs:
+  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
   - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
-  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
   - {fileID: -1599951491606956843, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
+--- !u!114 &4121201304227673282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tempSwordDamage: 25
+  _parryFromSameDirection: 0
+  _parryAngle: 90
+  _timeForDisarming: 0.5
+  _staminaCost: 0
+--- !u!114 &3015266335009458249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178124529579999126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9935d6338b4c2694b8b6fa0908128c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxStamina: 100
+  _waitForRegen: 0.5
+  BaseStaminaRegenRate: 5
+  CurrentStamina: 0
+  IsAttacking: 0
+  IsBlocking: 0
 --- !u!1 &7598009601137933699
 GameObject:
   m_ObjectHideFlags: 0

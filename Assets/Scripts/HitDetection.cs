@@ -32,11 +32,16 @@ public class HitDetection : MonoBehaviour
     {
         _sprite = GetComponent<SpriteRenderer>();
         _healthManager = GetComponent<HealthManager>();
-        _AttackMessage = GameObject.Find("action power").GetComponent<TextMeshPro>();
+        var message = GameObject.Find("action power"); 
+        if (message)
+            _AttackMessage = GameObject.Find("action power").GetComponent<TextMeshPro>();
         _spriteHeight = _sprite.bounds.size.y / 2;
         _zoneHeight = _spriteHeight / 3;
-        _hitbox.SetActive(false);
-        _arrow.SetActive(false);
+        if (_hitbox)
+            _hitbox.SetActive(false);
+        if (_arrow)
+            _arrow.SetActive(false);
+        if (_AttackMessage)
         _AttackMessage.gameObject.SetActive(false);
     }
 

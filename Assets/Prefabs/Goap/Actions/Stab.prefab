@@ -49,7 +49,8 @@ MonoBehaviour:
   Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
-  _actionMaxRunTime: 3
+  _actionMaxRunTime: 1
+  _stabSpeed: 3
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0

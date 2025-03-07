@@ -119,8 +119,8 @@ public class AimingInput2 : MonoBehaviour
     private void Update()
     {
         if (!_isInitialized) return;
-        if (GetComponent<AIController>() != null)
-            return;
+       /* if (GetComponent<AIController>() != null)
+            return;*/
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
@@ -131,7 +131,8 @@ public class AimingInput2 : MonoBehaviour
         float newLength = Direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(Direction.y, Direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-
+        if (gameObject.name == "enemy")
+            Debug.Log($"{Direction}, owner: {gameObject.name}");
         //SetHitboxHeight(newLength);
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
@@ -161,7 +162,7 @@ public class AimingInput2 : MonoBehaviour
             //slashDirection or stab
             SetAttackType(newLength, currentAngleDegree);
 
-            if (CurrentAttackType == AttackType.Stab)
+            if (CurrentAttackType == AttackType.Stab && _lockOnScript.LockOnTarget)
             {
                 Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                 SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
@@ -325,7 +326,8 @@ public class AimingInput2 : MonoBehaviour
                 _sword.transform.localPosition = Vector3.zero;
             }
 
-            _txtActionPower.enabled = false;
+            if (_txtActionPower)
+                _txtActionPower.enabled = false;
             return;
         }
         else _isCharging = false;
@@ -394,7 +396,8 @@ public class AimingInput2 : MonoBehaviour
                     else _overcommited = false;
                     _damage = (int)((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5;
                     _damage = Mathf.Clamp(_damage, 0, 10);
-                    _texMessage.text = $"Slash power: {_damage}";
+                    if (_texMessage)
+                        _texMessage.text = $"Slash power: {_damage}";
                 }
                 else if (_checkFeint && _startDirection == -1)
                 {
@@ -509,10 +512,13 @@ public class AimingInput2 : MonoBehaviour
                 blocker.StopParryTime();
                 swordParry.StartParry(false, null, 0);
             }
-            _AttackMessage.text = "Feint";
+            if (_AttackMessage)
+                _AttackMessage.text = "Feint";
             //Debug.Log(_AttackMessage.text);
-            if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
+            if (_resetAtackText != null) 
+                StopCoroutine(_resetAtackText);
+            if (_AttackMessage)
+                _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _feinted = true;
             _attemptedAttack = false;
             return true;
@@ -632,15 +638,15 @@ public class AimingInput2 : MonoBehaviour
             _slashStrength = _sword.GetComponent<Equipment>().GetEquipmentstrength();
         }
 
+        _lockOnScript = GetComponent<LockOnTest1>();
+        _staminaManager = GetComponent<StaminaManager>();
+        _isInitialized = true;
 
         if (GetComponent<AIController>() != null)
             return;
         _texMessage = GameObject.Find(_attackPower).GetComponent<TextMeshPro>();
         _txtActionPower = GameObject.Find("action power").GetComponent<TextMeshPro>();
         _AttackMessage = GameObject.Find(_attackMessage).GetComponent<TextMeshPro>();
-        _lockOnScript = GetComponent<LockOnTest1>();
-        _staminaManager = GetComponent<StaminaManager>();
-        _isInitialized = true;
     }
 
     public float GetSwingSpeed()
