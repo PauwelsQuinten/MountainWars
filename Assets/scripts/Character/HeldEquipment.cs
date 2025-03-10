@@ -74,6 +74,18 @@ public class HeldEquipment : MonoBehaviour
             return null;
     }
 
+    public GameObject GetReserveEquipment(EquipmentType type)
+    {
+       
+       if( type == EquipmentType.Weapon)
+           return _fullEquipment[EquipmentType.Shield].GetEquipment();
+       else if( type == EquipmentType.Shield)
+           return _fullEquipment[EquipmentType.Weapon].GetEquipment();
+       else 
+            return null;
+       
+    }
+
     public bool HoldSwordAndShield()
     {
         return _fullEquipment[EquipmentType.Weapon] && _fullEquipment[EquipmentType.Shield];

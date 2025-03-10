@@ -29,6 +29,7 @@ public class SwordSwingAction : GoapAction
         }
        
         _attackComp.Direction = _startVec;
+        //_SwordParry.SetSwordMovent(_storedInput);
 
     }
 

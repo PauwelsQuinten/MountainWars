@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class BlockAction : GoapAction
 {
-
+    private bool _blockSet = false;
     public override void UpdateAction(WorldState currentWorldState)
     {
+        if (_blockSet)
+            return;
         GameObject owner = currentWorldState.GetOwner();
         Blocking blockComp = owner.GetComponent<Blocking>();
 
         float orientAngle = owner.GetComponent<WalkAnimate>().GetOrientation();
         WorldStateValue targetWeaponOrientation = currentWorldState._worldStateValues2[EWorldState.TargetWeaponOrientation];
-        Debug.Log($"{targetWeaponOrientation}");
+        //Debug.Log($"{targetWeaponOrientation}");
         float blockAngle = 0f;
         switch(targetWeaponOrientation)
         {
@@ -35,7 +37,7 @@ public class BlockAction : GoapAction
         Vector3 blockVec = new Vector2(Mathf.Cos(blockAngle), Mathf.Sin(blockAngle));
 
         blockComp.SetInputDirection(blockVec);
-
+        _blockSet = true;
     }
 
     public override bool IsVallid(WorldState currentWorldState) 
@@ -48,6 +50,7 @@ public class BlockAction : GoapAction
     {
         if (base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
+            _blockSet = false;
             GameObject owner = currentWorldState.GetOwner();
             Blocking blockComp = owner.GetComponent<Blocking>();
             blockComp.SetInputDirection(Vector2.zero);

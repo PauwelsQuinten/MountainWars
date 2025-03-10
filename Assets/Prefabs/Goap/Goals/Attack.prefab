@@ -72,7 +72,7 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 0
+  _targetDistance: 12
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0

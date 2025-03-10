@@ -110,8 +110,19 @@ public class MoveToAction : GoapAction
             return true;
         }
         return false;
-        
     }
+
+    public override bool IsInterupted(WorldState currentWorldState)
+    {
+        if (currentWorldState._worldStateValues[EWorldState.TargetSwingSpeed] > 50f
+            && currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange)
+        {
+            npcComp.SetInputDirection(Vector2.zero);
+            return true;
+        }
+        return false;
+    }
+
 
     private Equipment FindEquipmentOfType(EquipmentType type)
     {

@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponPrefab: {fileID: 7955614898218700654, guid: cafa3652dfced4b42a7e698a08bfa947, type: 3}
-  _shieldPrefab: {fileID: 0}
+  _shieldPrefab: {fileID: 7955614898218700654, guid: ce4161255c96ad242a0070c7d96187dd, type: 3}
   _armorPrefab: {fileID: 0}
   _fistPrefab: {fileID: 7955614898218700654, guid: 19bc52072a63a0c40ac21e9cbb859ec4, type: 3}
 --- !u!143 &1507786585731368943
@@ -1426,7 +1426,7 @@ MonoBehaviour:
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
   _parryFromSameDirection: 1
-  _tempShieldDamageOnUse: 5
+  _tempShieldDamageOnUse: 1
   _staminaCost: 0
 --- !u!114 &6121863959210014125
 MonoBehaviour:
@@ -1457,18 +1457,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7178124529579999126}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f2a1b6804581944ea9fbc9394dc0ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testButton: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _height: 1
-  _attackType: 6
-  _useRandomAttackHeight: 0
-  _useRandomDirection: 0
-  _useRandomAttackTypes: 0
-  _fromRightSide: 1
+  IsJumping: 0
 --- !u!114 &7001357602489952156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,9 +1579,9 @@ MonoBehaviour:
   - {fileID: 4267195964248438735, guid: 367e5b4cc79a5574ab55775163391651, type: 3}
   - {fileID: 4267195964248438735, guid: 4ebcc7f853d40e64fb89d70a794b1990, type: 3}
   _allGoalPrefabs:
-  - {fileID: 738826124993600184, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
   - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
+  - {fileID: 738826124993600184, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
   - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
   - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
   - {fileID: -1599951491606956843, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}

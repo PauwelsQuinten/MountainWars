@@ -81,5 +81,5 @@ MonoBehaviour:
   _weaponOrientation: 0
   _swingSpeed: 9000
   _weaponPossesion: 0
-  _shieldPossesion: 0
+  _shieldPossesion: 1
   _behaviour: 0

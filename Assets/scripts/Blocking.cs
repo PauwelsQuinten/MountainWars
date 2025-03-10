@@ -189,12 +189,20 @@ public class Blocking : MonoBehaviour
 
     private void SwitchToSword()
     {
+        _blockInputDirection = Vector2.zero;
         if (_heldEquipment.HoldsEquipment(EquipmentType.Weapon))
             _shield = _heldEquipment.GetEquipment(EquipmentType.Weapon);
         else
             _shield = null;
 
-        GetComponent<PlayerController>().ShieldBroke();
+        if (GetComponent<PlayerController>())
+            GetComponent<PlayerController>().ShieldBroke();
+        else if (GetComponent<AIController>())
+        {
+            GetComponent<AIController>().ShieldBroke();
+            GetComponent<WorldState>().UpdateTargetHeldEquipment();
+        }
+
     }
 
     private void ReduceBlockPower()

@@ -42,6 +42,9 @@ public class GoapPlanner : MonoBehaviour
     {
         _currentWorldState.UpdateWorldState();
 
+        if (_activeGoal && _activeGoal.InteruptGoal(_currentWorldState)) //Placed for when getting a knockback
+            ResetPlan();
+
         if (_activeGoal == null || _actionPlan.Count == 0)
             _activeGoal = SelectCurrentGoal();
 
@@ -140,7 +143,12 @@ public class GoapPlanner : MonoBehaviour
         {
             _actionPlan.RemoveAt(_actionPlan.Count - 1);
             _activeAction = null;
+            return;
         }
+
+        if (_activeAction.IsInterupted(_currentWorldState))
+            ResetPlan();
+
     }
 
     //region Update Worldstate from AIPerception components (eyes & hearing = Lockon test)
@@ -154,5 +162,16 @@ public class GoapPlanner : MonoBehaviour
     {
         _currentWorldState.UpddateSwingSpeed(speed);
     }
+
+    private void ResetPlan()
+    {
+        _activeAction.ActionCompleted();
+        _activeAction = null;
+        _activeGoal.SetInvallid();
+        _activeGoal = null;
+        _actionPlan.Clear();
+        Debug.Log($"reset plan");
+    }
+
     #endregion WorldStateUpdates
 }

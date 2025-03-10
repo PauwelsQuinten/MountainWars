@@ -8,7 +8,7 @@ public interface Actions
     bool IsVallid(WorldState currentWorldState);
     bool IsCompleted(WorldState current, WorldState activeActionDesiredState);
     void StartAction(WorldState currentWorldState);
-
+    bool IsInterupted(WorldState currentWorldState);
 }
 
 public class GoapAction : MonoBehaviour, Actions
@@ -47,9 +47,14 @@ public class GoapAction : MonoBehaviour, Actions
 
     virtual public bool IsVallid(WorldState currentWorldState)
     {
-
         return true;
     }
+
+    public virtual bool IsInterupted(WorldState currentWorldState)
+    {
+        return false; 
+    }
+
 
     virtual public bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
@@ -57,7 +62,6 @@ public class GoapAction : MonoBehaviour, Actions
         //set to complete by UpdateAction()
         if (!_isActivated)
         {
-            Debug.Log("action finished");
             return true;
         }
 
@@ -80,7 +84,6 @@ public class GoapAction : MonoBehaviour, Actions
 
         //Action finished
         StopCoroutine(_actionCoroutine);
-        Debug.Log("action finished");
         return true;
     }
 
@@ -90,7 +93,7 @@ public class GoapAction : MonoBehaviour, Actions
         _isActivated = false;
     }
 
-    protected void ActionCompleted()
+    public void ActionCompleted()
     {
         _isActivated = false;
         StopCoroutine(_actionCoroutine);

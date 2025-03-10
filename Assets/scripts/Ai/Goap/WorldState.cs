@@ -359,8 +359,16 @@ public class WorldState : MonoBehaviour
 
     private void CalculateOrientation(EquipmentType type, EWorldState listKey, bool target)
     {
+        GameObject checkedEquipment;
+        if (_npcEquipment.GetEquipment(type))
+            checkedEquipment = _npcEquipment.GetEquipment(type);
+        else
+            checkedEquipment = _npcEquipment.GetReserveEquipment(type);
+        //---------------------------------------------------------------------
+        //NEED MORE CHECKING FOR BOTH CHARACTERS
+
         var dif = target?
-            _targetEquipment.GetEquipment(type).transform.position - _target.transform.position : _npcEquipment.GetEquipment(type).transform.position - transform.position;
+            _targetEquipment.GetEquipment(type).transform.position - _target.transform.position : checkedEquipment.transform.position - transform.position;
         float angle = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
         if (angle < 0.3f && angle > -0.3f)
             _worldStateValues2[listKey] = WorldStateValue.OnCenter;
