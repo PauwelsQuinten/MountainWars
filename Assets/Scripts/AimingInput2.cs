@@ -490,8 +490,12 @@ public class AimingInput2 : MonoBehaviour
         if (_slashAngle > _overCommitAngle)
         {
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
-            _AttackMessage.text = "Player over commited";
-            _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
+            if (_AttackMessage)
+            {
+                _AttackMessage.text = "Player over commited";
+                _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
+            }
+
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;

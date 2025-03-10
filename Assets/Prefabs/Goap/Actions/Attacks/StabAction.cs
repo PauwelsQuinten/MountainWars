@@ -7,16 +7,25 @@ public class StabAction : GoapAction
     private WalkAnimate _spriteComp;
     private float _progress = 0f;
     private Vector2 _startVec = Vector2.zero;
+    [SerializeField] bool _startFromZero = false;
 
     public override void StartAction(WorldState currentWorldState)
     {
         base.StartAction(currentWorldState);
         
         _progress = 0f;
-        float orientation = _spriteComp.GetOrientation();
-        Vector2 orienVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
-        _startVec = orienVec * -0.5f;
-        _attackComp.Direction = _startVec;
+        if (_startFromZero)
+        {
+            _startVec = Vector2.zero;   
+        }
+        else
+        {
+            float orientation = _spriteComp.GetOrientation();
+            Vector2 orienVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
+            _startVec = orienVec * -0.5f;
+            _attackComp.Direction = _startVec;
+        }
+
 
     }
 
@@ -38,7 +47,9 @@ public class StabAction : GoapAction
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
-        if ( _progress >= 1.5f)
+        float maxProgres = _startFromZero ? 1.5f : 2f;
+
+        if ( _progress >= maxProgres)
         {
             _attackComp.Direction = Vector2.zero;
 

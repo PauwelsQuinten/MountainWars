@@ -7,7 +7,9 @@ public enum ObjectTarget
     Player,
     Weapon,
     Shield,
-    Forward
+    Forward,
+    Backward,
+    Side,
 }
 
 
@@ -29,17 +31,20 @@ public class MoveToAction : GoapAction
 
         switch(_MoveTo)
         {
-            case ObjectTarget.Player:
-                break;
             case ObjectTarget.Weapon:
                 _foundSpecificEquipment = FindEquipmentOfType(EquipmentType.Weapon);
                 currentWorldState.FoundEquipment(_foundSpecificEquipment);
                 break;
+
             case ObjectTarget.Shield:
                 _foundSpecificEquipment = FindEquipmentOfType(EquipmentType.Shield);
                 currentWorldState.FoundEquipment(_foundSpecificEquipment);
                 break;
+
+            case ObjectTarget.Player:
             case ObjectTarget.Forward:
+            case ObjectTarget.Backward:
+            case ObjectTarget.Side:
                 break;
         }
     }
@@ -49,6 +54,7 @@ public class MoveToAction : GoapAction
         Vector3 targetDir = Vector3.zero;
         Vector3 npcPos = currentWorldState.transform.position;
         Vector3 targetPos = Vector3.zero;
+        float angleRad = npc.GetComponent<WalkAnimate>().GetOrientation();
 
         switch (_MoveTo)
         {
@@ -78,11 +84,18 @@ public class MoveToAction : GoapAction
                 break;
                 
             case ObjectTarget.Forward:
-                float angleRad = npc.GetComponent<WalkAnimate>().GetOrientation();
                 targetDir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
                 break;
 
-                
+            case ObjectTarget.Backward:
+                targetDir = new Vector3(Mathf.Cos(-angleRad), Mathf.Sin(-angleRad), 0f);
+                break;
+
+            case ObjectTarget.Side:
+                angleRad *= (Random.Range(0, 2) == 0) ? -0.5f : 05f;
+                targetDir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
+                break;
+
         }
 
         npcComp.SetInputDirection(targetDir);

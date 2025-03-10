@@ -241,11 +241,20 @@ public class WorldState : MonoBehaviour
                 _worldStateValues2[EWorldState.ShieldDistance] = 
                     Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f? WorldStateValue.OutOfRange : WorldStateValue.InRange;
         }
+        //------------------------------------------------------------------------------------
+        //TARGET FOUND
+        //-----------------------------------------------------------------------------------
         else
         {
-           //TARGET UPDATE
+            //TARGET UPDATE
             //Target
-            _worldStateValues2[EWorldState.TargetDistance] = (Vector3.Distance(_target.transform.position, transform.position) > _weaponRange)? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+            float distance = Vector3.Distance(_target.transform.position, transform.position);
+            if (distance <= _weaponRange)
+                _worldStateValues2[EWorldState.TargetDistance] = WorldStateValue.InRange;
+            else if (distance > _weaponRange * 3f)
+                _worldStateValues2[EWorldState.TargetDistance] = WorldStateValue.FarAway;
+            else
+                _worldStateValues2[EWorldState.TargetDistance] = WorldStateValue.OutOfRange;
             
             _targetOrientation = _target.GetComponent<WalkAnimate>().GetOrientation();
 
@@ -421,7 +430,7 @@ public class WorldState : MonoBehaviour
             var _weapon = _targetEquipment.GetEquipment(EquipmentType.Weapon);
             _targetWeaponPossesion = _weapon ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
             _worldStateValues2[EWorldState.TargetWeaponPosesion] = _targetWeaponPossesion;
-            _targetWeaponRange = _weapon ? _weapon.GetComponent<Equipment>().GetAttackRange() : 0f;
+            _targetWeaponRange = _weapon ? _weapon.GetComponent<Equipment>().GetAttackRange() + transform.localScale.x : transform.localScale.x * 1.5f;
 
             var _shield = _targetEquipment.GetEquipment(EquipmentType.Shield);
             _targetShieldPossesion = _shield ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8396024233653514404}
   - component: {fileID: 2389779104276427239}
   m_Layer: 0
-  m_Name: SwordSwing
+  m_Name: Stab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,10 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1208428b0caf0794f93c97c7f094636f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 2
+  Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
-  _actionMaxRunTime: 3
+  _actionMaxRunTime: 1
+  _stabSpeed: 3
+  _startFromZero: 1
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0
