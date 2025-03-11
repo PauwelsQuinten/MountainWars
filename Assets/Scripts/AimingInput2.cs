@@ -175,7 +175,7 @@ public class AimingInput2 : MonoBehaviour
         {
             if (_checkedForBlock)
             {
-                _checkedForBlock = false; Debug.Log($"Changed bool to {_checkedForBlock}");
+                _checkedForBlock = false;
             }
                 ResetValues();
             if (_staminaManager != null) _staminaManager.IsAttacking = false;
@@ -344,7 +344,7 @@ public class AimingInput2 : MonoBehaviour
         {
             if (_lockOnScript.LockOnTarget && !_checkedForBlock)
             {
-                _checkedForBlock = true; Debug.Log($"Changed bool to {_checkedForBlock}");
+                _checkedForBlock = true;
                 Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                 SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
                 if (swordParry && swordParry.IsParrying())
@@ -380,7 +380,7 @@ public class AimingInput2 : MonoBehaviour
                 {
                     if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab && !_checkedForBlock)
                     {
-                        _checkedForBlock = true; Debug.Log($"Changed bool to {_checkedForBlock}");
+                        _checkedForBlock = true;
                         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
                         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                         if (swordParry && swordParry.IsParrying())
@@ -395,7 +395,7 @@ public class AimingInput2 : MonoBehaviour
 
                     if (CheckOverCommit())
                     {
-                        _checkedForBlock = false; Debug.Log($"Changed bool to {_checkedForBlock}");
+                        _checkedForBlock = false;
                         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
                         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                         blocker.StopParryTime();
@@ -434,7 +434,7 @@ public class AimingInput2 : MonoBehaviour
             }
             else if (_canRun && !_feinted && !_overcommited)
             {
-                _checkedForBlock = false; Debug.Log($"Changed bool to {_checkedForBlock}");
+                _checkedForBlock = false;
                 _canRun = false;
                 _attemptedAttack = true;
                 if (_feintStartAngle == 0 && _slashAngle > _minFeintAngle) _feintStartAngle = currentangle - 90;
@@ -452,7 +452,7 @@ public class AimingInput2 : MonoBehaviour
         }
         else if (_canRun && !_feinted && !_overcommited)
         {
-            _checkedForBlock = false; Debug.Log($"Changed bool to {_checkedForBlock}");
+            _checkedForBlock = false;
             CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
@@ -463,7 +463,7 @@ public class AimingInput2 : MonoBehaviour
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
-            _checkedForBlock = false; Debug.Log($"Changed bool to {_checkedForBlock}");
+            _checkedForBlock = false;
             _isAttackSet = false;
             _feinted = false;
         }

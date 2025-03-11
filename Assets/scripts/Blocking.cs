@@ -135,7 +135,6 @@ public class Blocking : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("SUCCESFULL BLOCK");
                     if (_staminaCost > _staminaManager.CurrentStamina) 
                     {
                         _animator.GetHit();

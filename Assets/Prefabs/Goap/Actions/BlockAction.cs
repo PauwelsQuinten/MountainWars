@@ -8,7 +8,10 @@ public class BlockAction : GoapAction
     public override void StartAction(WorldState currentWorldState)
     {
         if (_actionCoroutine != null)
+        {
             StopCoroutine(_actionCoroutine);//if somehow still runing, stop it
+            _isActivated = false;
+        }
         base.StartAction(currentWorldState);
         _blockSet = false;
     }
@@ -60,6 +63,7 @@ public class BlockAction : GoapAction
     {
         if (base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
+            Debug.Log(" completed block");
             _blockSet = false;
             GameObject owner = currentWorldState.GetOwner();
             Blocking blockComp = owner.GetComponent<Blocking>();
