@@ -65,4 +65,10 @@ public class StaminaManager : MonoBehaviour
         yield return new WaitForSeconds(_waitForRegen);
         _canRegenStamina = true;
     }
+
+    public float GetStamina()
+    {
+        return CurrentStamina / _maxStamina; 
+    }
+
 }

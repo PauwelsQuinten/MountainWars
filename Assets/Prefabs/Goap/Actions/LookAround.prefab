@@ -50,7 +50,7 @@ MonoBehaviour:
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
   _actionMaxRunTime: 3
-  _rotationSpeed: 15
+  _rotationSpeed: 30
 --- !u!114 &7101675145210251205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,6 +78,7 @@ MonoBehaviour:
   _targetBehaviour: 0
   _hasTarget: 0
   _targetDistance: 0
+  _targetStamina: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -88,6 +89,7 @@ MonoBehaviour:
   _weaponPossesion: 0
   _shieldPossesion: 0
   _behaviour: 0
+  _stamina: 0
 --- !u!114 &9095045994170797754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +117,7 @@ MonoBehaviour:
   _targetBehaviour: 0
   _hasTarget: 1
   _targetDistance: 0
+  _targetStamina: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -125,3 +128,4 @@ MonoBehaviour:
   _weaponPossesion: 0
   _shieldPossesion: 0
   _behaviour: 6
+  _stamina: 0

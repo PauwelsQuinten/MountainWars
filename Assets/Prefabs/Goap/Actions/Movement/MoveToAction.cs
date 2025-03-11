@@ -19,6 +19,7 @@ public class MoveToAction : GoapAction
     [SerializeField] private float _moveSpeed = 2f;
     GameObject npc;
     private CharacterMovement npcComp;
+    private AIController aiComp;
     private List<Equipment> _foundEquipment = new List<Equipment>();
     private Equipment _foundSpecificEquipment;
 
@@ -28,6 +29,7 @@ public class MoveToAction : GoapAction
 
         npc = currentWorldState.GetOwner();
         npcComp = npc.GetComponent<CharacterMovement>();
+        aiComp = npc.GetComponent<AIController>();
 
         switch(_MoveTo)
         {
@@ -98,14 +100,17 @@ public class MoveToAction : GoapAction
 
         }
 
-        npcComp.SetInputDirection(targetDir);
+        //npcComp.SetInputDirection(targetDir);
+        aiComp.MoveAction_performed(targetDir);
     }
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
         if(base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
-            npcComp.SetInputDirection(Vector2.zero);
+            //npcComp.SetInputDirection(Vector2.zero);
+            aiComp.MoveAction_performed(Vector2.zero);
+
             return true;
         }
         return false;
@@ -116,7 +121,8 @@ public class MoveToAction : GoapAction
         if (currentWorldState._worldStateValues[EWorldState.TargetSwingSpeed] > 50f
             && currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange)
         {
-            npcComp.SetInputDirection(Vector2.zero);
+            //npcComp.SetInputDirection(Vector2.zero);
+            aiComp.MoveAction_performed(Vector2.zero);
             return true;
         }
         return false;
@@ -137,5 +143,11 @@ public class MoveToAction : GoapAction
 
     }
 
+    public override bool IsVallid(WorldState currentWorldState)
+    {
+        if (_MoveTo == ObjectTarget.Side)
+            Cost = Random.Range(0.5f, 1.5f);
+        return true;
+    }
 
 }

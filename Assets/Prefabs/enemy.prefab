@@ -1648,9 +1648,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada63f89263cd4241b35e4f630ddd45a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterMentality: 0
+  _characterMentality: 2
   _allActionPrefabs:
-  - {fileID: 4740772555733712272, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
+  - {fileID: -6915020138891419967, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
   - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
   - {fileID: 3614961667598669404, guid: 404090f8eebef7a40a80f3f006b5a4e4, type: 3}
   - {fileID: 2198598258197355828, guid: b012526216312804f8d85a43d61e0fab, type: 3}
@@ -1668,13 +1668,12 @@ MonoBehaviour:
   - {fileID: 4267195964248438735, guid: 367e5b4cc79a5574ab55775163391651, type: 3}
   - {fileID: 4267195964248438735, guid: 4ebcc7f853d40e64fb89d70a794b1990, type: 3}
   _allGoalPrefabs:
-  - {fileID: 738826124993600184, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
+  - {fileID: -2610711789531416423, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
   - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
-  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
-  - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
   - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
-  - {fileID: -1599951491606956843, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
+  - {fileID: 4153809955534360622, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
+  - {fileID: 4153809955534360622, guid: 27322d9e9f49fe843b1f8f4a8f4e1055, type: 3}
 --- !u!114 &4121201304227673282
 MonoBehaviour:
   m_ObjectHideFlags: 0

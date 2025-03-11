@@ -151,7 +151,18 @@ public class GoapPlanner : MonoBehaviour
 
     }
 
+    private void ResetPlan()
+    {
+        _activeAction.ActionCompleted();
+        _activeAction = null;
+        _activeGoal.SetInvallid();
+        _activeGoal = null;
+        _actionPlan.Clear();
+    }
+
+
     //region Update Worldstate from AIPerception components (eyes & hearing = Lockon test)
+    //-----------------------------------------------------------------
     #region WorldStateUpdates
     public void SetTarget(GameObject target)
     {
@@ -162,16 +173,5 @@ public class GoapPlanner : MonoBehaviour
     {
         _currentWorldState.UpddateSwingSpeed(speed);
     }
-
-    private void ResetPlan()
-    {
-        _activeAction.ActionCompleted();
-        _activeAction = null;
-        _activeGoal.SetInvallid();
-        _activeGoal = null;
-        _actionPlan.Clear();
-        Debug.Log($"reset plan");
-    }
-
     #endregion WorldStateUpdates
 }

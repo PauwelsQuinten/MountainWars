@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7275efbabb3c53042b551aed22864aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 2
+  Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
   _actionMaxRunTime: 3
@@ -81,6 +81,7 @@ MonoBehaviour:
   _targetBehaviour: 0
   _hasTarget: 0
   _targetDistance: 0
+  _targetStamina: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -91,6 +92,7 @@ MonoBehaviour:
   _weaponPossesion: 0
   _shieldPossesion: 0
   _behaviour: 7
+  _stamina: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +120,7 @@ MonoBehaviour:
   _targetBehaviour: 0
   _hasTarget: 0
   _targetDistance: 10
+  _targetStamina: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -128,3 +131,4 @@ MonoBehaviour:
   _weaponPossesion: 1
   _shieldPossesion: 0
   _behaviour: 0
+  _stamina: 0

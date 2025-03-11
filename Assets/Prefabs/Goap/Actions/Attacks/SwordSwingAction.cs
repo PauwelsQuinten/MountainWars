@@ -6,6 +6,7 @@ public class SwordSwingAction : GoapAction
     [SerializeField] float _swingSpeed = 1.5f;
     private AimingInput2 _attackComp;
     private WalkAnimate _spriteComp;
+    private AIController _aiComp;
     private float _progress = 0f;
     private bool _SwingBack = false;
     private Vector2 _startVec = Vector2.zero;
@@ -31,8 +32,8 @@ public class SwordSwingAction : GoapAction
             _startVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
         }
        
-        _attackComp.Direction = _startVec;
-        //_SwordParry.SetSwordMovent(_storedInput);
+        _aiComp.AimAction_performed(_startVec, FightStyle.Sword);
+        //_attackComp.Direction = _startVec;
 
     }
 
@@ -42,7 +43,9 @@ public class SwordSwingAction : GoapAction
             _attackComp = currentWorldState.GetOwner().GetComponent<AimingInput2>();
         if (!_spriteComp)
             _spriteComp = currentWorldState.GetOwner().GetComponent<WalkAnimate>();
-        return _attackComp && _spriteComp;
+        if (!_aiComp)
+            _aiComp = currentWorldState.GetOwner().GetComponent<AIController>();
+        return _attackComp && _spriteComp && _aiComp;
     }
 
     public override void UpdateAction(WorldState currentWorldState)
@@ -61,9 +64,11 @@ public class SwordSwingAction : GoapAction
 
         rotatedVec = rotatedVec.normalized; // Normalize after rotation
 
-        _attackComp.Direction = rotatedVec;
-        float newangle = Mathf.Atan2(rotatedVec.y, rotatedVec.x);
-        Debug.Log($"{newangle}");
+        _aiComp.AimAction_performed(rotatedVec, FightStyle.Sword);
+
+        //_attackComp.Direction = rotatedVec;
+        //float newangle = Mathf.Atan2(rotatedVec.y, rotatedVec.x);
+        //Debug.Log($"{newangle}");
     }
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
@@ -73,16 +78,15 @@ public class SwordSwingAction : GoapAction
         {
             if (_SwingBack && (_progress <= 0.15f && _progress >= -0.15f))
             {
-                _attackComp.Direction = Vector2.zero;
+                //_attackComp.Direction = Vector2.zero;
+                _aiComp.AimAction_performed(Vector2.zero, FightStyle.Sword);
                 _startFromRight = !_startFromRight;
                 ActionCompleted();
                 Debug.Log("feint compleet");
                 return true;
             }
             else if (_progress >= targetProgress || _progress <= -targetProgress)
-            {
-                
-
+            {                
                 _SwingBack = true;
                 _startFromRight = !_startFromRight;
             }
@@ -90,7 +94,8 @@ public class SwordSwingAction : GoapAction
 
         else if (_progress >= targetProgress || _progress <= -targetProgress)
         {
-            _attackComp.Direction = Vector2.zero;
+            //_attackComp.Direction = Vector2.zero;
+            _aiComp.AimAction_performed(Vector2.zero, FightStyle.Sword);
 
             ActionCompleted();
             return true;

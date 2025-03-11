@@ -22,7 +22,7 @@ public class AIController : MonoBehaviour
     private SwordParry _SwordParry;
 
     private FightStyle _fightStyle = FightStyle.Sword;
-    private Vector2 _storedInput = Vector2.zero;
+    //private Vector2 _storedInput = Vector2.zero;
     public bool IsJumping = false;
 
     void Start()
@@ -62,7 +62,7 @@ public class AIController : MonoBehaviour
             if (!GetComponent<HeldEquipment>().HoldSwordAndShield())
                 return;
 
-            if (_fightStyle == FightStyle.Shield)
+            if (guarding)
             {
                 _shield.HoldBlock(true);
                 _fightStyle = FightStyle.Combo;
@@ -82,11 +82,8 @@ public class AIController : MonoBehaviour
             {
                 _fightStyle = FightStyle.Sword;
                 _shield.ActivateBlock(false);
-
             }
-
         }
-
     }
 
 
@@ -132,7 +129,7 @@ public class AIController : MonoBehaviour
         _Sword.SlashDown = true;
     }
 
-    public void _moveAction_performed(Vector2 moveInput)
+    public void MoveAction_performed(Vector2 moveInput)
     {
         if (IsJumping)
             return;
@@ -153,13 +150,46 @@ public class AIController : MonoBehaviour
                 break;
         }
 
-
         _characterMovement.SetInputDirection(moveInput * speed);
     }
 
     private void _moveAction_Canceled(InputAction.CallbackContext obj)
     {
         _characterMovement.SetInputDirection(Vector2.zero);
+    }
+
+    public void AimAction_performed(Vector2 input, FightStyle swordOrShield)
+    {
+        if (IsJumping)
+            return;
+
+        _fightStyle = swordOrShield;
+        if (_fightStyle == FightStyle.Shield)
+        {
+            _shield.SetInputDirection(input);
+        }
+        else
+        {
+            //_storedInput = input;
+            //_SwordParry.SetSwordMovent(_storedInput);
+            _Sword.Direction = input;
+            _SwordParry.SetSwordMovent(input);
+        }
+
+    }
+
+    public void AimAction_Canceled()
+    {
+        if (_fightStyle == FightStyle.Shield)
+        {
+            _shield.SetInputDirection(Vector2.zero);
+        }
+        else
+        {
+            //_storedInput = Vector2.zero;
+            _Sword.Direction = Vector2.zero;
+            _SwordParry.SetSwordMovent(Vector2.zero);
+        }
     }
 
     #endregion MyRegion

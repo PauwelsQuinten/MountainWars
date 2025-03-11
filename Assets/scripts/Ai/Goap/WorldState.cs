@@ -16,12 +16,13 @@ public enum EWorldState
     ShieldOrientation,
     WeaponOrientation,
     SwingSpeed,
-    //list1 -2 line----
+
     TargetWeaponDistance,
     TargetShieldDistance,
     TargetWeaponPosesion,
     TargetShieldPosesion,
     TargetBehaviour,
+    TargetStamina,
     HasTarget,
     TargetDistance,
 
@@ -29,6 +30,7 @@ public enum EWorldState
     ShieldDistance,
     WeaponPosesion,
     ShieldPosesion,
+    Stamina,
     Behaviour,
 }
 
@@ -64,7 +66,11 @@ public enum WorldStateValue
 
     EquipmentUp,
     EquipmentHalfUp,
-    EquipmentDown
+    EquipmentDown,
+
+    FullStamina,
+    MidStamina,
+    LowOnStamina
 }
 
 public class WorldState : MonoBehaviour
@@ -91,6 +97,7 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _targetBehaviour = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _hasTarget = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetDistance = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _targetStamina = WorldStateValue.DontCare;
 
     //Self
     //private GameObject _weapon;
@@ -107,6 +114,8 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _weaponPossesion = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _shieldPossesion = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _behaviour = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _stamina = WorldStateValue.DontCare;
+
 
     //Helper state 
     private float _targetOrientation = 0.0f;
@@ -167,6 +176,8 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.HasTarget] = _hasTarget;
         if (_targetDistance != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.TargetDistance] = _targetDistance;
+        if (_targetStamina != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.TargetStamina] = _targetStamina;
 
         if (_WeaponDistance != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.WeaponDistance] = _WeaponDistance;
@@ -188,6 +199,9 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.ShieldPosesion] = _shieldPossesion;
         if (_behaviour != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.Behaviour] = _behaviour;
+        if (_stamina != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.Stamina] = _stamina;
+
 
     }
     public void UpdateWorldState()
@@ -198,6 +212,8 @@ public class WorldState : MonoBehaviour
         //NPC UPDATE WITHOUT FOUND TARGET
         if (!_target)
         {
+            CalculateNpcStamina();
+
             //WEAPON
             _orientation = GetComponent<WalkAnimate>().GetOrientation();
             if (_npcEquipment.GetEquipment(EquipmentType.Weapon))
@@ -216,14 +232,14 @@ public class WorldState : MonoBehaviour
             //if weapon is unequiped but found one
             else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Weapon)
                 _worldStateValues2[EWorldState.WeaponDistance] =
-                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
 
 
             //SHIELD
             if (_npcEquipment.GetEquipment(EquipmentType.Shield))
             {
                 _worldStateValues2[EWorldState.ShieldDistance] = WorldStateValue.OutOfRange;
-               
+
                 CalculateEquipmentMovement(EWorldState.ShieldMovement, EquipmentType.Shield, false);
 
                 if (_worldStateValues2[EWorldState.ShieldMovement] == WorldStateValue.EquipmentHalfUp || _worldStateValues2[EWorldState.WeaponMovement] == WorldStateValue.EquipmentUp)
@@ -236,8 +252,8 @@ public class WorldState : MonoBehaviour
             }
             //if shield is unequiped but found one
             else if (_foundEquipment && _foundEquipment.GetEquipmentType() == EquipmentType.Shield)
-                _worldStateValues2[EWorldState.ShieldDistance] = 
-                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f? WorldStateValue.OutOfRange : WorldStateValue.InRange;
+                _worldStateValues2[EWorldState.ShieldDistance] =
+                    Vector2.Distance(_foundEquipment.transform.position, transform.position) > 0.2f ? WorldStateValue.OutOfRange : WorldStateValue.InRange;
         }
         //------------------------------------------------------------------------------------
         //TARGET FOUND
@@ -245,6 +261,8 @@ public class WorldState : MonoBehaviour
         else
         {
             //TARGET UPDATE
+            CalculateTargetStamina();
+
             //Target
             float distance = Vector3.Distance(_target.transform.position, transform.position);
             if (distance <= _weaponRange)
@@ -292,6 +310,9 @@ public class WorldState : MonoBehaviour
 
 
             //NPC UPDATE
+            CalculateNpcStamina();
+
+
             //WEAPON
             _orientation = GetComponent<WalkAnimate>().GetOrientation();
             if (_npcEquipment.GetEquipment(EquipmentType.Weapon))
@@ -339,6 +360,29 @@ public class WorldState : MonoBehaviour
         }
 
     }
+
+    private void CalculateNpcStamina()
+    {
+        float stamina = GetComponent<StaminaManager>().GetStamina();
+        if (stamina > 0.75f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.FullStamina;
+        else if (stamina > 0.4f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.MidStamina;
+        else
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.LowOnStamina;
+    }
+
+    private void CalculateTargetStamina()
+    {
+        float stamina = _target.GetComponent<StaminaManager>().GetStamina();
+        if (stamina > 0.75f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.FullStamina;
+        else if (stamina > 0.4f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.MidStamina;
+        else
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.LowOnStamina;
+    }
+
 
     private void CalculateEquipmentMovement(EWorldState listValue, EquipmentType type, bool target)
     {
