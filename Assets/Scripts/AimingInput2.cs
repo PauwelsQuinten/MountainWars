@@ -103,6 +103,8 @@ public class AimingInput2 : MonoBehaviour
     private HealthManager _healthManager;
     private WalkAnimate _animationRef;
 
+    private bool _checkedForBlock;
+
     private void Start()
     {
         //InputManager input = FindObjectOfType<InputManager>();
@@ -131,9 +133,6 @@ public class AimingInput2 : MonoBehaviour
         float newLength = Direction.SqrMagnitude();
         float currentAngle = Mathf.Atan2(Direction.y, Direction.x);
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
-        if (gameObject.name == "enemy")
-            Debug.Log($"{Direction}, owner: {gameObject.name}");
-        //SetHitboxHeight(newLength);
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
         if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
@@ -162,20 +161,6 @@ public class AimingInput2 : MonoBehaviour
             //slashDirection or stab
             SetAttackType(newLength, currentAngleDegree);
 
-            if (CurrentAttackType == AttackType.Stab && _lockOnScript.LockOnTarget)
-            {
-                Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-                SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-                if (swordParry && swordParry.IsParrying())
-                {
-                    swordParry.StartParry(true, gameObject, _power);
-                }
-                else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
-                {
-                    //attack was succesfully blocked
-                    _animationRef.GetHit();
-                }
-            }
             if (_lockOnScript.LockOnTarget)
                 CalculateAttackPower(newLength, currentAngleDegree);
 
@@ -188,7 +173,11 @@ public class AimingInput2 : MonoBehaviour
         }
         else
         {
-            ResetValues();
+            if (_checkedForBlock)
+            {
+                _checkedForBlock = false;
+            }
+                ResetValues();
             if (_staminaManager != null) _staminaManager.IsAttacking = false;
         }
         //Force direction to be correct on idle
@@ -351,7 +340,26 @@ public class AimingInput2 : MonoBehaviour
 
     private void CalculateAttackPower(float drawLength, float currentangle)
     {
-        if (_feinted) _canRun = false;
+        if (CurrentAttackType == AttackType.Stab)
+        {
+            if (_lockOnScript.LockOnTarget && !_checkedForBlock)
+            {
+                _checkedForBlock = true;
+                Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+                SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+                if (swordParry && swordParry.IsParrying())
+                {
+                    swordParry.StartParry(true, gameObject, _power);
+                }
+                else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+                {
+                    _animationRef.GetHit();
+                }
+            }
+            CheckAttack();
+            return;
+        }
+            if (_feinted) _canRun = false;
         if (drawLength >= 0.97f)
         {
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
@@ -370,8 +378,9 @@ public class AimingInput2 : MonoBehaviour
 
                 if (!_checkFeint)
                 {
-                    if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab)
+                    if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab && !_checkedForBlock)
                     {
+                        _checkedForBlock = true;
                         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
                         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                         if (swordParry && swordParry.IsParrying())
@@ -386,6 +395,7 @@ public class AimingInput2 : MonoBehaviour
 
                     if (CheckOverCommit())
                     {
+                        _checkedForBlock = false;
                         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
                         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
                         blocker.StopParryTime();
@@ -424,6 +434,7 @@ public class AimingInput2 : MonoBehaviour
             }
             else if (_canRun && !_feinted && !_overcommited)
             {
+                _checkedForBlock = false;
                 _canRun = false;
                 _attemptedAttack = true;
                 if (_feintStartAngle == 0 && _slashAngle > _minFeintAngle) _feintStartAngle = currentangle - 90;
@@ -441,6 +452,7 @@ public class AimingInput2 : MonoBehaviour
         }
         else if (_canRun && !_feinted && !_overcommited)
         {
+            _checkedForBlock = false;
             CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
@@ -451,6 +463,7 @@ public class AimingInput2 : MonoBehaviour
         }
         if (drawLength <= MIN_WINDUP_LENGTH)
         {
+            _checkedForBlock = false;
             _isAttackSet = false;
             _feinted = false;
         }

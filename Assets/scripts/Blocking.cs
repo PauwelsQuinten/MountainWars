@@ -139,15 +139,17 @@ public class Blocking : MonoBehaviour
                     {
                         _animator.GetHit();
                         _blockState = BlockState.Broken;
-                        Knockback();
+                        //Knockback();
                         return false;
                     }
-                    if(_attackPower > _blockPower) 
+                    else 
                     {
                         _staminaManager.DepleteStamina(_staminaCost);
-                        Knockback();
+                        if (_attackPower > _blockPower)
+                        {
+                            Knockback();
+                        }
                     }
-                    else _staminaManager.CurrentStamina -= _staminaCost;
                     var equipmentType = _shield.GetComponent<Equipment>().GetEquipmentType();
                     //if(!_heldEquipment.EquipmentEnduresHit(EquipmentType.Shield, _tempShieldDamageOnUse))
                     if (!_heldEquipment.EquipmentEnduresHit(equipmentType, _tempShieldDamageOnUse))
@@ -425,7 +427,6 @@ public class Blocking : MonoBehaviour
             return true;
         }
 
-        Debug.Log($"Faill, angleDiff = {Mathf.Abs(angle - _currentParryAngle)} ");
         _currentParryChance = ParryChanceState.Failled;
         return false;
     }
@@ -481,7 +482,7 @@ public class Blocking : MonoBehaviour
         float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
         Transform t = Instantiate(transform);
         t.rotation = Quaternion.Euler(new Vector3(0, 0, t.rotation.z + (orientation - 90)));
-        StartCoroutine(DoKnockback(transform.position, -t.up * 6, 1, 10, transform));
+        StartCoroutine(DoKnockback(transform.position, -t.up * 3, 1, 7, transform));
         Destroy(t.gameObject);
     }
 

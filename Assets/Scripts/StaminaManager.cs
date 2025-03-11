@@ -11,8 +11,11 @@ public class StaminaManager : MonoBehaviour
 
     public float BaseStaminaRegenRate;
     private float _currentStaminaRegenRate;
+    [HideInInspector]
     public float CurrentStamina;
+    [HideInInspector]
     public bool IsAttacking;
+    [HideInInspector]
     public bool IsBlocking;
 
     private bool _canRegenStamina = true;
