@@ -2575,7 +2575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPos: {x: 4.84, y: -2.93, z: 0}
   spawnPrefab: {fileID: 7178124529579999126, guid: 89f6b39748436e54bb316413b51f2c73, type: 3}
-  _canSpawnMore: 0
+  _canSpawnMore: 1
 --- !u!4 &1857033582
 Transform:
   m_ObjectHideFlags: 0

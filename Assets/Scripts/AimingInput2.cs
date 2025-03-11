@@ -367,29 +367,10 @@ public class AimingInput2 : MonoBehaviour
                 {
                     if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab && !_checkedForBlock)
                     {
-                        _checkedForBlock = true;
-                        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-                        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-                        if (swordParry && swordParry.IsParrying())
-                        {
-                            swordParry.StartParry(true, gameObject, _power, _startDirection);
-                        }
-                        else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
-                        {
-                            _animationRef.GetHit();
-                        }
+                        CheckBlockAndParry();
                     }
 
-                    if (CheckOverCommit())
-                    {
-                        _checkedForBlock = false;
-                        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-                        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-                        blocker.StopParryTime();
-                        swordParry.StartParry(false, null, 0);
-                        _overcommited = true;
-                        return;
-                    }
+                    if (CheckOverCommit()) return;
                     else _overcommited = false;
                     _damage = (int)((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5;
                     _damage = Mathf.Clamp(_damage, 0, 10);
@@ -442,17 +423,7 @@ public class AimingInput2 : MonoBehaviour
                 {
                     if (_lockOnScript.LockOnTarget && !_checkedForBlock)
                     {
-                        _checkedForBlock = true;
-                        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-                        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-                        if (swordParry && swordParry.IsParrying())
-                        {
-                            swordParry.StartParry(true, gameObject, _power);
-                        }
-                        else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
-                        {
-                            _animationRef.GetHit();
-                        }
+                        CheckBlockAndParry();
                     }
                     CheckAttack();
                     return;
@@ -509,6 +480,7 @@ public class AimingInput2 : MonoBehaviour
                 _overcommited = false;
                 Attack();
                 SetPreviousAttacks();
+                StopBlockAndParry();
                 return;
             }
         }
@@ -527,6 +499,7 @@ public class AimingInput2 : MonoBehaviour
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             if (_AttackMessage)
             {
+                StopBlockAndParry();
                 _AttackMessage.text = "Player over commited";
                 _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             }
@@ -544,10 +517,7 @@ public class AimingInput2 : MonoBehaviour
     {
         if (angle < minAngle && time < 0.5f)
         {
-            SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-            Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-            blocker.StopParryTime();
-            swordParry.StartParry(false, null, 0);
+            StopBlockAndParry();
 
             if (_AttackMessage)
                 _AttackMessage.text = "Feint";
@@ -579,10 +549,7 @@ public class AimingInput2 : MonoBehaviour
     {
         if(CurrentAttackType == AttackType.Stab)
         {
-            SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-            swordParry.StartParry(false, null, 0);
-            Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
-            blocker.StopParryTime();
+            StopBlockAndParry();
         }
 
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
@@ -690,6 +657,30 @@ public class AimingInput2 : MonoBehaviour
     public float GetSwingSpeed()
     {
         return _speed;
+    }
+
+    private void CheckBlockAndParry()
+    {
+        _checkedForBlock = true;
+        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+        if (swordParry && swordParry.IsParrying())
+        {
+            swordParry.StartParry(true, gameObject, _power);
+        }
+        else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+        {
+            _animationRef.GetHit();
+        }
+    }
+
+    private void StopBlockAndParry()
+    {
+        _checkedForBlock = false;
+        SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+        swordParry.StartParry(false, null, 0);
+        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+        blocker.StopParryTime();
     }
 
 }
