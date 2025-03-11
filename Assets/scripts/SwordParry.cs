@@ -71,8 +71,7 @@ public class SwordParry : MonoBehaviour
 
 
                 //Succcesfull parry 
-                SwordSwing sw = _attacker.GetComponent<SwordSwing>();
-                sw.SetIdle();
+
                 //Set parried animation to attacker
                 AIController attComp = _attacker.GetComponent<AIController>();
                 attComp.Parried();
@@ -101,7 +100,7 @@ public class SwordParry : MonoBehaviour
                     {
                         Debug.Log("Disarm");
                         _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
-                        _attacker.GetComponent<SwordSwing>().SwordBroke();
+                        _attacker.GetComponent<AimingInput2>().SwordBroke();
                     }
                     _attacker = null;
                     _disarmTime = 0;

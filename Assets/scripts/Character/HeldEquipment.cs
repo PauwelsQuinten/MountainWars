@@ -53,7 +53,6 @@ public class HeldEquipment : MonoBehaviour
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
-            if (equipmentType == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
