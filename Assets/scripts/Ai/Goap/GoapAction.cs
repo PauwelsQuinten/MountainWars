@@ -86,16 +86,13 @@ public class GoapAction : MonoBehaviour, Actions
         //Action finished
         StopCoroutine(_actionCoroutine);
         _isActivated = false;
-        Debug.Log("Stop action coroutine by action");
         return true;
     }
 
     protected IEnumerator StartTimer(float runTime)
     {
         yield return new WaitForSeconds(runTime);
-        Debug.Log("Courotine Has Run");
         _isActivated = false;
-        Debug.Log("Stop action coroutine by timer");
 
     }
 
@@ -103,7 +100,6 @@ public class GoapAction : MonoBehaviour, Actions
     {
         _isActivated = false;
         StopCoroutine(_actionCoroutine);
-        Debug.Log("Stop action coroutine");
 
     }
 }

@@ -36,14 +36,6 @@ public class AIController : MonoBehaviour
     }
 
 
-    //void Start()
-    //{
-    //    _testButton.action.performed += Action_performed;
-    //    _swordSwing = GetComponent<SwordSwing>();
-    //    _animator = GetComponent<WalkAnimate>();
-    //}
-
-
     public void Parried()
     {
         _animator.Parried();
@@ -53,7 +45,6 @@ public class AIController : MonoBehaviour
     public void Disarmed()
     {
         _animator.Disarmed();
-
     }
 
 

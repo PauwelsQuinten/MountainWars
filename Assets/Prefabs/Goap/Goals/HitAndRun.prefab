@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
-  _lowtoHighPriority: 10000000150000000e000000
+  _lowtoHighPriority: 100000000e000000
   _worldStateType: 0
   _targetWeaponDistance: 0
   _targetShieldDistance: 0
@@ -83,4 +83,4 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 0
   _shieldPossesion: 0
-  _behaviour: 7
+  _behaviour: 0

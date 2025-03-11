@@ -6,7 +6,7 @@ public enum CharacterMentality
 {
     Agresive,
     Defensive,
-    Technocal
+    Technical
 }
 
 public class GoapPlanner : MonoBehaviour

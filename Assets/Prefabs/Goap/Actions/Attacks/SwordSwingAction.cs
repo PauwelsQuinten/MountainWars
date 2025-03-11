@@ -7,6 +7,7 @@ public class SwordSwingAction : GoapAction
     private AimingInput2 _attackComp;
     private WalkAnimate _spriteComp;
     private float _progress = 0f;
+    private bool _SwingBack = false;
     private Vector2 _startVec = Vector2.zero;
     [SerializeField] bool _startFromRight = false;
     [SerializeField] bool _randomDirection = false;
@@ -16,16 +17,18 @@ public class SwordSwingAction : GoapAction
     {
         base.StartAction(currentWorldState);
         _progress = 0f;
-
-        float orientation = _isFeint? _spriteComp.GetOrientation() + Mathf.PI*0.5f : _spriteComp.GetOrientation() + Mathf.PI * 0.65f;
-        _startVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
-        
-
+        _SwingBack = false;
 
         _startFromRight = _randomDirection? UnityEngine.Random.Range(0, 2) == 0 : _startFromRight;
         if (_startFromRight)
         {
-            _startVec = -_startVec;
+            float orientation = _isFeint ? _spriteComp.GetOrientation() - Mathf.PI * 0.65f : _spriteComp.GetOrientation() - Mathf.PI * 0.5f;
+            _startVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
+        }
+        else
+        {
+            float orientation = _isFeint ? _spriteComp.GetOrientation() + Mathf.PI * 0.65f : _spriteComp.GetOrientation() + Mathf.PI * 0.5f;
+            _startVec = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));
         }
        
         _attackComp.Direction = _startVec;
@@ -66,11 +69,30 @@ public class SwordSwingAction : GoapAction
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
         float targetProgress = _isFeint ? 0.2f : 1;
+        if (_isFeint)
+        {
+            if (_SwingBack && (_progress <= 0.15f && _progress >= -0.15f))
+            {
+                _attackComp.Direction = Vector2.zero;
+                _startFromRight = !_startFromRight;
+                ActionCompleted();
+                Debug.Log("feint compleet");
+                return true;
+            }
+            else if (_progress >= targetProgress || _progress <= -targetProgress)
+            {
+                
 
-        if (_progress >= targetProgress || _progress <= -targetProgress)
+                _SwingBack = true;
+                _startFromRight = !_startFromRight;
+            }
+        }
+
+        else if (_progress >= targetProgress || _progress <= -targetProgress)
         {
             _attackComp.Direction = Vector2.zero;
 
+            ActionCompleted();
             return true;
         }
         return false;
