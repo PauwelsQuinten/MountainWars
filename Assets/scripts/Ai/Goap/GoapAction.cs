@@ -90,7 +90,6 @@ public class GoapAction : MonoBehaviour, Actions
     protected IEnumerator StartTimer(float runTime)
     {
         yield return new WaitForSeconds(runTime);
-        Debug.Log("Courotine Has Run");
         _isActivated = false;
     }
 
