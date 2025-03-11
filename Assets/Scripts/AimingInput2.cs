@@ -611,8 +611,9 @@ public class AimingInput2 : MonoBehaviour
         _resetAttackStance = StartCoroutine(ResetAttackStance(_stanceResetTimer));
     }
 
-    public void NewSword()
+    public void NewSword(GameObject newSword)
     {
+        _sword = newSword;
         if (_sword == null)
             _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
 
