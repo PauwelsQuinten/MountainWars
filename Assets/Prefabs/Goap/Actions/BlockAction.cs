@@ -8,7 +8,11 @@ public class BlockAction : GoapAction
     public override void StartAction(WorldState currentWorldState)
     {
         if (_actionCoroutine != null)
+        {
             StopCoroutine(_actionCoroutine);//if somehow still runing, stop it
+            _isActivated = false;
+        }
+
         base.StartAction(currentWorldState);
         _blockSet = false;
     }
@@ -45,6 +49,7 @@ public class BlockAction : GoapAction
         }
 
         Vector3 blockVec = new Vector2(Mathf.Cos(blockAngle), Mathf.Sin(blockAngle));
+        Debug.Log($"block : {blockVec}");
 
         blockComp.SetInputDirection(blockVec);
         _blockSet = true;

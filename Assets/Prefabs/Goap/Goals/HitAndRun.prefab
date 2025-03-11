@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DesiredWorldState: {fileID: 0}
+  _invalidTime: 1
 --- !u!114 &1487635528888377458
 MonoBehaviour:
   m_ObjectHideFlags: 0

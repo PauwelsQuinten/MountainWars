@@ -1437,7 +1437,7 @@ MonoBehaviour:
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
   _parryFromSameDirection: 1
-  _tempShieldDamageOnUse: 15
+  _tempShieldDamageOnUse: 1
   _staminaCost: 8
 --- !u!114 &5495266006063797764
 MonoBehaviour:

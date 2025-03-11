@@ -50,7 +50,7 @@ MonoBehaviour:
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
   _actionMaxRunTime: 3
-  _swingSpeed: 0.5
+  _swingSpeed: 0.75
   _startFromRight: 0
   _randomDirection: 1
   _isFeint: 1

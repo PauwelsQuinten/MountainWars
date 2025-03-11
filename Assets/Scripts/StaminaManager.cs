@@ -5,6 +5,7 @@ public class StaminaManager : MonoBehaviour
 {
     [SerializeField] int _maxStamina;
     [SerializeField] float _waitForRegen;
+    [SerializeField] GameObject _staminaBarObj;
 
     SpriteRenderer _staminahBar;
 
@@ -20,7 +21,10 @@ public class StaminaManager : MonoBehaviour
 
     private void Start()
     {
-        _staminahBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
+        if (_staminaBarObj)
+            _staminahBar = _staminaBarObj.GetComponent<SpriteRenderer>();
+        else
+            _staminahBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
         CurrentStamina = _maxStamina;
         _currentStaminaRegenRate = BaseStaminaRegenRate;
     }

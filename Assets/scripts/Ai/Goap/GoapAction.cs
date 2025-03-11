@@ -37,6 +37,7 @@ public class GoapAction : MonoBehaviour, Actions
             return;
         _isActivated = true;
         _actionCoroutine = StartCoroutine(StartTimer(_actionMaxRunTime));
+        Debug.Log("Start action coroutine");
     }
 
 
@@ -84,6 +85,8 @@ public class GoapAction : MonoBehaviour, Actions
 
         //Action finished
         StopCoroutine(_actionCoroutine);
+        _isActivated = false;
+        Debug.Log("Stop action coroutine by action");
         return true;
     }
 
@@ -91,11 +94,15 @@ public class GoapAction : MonoBehaviour, Actions
     {
         yield return new WaitForSeconds(runTime);
         _isActivated = false;
+        Debug.Log("Stop action coroutine by timer");
+
     }
 
     public void ActionCompleted()
     {
         _isActivated = false;
         StopCoroutine(_actionCoroutine);
+        Debug.Log("Stop action coroutine");
+
     }
 }
