@@ -4,6 +4,16 @@ using UnityEngine;
 public class BlockAction : GoapAction
 {
     private bool _blockSet = false;
+
+    public override void StartAction(WorldState currentWorldState)
+    {
+        if (_actionCoroutine != null)
+            StopCoroutine(_actionCoroutine);//if somehow still runing, stop it
+        base.StartAction(currentWorldState);
+        _blockSet = false;
+    }
+
+
     public override void UpdateAction(WorldState currentWorldState)
     {
         if (_blockSet)

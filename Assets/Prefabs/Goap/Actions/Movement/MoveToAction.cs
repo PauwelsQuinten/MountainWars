@@ -106,7 +106,6 @@ public class MoveToAction : GoapAction
         if(base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
             npcComp.SetInputDirection(Vector2.zero);
-            Debug.Log("walk finished");
             return true;
         }
         return false;

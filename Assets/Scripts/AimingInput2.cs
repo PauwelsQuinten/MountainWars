@@ -176,8 +176,8 @@ public class AimingInput2 : MonoBehaviour
                     _animationRef.GetHit();
                 }
             }
-
-            CalculateAttackPower(newLength, currentAngleDegree);
+            if (_lockOnScript.LockOnTarget)
+                CalculateAttackPower(newLength, currentAngleDegree);
 
             //decrease power the longer your arm is stretched out in front
             if ((currentAngleDegree < 110.0f && currentAngleDegree > 70.0f) || newLength < MIN_WINDUP_LENGTH)

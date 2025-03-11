@@ -38,13 +38,13 @@ public class Eyes : MonoBehaviour
     }
       private void OnTriggerExit(Collider collision)
     {
-        if (collision is CharacterController && (_targetMasks == (_targetMasks & (1 << collision.gameObject.layer))) )
-        {
-            _target = null;
-            GetComponent<LockOnTest1>().SetTarget(null);
-            var comp = GetComponent<GoapPlanner>();
-                if (comp) comp.SetTarget(null);
-        }
+        //if (collision is CharacterController && (_targetMasks == (_targetMasks & (1 << collision.gameObject.layer))) )
+        //{
+        //    _target = null;
+        //    GetComponent<LockOnTest1>().SetTarget(null);
+        //    var comp = GetComponent<GoapPlanner>();
+        //        if (comp) comp.SetTarget(null);
+        //}
         
     }
 
