@@ -357,24 +357,47 @@ public class WorldState : MonoBehaviour
 
     private void CalculateOrientation(EquipmentType type, EWorldState listKey, bool target)
     {
-        GameObject checkedEquipment;
-        if (_npcEquipment.GetEquipment(type))
-            checkedEquipment = _npcEquipment.GetEquipment(type);
-        else
-            checkedEquipment = _npcEquipment.GetReserveEquipment(type);
-        //---------------------------------------------------------------------
-        //NEED MORE CHECKING FOR BOTH CHARACTERS
+        GameObject checkedEquipment = null;
+        float oriantation = 0f;
+        Vector2 diff = Vector2.zero;
 
-        var dif = target?
-            _targetEquipment.GetEquipment(type).transform.position - _target.transform.position : checkedEquipment.transform.position - transform.position;
-        float angle = Mathf.Atan2(dif.y, dif.x) - _targetOrientation;
+        if (target)
+        {
+            oriantation = _targetOrientation;
+            if (_targetEquipment.GetEquipment(type))
+                checkedEquipment = _targetEquipment.GetEquipment(type);
+            else
+                checkedEquipment = _targetEquipment.GetReserveEquipment(type);
+
+            diff = checkedEquipment.transform.position - _target.transform.position;
+        }
+        else
+        {
+            oriantation = _Orientation;
+            if (_npcEquipment.GetEquipment(type))
+                checkedEquipment = _npcEquipment.GetEquipment(type);
+            else
+                checkedEquipment = _npcEquipment.GetReserveEquipment(type);
+
+            diff = checkedEquipment.transform.position - transform.position;
+        }
+        
+        float angle = Mathf.Atan2(diff.y, diff.x) - oriantation;
+        if (angle < -Mathf.PI)
+            angle += Mathf.PI * 2f;
+        if (angle > Mathf.PI)
+            angle -= Mathf.PI * 2f;
+
         if (angle < 0.3f && angle > -0.3f)
             _worldStateValues2[listKey] = WorldStateValue.OnCenter;
         else if (angle < 0  && angle > -Mathf.PI)
             _worldStateValues2[listKey] = WorldStateValue.OnRight;
-        else
+        else if (angle > 0 && angle < Mathf.PI)
             _worldStateValues2[listKey] = WorldStateValue.OnLeft;
-        _targetWeaponOrientation = _worldStateValues2[listKey]; //Only for to be  shown in Worldstate in editor, no further purpose
+        else
+            _worldStateValues2[listKey] = WorldStateValue.DontCare;
+
+        _targetWeaponOrientation = _worldStateValues2[EWorldState.TargetWeaponOrientation]; //Only for to be  shown in Worldstate in editor, no further purpose
     }
 
     //Return Dictionary with the enums that differ and bool isDesiredStateBigger  
