@@ -17,6 +17,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -26,6 +27,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -35,6 +37,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -45,6 +48,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -54,6 +58,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -63,6 +68,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -77,6 +83,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -86,11 +93,13 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -105,6 +114,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -114,11 +124,13 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -133,6 +145,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -142,6 +155,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -151,6 +165,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -165,6 +180,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -174,6 +190,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -183,6 +200,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -193,6 +211,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -202,11 +221,48 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
                         _possibleAttacks.Add(AttackType.UpperSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
+                        break;
+                }
+                break;
+            case AttackType.Feint:
+                switch (stance)
+                {
+                    case AttackStance.Head:
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
+                        break;
+                    case AttackStance.Torso:
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
+                        break;
+                    case AttackStance.Legs:
+                        _possibleAttacks.Add(AttackType.UpperSlashLeft);
+                        _possibleAttacks.Add(AttackType.UpperSlashRight);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashLeft);
+                        _possibleAttacks.Add(AttackType.HorizontalSlashRight);
+                        _possibleAttacks.Add(AttackType.DownSlashLeft);
+                        _possibleAttacks.Add(AttackType.DownSlashRight);
+                        _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
                 break;
@@ -221,6 +277,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Torso:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -230,6 +287,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                     case AttackStance.Legs:
                         _possibleAttacks.Add(AttackType.UpperSlashLeft);
@@ -239,6 +297,7 @@ public class FindPossibleAttacks : MonoBehaviour
                         _possibleAttacks.Add(AttackType.DownSlashLeft);
                         _possibleAttacks.Add(AttackType.DownSlashRight);
                         _possibleAttacks.Add(AttackType.Stab);
+                        _possibleAttacks.Add(AttackType.Feint);
                         break;
                 }
             break;

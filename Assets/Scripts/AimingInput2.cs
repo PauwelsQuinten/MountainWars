@@ -13,7 +13,7 @@ public class AimingInput2 : MonoBehaviour
     [HideInInspector]
     public AttackStance CurrentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
-    [HideInInspector]
+    //[HideInInspector]
     public AttackType CurrentAttackType = AttackType.None;
     private AttackType _previousAttack = AttackType.None;
 
@@ -528,6 +528,7 @@ public class AimingInput2 : MonoBehaviour
             _attemptedAttack = false;
             _checkFeint = false;
             _feintStartAngle = 0f;
+            CurrentAttackType = AttackType.Feint;
             return true;
         }
         _feinted = false;
@@ -550,6 +551,7 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
+        if (CurrentAttackType == AttackType.Feint) return;
         if (_slashAngle < _minSlashAngle && CurrentAttackType != AttackType.Stab) return;
         if (_feinted) return;
         if (_lockOnScript.LockOnTarget && !_checkedForBlock)

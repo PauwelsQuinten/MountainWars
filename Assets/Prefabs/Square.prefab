@@ -1348,7 +1348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Direction: {x: 0, y: 0}
   CurrentStanceState: 1
-  CurrentAttackType: 9
+  CurrentAttackType: 3
   DEFAULT_SWORD_ORIENTATION: 218
   YRotation: 45
   SlashUp: 0
