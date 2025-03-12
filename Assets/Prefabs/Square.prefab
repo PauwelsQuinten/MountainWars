@@ -1552,9 +1552,9 @@ MonoBehaviour:
   _healthBar: {fileID: 2704582340550667583}
   _bloodBar: {fileID: 3002981083943475605}
   Physique: 10
-  _baseLimbHealth: 150
-  _maxBlood: 100
-  _bleedOutSpeed: 7
+  _baseLimbHealth: 250
+  _maxBlood: 200
+  _bleedOutSpeed: 14
   _headBones: {fileID: 2743095036162739390}
   _torsoBones: {fileID: 7042404174517907702}
   _leftArmBones: {fileID: 8052758533310648753}

@@ -35,7 +35,7 @@ public class AimingInput2 : MonoBehaviour
     private float defaultPower = 5.0f;
     private const float MAX_CHARGE_TIME = 5.0f;
     private float _idleTime = 0.0f;
-    private const float MAX_Idle_TIME = 0.150f;
+    private const float MAX_Idle_TIME = 0.250f;
     [HideInInspector]
     public float DEFAULT_SWORD_ORIENTATION = 218.0f;
     [HideInInspector]
@@ -153,11 +153,11 @@ public class AimingInput2 : MonoBehaviour
         float currentAngleDegree = currentAngle * Mathf.Rad2Deg;
 
         //Reset values when idle to long (cant stay charged up when staying in center position)
-        if (newLength < MIN_WINDUP_LENGTH && _chargedTime < MAX_Idle_TIME)
+        if (newLength < MIN_WINDUP_LENGTH && _idleTime < MAX_Idle_TIME)
         {
             _idleTime += Time.deltaTime;
-            _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
         }
+        else _chargedTime = (_idleTime >= MAX_Idle_TIME) ? 0.0f : _chargedTime;
 
         //Start moving analog , Attack or Charge up
         if ((newLength > MIN_WINDUP_LENGTH))
@@ -213,8 +213,6 @@ public class AimingInput2 : MonoBehaviour
             _sword.transform.rotation = Quaternion.Euler(0.0f, 0.0f, DEFAULT_SWORD_ORIENTATION);
             _sword.transform.localPosition = _startLocation;
         }
-
-        _chargedTime = 0.0f;
         defaultPower = 5.0f;
         _speed = 0f;
         _startDirection = 0;
@@ -323,10 +321,11 @@ public class AimingInput2 : MonoBehaviour
         {
             _isCharging = true;
             if (_chargedTime < MAX_CHARGE_TIME)
-                _chargedTime += (Time.deltaTime * 4.0f);
+                _chargedTime += (Time.deltaTime * 6.0f);
+
             if (_sword)
             {
-                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, _orientationAngle + 90);
+                _sword.transform.rotation = Quaternion.Euler(0.0f, YRotation, newOrientationAngle);
                 _sword.transform.localPosition = Vector3.zero;
             }
 
@@ -386,8 +385,11 @@ public class AimingInput2 : MonoBehaviour
 
                     if (HasOverCommited()) return;
 
-                    _damage = (int)(((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5);
-                    _damage = Mathf.Clamp(_damage, 0, 10);
+                    if(CurrentAttackType != AttackType.Stab) _damage = ((_slashStrength + ((_slashAngle / 10) / 2) + _chargedTime) / _slashTime) / 6;
+                    else _damage = 5 + _chargedTime;
+                    _damage = (int)_damage;
+
+                    _damage = Mathf.Clamp(_damage, 0, 20);
                     if (_texMessage)
                         _texMessage.text = $"Slash power: {_damage}";
                 }
@@ -562,6 +564,7 @@ public class AimingInput2 : MonoBehaviour
             }
         }
         _feintStartAngle = 0f;
+        _chargedTime = 0f;
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         if(_lockOnScript.LockOnTarget == null) return;

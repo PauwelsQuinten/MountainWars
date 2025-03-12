@@ -1498,9 +1498,9 @@ MonoBehaviour:
   _healthBar: {fileID: 4961313179270149180}
   _bloodBar: {fileID: 4018039580721747147}
   Physique: 10
-  _baseLimbHealth: 150
-  _maxBlood: 100
-  _bleedOutSpeed: 7
+  _baseLimbHealth: 250
+  _maxBlood: 200
+  _bleedOutSpeed: 14
   _headBones: {fileID: 3692997956248682001}
   _torsoBones: {fileID: 4357181827622217348}
   _leftArmBones: {fileID: 6035558816526625426}
@@ -1581,8 +1581,8 @@ MonoBehaviour:
   - {fileID: 4267195964248438735, guid: 367e5b4cc79a5574ab55775163391651, type: 3}
   - {fileID: 4267195964248438735, guid: 4ebcc7f853d40e64fb89d70a794b1990, type: 3}
   _allGoalPrefabs:
-  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
+  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
   - {fileID: 738826124993600184, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
   - {fileID: 738826124993600184, guid: 19233a380b1c1bc4e93cc468ab462280, type: 3}
   - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
