@@ -153,11 +153,6 @@ public class AIController : MonoBehaviour
         _characterMovement.SetInputDirection(moveInput * speed);
     }
 
-    private void _moveAction_Canceled(InputAction.CallbackContext obj)
-    {
-        _characterMovement.SetInputDirection(Vector2.zero);
-    }
-
     public void AimAction_performed(Vector2 input, FightStyle swordOrShield)
     {
         if (IsJumping)

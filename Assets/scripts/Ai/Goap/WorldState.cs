@@ -3,6 +3,26 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum Size
+{
+    None, Small, Medium, Large
+}
+
+public enum OpeningDirection
+{
+    Left, Center, Right, Full
+}
+
+public struct TargetOpenings
+{
+    public Size Size;
+    public OpeningDirection Direction;
+    public TargetOpenings(Size size, OpeningDirection direction)
+    {
+        Size = size; Direction = direction; 
+    }
+}
+
 public enum EWorldState
 {
     TargetWeaponMovement,
@@ -23,6 +43,7 @@ public enum EWorldState
     TargetShieldPosesion,
     TargetBehaviour,
     TargetStamina,
+    TargetOpening,
     HasTarget,
     TargetDistance,
 
@@ -70,7 +91,8 @@ public enum WorldStateValue
 
     FullStamina,
     MidStamina,
-    LowOnStamina
+    LowOnStamina,
+
 }
 
 public class WorldState : MonoBehaviour
@@ -98,6 +120,7 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _hasTarget = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetStamina = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _Targetopening = WorldStateValue.DontCare;
 
     //Self
     //private GameObject _weapon;
@@ -178,6 +201,8 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.TargetDistance] = _targetDistance;
         if (_targetStamina != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.TargetStamina] = _targetStamina;
+        if (_Targetopening != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.TargetOpening] = _Targetopening;
 
         if (_WeaponDistance != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.WeaponDistance] = _WeaponDistance;
@@ -262,6 +287,7 @@ public class WorldState : MonoBehaviour
         {
             //TARGET UPDATE
             CalculateTargetStamina();
+            LookForOpening();
 
             //Target
             float distance = Vector3.Distance(_target.transform.position, transform.position);
@@ -360,6 +386,19 @@ public class WorldState : MonoBehaviour
         }
 
     }
+
+    private void LookForOpening()
+    {
+        WorldStateValue value = WorldStateValue.DontCare;
+        //Look for large openings
+
+        //Look for mid openings
+
+        //Look for low openings
+
+        _worldStateValues2[EWorldState.TargetOpening] = value;
+    }
+
 
     private void CalculateNpcStamina()
     {
