@@ -1476,20 +1476,24 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   CurrentStanceState: 0
   CurrentAttackType: 7
-  _texMessage: {fileID: 0}
-  _txtActionPower: {fileID: 0}
-  _AttackMessage: {fileID: 0}
-  _sword: {fileID: 0}
-  _arrow: {fileID: 0}
-  radius: 0.4
   DEFAULT_SWORD_ORIENTATION: 218
   YRotation: 45
   SlashUp: 0
   SlashDown: 0
+  IsParrying: 0
+  _sword: {fileID: 0}
+  _arrow: {fileID: 0}
+  Radius: 0.4
+  _minSlashAngle: 30
   _slashStrength: 0
   _overCommitAngle: 170
+  _staminaCost: 0
   _stanceResetTimer: 0
+  _maxFeintAngle: 120
   _minFeintAngle: 15
+  _texMessage: {fileID: 0}
+  _txtActionPower: {fileID: 0}
+  _AttackMessage: {fileID: 0}
   _attackMessage: 
   _attackPower: 
   IsParrying: 0
@@ -1584,10 +1588,10 @@ MonoBehaviour:
   _damageDropOff: 3
   _healthBar: {fileID: 4961313179270149180}
   _bloodBar: {fileID: 4018039580721747147}
-  Physique: 0
-  _baseLimbHealth: 150000
-  _maxBlood: 10000
-  _bleedOutSpeed: 15
+  Physique: 10
+  _baseLimbHealth: 250
+  _maxBlood: 200
+  _bleedOutSpeed: 14
   _headBones: {fileID: 3692997956248682001}
   _torsoBones: {fileID: 4357181827622217348}
   _leftArmBones: {fileID: 6035558816526625426}

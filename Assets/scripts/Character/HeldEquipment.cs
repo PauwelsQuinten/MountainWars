@@ -53,7 +53,6 @@ public class HeldEquipment : MonoBehaviour
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
-            if (equipmentType == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
@@ -114,7 +113,7 @@ public class HeldEquipment : MonoBehaviour
             {
                 float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
                 Transform t = Instantiate(transform);
-                t.rotation = Quaternion.Euler(new Vector3(0,0,t.rotation.z + (orientation - 90)));
+                t.rotation = Quaternion.Euler(new Vector3(0, 0, t.rotation.z + (orientation - 90)));
 
                 if (direction == 1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
                 else if (direction == -1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
@@ -141,7 +140,7 @@ public class HeldEquipment : MonoBehaviour
         switch(equipment.GetEquipmentType())
         {
             case EquipmentType.Weapon:
-                GetComponent<AimingInput2>().NewSword();
+                GetComponent<AimingInput2>().NewSword(equipment.gameObject);
                 break;
             case EquipmentType.Shield:
                 GetComponent<Blocking>().NewShield();

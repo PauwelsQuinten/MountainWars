@@ -65,7 +65,6 @@ public class BlockAction : GoapAction
     {
         if (base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
-            Debug.Log(" completed block");
             _blockSet = false;
             GameObject owner = currentWorldState.GetOwner();
             Blocking blockComp = owner.GetComponent<Blocking>();
