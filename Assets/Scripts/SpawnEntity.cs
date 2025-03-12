@@ -17,7 +17,8 @@ public class SpawnEntity : MonoBehaviour
     private void Update()
     {
         if (!_canSpawnMore) return;
-        if (Input.GetKeyDown(KeyCode.Space) && GameObject.Find("enemy(Clone)") == null) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (Input.GetKeyDown(KeyCode.Space) && GameObject.Find("enemy(Clone)") == null && GameObject.Find("Square(Clone)") == null) 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator Spawn()

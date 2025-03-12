@@ -1349,24 +1349,26 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   CurrentStanceState: 1
   CurrentAttackType: 9
-  _texMessage: {fileID: 0}
-  _txtActionPower: {fileID: 0}
-  _AttackMessage: {fileID: 0}
-  _sword: {fileID: 0}
-  _arrow: {fileID: 1795910611375564864}
-  radius: 0.4
   DEFAULT_SWORD_ORIENTATION: 218
   YRotation: 45
   SlashUp: 0
   SlashDown: 0
+  IsParrying: 0
+  _sword: {fileID: 0}
+  _arrow: {fileID: 1795910611375564864}
+  Radius: 0.4
+  _minSlashAngle: 20
   _slashStrength: 3
   _overCommitAngle: 175
+  _staminaCost: 3
   _stanceResetTimer: 1
+  _maxFeintAngle: 120
   _minFeintAngle: 15
+  _texMessage: {fileID: 0}
+  _txtActionPower: {fileID: 0}
+  _AttackMessage: {fileID: 0}
   _attackMessage: BlockPowerTxt
   _attackPower: BlockPowerTxt (1)
-  IsParrying: 0
-  _staminaCost: 3
 --- !u!95 &223448091233570701
 Animator:
   serializedVersion: 7

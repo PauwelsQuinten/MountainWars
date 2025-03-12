@@ -422,7 +422,7 @@ public class WorldState : MonoBehaviour
             _shieldPossesion = _shield ? WorldStateValue.InPosesion : WorldStateValue.NotInPosesion;
             _worldStateValues2[EWorldState.ShieldPosesion] = _shieldPossesion;
 
-            _weaponMaxMovement = GetComponent<AimingInput2>().radius;
+            _weaponMaxMovement = GetComponent<AimingInput2>().Radius;
             _shieldMaxMovement = GetComponent<Blocking>().Radius;
         }
     }

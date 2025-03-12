@@ -7,5 +7,6 @@
     HorizontalSlashLeft,
     HorizontalSlashRight,
     Stab,
+    Feint,
     None
 }

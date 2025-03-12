@@ -3,24 +3,19 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 using static UnityEngine.GraphicsBuffer;
 
 public class AimingInput2 : MonoBehaviour
 {
+    [HideInInspector]
     public Vector2 Direction;
-    private Vector2 loadDirection = Vector2.zero;
-    private Vector2 slashDirection = Vector2.zero;
-
-    
+    [HideInInspector]
     public AttackStance CurrentStanceState = AttackStance.Torso;
     private AttackStance _previousStance = AttackStance.Torso;
+    [HideInInspector]
     public AttackType CurrentAttackType = AttackType.None;
     private AttackType _previousAttack = AttackType.None;
-
-    //[SerializeField] private float _speed = 10.0f;
-    [SerializeField] private TextMeshPro _texMessage;
-    [SerializeField] private TextMeshPro _txtActionPower;
-    [SerializeField] private TextMeshPro _AttackMessage;
 
     private float _chargeUpTime = 0.0f;
     private float longestWindup = 0;
@@ -31,9 +26,7 @@ public class AimingInput2 : MonoBehaviour
 
 
     //extra state for second prototype
-    [SerializeField] private GameObject _sword;
-    [SerializeField] private GameObject _arrow;
-    [SerializeField] public float radius = 10.0f;
+
     private Vector2 _startLocation = Vector2.zero;
     private float _chargedTime = 0.0f;
     private (float,float) _chargeZone = (-2.0f * Mathf.Rad2Deg, -1.0f * Mathf.Rad2Deg);
@@ -43,38 +36,32 @@ public class AimingInput2 : MonoBehaviour
     private const float MAX_CHARGE_TIME = 5.0f;
     private float _idleTime = 0.0f;
     private const float MAX_Idle_TIME = 0.150f;
+    [HideInInspector]
     public float DEFAULT_SWORD_ORIENTATION = 218.0f;
+    [HideInInspector]
     public float YRotation = 45.0f;
     //private const float DEFAULT_SWORD_ORIENTATION = 218.0f;
     //[SerializeField] private List<GameObject> _hitZones;
     private bool _isSlash = true;
     private int _startDirection = 0;
-
+    [HideInInspector]
     public bool SlashUp;
+    [HideInInspector]
     public bool SlashDown;
 
     private Vector2 _startDrawPos;
     private float _slashAngle;
     private float _slashTime;
     private float _speed;
-    [SerializeField]
-    private float _slashStrength;
 
     private int _currentHitBoxIndex;
     private List<AttackType> _possibleAttacks = new List<AttackType>();
     //private List<AttackType> _OverComitAttacks = new List<AttackType>();
     private bool _isAttackSet;
 
-    [SerializeField]
-    private float _overCommitAngle = 170f;
-
     private Coroutine _resetAtackText;
     private Coroutine _resetAttackStance;
     private bool _isResetingStance;
-    [SerializeField]
-    private float _stanceResetTimer;
-
-    private bool _checkFeint;
 
     private FindPossibleAttacks _attackFinder;
     private bool _isCharging;
@@ -82,20 +69,14 @@ public class AimingInput2 : MonoBehaviour
     private WalkAnimate _WalkOrientation;
     private float _orientationAngle;
 
-    private float _feintStartAngle;
-    [SerializeField] float _minFeintAngle = 15;
-    [SerializeField] private string _attackMessage;
-    [SerializeField] private string _attackPower;
-
     private LockOnTest1 _lockOnScript;
-    private bool _feinted;
     private bool _attemptedAttack;
     private float _damage;
     private bool _overcommited;
     private bool _canRun;
+    [HideInInspector]
     public bool IsParrying;
 
-    [SerializeField] private int _staminaCost;
     private StaminaManager _staminaManager;
 
     private bool _isInitialized;
@@ -105,6 +86,42 @@ public class AimingInput2 : MonoBehaviour
     private WalkAnimate _animationRef;
 
     private bool _checkedForBlock;
+
+    [Header("Weapons")]
+    [SerializeField] 
+    private GameObject _sword;
+    [SerializeField] 
+    private GameObject _arrow;
+
+    [Header("Attack")]
+    public float Radius = 10.0f;
+    [SerializeField]
+    private float _minSlashAngle = 40f;
+    [SerializeField]
+    private float _slashStrength;
+    [SerializeField]
+    private float _overCommitAngle = 170f;
+    [SerializeField] private int _staminaCost;
+    [SerializeField]
+    private float _stanceResetTimer;
+
+    [Header("Feint")]
+    [SerializeField] 
+    private float _maxFeintAngle = 90f;
+    [SerializeField] 
+    float _minFeintAngle = 15f;
+
+    [Header("Text")]
+
+    [SerializeField] private TextMeshPro _texMessage;
+    [SerializeField] private TextMeshPro _txtActionPower;
+    [SerializeField] private TextMeshPro _AttackMessage;
+    [SerializeField] private string _attackMessage;
+    [SerializeField] private string _attackPower;
+
+    private float _feintStartAngle;
+    private bool _feinted;
+    private bool _checkFeint;
 
     private void Start()
     {
@@ -200,15 +217,12 @@ public class AimingInput2 : MonoBehaviour
         _chargedTime = 0.0f;
         defaultPower = 5.0f;
         _speed = 0f;
-        //_txtActionPower.enabled = false;
         _startDirection = 0;
         CurrentAttackType = AttackType.None;
         _isAttackSet = false;
         _feinted = false;
-        //foreach (var hitZone in _hitZones)
-        //{
-        //    hitZone.SetActive(false);
-        //}
+        _checkFeint = false;
+        _feintStartAngle = 0f;
         if (_arrow)
             _arrow.SetActive(false);
         if(!_isResetingStance) CurrentStanceState = AttackStance.Torso;
@@ -342,7 +356,7 @@ public class AimingInput2 : MonoBehaviour
     private void CalculateAttackPower(float drawLength, float currentangle)
     {
         if (_feinted) _canRun = false;
-        if (drawLength >= 0.97f)
+        if (drawLength >= 0.9f)
         {
             if (_startDrawPos == Vector2.zero) _startDrawPos = Direction;
             int newAngle = (int)Vector2.Angle(_startDrawPos, Direction);
@@ -367,12 +381,12 @@ public class AimingInput2 : MonoBehaviour
                 {
                     if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab && !_checkedForBlock)
                     {
-                        CheckBlockAndParry();
+                        CheckParry();
                     }
 
-                    if (CheckOverCommit()) return;
-                    else _overcommited = false;
-                    _damage = (int)((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5;
+                    if (HasOverCommited()) return;
+
+                    _damage = (int)(((_slashStrength + (_slashAngle / 100) + _chargedTime) / _slashTime) / 5);
                     _damage = Mathf.Clamp(_damage, 0, 10);
                     if (_texMessage)
                         _texMessage.text = $"Slash power: {_damage}";
@@ -381,39 +395,18 @@ public class AimingInput2 : MonoBehaviour
                 {
                     if (_feintStartAngle < currentangle - 90f)
                     {
-                        bool feint = CheckFeint(_slashAngle, 90, _slashTime);
-                        _checkFeint = !feint;
-                        if (_feinted)
-                        {
-                            Debug.Log("Return");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        _feinted = false;
-                        _checkFeint = false;
-                        _feintStartAngle = 0f;
+                        HasFeinted(_slashAngle, _maxFeintAngle, _slashTime);
+
+                        if (_feinted) return;
                     }
                 }
                 else if (_checkFeint && _startDirection == 1)
                 {
                     if (_feintStartAngle > currentangle - 90f) 
                     {
-                        bool feint = CheckFeint(_slashAngle, 90, _slashTime);
-                        _checkFeint = !feint;
+                        HasFeinted(_slashAngle, _maxFeintAngle, _slashTime);
 
-                        if (_feinted)
-                        {
-                            Debug.Log("Return");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        _feinted = false;
-                        _checkFeint = false;
-                        _feintStartAngle = 0f;
+                        if (_feinted) return;
                     }
                 }
             }
@@ -421,17 +414,13 @@ public class AimingInput2 : MonoBehaviour
             {
                 if (CurrentAttackType == AttackType.Stab)
                 {
-                    if (_lockOnScript.LockOnTarget && !_checkedForBlock)
-                    {
-                        CheckBlockAndParry();
-                    }
                     CheckAttack();
                     return;
                 }
                 _checkedForBlock = false;
                 _canRun = false;
                 _attemptedAttack = true;
-                if (_feintStartAngle == 0 && _slashAngle > _minFeintAngle) _feintStartAngle = currentangle - 90;
+                if (_slashAngle > _minFeintAngle) _feintStartAngle = currentangle - 90;
                 if (_slashAngle > _minFeintAngle && _attemptedAttack)
                 {
                     _checkFeint = true;
@@ -441,12 +430,18 @@ public class AimingInput2 : MonoBehaviour
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;
             }
-            if(_feinted) _feinted = false;
+            if (_feinted) 
+            {
+                _feinted = false;
+                _checkFeint = false;
+                _feintStartAngle = 0;
+            }
         }
         else if (_canRun && !_feinted && !_overcommited)
         {
+            StopBlockAndParry();
             _checkedForBlock = false;
-            CheckAttack();
+            if(!_checkFeint)CheckAttack();
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
@@ -459,6 +454,8 @@ public class AimingInput2 : MonoBehaviour
             _checkedForBlock = false;
             _isAttackSet = false;
             _feinted = false;
+            _slashTime = 0.0f;
+            _slashAngle = 0.0f;
         }
     }
 
@@ -480,7 +477,6 @@ public class AimingInput2 : MonoBehaviour
                 _overcommited = false;
                 Attack();
                 SetPreviousAttacks();
-                StopBlockAndParry();
                 return;
             }
         }
@@ -492,30 +488,32 @@ public class AimingInput2 : MonoBehaviour
         SetPreviousAttacks();
     }
 
-    private bool CheckOverCommit()
+    private bool HasOverCommited()
     {
         if (_slashAngle > _overCommitAngle)
         {
+            StopBlockAndParry();
             if (_resetAtackText != null) StopCoroutine(_resetAtackText);
             if (_AttackMessage)
             {
-                StopBlockAndParry();
                 _AttackMessage.text = "Player over commited";
                 _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             }
 
+            _overcommited = true;
             _slashTime = 0.0f;
             _slashAngle = 0.0f;
             _startDrawPos = Vector2.zero;
             _feintStartAngle = 0;
             return true;
         }
+        _overcommited = false;
         return false;
     }
 
-    private bool CheckFeint(float angle, float minAngle, float time)
+    private bool HasFeinted(float angle, float maxAngle, float time)
     {
-        if (angle < minAngle && time < 0.5f)
+        if (angle < maxAngle && time < 0.5f)
         {
             StopBlockAndParry();
 
@@ -528,8 +526,13 @@ public class AimingInput2 : MonoBehaviour
                 _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _feinted = true;
             _attemptedAttack = false;
+            _checkFeint = false;
+            _feintStartAngle = 0f;
             return true;
         }
+        _feinted = false;
+        _checkFeint = false;
+        _feintStartAngle = 0f;
         return false;
     }
 
@@ -547,8 +550,16 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
-        StopBlockAndParry();
-
+        if (_slashAngle < _minSlashAngle && CurrentAttackType != AttackType.Stab) return;
+        if (_feinted) return;
+        if (_lockOnScript.LockOnTarget && !_checkedForBlock)
+        {
+            if (CheckBlock())
+            {
+                return;
+            }
+        }
+        _feintStartAngle = 0f;
         SpriteRenderer sword = _sword.GetComponent<SpriteRenderer>();
         float swordlength = Mathf.Sqrt((sword.bounds.size.x * sword.bounds.size.x) + (sword.bounds.size.y * sword.bounds.size.y));
         if(_lockOnScript.LockOnTarget == null) return;
@@ -559,8 +570,8 @@ public class AimingInput2 : MonoBehaviour
 
             if (CurrentAttackType == AttackType.Stab && _staminaManager.CurrentStamina > _staminaCost) _staminaManager.DepleteStamina(_staminaCost);
             else if (_staminaManager.CurrentStamina > _staminaCost * 1.5f) _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
-            else return;
         }
+        StopBlockAndParry();
     }
 
     private void SwordVisual(float angle)
@@ -568,7 +579,7 @@ public class AimingInput2 : MonoBehaviour
         if (!_sword)
             return;
         //Sword follows analog -> visualization 
-        _sword.transform.localPosition = new Vector3(Direction.x * radius, Direction.y * radius, 0.0f);
+        _sword.transform.localPosition = new Vector3(Direction.x * Radius, Direction.y * Radius, 0.0f);
         Vector3 swordRotation = new Vector3(0, 0, angle);
         swordRotation.z += DEFAULT_SWORD_ORIENTATION - 90f;
         _sword.transform.rotation = Quaternion.Euler(swordRotation);
@@ -607,7 +618,7 @@ public class AimingInput2 : MonoBehaviour
             _sword.transform.localScale = Vector3.zero;
             _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
         }
-        radius = 0.4f;
+        Radius = 0.4f;
     }
 
     public void SwordBroke()
@@ -618,14 +629,14 @@ public class AimingInput2 : MonoBehaviour
         if (GetComponent<HeldEquipment>().HoldsEquipment(EquipmentType.Shield))
         {
             _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Shield);
-            radius = 1.0f;
+            Radius = 1.0f;
         }
 
         else
         {
             _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Fist);
             _sword.transform.localScale = Vector3.one;
-            radius = 1.5f;
+            Radius = 1.5f;
         }
     }
 
@@ -656,19 +667,33 @@ public class AimingInput2 : MonoBehaviour
         return _speed;
     }
 
-    private void CheckBlockAndParry()
+    private void CheckParry()
     {
+        if(!_feinted && !_overcommited)
         _checkedForBlock = true;
-        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+
         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
+
         if (swordParry && swordParry.IsParrying())
         {
             swordParry.StartParry(true, gameObject, _power);
         }
-        else if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+    }
+
+    private bool CheckBlock()
+    {
+        if (!_feinted && !_overcommited)
+            _checkedForBlock = true;
+
+        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+
+        if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
         {
+            Debug.Log("SuccesfullBlock");
             _animationRef.GetHit();
+            return true;
         }
+        return false;
     }
 
     private void StopBlockAndParry()
