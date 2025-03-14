@@ -9,6 +9,7 @@ public interface Actions
     bool IsVallid(WorldState currentWorldState);
     bool IsCompleted(WorldState current, WorldState activeActionDesiredState);
     bool IsInterupted(WorldState currentWorldState);
+    void CancelAction();
 }
 
 public class GoapAction : MonoBehaviour, Actions
@@ -56,6 +57,11 @@ public class GoapAction : MonoBehaviour, Actions
         return false; 
     }
 
+    public virtual void CancelAction()
+    {
+
+    }
+
 
     virtual public bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
@@ -101,5 +107,6 @@ public class GoapAction : MonoBehaviour, Actions
         _isActivated = false;
         if (_actionCoroutine != null)
             StopCoroutine(_actionCoroutine);
+        CancelAction();
     }
 }

@@ -22,6 +22,7 @@ public class MoveToAction : GoapAction
     private AIController aiComp;
     private List<Equipment> _foundEquipment = new List<Equipment>();
     private Equipment _foundSpecificEquipment;
+    private int _direction = 0;
 
     public override void StartAction(WorldState currentWorldState)
     {
@@ -45,8 +46,11 @@ public class MoveToAction : GoapAction
 
             case ObjectTarget.Player:
             case ObjectTarget.Forward:
+                break;
             case ObjectTarget.Backward:
+                break;
             case ObjectTarget.Side:
+                _direction = (Random.Range(0, 2) == 0) ? 1 : -1;
                 break;
         }
     }
@@ -94,7 +98,8 @@ public class MoveToAction : GoapAction
                 break;
 
             case ObjectTarget.Side:
-                angleRad *= (Random.Range(0, 2) == 0) ? -0.5f : 05f;
+                //angleRad *= _direction * 0.5f;
+                angleRad += _direction * Mathf.PI *0.5f;
                 targetDir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
                 break;
 
@@ -147,7 +152,8 @@ public class MoveToAction : GoapAction
     public override bool IsVallid(WorldState currentWorldState)
     {
         if (_MoveTo == ObjectTarget.Side)
-            Cost = Random.Range(0.5f, 1.5f);
+            Cost = Random.Range(0.5f, 1f);
+            //Cost = Random.Range(0.5f, 1.5f);
         return true;
     }
 

@@ -79,6 +79,9 @@ MonoBehaviour:
   _targetBehaviour: 0
   _hasTarget: 0
   _targetDistance: 0
+  _targetStamina: 0
+  _targetHealth: 23
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -88,7 +91,13 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 0
   _shieldPossesion: 0
-  _behaviour: 7
+  _behaviour: 0
+  _stamina: 0
+  _health: 0
+  _isPlayerToAggressive: 0
+  TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +124,10 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 10
+  _targetDistance: 11
+  _targetStamina: 0
+  _targetHealth: 0
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -126,3 +138,9 @@ MonoBehaviour:
   _weaponPossesion: 1
   _shieldPossesion: 0
   _behaviour: 0
+  _stamina: 0
+  _health: 0
+  _isPlayerToAggressive: 0
+  TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0

@@ -9,7 +9,12 @@ public class RecoverStaminaAction : GoapAction
 
     public override void UpdateAction(WorldState currentWorldState)
     {
-        Debug.Log("resting");
+        
+        
+         //_aiController.AttackGuardMode(false, false);
+         //ActionCompleted();
+         //return;
+       
     }
 
     public override bool IsVallid(WorldState currentWorldState)

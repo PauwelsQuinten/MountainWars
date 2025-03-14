@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -67,6 +68,18 @@ public class ParryAction : GoapAction
 
     public override bool IsVallid(WorldState currentWorldState)
     {
+        foreach(KeyValuePair<AttackType, int> att in currentWorldState._attackCountList)
+        {
+            if (att.Value > 0 && currentWorldState.TargetCurrentAttack == att.Key)
+            {
+                Cost = 0f;
+                return true;
+            }
+            
+        }
+        Cost = 1f;
+        
+
         return true;
         /*return currentWorldState.GetOwner().GetComponent<HeldEquipment>().HoldsEquipment(_equipmentToParryWith)
             && currentWorldState.TargetCurrentAttack == AttackType.Stab;*/
@@ -91,6 +104,10 @@ public class ParryAction : GoapAction
             else if (_progress >= _targetProgress || _progress <= -_targetProgress)
             {
                 _swingBack = true;
+
+                int multiplier = _startFromRight ? 1 : -1;
+                _progress = multiplier * _targetProgress;
+
                 _startFromRight = !_startFromRight;
             }
         }

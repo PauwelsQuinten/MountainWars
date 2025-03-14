@@ -8,6 +8,7 @@ public class StabAction : GoapAction
     private float _progress = 0f;
     private Vector2 _startVec = Vector2.zero;
     [SerializeField] bool _startFromZero = false;
+    [SerializeField] float _coolDownTime = 2f;
 
     public override void StartAction(WorldState currentWorldState)
     {
@@ -31,6 +32,21 @@ public class StabAction : GoapAction
 
     public override bool IsVallid(WorldState currentWorldState)
     {
+        if (currentWorldState.AttackCoolDown <= 0f && currentWorldState._worldStateValues2[EWorldState.TargetOpening] == WorldStateValue.InPosesion)
+        {
+            if ( currentWorldState.CurrentOpening.Direction == OpeningDirection.Center
+                || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
+            {
+                if (_startFromZero && currentWorldState.CurrentOpening.Size == Size.Small)
+                    Cost = 0.4f;
+                else if (!_startFromZero && (currentWorldState.CurrentOpening.Size == Size.Medium || currentWorldState.CurrentOpening.Size == Size.Large))
+                    Cost = 0.3f;
+            }
+
+        }
+        else
+            Cost = 1f;
+
         _attackComp = currentWorldState.GetOwner().GetComponent<AimingInput2>();
         _spriteComp = currentWorldState.GetOwner().GetComponent<WalkAnimate>();
         return _attackComp && _spriteComp;
@@ -52,10 +68,15 @@ public class StabAction : GoapAction
         if ( _progress >= maxProgres)
         {
             _attackComp.Direction = Vector2.zero;
-
+            currentWorldState.AttackCoolDown += _coolDownTime;
             return true;
         }
         return false;
+    }
+    public override void CancelAction()
+    {
+        _attackComp.Direction = Vector2.zero;
+
     }
 
 }

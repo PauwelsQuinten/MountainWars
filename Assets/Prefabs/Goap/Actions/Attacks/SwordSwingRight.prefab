@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4286779144292518982}
-  - component: {fileID: 5998032691256654599}
+  - component: {fileID: 8712481260384346314}
   - component: {fileID: 8396024233653514404}
   - component: {fileID: 2389779104276427239}
   m_Layer: 0
-  m_Name: Stab
+  m_Name: SwordSwingRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5998032691256654599
+--- !u!114 &8712481260384346314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,15 +43,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6008948054750216247}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1208428b0caf0794f93c97c7f094636f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7275efbabb3c53042b551aed22864aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 1.5
+  Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
-  _actionMaxRunTime: 1
-  _stabSpeed: 3
-  _startFromZero: 1
+  _actionMaxRunTime: 3
+  _swingSpeed: 1.5
+  _startFromRight: 0
+  _randomDirection: 0
+  _isFeint: 0
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0

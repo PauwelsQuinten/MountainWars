@@ -155,16 +155,17 @@ public class WorldState : MonoBehaviour
     private float _weaponMaxMovement = 0.04f;//Is set by weapon his radius movement
     private float _shieldMaxMovement = 1f;//Is set by weapon his radius movement
     public TargetOpenings CurrentOpening = new TargetOpenings();
-    private Dictionary<AttackType, int> _attackCountList = new Dictionary<AttackType, int>();
+    public Dictionary<AttackType, int> _attackCountList = new Dictionary<AttackType, int>();
     //[HideInInspector]
     public bool _isPlayerToAggressive = false;
     private float _playerIdleTime = 0.0f;
-    [HideInInspector]
+    //[HideInInspector]
     public AttackType TargetCurrentAttack = AttackType.None;
     //[HideInInspector]
     public bool IsBleeding = false;
     [HideInInspector]
     public float  Stamina = 0f;
+    public float AttackCoolDown = 0f;
 
     //Dictionaries used for checking desired states get completed AND for making Plan
     public Dictionary<EWorldState,float> _worldStateValues = new Dictionary<EWorldState, float>();
@@ -255,6 +256,9 @@ public class WorldState : MonoBehaviour
     {
         if (!_shouldUpdate)
             return;
+
+        if (AttackCoolDown > 0)
+            AttackCoolDown -= Time.deltaTime;
 
         //NPC UPDATE WITHOUT FOUND TARGET
         if (!_target)
@@ -674,6 +678,8 @@ public class WorldState : MonoBehaviour
                 _attackCountList[key] -= lowestValue;
             }
         }
+        
+
     }
 
     public bool IsBlockInCorrectDirection()
@@ -725,7 +731,8 @@ public class WorldState : MonoBehaviour
 
         _health = _worldStateValues2[EWorldState.Health];
     }
-     private void CalculateTargetHealth()
+
+    private void CalculateTargetHealth()
     {
         float hp = _target.GetComponent<HealthManager>().GetHealth();
 
@@ -741,7 +748,6 @@ public class WorldState : MonoBehaviour
         _targetHealth = _worldStateValues2[EWorldState.TargetHealth];
 
     }
-
 
     private void CalculateNpcStamina()
     {

@@ -438,7 +438,8 @@ public class AimingInput2 : MonoBehaviour
                 {
                     _checkFeint = true;
                 }
-                if(!_checkFeint)CheckAttack();
+                if(!_checkFeint)
+                    CheckAttack();
                 _slashTime = 0.0f;
                 _slashAngle = 0.0f;
                 _startDrawPos = Vector2.zero;

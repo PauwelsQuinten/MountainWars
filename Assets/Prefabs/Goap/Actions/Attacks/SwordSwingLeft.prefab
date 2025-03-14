@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8396024233653514404}
   - component: {fileID: 2389779104276427239}
   m_Layer: 0
-  m_Name: SwordSwing
+  m_Name: SwordSwingLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,8 +50,8 @@ MonoBehaviour:
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
   _actionMaxRunTime: 3
-  _swingSpeed: 0.5
-  _startFromRight: 0
+  _swingSpeed: 1.5
+  _startFromRight: 1
   _randomDirection: 0
   _isFeint: 0
 --- !u!114 &8396024233653514404
@@ -82,6 +82,8 @@ MonoBehaviour:
   _hasTarget: 0
   _targetDistance: 0
   _targetStamina: 0
+  _targetHealth: 23
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -91,8 +93,13 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 0
   _shieldPossesion: 0
-  _behaviour: 7
+  _behaviour: 0
   _stamina: 0
+  _health: 0
+  _isPlayerToAggressive: 0
+  TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +126,10 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 10
+  _targetDistance: 11
   _targetStamina: 0
+  _targetHealth: 0
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -132,3 +141,8 @@ MonoBehaviour:
   _shieldPossesion: 0
   _behaviour: 0
   _stamina: 0
+  _health: 0
+  _isPlayerToAggressive: 0
+  TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0

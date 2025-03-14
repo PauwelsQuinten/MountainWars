@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SwordSwingAction : GoapAction
 {
     [SerializeField] float _swingSpeed = 1.5f;
+    [SerializeField] float _coolDownTime = 1.5f;
     private AimingInput2 _attackComp;
     private WalkAnimate _spriteComp;
     private AIController _aiComp;
@@ -13,6 +15,7 @@ public class SwordSwingAction : GoapAction
     [SerializeField] bool _startFromRight = false;
     [SerializeField] bool _randomDirection = false;
     [SerializeField] bool _isFeint = false;
+    private bool _attackCoolDown = false;
 
     public override void StartAction(WorldState currentWorldState)
     {
@@ -45,6 +48,30 @@ public class SwordSwingAction : GoapAction
             _spriteComp = currentWorldState.GetOwner().GetComponent<WalkAnimate>();
         if (!_aiComp)
             _aiComp = currentWorldState.GetOwner().GetComponent<AIController>();
+
+        if ( _isFeint )
+        {
+            Cost = Random.Range(0.4f, 1.5f);
+            return _attackComp && _spriteComp && _aiComp;
+        }
+
+        if (currentWorldState.AttackCoolDown <= 0f && !_startFromRight 
+            && currentWorldState._worldStateValues2[EWorldState.TargetOpening] == WorldStateValue.InPosesion)
+        {
+            if (currentWorldState.CurrentOpening.Direction == OpeningDirection.Right
+                || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
+                Cost = 0.3f;
+        }
+        else if (currentWorldState.AttackCoolDown <= 0f && _startFromRight 
+            && currentWorldState._worldStateValues2[EWorldState.TargetOpening] == WorldStateValue.InPosesion)
+        {
+            if (currentWorldState.CurrentOpening.Direction == OpeningDirection.Left
+                || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
+                Cost = 0.3f;
+        }
+        else
+            Cost = 1f;
+
         return _attackComp && _spriteComp && _aiComp;
     }
 
@@ -73,7 +100,7 @@ public class SwordSwingAction : GoapAction
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
-        float targetProgress = _isFeint ? 0.2f : 1;
+        float targetProgress = _isFeint ? 0.2f : 0.7f;
         if (_isFeint)
         {
             if (_SwingBack && (_progress <= 0.15f && _progress >= -0.15f))
@@ -88,6 +115,10 @@ public class SwordSwingAction : GoapAction
             else if (_progress >= targetProgress || _progress <= -targetProgress)
             {                
                 _SwingBack = true;
+
+                int multiplier = _startFromRight ? 1 : -1;
+                _progress = multiplier * targetProgress;
+                
                 _startFromRight = !_startFromRight;
             }
         }
@@ -96,11 +127,18 @@ public class SwordSwingAction : GoapAction
         {
             //_attackComp.Direction = Vector2.zero;
             _aiComp.AimAction_performed(Vector2.zero, FightStyle.Sword);
+            currentWorldState.AttackCoolDown += _coolDownTime;
 
             ActionCompleted();
             return true;
         }
         return false;
+    }
+
+    public override void CancelAction()
+    {
+        _aiComp.AimAction_performed(Vector2.zero, FightStyle.Sword);
+
     }
 
 }

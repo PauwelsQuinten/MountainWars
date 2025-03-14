@@ -58,6 +58,53 @@ public class GoapPlanner : MonoBehaviour
 
     }
 
+    private GoapGoal SelectCurrentGoal()
+    {
+        float highstScore = 0;
+        GoapGoal bestGoal = null;
+
+        foreach(var goal in _allGoals)
+        {
+            if (!goal.IsVallid(_currentWorldState))
+                continue;
+            
+            float score = goal.GoalScore(_characterMentality, _currentWorldState);
+            if (score > highstScore)
+            {
+                highstScore = score;
+                bestGoal = goal;
+            }
+        }
+        if (bestGoal == null)
+            Debug.Log($"{bestGoal}");
+        return bestGoal;
+    }
+
+    private void ExecutePlan()
+    {
+        if (_activeAction)
+            _activeAction.UpdateAction(_currentWorldState);
+        else if (_actionPlan.Count > 0)
+        {
+            _activeAction = _actionPlan[_actionPlan.Count - 1];
+            _activeAction.StartAction(_currentWorldState);
+        }
+        else
+            return;
+
+        if (_activeAction.IsCompleted(_currentWorldState, _activeAction.DesiredWorldState))
+        {
+            _actionPlan.RemoveAt(_actionPlan.Count - 1);
+            _activeAction = null;
+            return;
+        }
+
+        if (_activeAction.IsInterupted(_currentWorldState))
+            _activeAction.ActionCompleted();
+                //ResetPlan();
+
+    }
+
     private bool Plan(WorldState desiredWorldState)
     {
         _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);
@@ -107,53 +154,6 @@ public class GoapPlanner : MonoBehaviour
             _comparedWorldState = _currentWorldState.CompareWorldState(desiredWorldState);//reset here back to startvalue before recursion
         }
         return true;
-    }
-
-    private GoapGoal SelectCurrentGoal()
-    {
-        float highstScore = 0;
-        GoapGoal bestGoal = null;
-
-        foreach(var goal in _allGoals)
-        {
-            if (!goal.IsVallid(_currentWorldState))
-                continue;
-            
-            float score = goal.GoalScore(_characterMentality, _currentWorldState);
-            if (score > highstScore)
-            {
-                highstScore = score;
-                bestGoal = goal;
-            }
-        }
-        if (bestGoal == null)
-            Debug.Log($"{bestGoal}");
-        return bestGoal;
-    }
-
-    private void ExecutePlan()
-    {
-        if (_activeAction)
-            _activeAction.UpdateAction(_currentWorldState);
-        else if (_actionPlan.Count > 0)
-        {
-            _activeAction = _actionPlan[_actionPlan.Count - 1];
-            _activeAction.StartAction(_currentWorldState);
-        }
-        else
-            return;
-
-        if (_activeAction.IsCompleted(_currentWorldState, _activeAction.DesiredWorldState))
-        {
-            _actionPlan.RemoveAt(_actionPlan.Count - 1);
-            _activeAction = null;
-            return;
-        }
-
-        if (_activeAction.IsInterupted(_currentWorldState))
-            _activeAction.ActionCompleted();
-                //ResetPlan();
-
     }
 
     private void ResetPlan()

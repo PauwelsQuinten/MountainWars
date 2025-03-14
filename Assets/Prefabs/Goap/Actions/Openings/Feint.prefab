@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4286779144292518982}
-  - component: {fileID: 5998032691256654599}
+  - component: {fileID: -728003903633416407}
   - component: {fileID: 8396024233653514404}
   - component: {fileID: 2389779104276427239}
   m_Layer: 0
-  m_Name: Stab
+  m_Name: Feint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5998032691256654599
+--- !u!114 &-728003903633416407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,15 +43,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6008948054750216247}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1208428b0caf0794f93c97c7f094636f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7275efbabb3c53042b551aed22864aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 1.5
+  Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
-  _actionMaxRunTime: 1
-  _stabSpeed: 3
-  _startFromZero: 1
+  _actionMaxRunTime: 3
+  _swingSpeed: 2
+  _coolDownTime: 1.5
+  _startFromRight: 1
+  _randomDirection: 1
+  _isFeint: 1
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,8 +83,8 @@ MonoBehaviour:
   _hasTarget: 0
   _targetDistance: 0
   _targetStamina: 0
-  _targetHealth: 23
-  _Targetopening: 0
+  _targetHealth: 0
+  _Targetopening: 1
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
@@ -98,6 +101,7 @@ MonoBehaviour:
   TargetCurrentAttack: 8
   IsBleeding: 0
   Stamina: 0
+  AttackCoolDown: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +128,7 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 11
+  _targetDistance: 0
   _targetStamina: 0
   _targetHealth: 0
   _Targetopening: 0
@@ -135,7 +139,7 @@ MonoBehaviour:
   _shieldOrientation: 0
   _weaponOrientation: 0
   _swingSpeed: 9000
-  _weaponPossesion: 1
+  _weaponPossesion: 0
   _shieldPossesion: 0
   _behaviour: 0
   _stamina: 0
@@ -144,3 +148,4 @@ MonoBehaviour:
   TargetCurrentAttack: 8
   IsBleeding: 0
   Stamina: 0
+  AttackCoolDown: 0

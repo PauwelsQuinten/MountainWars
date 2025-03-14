@@ -1488,7 +1488,7 @@ MonoBehaviour:
   _minSlashAngle: 30
   _slashStrength: 0
   _overCommitAngle: 170
-  _staminaCost: 0
+  _staminaCost: 5
   _stanceResetTimer: 0
   _maxFeintAngle: 120
   _minFeintAngle: 15
@@ -1655,6 +1655,9 @@ MonoBehaviour:
   _allActionPrefabs:
   - {fileID: -6915020138891419967, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
   - {fileID: -35413315230849021, guid: 29db5a0cb5c8a7b4cbfcdaf73d6054d7, type: 3}
+  - {fileID: -728003903633416407, guid: d7d5fa2c6fc6f944c95c11158da2ef77, type: 3}
+  - {fileID: -4114690880749201539, guid: 18d8f262401eb0949b6ac4e85cb25094, type: 3}
+  - {fileID: -4114690880749201539, guid: c3b6d873ad1d00d4fba538649374d1f0, type: 3}
   - {fileID: 1163751169475047980, guid: b263436a88aafa047b5267348baee8f3, type: 3}
   - {fileID: 3497523183609738862, guid: 3f683a7de77f50d46995da09ff79a35d, type: 3}
   - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
@@ -1663,8 +1666,8 @@ MonoBehaviour:
   - {fileID: 2198598258197355828, guid: 41af45422324bb24d8995ab9c00e040e, type: 3}
   - {fileID: 5998032691256654599, guid: e581c1b91475b5a4f937a47889ff7df2, type: 3}
   - {fileID: 5998032691256654599, guid: 572a4edc531c0024abf50366c817aa49, type: 3}
+  - {fileID: 8712481260384346314, guid: 0950b30dca3d5c947bc177e7841db225, type: 3}
   - {fileID: 8712481260384346314, guid: 4bbbaec962fa65b4f8d5865a945f2ea8, type: 3}
-  - {fileID: -728003903633416407, guid: 48c2508d423c2554d8ca21dafc1178bd, type: 3}
   - {fileID: 1481139749189256701, guid: c4e846b0b7d9dc4469cfd0697eca326c, type: 3}
   - {fileID: 8755546181411344372, guid: f1f92da2fd9d62e48af66fafeddad861, type: 3}
   - {fileID: 8755546181411344372, guid: 34d6d526b991bd34e99025796049769a, type: 3}

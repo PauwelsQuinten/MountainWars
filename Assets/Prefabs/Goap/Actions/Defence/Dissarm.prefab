@@ -51,6 +51,8 @@ MonoBehaviour:
   SatisfyingWorldState: {fileID: 0}
   _actionMaxRunTime: 3
   _equipmentToParryWith: 0
+  _startFromRight: 0
+  _parrySpeed: 1.5
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +77,7 @@ MonoBehaviour:
   _targetSwingSpeed: 9000
   _targetWeaponPossesion: 0
   _targetShieldPossesion: 0
-  _targetBehaviour: 8
+  _targetBehaviour: 0
   _hasTarget: 0
   _targetDistance: 0
   _targetStamina: 0
@@ -90,10 +92,14 @@ MonoBehaviour:
   _swingSpeed: 9000
   _weaponPossesion: 0
   _shieldPossesion: 0
-  _behaviour: 0
+  _behaviour: 10
   _stamina: 0
   _health: 0
+  _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0
+  AttackCoolDown: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,4 +142,8 @@ MonoBehaviour:
   _behaviour: 0
   _stamina: 0
   _health: 0
+  _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0
+  AttackCoolDown: 0
