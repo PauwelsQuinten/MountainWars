@@ -24,6 +24,9 @@ public class AimingInput2 : MonoBehaviour
     private const float MIN_WINDUP_LENGTH = 0.15f;
     private const float MIN_CHARGEUP_TIME = 0.2f;
 
+    [HideInInspector]
+    public Size _stunned = Size.None;
+
 
     //extra state for second prototype
 
@@ -139,8 +142,16 @@ public class AimingInput2 : MonoBehaviour
     private void Update()
     {
         if (!_isInitialized) return;
-       /* if (GetComponent<AIController>() != null)
-            return;*/
+        /* if (GetComponent<AIController>() != null)
+             return;*/
+
+        if (_stunned != Size.None)
+        {
+            StartCoroutine(Recover());
+            return;
+        }
+
+
         _orientationAngle = _WalkOrientation.Orientation * Mathf.Rad2Deg;
         AnalogAiming4();
     }
@@ -378,7 +389,7 @@ public class AimingInput2 : MonoBehaviour
 
                 if (!_checkFeint)
                 {
-                    if(_slashAngle > _minFeintAngle && CurrentAttackType != AttackType.Stab && !_checkedForBlock)
+                    if(_slashAngle > _minFeintAngle /*&& CurrentAttackType != AttackType.Stab*/ && !_checkedForBlock)
                     {
                         CheckParry();
                     }
@@ -553,6 +564,11 @@ public class AimingInput2 : MonoBehaviour
 
     private void Attack()
     {
+        //When player is using an attack, send signal even if it doesnt hit.
+        var npcWorldState = _lockOnScript.LockOnTarget.GetComponent<WorldState>();
+        if (npcWorldState) 
+            npcWorldState.UpdateAttackCount(CurrentAttackType);
+
         if (CurrentAttackType == AttackType.Feint) return;
         if (_slashAngle < _minSlashAngle && CurrentAttackType != AttackType.Stab) return;
         if (_feinted) return;
@@ -683,6 +699,10 @@ public class AimingInput2 : MonoBehaviour
         {
             swordParry.StartParry(true, gameObject, _power);
         }
+
+        Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+        blocker.StartParryTime(AttackStance.Torso, _startDirection);
+                
     }
 
     private bool CheckBlock()
@@ -691,11 +711,13 @@ public class AimingInput2 : MonoBehaviour
             _checkedForBlock = true;
 
         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
+        int direction = CurrentAttackType==AttackType.Stab ? 0 : _startDirection;
 
-        if (blocker.StartHit(CurrentStanceState, _startDirection, gameObject))
+        if (blocker.StartHit(CurrentStanceState, direction, gameObject))
         {
-            Debug.Log("SuccesfullBlock");
+            //Debug.Log("SuccesfullBlock");
             _animationRef.GetHit();
+            _stunned = Size.Medium;
             return true;
         }
         return false;
@@ -705,8 +727,17 @@ public class AimingInput2 : MonoBehaviour
     {
         _checkedForBlock = false;
         SwordParry swordParry = _lockOnScript.LockOnTarget.GetComponent<SwordParry>();
-        swordParry.StartParry(false, null, 0);
+        if (swordParry)
+            swordParry.StartParry(false, null, 0);
         Blocking blocker = _lockOnScript.LockOnTarget.GetComponent<Blocking>();
         blocker.StopParryTime();
     }
+
+    private IEnumerator Recover()
+    {
+        float time = (int)_stunned * 0.5f;
+        yield return new WaitForSeconds(time);
+        _stunned = Size.None;
+    }
+
 }

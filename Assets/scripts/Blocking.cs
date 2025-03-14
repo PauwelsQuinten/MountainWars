@@ -57,7 +57,7 @@ public class Blocking : MonoBehaviour
         var obj = GameObject.Find(_txtBlockName);
         if (obj)
             _txtBlockPower = obj.GetComponent<TextMeshPro>();   
-        ActivateBlock(false);
+        ActivateBlock(false, false);
     }
 
     void Update()
@@ -69,7 +69,7 @@ public class Blocking : MonoBehaviour
     //Public functions
 
 
-    public void ActivateBlock(bool activate)
+    public void ActivateBlock(bool activate, bool isNpc)
     {
         if (!_shield)
             return;
@@ -77,13 +77,13 @@ public class Blocking : MonoBehaviour
         if (!activate)
         {
             //_shield.transform.localScale = Vector3.zero;
-            ResetValues();
+            ResetValues(isNpc);
         }
         //else
             //_shield.transform.localScale = Vector3.one;
     }
 
-    public void HoldBlock(bool hold)
+    public void HoldBlock(bool hold, bool isNpc)
     {
         if (!_shield && hold)
             return;
@@ -93,7 +93,7 @@ public class Blocking : MonoBehaviour
         _angleDiffWithOrientation = angleInput - orient;    
         _followOrientation = hold;
         if (!hold)
-            ResetValues();
+            ResetValues(isNpc);
     }
 
     public bool StartHit(AttackStance height, int direction, GameObject attacker)
@@ -117,7 +117,7 @@ public class Blocking : MonoBehaviour
                 //Hit
                 break;
             case BlockState.MovingShield:
-                StartParryTime(height, direction); 
+                //StartParryTime(height, direction); 
                 if (_currentParryChance == ParryChanceState.Failled)
                 {
                     _animator.GetHit();
@@ -183,7 +183,12 @@ public class Blocking : MonoBehaviour
     {
         _shield = _heldEquipment.GetEquipment(EquipmentType.Shield);
     }
- 
+
+    public void SetBlockMode(BlockState blockState)
+    {
+        _blockState = blockState;
+    }
+
 
     //-------------------------------------------------------
     //private functions
@@ -257,7 +262,7 @@ public class Blocking : MonoBehaviour
                     {
                         SwitchToSword();
                     }
-                    ResetValues();
+                    ResetValues(false);
 
                 }
 
@@ -296,7 +301,7 @@ public class Blocking : MonoBehaviour
                 _currentBrokenTime += Time.deltaTime;
                 if (_currentBrokenTime >= 1.0f)
                 {
-                    ResetValues();
+                    ResetValues(false);
                     _currentBrokenTime = 0.0f;
                 }
                 break;
@@ -329,7 +334,7 @@ public class Blocking : MonoBehaviour
         return value;
     }
 
-    private void ResetValues()
+    private void ResetValues(bool isNpc)
     {
         _blockState = BlockState.Idle;
         _currentBlockingTime = 0.0f;
@@ -338,7 +343,7 @@ public class Blocking : MonoBehaviour
         if (_txtBlockPower)
             _txtBlockPower.text = "";
         //_shield.transform.localPosition = new Vector3(_blockInputDirection.x * _radius, _blockInputDirection.y * _radius, 0.0f);
-        if (_shield)
+        if (_shield && !isNpc)
             _shield.transform.localPosition = Vector2.zero;
 
     }
@@ -347,12 +352,18 @@ public class Blocking : MonoBehaviour
     {
         if (_currentParryChance == ParryChanceState.Start && AroundParryZone())
         {
+            Debug.Log($"{_currentParryAngle}");
             if (_currentParryChance != ParryChanceState.Succes && _currentParryAngle >= _parryAngle)
             {
                 _staminaManager.DepleteStamina((int)(_staminaCost * 1.5f));
                 _currentParryChance = ParryChanceState.Succes;
                 AIController attComp = _attacker.GetComponent<AIController>();
-                attComp.Parried();
+                PlayerController attPlComp = _attacker.GetComponent<PlayerController>();
+                if (attComp)
+                    attComp.Parried();
+                 if (attPlComp)
+                    attPlComp.Parried();
+
                 _attacker = null;
             }
 
@@ -366,9 +377,9 @@ public class Blocking : MonoBehaviour
 
 
     //return true when succesfully blocked
-    private void StartParryTime(AttackStance height, int direction)
+    public void StartParryTime(AttackStance height, int direction)
     {
-        if (_currentParryChance == ParryChanceState.None)
+        if (_currentParryChance == ParryChanceState.None && _blockState == BlockState.MovingShield)
         {
             _startParryAngle = Mathf.Atan2(_blockInputDirection.y, _blockInputDirection.x);
             _parryDirection = direction;
@@ -421,7 +432,7 @@ public class Blocking : MonoBehaviour
     {
         float angle = Vector2.Angle(_blockInputDirection, _startParryVector) * Mathf.Deg2Rad;
         float diff = Mathf.Abs(angle - _currentParryAngle);
-        if( UsedCorrectParryDirection() && angle > _currentParryAngle  && diff < 0.8f)
+        if( UsedCorrectParryDirection() && angle >= _currentParryAngle  && diff < 0.8f)
         {
             _currentParryAngle = angle;
             return true;
@@ -451,7 +462,7 @@ public class Blocking : MonoBehaviour
         if (direction == 0)
         {
             maxAcceptedAngle = 30f;
-            minAcceptedAngle = 0.0f;
+            minAcceptedAngle = -30.0f;
         }
 
         float orientation = _animator.GetOrientation();

@@ -48,6 +48,8 @@ public class GoapPlanner : MonoBehaviour
         if (_activeGoal == null || _actionPlan.Count == 0)
             _activeGoal = SelectCurrentGoal();
 
+        if (_activeGoal == null)
+            return;
        
         if (_actionPlan.Count == 0 && !Plan(_activeGoal.DesiredWorldState))
             _activeGoal.SetInvallid();
@@ -124,6 +126,8 @@ public class GoapPlanner : MonoBehaviour
                 bestGoal = goal;
             }
         }
+        if (bestGoal == null)
+            Debug.Log($"{bestGoal}");
         return bestGoal;
     }
 
@@ -153,9 +157,11 @@ public class GoapPlanner : MonoBehaviour
 
     private void ResetPlan()
     {
-        _activeAction.ActionCompleted();
+        if (_activeAction)
+            _activeAction.ActionCompleted();
         _activeAction = null;
-        _activeGoal.SetInvallid();
+        if (_activeGoal)
+            _activeGoal.SetInvallid();
         _activeGoal = null;
         _actionPlan.Clear();
     }

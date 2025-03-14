@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2780113537652508807}
-  - component: {fileID: 4153809955534360622}
+  - component: {fileID: 738826124993600184}
   - component: {fileID: 1487635528888377458}
   m_Layer: 0
-  m_Name: Relax
+  m_Name: Defence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4153809955534360622
+--- !u!114 &738826124993600184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1461866967742571134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f95593ef8ce305747a647d38f5bb6a7a, type: 3}
+  m_Script: {fileID: 11500000, guid: d6205d222d2a5f843806d51a185b36e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DesiredWorldState: {fileID: 0}
@@ -75,14 +75,15 @@ MonoBehaviour:
   _hasTarget: 0
   _targetDistance: 0
   _targetStamina: 0
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
-  _shieldMovement: 0
+  _shieldMovement: 17
   _shieldOrientation: 0
   _weaponOrientation: 0
   _swingSpeed: 9000
   _weaponPossesion: 0
-  _shieldPossesion: 0
-  _behaviour: 5
+  _shieldPossesion: 1
+  _behaviour: 0
   _stamina: 0

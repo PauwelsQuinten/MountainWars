@@ -4,10 +4,10 @@ using UnityEngine;
 
 public interface Actions
 {
+    void StartAction(WorldState currentWorldState);
     void UpdateAction(WorldState currentWorldState);
     bool IsVallid(WorldState currentWorldState);
     bool IsCompleted(WorldState current, WorldState activeActionDesiredState);
-    void StartAction(WorldState currentWorldState);
     bool IsInterupted(WorldState currentWorldState);
 }
 
@@ -37,7 +37,7 @@ public class GoapAction : MonoBehaviour, Actions
             return;
         _isActivated = true;
         _actionCoroutine = StartCoroutine(StartTimer(_actionMaxRunTime));
-        Debug.Log("Start action coroutine");
+        //Debug.Log("Start action coroutine");
     }
 
 
@@ -99,7 +99,7 @@ public class GoapAction : MonoBehaviour, Actions
     public void ActionCompleted()
     {
         _isActivated = false;
-        StopCoroutine(_actionCoroutine);
-
+        if (_actionCoroutine != null)
+            StopCoroutine(_actionCoroutine);
     }
 }

@@ -4,8 +4,8 @@
     UpperSlashLeft,
     DownSlashRight,
     DownSlashLeft,
-    HorizontalSlashLeft,
     HorizontalSlashRight,
+    HorizontalSlashLeft,
     Stab,
     Feint,
     None

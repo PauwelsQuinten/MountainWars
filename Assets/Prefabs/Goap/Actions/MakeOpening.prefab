@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1055349673473537665}
-  - component: {fileID: 4267195964248438735}
+  - component: {fileID: -35413315230849021}
   - component: {fileID: 7101675145210251205}
   - component: {fileID: 9095045994170797754}
   m_Layer: 0
-  m_Name: MoveSideways
+  m_Name: MakeOpening
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4267195964248438735
+--- !u!114 &-35413315230849021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,15 +43,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7471205787815986531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85792fe50b0588341b7b37a935ac55e3, type: 3}
+  m_Script: {fileID: 11500000, guid: f7fa3dd6425659b428b6a5ddc4bff8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cost: 0.5
+  Cost: 1
   DesiredWorldState: {fileID: 0}
   SatisfyingWorldState: {fileID: 0}
-  _actionMaxRunTime: 0.5
-  _MoveTo: 5
-  _moveSpeed: 5
+  _actionMaxRunTime: 3
 --- !u!114 &7101675145210251205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +76,7 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 0
+  _targetDistance: 11
   _targetStamina: 0
   _targetHealth: 0
   _Targetopening: 0
@@ -86,7 +84,7 @@ MonoBehaviour:
   _ShieldDistance: 0
   _weaponMovement: 0
   _shieldMovement: 0
-  _shieldOrientation: 0
+  _shieldOrientation: 15
   _weaponOrientation: 0
   _swingSpeed: 9000
   _weaponPossesion: 0
@@ -94,7 +92,10 @@ MonoBehaviour:
   _behaviour: 0
   _stamina: 0
   _health: 0
+  _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0
 --- !u!114 &9095045994170797754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,9 +122,9 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 13
+  _targetDistance: 0
   _targetStamina: 0
-  _targetHealth: 0
+  _targetHealth: 23
   _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
@@ -137,4 +138,7 @@ MonoBehaviour:
   _behaviour: 0
   _stamina: 0
   _health: 0
+  _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
+  IsBleeding: 0
+  Stamina: 0

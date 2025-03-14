@@ -1,6 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public enum Size
@@ -17,6 +20,7 @@ public struct TargetOpenings
 {
     public Size Size;
     public OpeningDirection Direction;
+    
     public TargetOpenings(Size size, OpeningDirection direction)
     {
         Size = size; Direction = direction; 
@@ -30,6 +34,7 @@ public enum EWorldState
     TargetShieldOrientation,
     TargetWeaponOrientation,
     TargetSwingSpeed,
+    TargetAttack,
 
     WeaponMovement,
     ShieldMovement,
@@ -43,6 +48,7 @@ public enum EWorldState
     TargetShieldPosesion,
     TargetBehaviour,
     TargetStamina,
+    TargetHealth,
     TargetOpening,
     HasTarget,
     TargetDistance,
@@ -52,6 +58,7 @@ public enum EWorldState
     WeaponPosesion,
     ShieldPosesion,
     Stamina,
+    Health,
     Behaviour,
 }
 
@@ -76,6 +83,7 @@ public enum WorldStateValue
     Attacking,
     Parried,
     Blocked,
+    Recovering,
 
     InRange,
     OutOfRange,
@@ -89,9 +97,10 @@ public enum WorldStateValue
     EquipmentHalfUp,
     EquipmentDown,
 
-    FullStamina,
-    MidStamina,
-    LowOnStamina,
+    Full,
+    Mid,
+    Low,
+    Zero
 
 }
 
@@ -103,10 +112,6 @@ public class WorldState : MonoBehaviour
     public StateType _worldStateType = StateType.Desired;
     private const float DEFAULT_VALUE = 9000;
     //Target
-    private HeldEquipment _targetEquipment;
-    private GameObject _target;
-    //private GameObject _targetWeapon;
-    //private GameObject _targetShield;
     [SerializeField] private WorldStateValue _targetWeaponDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetShieldDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetWeaponMovement = WorldStateValue.DontCare; 
@@ -120,13 +125,10 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _hasTarget = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _targetStamina = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _targetHealth = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _Targetopening = WorldStateValue.DontCare;
 
     //Self
-    //private GameObject _weapon;
-    //private GameObject _shield;
-    private HeldEquipment _npcEquipment;
-    private Equipment _foundEquipment;
     [SerializeField] private WorldStateValue _WeaponDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _ShieldDistance = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _weaponMovement = WorldStateValue.DontCare; 
@@ -138,17 +140,33 @@ public class WorldState : MonoBehaviour
     [SerializeField] private WorldStateValue _shieldPossesion = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _behaviour = WorldStateValue.DontCare;
     [SerializeField] private WorldStateValue _stamina = WorldStateValue.DontCare;
+    [SerializeField] private WorldStateValue _health = WorldStateValue.DontCare;
 
 
     //Helper state 
+    private HeldEquipment _targetEquipment;
+    private GameObject _target;
     private float _targetOrientation = 0.0f;
-    private float _orientation = 0.0f;
     private float _targetWeaponRange = 0.0f;
+    private HeldEquipment _npcEquipment;
+    private Equipment _foundEquipment;
+    private float _orientation = 0.0f;
     private float _weaponRange = 0.0f;
-    private float _Orientation = 0.0f;
-    private float _weaponMaxMovement = 0.04f;
-    private float _shieldMaxMovement = 1f;
+    private float _weaponMaxMovement = 0.04f;//Is set by weapon his radius movement
+    private float _shieldMaxMovement = 1f;//Is set by weapon his radius movement
+    public TargetOpenings CurrentOpening = new TargetOpenings();
+    private Dictionary<AttackType, int> _attackCountList = new Dictionary<AttackType, int>();
+    //[HideInInspector]
+    public bool _isPlayerToAggressive = false;
+    private float _playerIdleTime = 0.0f;
+    [HideInInspector]
+    public AttackType TargetCurrentAttack = AttackType.None;
+    //[HideInInspector]
+    public bool IsBleeding = false;
+    [HideInInspector]
+    public float  Stamina = 0f;
 
+    //Dictionaries used for checking desired states get completed AND for making Plan
     public Dictionary<EWorldState,float> _worldStateValues = new Dictionary<EWorldState, float>();
     public Dictionary<EWorldState,WorldStateValue> _worldStateValues2 = new Dictionary<EWorldState, WorldStateValue>();
 
@@ -201,6 +219,8 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.TargetDistance] = _targetDistance;
         if (_targetStamina != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.TargetStamina] = _targetStamina;
+        if (_targetHealth != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.TargetHealth] = _targetHealth;
         if (_Targetopening != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.TargetOpening] = _Targetopening;
 
@@ -226,6 +246,8 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[EWorldState.Behaviour] = _behaviour;
         if (_stamina != WorldStateValue.DontCare || _shouldUpdate)
             _worldStateValues2[EWorldState.Stamina] = _stamina;
+        if (_health != WorldStateValue.DontCare || _shouldUpdate)
+            _worldStateValues2[EWorldState.Health] = _health;
 
 
     }
@@ -238,6 +260,7 @@ public class WorldState : MonoBehaviour
         if (!_target)
         {
             CalculateNpcStamina();
+            CalculateNpcHealth();
 
             //WEAPON
             _orientation = GetComponent<WalkAnimate>().GetOrientation();
@@ -287,7 +310,10 @@ public class WorldState : MonoBehaviour
         {
             //TARGET UPDATE
             CalculateTargetStamina();
+            CalculateTargetHealth();
             LookForOpening();
+            CheckForAgressiveBehaviour();
+            GetCurrentTargetAttackType();
 
             //Target
             float distance = Vector3.Distance(_target.transform.position, transform.position);
@@ -337,7 +363,7 @@ public class WorldState : MonoBehaviour
 
             //NPC UPDATE
             CalculateNpcStamina();
-
+            CalculateNpcHealth();
 
             //WEAPON
             _orientation = GetComponent<WalkAnimate>().GetOrientation();
@@ -389,39 +415,80 @@ public class WorldState : MonoBehaviour
 
     private void LookForOpening()
     {
-        WorldStateValue value = WorldStateValue.DontCare;
-        //Look for large openings
+        //Look for large openings---------------------------------
+        //After succesfull block
+        Size opening = _target.GetComponent<AimingInput2>()._stunned;
+        var type = _target.GetComponent<AimingInput2>().CurrentAttackType;
+        if (opening != Size.None && (type != AttackType.Feint || type != AttackType.None))
+        {
+            CurrentOpening.Size = _target.GetComponent<AimingInput2>()._stunned;
+            
+            if (type == AttackType.UpperSlashRight || type == AttackType.DownSlashRight || type == AttackType.HorizontalSlashRight)
+                CurrentOpening.Direction = OpeningDirection.Center;
+            else if (type == AttackType.UpperSlashLeft || type == AttackType.DownSlashLeft || type == AttackType.HorizontalSlashLeft || type == AttackType.Stab)
+                CurrentOpening.Direction = OpeningDirection.Right;
 
-        //Look for mid openings
+            _worldStateValues2[EWorldState.TargetOpening] = WorldStateValue.InPosesion;
+            _Targetopening = _worldStateValues2[EWorldState.TargetOpening];
+            return;
+        }
+        //After AttackCooldown
 
-        //Look for low openings
+        //Look for mid openings------------------------------------------
+        //Failed Parry
+        //-Sword
+        //-Shield
 
-        _worldStateValues2[EWorldState.TargetOpening] = value;
+        if (_worldStateValues2[EWorldState.TargetShieldMovement] == WorldStateValue.EquipmentUp
+            && _worldStateValues2[EWorldState.TargetShieldOrientation] == WorldStateValue.OnRight)
+        {
+            CurrentOpening.Size = Size.Medium;
+            CurrentOpening.Direction = OpeningDirection.Left;
+            _worldStateValues2[EWorldState.TargetOpening] = WorldStateValue.InPosesion;
+            _Targetopening = _worldStateValues2[EWorldState.TargetOpening];
+
+            return;
+        }
+        else if (_worldStateValues2[EWorldState.TargetShieldMovement] == WorldStateValue.EquipmentUp
+            && _worldStateValues2[EWorldState.TargetShieldOrientation] == WorldStateValue.OnLeft)
+        {
+            CurrentOpening.Size = Size.Medium;
+            CurrentOpening.Direction = OpeningDirection.Right;
+            _worldStateValues2[EWorldState.TargetOpening] = WorldStateValue.InPosesion;
+            _Targetopening = _worldStateValues2[EWorldState.TargetOpening];
+
+            return;
+        }
+        //if mid cooldown from big attacks
+        //{
+        //    CurrentOpening.Size = Size.Medium;
+        //    CurrentOpening.Direction = OpeningDirection.Full;
+        //}
+
+        //Look for low openings------------------------------------------
+        if (_worldStateValues2[EWorldState.TargetShieldMovement] == WorldStateValue.EquipmentDown)
+        {
+            CurrentOpening.Size = Size.Small;
+            CurrentOpening.Direction = OpeningDirection.Full;
+            _worldStateValues2[EWorldState.TargetOpening] = WorldStateValue.InPosesion;
+            _Targetopening = _worldStateValues2[EWorldState.TargetOpening];
+
+            return;
+        }
+
+        //if small cooldown from quick attack
+        //{
+        //    CurrentOpening.Size = Size.Small;
+        //    CurrentOpening.Direction = OpeningDirection.Full;
+        //}
+
+        //if nothing set to base--------------------------------------------
+        CurrentOpening.Size = Size.None;
+        CurrentOpening.Direction = OpeningDirection.Full;
+        _worldStateValues2[EWorldState.TargetOpening] = WorldStateValue.NotInPosesion;
+        _Targetopening = _worldStateValues2[EWorldState.TargetOpening];
+
     }
-
-
-    private void CalculateNpcStamina()
-    {
-        float stamina = GetComponent<StaminaManager>().GetStamina();
-        if (stamina > 0.75f)
-            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.FullStamina;
-        else if (stamina > 0.4f)
-            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.MidStamina;
-        else
-            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.LowOnStamina;
-    }
-
-    private void CalculateTargetStamina()
-    {
-        float stamina = _target.GetComponent<StaminaManager>().GetStamina();
-        if (stamina > 0.75f)
-            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.FullStamina;
-        else if (stamina > 0.4f)
-            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.MidStamina;
-        else
-            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.LowOnStamina;
-    }
-
 
     private void CalculateEquipmentMovement(EWorldState listValue, EquipmentType type, bool target)
     {
@@ -456,7 +523,7 @@ public class WorldState : MonoBehaviour
         }
         else
         {
-            oriantation = _Orientation;
+            oriantation = _orientation;
             if (_npcEquipment.GetEquipment(type))
                 checkedEquipment = _npcEquipment.GetEquipment(type);
             else
@@ -481,6 +548,7 @@ public class WorldState : MonoBehaviour
             _worldStateValues2[listKey] = WorldStateValue.DontCare;
 
         _targetWeaponOrientation = _worldStateValues2[EWorldState.TargetWeaponOrientation]; //Only for to be  shown in Worldstate in editor, no further purpose
+        _weaponOrientation = _worldStateValues2[EWorldState.WeaponOrientation]; //Only for to be  shown in Worldstate in editor, no further purpose
     }
 
     //Return Dictionary with the enums that differ and bool isDesiredStateBigger  
@@ -509,7 +577,8 @@ public class WorldState : MonoBehaviour
         return listOfDifference;
     }
 
-    //WorldState Setters from actions or GoapPlanner
+
+    //WorldState Setters from actions or GoapPlanner-------------------------------------------------------------
     #region public Setter/Getters
 
     public void UpdateHeldEquipment()
@@ -550,7 +619,6 @@ public class WorldState : MonoBehaviour
         }
     }
 
-
     public void SetTargetValues(GameObject target)
     {
         _target = target;
@@ -578,5 +646,166 @@ public class WorldState : MonoBehaviour
         _foundEquipment = equipment;
     }
 
-    #endregion public Setters
+    public void UpdateAttackCount(AttackType attack)
+    {
+        _isPlayerToAggressive = PlayerGetsAgressive();
+
+        //update count
+        if (_attackCountList.ContainsKey(attack))
+        {
+            _attackCountList[attack] += 1;
+        }
+        else
+            _attackCountList.Add(attack, 1);
+
+        //find lowest value
+        int lowestValue = 9000;
+        foreach(var item in _attackCountList)
+        {
+            if (item.Value < lowestValue)
+                lowestValue = item.Value;
+        }
+
+        //deduct all values if lowest is NOT zero
+        if (lowestValue > 0)
+        {
+            foreach (var key in _attackCountList.Keys.ToList())
+            {
+                _attackCountList[key] -= lowestValue;
+            }
+        }
+    }
+
+    public bool IsBlockInCorrectDirection()
+    {
+        if (TargetCurrentAttack == AttackType.None)
+            return true;
+        switch (TargetCurrentAttack)
+        {
+            case AttackType.UpperSlashRight:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
+                    return true;
+                break;
+            case AttackType.UpperSlashLeft:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
+                    return true;
+                break;
+            case AttackType.DownSlashRight:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
+                    return true;
+                break;
+            case AttackType.DownSlashLeft:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
+                    return true;
+                break;
+            case AttackType.HorizontalSlashRight:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
+                    return true;
+                break;
+            case AttackType.HorizontalSlashLeft:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
+                    return true;
+                break;
+            case AttackType.Stab:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnCenter)
+                    return true;
+                break;
+            case AttackType.Feint:
+                return true;
+            case AttackType.None:
+                return true;
+        }
+        return false;
+    }
+        #endregion public Setters
+        //-----------------------------------------------------------------------------------------
+
+    private void CalculateNpcHealth()
+    {
+        float hp = GetComponent<HealthManager>().GetHealth();
+
+        if (hp > 0.75f)
+            _worldStateValues2[EWorldState.Health] = WorldStateValue.Full;
+        else if (hp > 0.4f)
+            _worldStateValues2[EWorldState.Health] = WorldStateValue.Mid;
+        else if (hp > 0.0f)
+            _worldStateValues2[EWorldState.Health] = WorldStateValue.Low;
+        else if (hp <= 0.0f)
+            _worldStateValues2[EWorldState.Health] = WorldStateValue.Zero;
+
+        _health = _worldStateValues2[EWorldState.Health];
+    }
+     private void CalculateTargetHealth()
+    {
+        float hp = _target.GetComponent<HealthManager>().GetHealth();
+
+        if (hp > 0.75f)
+            _worldStateValues2[EWorldState.TargetHealth] = WorldStateValue.Full;
+        else if (hp > 0.4f)
+            _worldStateValues2[EWorldState.TargetHealth] = WorldStateValue.Mid;
+        else if (hp > 0.0f)
+            _worldStateValues2[EWorldState.TargetHealth] = WorldStateValue.Low;
+        else if (hp <= 0.0f)
+            _worldStateValues2[EWorldState.TargetHealth] = WorldStateValue.Zero;
+
+        _targetHealth = _worldStateValues2[EWorldState.TargetHealth];
+
+    }
+
+
+    private void CalculateNpcStamina()
+    {
+        float stamina = GetComponent<StaminaManager>().GetStamina();
+        Stamina = stamina;
+
+        if (stamina > 0.75f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Full;
+        else if (stamina > 0.4f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Mid;
+        else if (stamina > 0.0f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Low;
+        else if (stamina <= 0.0f)
+            _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Zero;
+
+        _stamina = _worldStateValues2[EWorldState.Stamina];
+    }
+
+    private void CalculateTargetStamina()
+    {
+        float stamina = _target.GetComponent<StaminaManager>().GetStamina();
+        if (stamina > 0.75f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.Full;
+        else if (stamina > 0.4f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.Mid;
+        else if (stamina > 0.0f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.Low;
+        else if (stamina <= 0.0f)
+            _worldStateValues2[EWorldState.TargetStamina] = WorldStateValue.Zero;
+
+        _targetStamina = _worldStateValues2[EWorldState.TargetStamina];
+
+    }
+
+    private bool PlayerGetsAgressive()
+    {
+        const float reduction = 1.5f;
+        _playerIdleTime = (_playerIdleTime > 0) ? _playerIdleTime - reduction : _playerIdleTime;
+        return _playerIdleTime <= 0f || _isPlayerToAggressive;
+    }
+
+    private void CheckForAgressiveBehaviour()
+    {
+        _playerIdleTime += (_playerIdleTime < 5f)? Time.deltaTime : 0f;
+        if (_isPlayerToAggressive && _playerIdleTime >= 3f)
+        {
+            _isPlayerToAggressive = false;
+        }
+    }
+
+    private void GetCurrentTargetAttackType()
+    {
+        TargetCurrentAttack = _target.GetComponent<AimingInput2>().CurrentAttackType;
+    }
+
+   
 }

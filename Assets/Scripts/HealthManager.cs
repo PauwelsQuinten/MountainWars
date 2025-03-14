@@ -83,9 +83,17 @@ public class HealthManager : MonoBehaviour
 
                 if(_bodyPartCurrentHealth[part] <= 0)
                 {
-                    if (part == BodyParts.Head) _currentHealth = 0;
-                    else if(part == BodyParts.Torso) _bleedOutRate += _bleedOutSpeed * 1.5f;
-                    else _bleedOutRate += _bleedOutSpeed;
+                    if (part == BodyParts.Head)
+                        _currentHealth = 0;
+                    else if(part == BodyParts.Torso)
+                        _bleedOutRate += _bleedOutSpeed * 1.5f;
+                    else 
+                        _bleedOutRate += _bleedOutSpeed;
+
+                    if (_bleedOutRate > 0)
+                    {
+                        GetComponent<WorldState>().IsBleeding = true;
+                    }
                 }
             }
             else
@@ -132,4 +140,17 @@ public class HealthManager : MonoBehaviour
 
         _bodyPartCurrentHealth = _bodyPartMaxHealth;
     }
+
+    public float GetHealth()
+    {
+        return _currentHealth / _maxHealth;
+    }
+
+    public void PatchUpBleeding()
+    {
+        _bleedOutRate = 0f;
+        GetComponent<WorldState>().IsBleeding = false;
+
+    }
+
 }

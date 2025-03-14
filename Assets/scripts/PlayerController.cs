@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private Blocking _shield;
     private AimingInput2 _Sword;
     private SwordParry _SwordParry;
+    private WalkAnimate _animator;
 
     private FightStyle _fightStyle = FightStyle.Sword;
     private Vector2 _storedInput = Vector2.zero;
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
         _shield = GetComponent<Blocking>();
         _Sword = GetComponent<AimingInput2>();
         _SwordParry = GetComponent<SwordParry>();
+        _animator = GetComponent<WalkAnimate>();
     }
 
     private void OnEnable()
@@ -187,7 +189,7 @@ public class PlayerController : MonoBehaviour
         if (_fightStyle != FightStyle.Combo)
         {
             _fightStyle = FightStyle.Shield;
-            _shield.ActivateBlock(true);
+            _shield.ActivateBlock(true, false);
         }
     }
 
@@ -196,7 +198,7 @@ public class PlayerController : MonoBehaviour
         if(_fightStyle != FightStyle.Combo)
         {
             _fightStyle = FightStyle.Sword;
-            _shield.ActivateBlock(false);
+            _shield.ActivateBlock(false, false);
             _shield.SetInputDirection(Vector2.zero);
         }
     }
@@ -220,24 +222,24 @@ public class PlayerController : MonoBehaviour
 
             if (_fightStyle == FightStyle.Shield)
             {
-                _shield.HoldBlock(true);
+                _shield.HoldBlock(true, false);
                 _fightStyle = FightStyle.Combo;
             }
         }
         else
         {
-            _shield.HoldBlock(false);
+            _shield.HoldBlock(false, false);
 
             if (_guardAction.IsPressed())
             {
                 _fightStyle = FightStyle.Shield;
-                _shield.ActivateBlock(true);
+                _shield.ActivateBlock(true, false);
             }
 
             else
             {
                 _fightStyle = FightStyle.Sword;
-                _shield.ActivateBlock(false);
+                _shield.ActivateBlock(false, false);
 
             }
 
@@ -264,7 +266,7 @@ public class PlayerController : MonoBehaviour
                 return;
 
             _fightStyle = FightStyle.Combo;
-            _shield.HoldBlock(true);
+            _shield.HoldBlock(true, false);
         }
     }
 
@@ -334,4 +336,11 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<AimingInput2>().SwordBroke();
     }
+
+    public void Parried()
+    {
+        _animator.Parried();
+
+    }
+
 }

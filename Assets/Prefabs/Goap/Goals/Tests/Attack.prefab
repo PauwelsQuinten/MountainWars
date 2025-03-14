@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 738826124993600184}
   - component: {fileID: 1487635528888377458}
   m_Layer: 0
-  m_Name: ShieldedAttack
+  m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldUpdate: 0
-  _lowtoHighPriority: 1700000006000000
+  _lowtoHighPriority: 
   _worldStateType: 0
   _targetWeaponDistance: 0
   _targetShieldDistance: 0
@@ -73,16 +73,17 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 0
+  _targetDistance: 13
   _targetStamina: 0
+  _Targetopening: 0
   _WeaponDistance: 0
   _ShieldDistance: 0
   _weaponMovement: 0
-  _shieldMovement: 16
+  _shieldMovement: 0
   _shieldOrientation: 0
   _weaponOrientation: 0
   _swingSpeed: 9000
   _weaponPossesion: 0
-  _shieldPossesion: 1
+  _shieldPossesion: 0
   _behaviour: 7
   _stamina: 0

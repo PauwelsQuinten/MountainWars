@@ -1476,6 +1476,7 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   CurrentStanceState: 0
   CurrentAttackType: 7
+  _stunned: 0
   DEFAULT_SWORD_ORIENTATION: 218
   YRotation: 45
   SlashUp: 0
@@ -1496,8 +1497,6 @@ MonoBehaviour:
   _AttackMessage: {fileID: 0}
   _attackMessage: 
   _attackPower: 
-  IsParrying: 0
-  _staminaCost: 5
 --- !u!114 &7056237991796404707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1515,7 +1514,7 @@ MonoBehaviour:
   Radius: 0.5
   _powerReducer: 20
   _maxTimeHoldBlock: 0.15
-  _parryAngle: 1.75
+  _parryAngle: 1
   _acceptBothParryDierctions: 0
   _acceptAllHeightsToParry: 1
   _parryFromSameDirection: 1
@@ -1655,9 +1654,13 @@ MonoBehaviour:
   _characterMentality: 2
   _allActionPrefabs:
   - {fileID: -6915020138891419967, guid: 70d2fe8a0df704c469ee3d2a7cfa915e, type: 3}
+  - {fileID: -35413315230849021, guid: 29db5a0cb5c8a7b4cbfcdaf73d6054d7, type: 3}
+  - {fileID: 1163751169475047980, guid: b263436a88aafa047b5267348baee8f3, type: 3}
+  - {fileID: 3497523183609738862, guid: 3f683a7de77f50d46995da09ff79a35d, type: 3}
   - {fileID: 3614961667598669404, guid: 0a53e443883c2c0439db5ee333e60603, type: 3}
   - {fileID: 3614961667598669404, guid: 404090f8eebef7a40a80f3f006b5a4e4, type: 3}
   - {fileID: 2198598258197355828, guid: b012526216312804f8d85a43d61e0fab, type: 3}
+  - {fileID: 2198598258197355828, guid: 41af45422324bb24d8995ab9c00e040e, type: 3}
   - {fileID: 5998032691256654599, guid: e581c1b91475b5a4f937a47889ff7df2, type: 3}
   - {fileID: 5998032691256654599, guid: 572a4edc531c0024abf50366c817aa49, type: 3}
   - {fileID: 8712481260384346314, guid: 4bbbaec962fa65b4f8d5865a945f2ea8, type: 3}
@@ -1671,13 +1674,10 @@ MonoBehaviour:
   - {fileID: 4267195964248438735, guid: fa28c9b82a9859347b95c8054ef0ea0a, type: 3}
   - {fileID: 4267195964248438735, guid: 367e5b4cc79a5574ab55775163391651, type: 3}
   - {fileID: 4267195964248438735, guid: 4ebcc7f853d40e64fb89d70a794b1990, type: 3}
+  - {fileID: 4267195964248438735, guid: 4ebcc7f853d40e64fb89d70a794b1990, type: 3}
   _allGoalPrefabs:
-  - {fileID: -2610711789531416423, guid: b6ce3d3bce3bf5142a6d760ade187789, type: 3}
-  - {fileID: 738826124993600184, guid: 6d5baca7379ca874292d960e3e0051e4, type: 3}
-  - {fileID: 738826124993600184, guid: 4cd214ebaf3e38c48955224f387ae12f, type: 3}
-  - {fileID: -1599951491606956843, guid: 36df125428efce049b4921f5abd6c447, type: 3}
-  - {fileID: 4153809955534360622, guid: b33a8c43f29a20f429bfd5e9775d8b6a, type: 3}
-  - {fileID: 4153809955534360622, guid: 27322d9e9f49fe843b1f8f4a8f4e1055, type: 3}
+  - {fileID: -1159807283736451932, guid: 18e872e41a7d46741a37582dcabf9ab4, type: 3}
+  - {fileID: -7123783976712136570, guid: 50466454c4d162e43989429551311058, type: 3}
 --- !u!114 &4121201304227673282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,11 +1690,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c23cc93963c445bd32ac91ee77fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tempSwordDamage: 25
+  _tempSwordDamage: 0
   _parryFromSameDirection: 0
-  _parryAngle: 90
+  _parryPower: 16
+  _parryAngle: 30
   _timeForDisarming: 0.5
-  _staminaCost: 0
+  _staminaCost: 5
 --- !u!114 &3015266335009458249
 MonoBehaviour:
   m_ObjectHideFlags: 0

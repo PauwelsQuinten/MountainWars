@@ -90,7 +90,7 @@ public class MoveToAction : GoapAction
                 break;
 
             case ObjectTarget.Backward:
-                targetDir = new Vector3(Mathf.Cos(-angleRad), Mathf.Sin(-angleRad), 0f);
+                targetDir = -new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
                 break;
 
             case ObjectTarget.Side:
@@ -118,13 +118,13 @@ public class MoveToAction : GoapAction
 
     public override bool IsInterupted(WorldState currentWorldState)
     {
-        if (currentWorldState._worldStateValues[EWorldState.TargetSwingSpeed] > 50f
-            && currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange)
-        {
-            //npcComp.SetInputDirection(Vector2.zero);
-            aiComp.MoveAction_performed(Vector2.zero);
-            return true;
-        }
+        //if (currentWorldState._worldStateValues[EWorldState.TargetSwingSpeed] > 50f
+        //    && currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange)
+        //{
+        //    //npcComp.SetInputDirection(Vector2.zero);
+        //    aiComp.MoveAction_performed(Vector2.zero);
+        //    return true;
+        //}
         return false;
     }
 

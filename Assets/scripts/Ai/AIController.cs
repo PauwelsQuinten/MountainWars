@@ -55,7 +55,12 @@ public class AIController : MonoBehaviour
         GetComponent<Dodge>().StartJump(dodgeDirection);
     }
 
-    private void AttackGuardMode(bool start, bool guarding)
+    public bool IsHoldingGuard()
+    {
+        return _fightStyle == FightStyle.Combo;
+    }
+
+    public void AttackGuardMode(bool start, bool guarding)
     {
         if (start)
         {
@@ -64,24 +69,24 @@ public class AIController : MonoBehaviour
 
             if (guarding)
             {
-                _shield.HoldBlock(true);
+                _shield.HoldBlock(true, true);
                 _fightStyle = FightStyle.Combo;
             }
         }
         else
         {
-            _shield.HoldBlock(false);
+            _shield.HoldBlock(false, true);
 
             if (guarding)
             {
                 _fightStyle = FightStyle.Shield;
-                _shield.ActivateBlock(true);
+                _shield.ActivateBlock(true, true);
             }
 
             else
             {
                 _fightStyle = FightStyle.Sword;
-                _shield.ActivateBlock(false);
+                _shield.ActivateBlock(false, true);
             }
         }
     }
@@ -103,7 +108,7 @@ public class AIController : MonoBehaviour
                 return;
 
             _fightStyle = FightStyle.Combo;
-            _shield.HoldBlock(true);
+            _shield.HoldBlock(true, false);
         }
     }
 
@@ -162,6 +167,7 @@ public class AIController : MonoBehaviour
         if (_fightStyle == FightStyle.Shield)
         {
             _shield.SetInputDirection(input);
+            _shield.SetBlockMode(BlockState.HoldBlock);
         }
         else
         {

@@ -23,7 +23,7 @@ public class SwordParry : MonoBehaviour
     private float _currentParryAngle = 0f;
     private Vector2 _startParryVector;
     private Vector2 _secondParryVector;
-    private float _parryPower = 13;
+    [SerializeField] private float _parryPower = 16;
     private float _attackPower;
     [SerializeField]private float _parryAngle = 90f;
 
@@ -37,7 +37,7 @@ public class SwordParry : MonoBehaviour
     void Start()
     {
        _walkAnimate = GetComponent<WalkAnimate>();
-        _staminaManager = GetComponent<StaminaManager>();
+       _staminaManager = GetComponent<StaminaManager>();
     }
 
    
@@ -47,7 +47,7 @@ public class SwordParry : MonoBehaviour
             return;
 
         //if (_parryState && !AroundParryZone())
-        if (_parryFase == ParryState.Parry && !AroundParryZone(_startParryVector) && CorrectDirection())
+        if (_parryFase == ParryState.Parry && !AroundParryZone(_startParryVector) /*&& CorrectDirection()*/)
         {
             FailParry();
         }
@@ -63,10 +63,11 @@ public class SwordParry : MonoBehaviour
                     GetComponent<AimingInput2>().SwordBroke();
                 }
 
+                //if attacker is way weaker then you, he doesnt deserve his sword
                 if (_attackPower < _parryPower - 6)
                 {
-                    GetComponent<HeldEquipment>().DropSword(_direction, true);
-                    GetComponent<AimingInput2>().SwordBroke();
+                    _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
+                    _attacker.GetComponent<AimingInput2>().SwordBroke();
                 }
 
 
@@ -74,7 +75,12 @@ public class SwordParry : MonoBehaviour
 
                 //Set parried animation to attacker
                 AIController attComp = _attacker.GetComponent<AIController>();
-                attComp.Parried();
+                PlayerController attPlComp = _attacker.GetComponent<PlayerController>();
+                if (attComp)
+                    attComp.Parried();
+                if (attPlComp)
+                    attPlComp.Parried();
+
                 _parryState = false;
 
                 //Set to disarm
@@ -94,14 +100,15 @@ public class SwordParry : MonoBehaviour
                 if (_staminaCost < _staminaManager.CurrentStamina)
                 {
                     _staminaManager.DepleteStamina(_staminaCost);
-                    //AIController attComp = _attacker.GetComponent<AIController>();
-                    //attComp.Disarmed();
+
+                    
                     if (_attackPower <= _parryPower)
                     {
                         Debug.Log("Disarm");
                         _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
                         _attacker.GetComponent<AimingInput2>().SwordBroke();
                     }
+
                     _attacker = null;
                     _disarmTime = 0;
                     _parryFase = ParryState.Idle;

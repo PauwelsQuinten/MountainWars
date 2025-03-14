@@ -10,7 +10,7 @@ public class RestGoal : GoapGoal
 
     public override float GoalScore(CharacterMentality menatlity, WorldState currentWorldState)
     {
-        float bonus = currentWorldState._worldStateValues2[EWorldState.Stamina] == WorldStateValue.LowOnStamina ? 0.6f : 0f;
+        float bonus = currentWorldState._worldStateValues2[EWorldState.Stamina] == WorldStateValue.Low ? 0.6f : 0f;
         switch (menatlity)
         {
             case CharacterMentality.Agresive:
