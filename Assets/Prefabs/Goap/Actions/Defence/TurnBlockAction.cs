@@ -4,6 +4,8 @@ using static Unity.Collections.AllocatorManager;
 public class TurnBlockAction : GoapAction
 {
     AIController _aiController;
+    private const float _baseCost = 0.4f;
+    private const float _HighCost = 0.7f;
     public override void StartAction(WorldState currentWorldState)
     {
         //base.StartAction(currentWorldState);
@@ -33,8 +35,8 @@ public class TurnBlockAction : GoapAction
                 blockAngle = 0f + orientAngle;
                 break;
             case AttackType.Feint:
-                return;
             case AttackType.None:
+                ActionCompleted();
             
                 return;
             default:
@@ -47,21 +49,23 @@ public class TurnBlockAction : GoapAction
         _aiController.AimAction_performed(blockVec, FightStyle.Shield);
         _aiController.AttackGuardMode(true, true);
         ActionCompleted();
+        Debug.Log($"block turned");
     }
 
     public override bool IsVallid(WorldState currentWorldState)
     {
         if (!currentWorldState.IsBlockInCorrectDirection())
-            Cost = 0.9f;
+            Cost = _baseCost;
         else
-            Cost = 0.5f;
+            Cost = _HighCost;
+        Debug.Log($"block cost = {Cost}");
         return true;
     }
 
     public override bool IsCompleted(WorldState current, WorldState activeActionDesiredState)
     {
-        return (!_isActivated);
-        
+       
+         return (!_isActivated);
     }
     public override bool IsInterupted(WorldState currentWorldState)
     {

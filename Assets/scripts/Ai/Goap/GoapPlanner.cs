@@ -74,7 +74,7 @@ public class GoapPlanner : MonoBehaviour
 
                 if (action.SatisfyingWorldState._worldStateValues.ContainsKey(desiredState.Key) )
                 {
-                    float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
+                    float score = action.Cost /*+ action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count*/;
                     if (score < lowestScore )
                     {
                         lowestScore = score;
@@ -85,7 +85,7 @@ public class GoapPlanner : MonoBehaviour
                 else if (action.SatisfyingWorldState._worldStateValues2.ContainsKey(desiredState.Key) &&
                     action.SatisfyingWorldState._worldStateValues2[desiredState.Key] == desiredState.Value)
                 {
-                    float score = action.Cost + action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count;
+                    float score = action.Cost /*+ action.DesiredWorldState._worldStateValues.Count + action.DesiredWorldState._worldStateValues2.Count*/;
                     if (score < lowestScore)
                     {
                         lowestScore = score;
@@ -151,7 +151,8 @@ public class GoapPlanner : MonoBehaviour
         }
 
         if (_activeAction.IsInterupted(_currentWorldState))
-            ResetPlan();
+            _activeAction.ActionCompleted();
+                //ResetPlan();
 
     }
 

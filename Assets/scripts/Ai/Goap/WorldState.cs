@@ -181,13 +181,13 @@ public class WorldState : MonoBehaviour
         {
             foreach (var item in _lowtoHighPriority)
             {
-                if ((int)item >= 10)//List 2
-                {
-                    _worldStateValues2.Add(item, WorldStateValue.DontCare);
-                }
-                else //list 1
+                if (item == EWorldState.SwingSpeed || item == EWorldState.TargetSwingSpeed)
                 {
                     _worldStateValues.Add(item, DEFAULT_VALUE);
+                }
+                else 
+                {
+                    _worldStateValues2.Add(item, WorldStateValue.DontCare);
                 }
             }
         }
@@ -683,29 +683,19 @@ public class WorldState : MonoBehaviour
         switch (TargetCurrentAttack)
         {
             case AttackType.UpperSlashRight:
-                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
-                    return true;
-                break;
-            case AttackType.UpperSlashLeft:
-                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
-                    return true;
-                break;
             case AttackType.DownSlashRight:
-                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
-                    return true;
-                break;
-            case AttackType.DownSlashLeft:
-                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
-                    return true;
-                break;
             case AttackType.HorizontalSlashRight:
-                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
-                    return true;
-                break;
-            case AttackType.HorizontalSlashLeft:
                 if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnRight)
                     return true;
                 break;
+
+            case AttackType.UpperSlashLeft:
+            case AttackType.DownSlashLeft:
+            case AttackType.HorizontalSlashLeft:
+                if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnLeft)
+                    return true;
+                break;
+               
             case AttackType.Stab:
                 if (_worldStateValues2[EWorldState.ShieldOrientation] == WorldStateValue.OnCenter)
                     return true;
@@ -760,7 +750,7 @@ public class WorldState : MonoBehaviour
 
         if (stamina > 0.75f)
             _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Full;
-        else if (stamina > 0.4f)
+        else if (stamina > 0.35f)
             _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Mid;
         else if (stamina > 0.0f)
             _worldStateValues2[EWorldState.Stamina] = WorldStateValue.Low;

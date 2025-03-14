@@ -4,22 +4,33 @@ using UnityEngine;
 public class BlockAction : GoapAction
 {
     private bool _blockSet = false;
-
+    [SerializeField] private bool _IsBlocking = true;
+    AIController _aiController;
     public override void StartAction(WorldState currentWorldState)
     {
-        if (_actionCoroutine != null)
-        {
-            StopCoroutine(_actionCoroutine);//if somehow still runing, stop it
-            _isActivated = false;
-        }
+        //if (_actionCoroutine != null)
+        //{
+        //    StopCoroutine(_actionCoroutine);//if somehow still runing, stop it
+        //    _isActivated = false;
+        //}
 
         base.StartAction(currentWorldState);
-        _blockSet = false;
+
+        _aiController = currentWorldState.GetOwner().GetComponent<AIController>();
+        if (_IsBlocking)
+            _blockSet = false;
     }
 
 
     public override void UpdateAction(WorldState currentWorldState)
     {
+        if (!_IsBlocking)
+        {
+            _aiController.AttackGuardMode(false, false);
+            ActionCompleted();
+            return;
+        }
+
         if (_blockSet)
             return;
         GameObject owner = currentWorldState.GetOwner();

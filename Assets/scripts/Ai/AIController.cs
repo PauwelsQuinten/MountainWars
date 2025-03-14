@@ -86,7 +86,7 @@ public class AIController : MonoBehaviour
             else
             {
                 _fightStyle = FightStyle.Sword;
-                _shield.ActivateBlock(false, true);
+                _shield.ActivateBlock(false, false);
             }
         }
     }
