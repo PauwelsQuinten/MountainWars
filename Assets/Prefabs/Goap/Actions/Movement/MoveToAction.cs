@@ -118,13 +118,14 @@ public class MoveToAction : GoapAction
 
     public override bool IsInterupted(WorldState currentWorldState)
     {
-        //if (currentWorldState._worldStateValues[EWorldState.TargetSwingSpeed] > 50f
-        //    && currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange)
-        //{
-        //    //npcComp.SetInputDirection(Vector2.zero);
-        //    aiComp.MoveAction_performed(Vector2.zero);
-        //    return true;
-        //}
+        if (!currentWorldState.IsBlockInCorrectDirection()
+           && (currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange
+           || currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.InRange))
+        {
+            //npcComp.SetInputDirection(Vector2.zero);
+            aiComp.MoveAction_performed(Vector2.zero);
+            return true;
+        }
         return false;
     }
 
