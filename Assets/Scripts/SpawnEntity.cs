@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnEntity : MonoBehaviour
 {
@@ -16,7 +17,9 @@ public class SpawnEntity : MonoBehaviour
     private void Update()
     {
         if (!_canSpawnMore) return;
-        if(Input.GetKeyDown(KeyCode.Space) && GameObject.Find("enemy(Clone)") == null) StartCoroutine(Spawn());
+        if (Input.GetKeyDown(KeyCode.Space) && GameObject.Find("enemy(Clone)") == null || 
+            Input.GetKeyDown(KeyCode.Space) && GameObject.Find("Square(Clone)") == null) 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator Spawn()

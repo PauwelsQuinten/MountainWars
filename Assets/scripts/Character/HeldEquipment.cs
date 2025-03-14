@@ -53,7 +53,6 @@ public class HeldEquipment : MonoBehaviour
     {
         if (_fullEquipment[equipmentType] != null &&  _fullEquipment[equipmentType].DecreaseDurability(damage))
         {
-            if (equipmentType == EquipmentType.Weapon) GetComponent<AimingInput2>().enabled = false;
             Destroy(_fullEquipment[equipmentType].gameObject);
             _fullEquipment[equipmentType] = null;
             return false;
@@ -68,7 +67,22 @@ public class HeldEquipment : MonoBehaviour
 
     public GameObject GetEquipment(EquipmentType type)
     {
-        return _fullEquipment[type].GetEquipment();
+        if(_fullEquipment[type])
+            return _fullEquipment[type].GetEquipment();
+        else 
+            return null;
+    }
+
+    public GameObject GetReserveEquipment(EquipmentType type)
+    {
+       
+       if( type == EquipmentType.Weapon)
+           return _fullEquipment[EquipmentType.Shield].GetEquipment();
+       else if( type == EquipmentType.Shield)
+           return _fullEquipment[EquipmentType.Weapon].GetEquipment();
+       else 
+            return null;
+       
     }
 
     public bool HoldSwordAndShield()
@@ -99,7 +113,7 @@ public class HeldEquipment : MonoBehaviour
             {
                 float orientation = GetComponent<WalkAnimate>().Orientation * Mathf.Rad2Deg;
                 Transform t = Instantiate(transform);
-                t.rotation = Quaternion.Euler(new Vector3(0,0,t.rotation.z + (orientation - 90)));
+                t.rotation = Quaternion.Euler(new Vector3(0, 0, t.rotation.z + (orientation - 90)));
 
                 if (direction == 1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
                 else if (direction == -1) _goFlyCoroutine = StartCoroutine(LaunchSword(_fullEquipment[targetedtype].transform.position, -t.right * 6, 2, 1, _fullEquipment[targetedtype].transform));
@@ -126,7 +140,7 @@ public class HeldEquipment : MonoBehaviour
         switch(equipment.GetEquipmentType())
         {
             case EquipmentType.Weapon:
-                GetComponent<AimingInput2>().NewSword();
+                GetComponent<AimingInput2>().NewSword(equipment.gameObject);
                 break;
             case EquipmentType.Shield:
                 GetComponent<Blocking>().NewShield();
@@ -142,6 +156,11 @@ public class HeldEquipment : MonoBehaviour
         {
             SetLookForPickup(true, direction, goFly);
         }
+    }
+
+    public Vector3 GetEquipmentLocation(EquipmentType equipment)
+    {
+        return _fullEquipment[equipment].transform.position;
     }
 
     IEnumerator LaunchSword(Vector3 startPos, Vector3 direction, float distance, float speed, Transform obj)

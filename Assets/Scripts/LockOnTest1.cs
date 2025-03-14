@@ -20,7 +20,7 @@ public class LockOnTest1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if ((_layersToInteractWith.value &(1<<collision.gameObject.layer)) != 0)
+        if ((_layersToInteractWith.value &(1<<collision.gameObject.layer)) != 0 && collision is CharacterController)
         {
             LockOnTarget = collision.gameObject;
             if(_walkAnimate != null)_walkAnimate.LockOn(LockOnTarget);
@@ -35,4 +35,11 @@ public class LockOnTest1 : MonoBehaviour
             if (_walkAnimate != null) _walkAnimate.LockOn(null);
         }
     }
+
+    public void SetTarget(GameObject target)
+    {
+        if (target == null)
+            LockOnTarget = target;
+    }
+
 }
