@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1475563392544915274}
   - component: {fileID: 1636876847247332941}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7955614898218700654}
   - component: {fileID: 5413534055230705163}
   - component: {fileID: 3093686565319998290}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RedSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}

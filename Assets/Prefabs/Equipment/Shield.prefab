@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7552261235990245312}
   - component: {fileID: 6348549097770466851}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7955614898218700654}
   - component: {fileID: 2940570966944863925}
   - component: {fileID: 3038868665155537052}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
