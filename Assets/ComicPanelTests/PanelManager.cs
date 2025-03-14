@@ -11,6 +11,8 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private bool _doPanelClimb;
     [SerializeField] private float _camZoomSpeed;
     [SerializeField] private float _camMoveSpeed;
+    [SerializeField] private float _maxEnemyDistance;
+    [SerializeField] private GameObject _showdownPanel;
     [SerializeField] Camera _camera;
     [SerializeField] private PanelTrigger _panel1Trigger;
     [SerializeField] private PanelTrigger _panel2Trigger;
@@ -30,6 +32,8 @@ public class PanelManager : MonoBehaviour
     private GameObject _staminaBar;
     private bool _isNearTree;
     private bool _isInTree;
+    private GameObject _lastEnemy;
+    private bool _canDoShowdown;
  
     private void Start()
     {
@@ -53,7 +57,35 @@ public class PanelManager : MonoBehaviour
 
     private void Update()
     {
-        if(_isNearTree && _interaction.action.WasPerformedThisFrame())
+        ShowTreePannel();
+        GameObject enemy = GameObject.Find("enemy(Clone)");
+        if (enemy == null) return;
+
+        if (_lastEnemy == null)
+        {
+            _lastEnemy = enemy;
+            _canDoShowdown = true;
+        }
+
+            if (_player == null) _player = GameObject.Find("Square(Clone)");
+
+        float distance = Vector3.Distance(enemy.transform.position, _player.transform.position);
+
+        //if (distance <= 4 || distance > _maxEnemyDistance) _showdownPanel.SetActive(false);
+
+        if (!_canDoShowdown) return;
+
+        if (distance <= _maxEnemyDistance)
+        {
+            _showdownPanel.SetActive(true);
+            _canDoShowdown = false;
+            StartCoroutine(ResetShowdownPanel());
+        }
+    }
+
+    private void ShowTreePannel()
+    {
+        if (_isNearTree && _interaction.action.WasPerformedThisFrame())
         {
             _isInTree = true;
             _isNearTree = false;
@@ -66,12 +98,12 @@ public class PanelManager : MonoBehaviour
             playerFromPos.y += 10.8f / 2;
             playerToPos.y -= 10.8f / 2;
             //SetCameraPos(2, playerFromPos, playerToPos);
-            SetCamSize(2 ,2, true);
+            SetCamSize(2, 2, true);
             _panelsView[3].gameObject.SetActive(true);
 
-            if (_player != null)_player.GetComponent<CharacterController>().enabled = false;
+            if (_player != null) _player.GetComponent<CharacterController>().enabled = false;
         }
-        else if(_isInTree && _interaction.action.WasPerformedThisFrame())
+        else if (_isInTree && _interaction.action.WasPerformedThisFrame())
         {
             _isInTree = false;
             SetPlayerPos(_spawnPos[4].position);
@@ -89,7 +121,6 @@ public class PanelManager : MonoBehaviour
             if (_player != null) _player.GetComponent<CharacterController>().enabled = true;
         }
     }
-
     private void SetPanel(int CurrentIndex, int newIndex)
     {
         if(!_isInTree && CurrentIndex != 3)_panelsScene[CurrentIndex].SetActive(false);
@@ -316,5 +347,11 @@ public class PanelManager : MonoBehaviour
             StartCoroutine(DoMoveCamToPanel(newCamPosPanel));
         }
         else StartCoroutine(DoMoveCamToPanel(newCamPosPanel));
+    }
+
+    private IEnumerator ResetShowdownPanel()
+    {
+        yield return new WaitForSeconds(3);
+        _showdownPanel.SetActive(false);
     }
 }
