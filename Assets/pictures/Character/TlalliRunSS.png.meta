@@ -1,0 +1,2145 @@
+fileFormatVersion: 2
+guid: 86bf019c2a871234da18d5f0e1500407
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7707230369306407369
+    second: TlalliRunSS_0
+  - first:
+      213: 9104089220203324261
+    second: TlalliRunSS_1
+  - first:
+      213: 2680770909943602208
+    second: TlalliRunSS_2
+  - first:
+      213: -3295560718405347698
+    second: TlalliRunSS_3
+  - first:
+      213: 5314718721391095199
+    second: TlalliRunSS_4
+  - first:
+      213: -7342228020929462962
+    second: TlalliRunSS_5
+  - first:
+      213: 4393099114675516955
+    second: TlalliRunSS_6
+  - first:
+      213: 3108715825783015859
+    second: TlalliRunSS_7
+  - first:
+      213: 6365429500487959515
+    second: TlalliRunSS_8
+  - first:
+      213: -3422486472165945453
+    second: TlalliRunSS_9
+  - first:
+      213: 5436828701245187429
+    second: TlalliRunSS_10
+  - first:
+      213: -1664459226758763789
+    second: TlalliRunSS_11
+  - first:
+      213: 6921189653414281665
+    second: TlalliRunSS_12
+  - first:
+      213: 8785482384063354478
+    second: TlalliRunSS_13
+  - first:
+      213: 5857052353521672444
+    second: TlalliRunSS_14
+  - first:
+      213: -4050848464658295538
+    second: TlalliRunSS_15
+  - first:
+      213: -4614068902796591860
+    second: TlalliRunSS_16
+  - first:
+      213: 1483762525981947544
+    second: TlalliRunSS_17
+  - first:
+      213: 3187275820471036913
+    second: TlalliRunSS_18
+  - first:
+      213: -3453468520501686695
+    second: TlalliRunSS_19
+  - first:
+      213: 3661411106610093479
+    second: TlalliRunSS_20
+  - first:
+      213: 3130477917499779372
+    second: TlalliRunSS_21
+  - first:
+      213: 3928930935418018514
+    second: TlalliRunSS_22
+  - first:
+      213: 8594685342856219437
+    second: TlalliRunSS_23
+  - first:
+      213: -3883662698396467853
+    second: TlalliRunSS_24
+  - first:
+      213: 4415302173557553046
+    second: TlalliRunSS_25
+  - first:
+      213: -7207236122926402272
+    second: TlalliRunSS_26
+  - first:
+      213: 3274866955626160405
+    second: TlalliRunSS_27
+  - first:
+      213: 5794130514317260461
+    second: TlalliRunSS_28
+  - first:
+      213: -4507104272968256356
+    second: TlalliRunSS_29
+  - first:
+      213: 3364942446963736076
+    second: TlalliRunSS_30
+  - first:
+      213: -3905562074859501992
+    second: TlalliRunSS_31
+  - first:
+      213: -2761978290900453141
+    second: TlalliRunSS_32
+  - first:
+      213: -977369304378025349
+    second: TlalliRunSS_33
+  - first:
+      213: 2096646431797760644
+    second: TlalliRunSS_34
+  - first:
+      213: -369943826401758149
+    second: TlalliRunSS_35
+  - first:
+      213: -4315062862723063950
+    second: TlalliRunSS_36
+  - first:
+      213: -2617908600887947136
+    second: TlalliRunSS_37
+  - first:
+      213: 4134440350167860746
+    second: TlalliRunSS_38
+  - first:
+      213: -3169623765888656105
+    second: TlalliRunSS_39
+  - first:
+      213: 2883981770132347951
+    second: TlalliRunSS_40
+  - first:
+      213: 5348211076204174324
+    second: TlalliRunSS_41
+  - first:
+      213: 2305616081308653170
+    second: TlalliRunSS_42
+  - first:
+      213: 830527050343818850
+    second: TlalliRunSS_43
+  - first:
+      213: -4546893695355080313
+    second: TlalliRunSS_44
+  - first:
+      213: 5494469440522280327
+    second: TlalliRunSS_45
+  - first:
+      213: 3676436351014758644
+    second: TlalliRunSS_46
+  - first:
+      213: -324327080280233794
+    second: TlalliRunSS_47
+  - first:
+      213: -3164189929718590033
+    second: TlalliRunSS_48
+  - first:
+      213: 8665380323334763650
+    second: TlalliRunSS_49
+  - first:
+      213: -945845422099860468
+    second: TlalliRunSS_50
+  - first:
+      213: -402872875535725602
+    second: TlalliRunSS_51
+  - first:
+      213: 1138557146611688408
+    second: TlalliRunSS_52
+  - first:
+      213: 2984370567129603515
+    second: TlalliRunSS_53
+  - first:
+      213: 3532645131072313359
+    second: TlalliRunSS_54
+  - first:
+      213: -1340076424192232327
+    second: TlalliRunSS_55
+  - first:
+      213: 1424667780529629363
+    second: TlalliRunSS_56
+  - first:
+      213: 6623040350548933363
+    second: TlalliRunSS_57
+  - first:
+      213: 8868376475953009552
+    second: TlalliRunSS_58
+  - first:
+      213: 8214725830027219145
+    second: TlalliRunSS_59
+  - first:
+      213: 3294218419035397873
+    second: TlalliRunSS_60
+  - first:
+      213: -6002259131833541556
+    second: TlalliRunSS_61
+  - first:
+      213: 1497948029575381969
+    second: TlalliRunSS_62
+  - first:
+      213: -5402051410622570242
+    second: TlalliRunSS_63
+  - first:
+      213: 1017351270445339421
+    second: TlalliRunSS_64
+  - first:
+      213: -5475762380415456021
+    second: TlalliRunSS_65
+  - first:
+      213: -6180281747209969167
+    second: TlalliRunSS_66
+  - first:
+      213: -8474715713934284649
+    second: TlalliRunSS_67
+  - first:
+      213: 2856844545740419406
+    second: TlalliRunSS_68
+  - first:
+      213: 3143616531859391069
+    second: TlalliRunSS_69
+  - first:
+      213: 4663692466523625654
+    second: TlalliRunSS_70
+  - first:
+      213: -3746551200326317598
+    second: TlalliRunSS_71
+  - first:
+      213: 3272398713788382113
+    second: TlalliRunSS_72
+  - first:
+      213: -5677437455698232408
+    second: TlalliRunSS_73
+  - first:
+      213: -5086971289739255238
+    second: TlalliRunSS_74
+  - first:
+      213: -8419218560433408188
+    second: TlalliRunSS_75
+  - first:
+      213: 6359400658010877098
+    second: TlalliRunSS_76
+  - first:
+      213: 3223713203691468610
+    second: TlalliRunSS_77
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 15
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TlalliRunSS_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 338
+        width: 21
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c17c9caf2595fa60800000000000000
+      internalID: 7707230369306407369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 340
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 563aea509e8385e70800000000000000
+      internalID: 9104089220203324261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_2
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 338
+        width: 21
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02c936370f2043520800000000000000
+      internalID: 2680770909943602208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_3
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 335
+        width: 23
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e86d7bbbcf0d342d0800000000000000
+      internalID: -3295560718405347698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_4
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 336
+        width: 21
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9d62adb48ca1c940800000000000000
+      internalID: 5314718721391095199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_5
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 338
+        width: 21
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4d7498048a2b1a90800000000000000
+      internalID: -7342228020929462962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_6
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 340
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1631518e5c67fc30800000000000000
+      internalID: 4393099114675516955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_7
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 338
+        width: 21
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b98e67a290642b20800000000000000
+      internalID: 3108715825783015859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_8
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 335
+        width: 23
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd3806bb76c865850800000000000000
+      internalID: 6365429500487959515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_9
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 336
+        width: 21
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39f08f9cfa2e080d0800000000000000
+      internalID: -3422486472165945453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_10
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 292
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5652e52f5ee737b40800000000000000
+      internalID: 5436828701245187429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_11
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 295
+        width: 24
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa2ce5e627a6e8e0800000000000000
+      internalID: -1664459226758763789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_12
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 292
+        width: 29
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c10edad1510d0060800000000000000
+      internalID: 6921189653414281665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_13
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 289
+        width: 25
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e665c8a4ead4ce970800000000000000
+      internalID: 8785482384063354478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_14
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 290
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf06682651e684150800000000000000
+      internalID: 5857052353521672444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_15
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 292
+        width: 24
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e051b11a8ce78c7c0800000000000000
+      internalID: -4050848464658295538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_16
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 294
+        width: 29
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0df1af77c887ffb0800000000000000
+      internalID: -4614068902796591860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_17
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 291
+        width: 25
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 896b034f722679410800000000000000
+      internalID: 1483762525981947544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_18
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 288
+        width: 22
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fb2e58c87a7b3c20800000000000000
+      internalID: 3187275820471036913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_19
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 290
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95ec0888da0d210d0800000000000000
+      internalID: -3453468520501686695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_20
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 239
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ad1a22a002ffc230800000000000000
+      internalID: 3661411106610093479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_21
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 241
+        width: 27
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2967c97411b17b20800000000000000
+      internalID: 3130477917499779372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_22
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 244
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2da52a09edd568630800000000000000
+      internalID: 3928930935418018514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_23
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 242
+        width: 26
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2b833168c4764770800000000000000
+      internalID: 8594685342856219437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_24
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 242
+        width: 20
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37db4a23a557a1ac0800000000000000
+      internalID: -3883662698396467853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_25
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 242
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69778eefeed464d30800000000000000
+      internalID: 4415302173557553046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_26
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 245
+        width: 27
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 025bb988ee0cafb90800000000000000
+      internalID: -7207236122926402272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_27
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 244
+        width: 24
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51123c8252aa27d20800000000000000
+      internalID: 3274866955626160405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_28
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 240
+        width: 23
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da6b1201103e86050800000000000000
+      internalID: 5794130514317260461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_29
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 240
+        width: 22
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c94f41c1b8c8371c0800000000000000
+      internalID: -4507104272968256356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_30
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 193
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0e38e8c35da2be20800000000000000
+      internalID: 3364942446963736076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_31
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 194
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85603c74cf7acc9c0800000000000000
+      internalID: -3905562074859501992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_32
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 196
+        width: 25
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be8b985c06b7ba9d0800000000000000
+      internalID: -2761978290900453141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_33
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 197
+        width: 23
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7a5d26cbcfaf62f0800000000000000
+      internalID: -977369304378025349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_34
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 198
+        width: 21
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48255ea32d8c81d10800000000000000
+      internalID: 2096646431797760644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_35
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 195
+        width: 25
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b347978cc02bddaf0800000000000000
+      internalID: -369943826401758149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_36
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 197
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27f59e34031dd14c0800000000000000
+      internalID: -4315062862723063950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_37
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 201
+        width: 26
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08052ad6ff15babd0800000000000000
+      internalID: -2617908600887947136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_38
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 199
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a060cc0e79b706930800000000000000
+      internalID: 4134440350167860746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_39
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 196
+        width: 23
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d12927afb3304d0800000000000000
+      internalID: -3169623765888656105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_40
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 143
+        width: 24
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2cd073d326f50820800000000000000
+      internalID: 2883981770132347951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_41
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 144
+        width: 23
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fb95f443a9a83a40800000000000000
+      internalID: 5348211076204174324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_42
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 145
+        width: 23
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27694da3c913fff10800000000000000
+      internalID: 2305616081308653170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_43
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 146
+        width: 24
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 266a814b3ff968b00800000000000000
+      internalID: 830527050343818850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_44
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 101
+        width: 26
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 47}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 781b5e8464036e0c0800000000000000
+      internalID: -4546893695355080313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_45
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 100
+        width: 25
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 45, z: 0, w: 46}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78dd19f58d6404c40800000000000000
+      internalID: 5494469440522280327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_46
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 143
+        width: 23
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f86195f163550330800000000000000
+      internalID: 3676436351014758644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_47
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 145
+        width: 23
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb86bd42d32cf7bf0800000000000000
+      internalID: -324327080280233794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_48
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 147
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa55145060a8614d0800000000000000
+      internalID: -3164189929718590033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_49
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 143
+        width: 25
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28437003e7d914870800000000000000
+      internalID: 8665380323334763650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_50
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 97
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c04fe43999eafd2f0800000000000000
+      internalID: -945845422099860468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_51
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 98
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edb8d041145b86af0800000000000000
+      internalID: -402872875535725602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_52
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 100
+        width: 25
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d3a54841b7fccf00800000000000000
+      internalID: 1138557146611688408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_53
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 101
+        width: 23
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbd14eb083d9a6920800000000000000
+      internalID: 2984370567129603515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_54
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 101
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f08141ba70a760130800000000000000
+      internalID: 3532645131072313359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_55
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 105
+        width: 26
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 974752c9797176de0800000000000000
+      internalID: -1340076424192232327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_56
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 103
+        width: 21
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b8a9655ccf65c310800000000000000
+      internalID: 1424667780529629363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_57
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 100
+        width: 23
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa3c83cb14c9eb50800000000000000
+      internalID: 6623040350548933363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_58
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 47
+        width: 25
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0931c9f0b6dc21b70800000000000000
+      internalID: 8868376475953009552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_59
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 49
+        width: 27
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c09ff17e91900270800000000000000
+      internalID: 8214725830027219145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_60
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 52
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fe5727d23a67bd20800000000000000
+      internalID: 3294218419035397873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_61
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 50
+        width: 26
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4c9735fe11b3bca0800000000000000
+      internalID: -6002259131833541556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_62
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 50
+        width: 20
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d346d2ebc7c9c410800000000000000
+      internalID: 1497948029575381969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_63
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 50
+        width: 24
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef0a1730dde0805b0800000000000000
+      internalID: -5402051410622570242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_64
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 53
+        width: 27
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d13dfae179b5e1e00800000000000000
+      internalID: 1017351270445339421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_65
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 52
+        width: 24
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beca3e8702f2204b0800000000000000
+      internalID: -5475762380415456021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_66
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 48
+        width: 23
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f128b5de7a3b3aa0800000000000000
+      internalID: -6180281747209969167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_67
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 48
+        width: 22
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 798a68a85f2c36a80800000000000000
+      internalID: -8474715713934284649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_68
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 4
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e41be576afc85a720800000000000000
+      internalID: 2856844545740419406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_69
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 7
+        width: 24
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d524683849e50ab20800000000000000
+      internalID: 3143616531859391069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_70
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 4
+        width: 29
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b85ec8c693c8b040800000000000000
+      internalID: 4663692466523625654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_71
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 1
+        width: 25
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e98cbb8883910cc0800000000000000
+      internalID: -3746551200326317598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_72
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 2
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ab3dc2da45e96d20800000000000000
+      internalID: 3272398713788382113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_73
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 4
+        width: 24
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8abfb92e6b0b531b0800000000000000
+      internalID: -5677437455698232408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_74
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 6
+        width: 29
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a322b7c50927769b0800000000000000
+      internalID: -5086971289739255238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_75
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 3
+        width: 26
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 447bdf2835de82b80800000000000000
+      internalID: -8419218560433408188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_76
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 0
+        width: 22
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aacaf157431214850800000000000000
+      internalID: 6359400658010877098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TlalliRunSS_77
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 2
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24734cb241eecbc20800000000000000
+      internalID: 3223713203691468610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 153c0bfe20be423489547b8cf4b5537c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TlalliRunSS_0: 7707230369306407369
+      TlalliRunSS_1: 9104089220203324261
+      TlalliRunSS_10: 5436828701245187429
+      TlalliRunSS_11: -1664459226758763789
+      TlalliRunSS_12: 6921189653414281665
+      TlalliRunSS_13: 8785482384063354478
+      TlalliRunSS_14: 5857052353521672444
+      TlalliRunSS_15: -4050848464658295538
+      TlalliRunSS_16: -4614068902796591860
+      TlalliRunSS_17: 1483762525981947544
+      TlalliRunSS_18: 3187275820471036913
+      TlalliRunSS_19: -3453468520501686695
+      TlalliRunSS_2: 2680770909943602208
+      TlalliRunSS_20: 3661411106610093479
+      TlalliRunSS_21: 3130477917499779372
+      TlalliRunSS_22: 3928930935418018514
+      TlalliRunSS_23: 8594685342856219437
+      TlalliRunSS_24: -3883662698396467853
+      TlalliRunSS_25: 4415302173557553046
+      TlalliRunSS_26: -7207236122926402272
+      TlalliRunSS_27: 3274866955626160405
+      TlalliRunSS_28: 5794130514317260461
+      TlalliRunSS_29: -4507104272968256356
+      TlalliRunSS_3: -3295560718405347698
+      TlalliRunSS_30: 3364942446963736076
+      TlalliRunSS_31: -3905562074859501992
+      TlalliRunSS_32: -2761978290900453141
+      TlalliRunSS_33: -977369304378025349
+      TlalliRunSS_34: 2096646431797760644
+      TlalliRunSS_35: -369943826401758149
+      TlalliRunSS_36: -4315062862723063950
+      TlalliRunSS_37: -2617908600887947136
+      TlalliRunSS_38: 4134440350167860746
+      TlalliRunSS_39: -3169623765888656105
+      TlalliRunSS_4: 5314718721391095199
+      TlalliRunSS_40: 2883981770132347951
+      TlalliRunSS_41: 5348211076204174324
+      TlalliRunSS_42: 2305616081308653170
+      TlalliRunSS_43: 830527050343818850
+      TlalliRunSS_44: -4546893695355080313
+      TlalliRunSS_45: 5494469440522280327
+      TlalliRunSS_46: 3676436351014758644
+      TlalliRunSS_47: -324327080280233794
+      TlalliRunSS_48: -3164189929718590033
+      TlalliRunSS_49: 8665380323334763650
+      TlalliRunSS_5: -7342228020929462962
+      TlalliRunSS_50: -945845422099860468
+      TlalliRunSS_51: -402872875535725602
+      TlalliRunSS_52: 1138557146611688408
+      TlalliRunSS_53: 2984370567129603515
+      TlalliRunSS_54: 3532645131072313359
+      TlalliRunSS_55: -1340076424192232327
+      TlalliRunSS_56: 1424667780529629363
+      TlalliRunSS_57: 6623040350548933363
+      TlalliRunSS_58: 8868376475953009552
+      TlalliRunSS_59: 8214725830027219145
+      TlalliRunSS_6: 4393099114675516955
+      TlalliRunSS_60: 3294218419035397873
+      TlalliRunSS_61: -6002259131833541556
+      TlalliRunSS_62: 1497948029575381969
+      TlalliRunSS_63: -5402051410622570242
+      TlalliRunSS_64: 1017351270445339421
+      TlalliRunSS_65: -5475762380415456021
+      TlalliRunSS_66: -6180281747209969167
+      TlalliRunSS_67: -8474715713934284649
+      TlalliRunSS_68: 2856844545740419406
+      TlalliRunSS_69: 3143616531859391069
+      TlalliRunSS_7: 3108715825783015859
+      TlalliRunSS_70: 4663692466523625654
+      TlalliRunSS_71: -3746551200326317598
+      TlalliRunSS_72: 3272398713788382113
+      TlalliRunSS_73: -5677437455698232408
+      TlalliRunSS_74: -5086971289739255238
+      TlalliRunSS_75: -8419218560433408188
+      TlalliRunSS_76: 6359400658010877098
+      TlalliRunSS_77: 3223713203691468610
+      TlalliRunSS_8: 6365429500487959515
+      TlalliRunSS_9: -3422486472165945453
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
