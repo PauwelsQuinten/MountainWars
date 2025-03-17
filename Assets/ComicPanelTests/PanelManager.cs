@@ -77,6 +77,8 @@ public class PanelManager : MonoBehaviour
 
         if (distance <= _maxEnemyDistance)
         {
+            _player.GetComponent<CharacterController>().enabled = false;
+            _lastEnemy.GetComponent<CharacterController>().enabled = false;
             _showdownPanel.SetActive(true);
             _canDoShowdown = false;
             StartCoroutine(ResetShowdownPanel());
@@ -351,7 +353,9 @@ public class PanelManager : MonoBehaviour
 
     private IEnumerator ResetShowdownPanel()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.5f);
         _showdownPanel.SetActive(false);
+        _player.GetComponent<CharacterController>().enabled = true;
+        _lastEnemy.GetComponent<CharacterController>().enabled = true;
     }
 }

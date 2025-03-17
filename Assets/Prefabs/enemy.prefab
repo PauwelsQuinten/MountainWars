@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3404001752564671748}
   - component: {fileID: 4961313179270149180}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5880454959900362240}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1156553199522058214}
   - component: {fileID: 8778418357325411786}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 77205811603989205}
   - component: {fileID: 4905586600950305180}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3189103827100795264}
   - component: {fileID: 4018039580721747147}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120959318241629932}
   - component: {fileID: 2402219752202127022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1436634274460040310}
   - component: {fileID: 5930612343896481237}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3901014781933166843}
   - component: {fileID: 1646015355946686438}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: T
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,93 +647,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &5059935051851842213
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9201218937927774741}
-  - component: {fileID: 3851259939772709091}
-  m_Layer: 0
-  m_Name: arrow (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9201218937927774741
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059935051851842213}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.008286797, w: 0.9999657}
-  m_LocalPosition: {x: -4.6678824, y: -2.951148, z: 0}
-  m_LocalScale: {x: 3.33, y: 3.33, z: 3.33}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1849637030047385468}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3851259939772709091
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059935051851842213}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.11962438, g: 1, b: 0, a: 1}
-  m_FlipX: 0
-  m_FlipY: 1
-  m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &5074149845227839809
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6699741316987927444}
   - component: {fileID: 4099655550285298676}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,7 +744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9135466066538196860}
   - component: {fileID: 5553019379584172160}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BloodBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8207070954374663966}
   - component: {fileID: 2813343876802731642}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1006,7 +919,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5914283324362031179}
   - component: {fileID: 7997861874663044407}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1093,7 +1006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4109843974608827782}
   - component: {fileID: 5770323703295539434}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1180,7 +1093,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7241091460941140927}
   - component: {fileID: 4430590676272999215}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1305,10 +1218,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 3289320963661608098}
   - {fileID: 7241091460941140927}
   - {fileID: 1436634274460040310}
   - {fileID: 9135466066538196860}
-  - {fileID: 9201218937927774741}
   - {fileID: 1156553199522058214}
   - {fileID: 4962471620068829861}
   - {fileID: 7339664305130033346}
@@ -1359,7 +1272,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7707230369306407369, guid: 86bf019c2a871234da18d5f0e1500407, type: 3}
   m_Color: {r: 0.6981132, g: 0.13040222, b: 0.13040222, a: 1}
   m_FlipX: 0
@@ -1476,6 +1389,8 @@ MonoBehaviour:
   Direction: {x: 0, y: 0}
   CurrentStanceState: 0
   CurrentAttackType: 7
+  _speed: 10
+  _texMessage: {fileID: 0}
   _stunned: 0
   DEFAULT_SWORD_ORIENTATION: 218
   YRotation: 45
@@ -1492,7 +1407,6 @@ MonoBehaviour:
   _stanceResetTimer: 0
   _maxFeintAngle: 120
   _minFeintAngle: 15
-  _texMessage: {fileID: 0}
   _txtActionPower: {fileID: 0}
   _AttackMessage: {fileID: 0}
   _attackMessage: 
@@ -1726,7 +1640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3525602773866889642}
   - component: {fileID: 179736504488796346}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Stamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1813,7 +1727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4962471620068829861}
   - component: {fileID: 1105555489903535568}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1890,6 +1804,134 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7938445328284300191
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3289320963661608098}
+  - component: {fileID: 1259047472895615738}
+  - component: {fileID: 2049033125173651790}
+  m_Layer: 7
+  m_Name: SideCam
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3289320963661608098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938445328284300191}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1849637030047385468}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1259047472895615738
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938445328284300191}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.17254902, g: 0.38431373, b: 0.22352941, a: 1}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 183
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 3f901187842c05c4486e9f26472ead16, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &2049033125173651790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938445328284300191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &8838536944917441207
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,7 +1942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7339664305130033346}
   - component: {fileID: 7035683758159865416}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}

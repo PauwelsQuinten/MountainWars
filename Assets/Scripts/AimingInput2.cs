@@ -58,7 +58,6 @@ public class AimingInput2 : MonoBehaviour
     private Vector2 _startDrawPos;
     private float _slashAngle;
     private float _slashTime;
-    private float _speed;
 
     private int _currentHitBoxIndex;
     private List<AttackType> _possibleAttacks = new List<AttackType>();
@@ -119,7 +118,6 @@ public class AimingInput2 : MonoBehaviour
 
     [Header("Text")]
 
-    [SerializeField] private TextMeshPro _texMessage;
     [SerializeField] private TextMeshPro _txtActionPower;
     [SerializeField] private TextMeshPro _AttackMessage;
     [SerializeField] private string _attackMessage;
@@ -136,15 +134,16 @@ public class AimingInput2 : MonoBehaviour
         //_attackFinder = FindObjectOfType<FindPossibleAttacks>();
 
         //initPlayer();
+        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
         _healthManager = GetComponent<HealthManager>();
         _animationRef = GetComponent<WalkAnimate>();
+        _WalkOrientation = _animationRef;
         if (_healthManager.Physique > 5) _power -= 5 - _healthManager.Physique;
         else if (_healthManager.Physique < 5) _power -= 5 - _healthManager.Physique;
     }
 
     private void Update()
     {
-        if (!_isInitialized) return;
         /* if (GetComponent<AIController>() != null)
              return;*/
 
@@ -501,7 +500,6 @@ public class AimingInput2 : MonoBehaviour
         CurrentAttackType = AttackType.None;
         if (_resetAtackText != null) StopCoroutine(_resetAtackText);
         _AttackMessage.text = "Attack was invalid";
-        _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
        //Debug.Log("Attack was invalid!");
         SetPreviousAttacks();
     }
@@ -515,7 +513,6 @@ public class AimingInput2 : MonoBehaviour
             if (_AttackMessage)
             {
                 _AttackMessage.text = "Player over commited";
-                _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             }
 
             _overcommited = true;
@@ -541,7 +538,6 @@ public class AimingInput2 : MonoBehaviour
             if (_resetAtackText != null) 
                 StopCoroutine(_resetAtackText);
             if (_AttackMessage)
-                _resetAtackText = StartCoroutine(ResetText(0.5f, _AttackMessage));
             _feinted = true;
             _attemptedAttack = false;
             _checkFeint = false;
@@ -663,8 +659,6 @@ public class AimingInput2 : MonoBehaviour
     public void initPlayer()
     {
         _attackFinder = GetComponent<FindPossibleAttacks>();
-        _WalkOrientation = GetComponent<WalkAnimate>();
-        _sword = GetComponent<HeldEquipment>().GetEquipment(EquipmentType.Weapon);
         if (_sword)
         {
             _startLocation = _sword.transform.position;

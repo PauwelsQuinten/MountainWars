@@ -32,8 +32,8 @@ public class HitDetection : MonoBehaviour
         _healthManager = GetComponent<HealthManager>();
         _spriteHeight = _sprite.bounds.size.y / 2;
         _zoneHeight = _spriteHeight / 3;
-        _hitbox.SetActive(false);
-        _arrow.SetActive(false);
+        if(_hitbox != null)_hitbox.SetActive(false);
+        if(_arrow !=  null)_arrow.SetActive(false);
     }
 
     public void HitDetected(GameObject sender, float damage)

@@ -49,7 +49,6 @@ public class TurnBlockAction : GoapAction
         _aiController.AimAction_performed(blockVec, FightStyle.Shield);
         _aiController.AttackGuardMode(true, true);
         ActionCompleted();
-        Debug.Log($"block turned");
     }
 
     public override bool IsVallid(WorldState currentWorldState)
@@ -58,7 +57,6 @@ public class TurnBlockAction : GoapAction
             Cost = _baseCost;
         else
             Cost = _HighCost;
-        Debug.Log($"block cost = {Cost}");
         return true;
     }
 

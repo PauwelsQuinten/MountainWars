@@ -25,9 +25,9 @@ public class StaminaManager : MonoBehaviour
     private void Start()
     {
         if (_staminaBarObj)
-            _staminahBar = _staminaBarObj.GetComponent<SpriteRenderer>();
+            _staminaBar = _staminaBarObj.GetComponent<SpriteRenderer>();
         else
-            _staminahBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
+            _staminaBar = GameObject.Find("Stamina").GetComponent<SpriteRenderer>();
         CurrentStamina = _maxStamina;
         _currentStaminaRegenRate = BaseStaminaRegenRate;
     }

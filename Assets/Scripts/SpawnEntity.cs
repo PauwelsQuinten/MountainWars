@@ -27,6 +27,6 @@ public class SpawnEntity : MonoBehaviour
         yield return null;
         spawnedPrefabPrefab = Instantiate(spawnPrefab, transform.position + spawnPos, Quaternion.identity);
 
-        if(spawnedPrefabPrefab.GetComponent<AimingInput2>() == null) GameObject.Find("Square(Clone)").GetComponent<AimingInput2>().initPlayer();
+        if(spawnedPrefabPrefab.GetComponent<AimingInput2>() != null) spawnedPrefabPrefab.GetComponent<AimingInput2>().initPlayer();
     }
 }
