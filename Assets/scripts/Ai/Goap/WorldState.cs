@@ -145,7 +145,8 @@ public class WorldState : MonoBehaviour
 
     //Helper state 
     private HeldEquipment _targetEquipment;
-    private GameObject _target;
+    [HideInInspector]
+    public GameObject _target;
     private float _targetOrientation = 0.0f;
     private float _targetWeaponRange = 0.0f;
     private HeldEquipment _npcEquipment;
@@ -166,6 +167,10 @@ public class WorldState : MonoBehaviour
     [HideInInspector]
     public float  Stamina = 0f;
     public float AttackCoolDown = 0f;
+    [HideInInspector]
+    public float NpcPerception = 0f;
+    private bool _isConfused = false;
+
 
     //Dictionaries used for checking desired states get completed AND for making Plan
     public Dictionary<EWorldState,float> _worldStateValues = new Dictionary<EWorldState, float>();
@@ -176,6 +181,8 @@ public class WorldState : MonoBehaviour
     {
         UpdateHeldEquipment();
         UpdateTargetHeldEquipment();
+        if (GetComponent<GoapPlanner>())
+            NpcPerception = GetComponent<GoapPlanner>().Perception;
 
         //When using a priority list for your desiredState
         if (_lowtoHighPriority.Count > 0)
@@ -542,7 +549,7 @@ public class WorldState : MonoBehaviour
         if (angle > Mathf.PI)
             angle -= Mathf.PI * 2f;
 
-        if (angle < 0.3f && angle > -0.3f)
+        if (angle < 0.5f && angle > -0.5f)
             _worldStateValues2[listKey] = WorldStateValue.OnCenter;
         else if (angle < 0  && angle > -Mathf.PI)
             _worldStateValues2[listKey] = WorldStateValue.OnRight;
@@ -658,6 +665,11 @@ public class WorldState : MonoBehaviour
         if (_attackCountList.ContainsKey(attack))
         {
             _attackCountList[attack] += 1;
+            if (_attackCountList[attack] > 5)
+                foreach (var key in _attackCountList.Keys.ToList())
+                {
+                    _attackCountList[key] -= (_attackCountList[key] > 0)? 1 : 0;
+                }
         }
         else
             _attackCountList.Add(attack, 1);
@@ -671,7 +683,7 @@ public class WorldState : MonoBehaviour
         }
 
         //deduct all values if lowest is NOT zero
-        if (lowestValue > 0)
+        if (lowestValue > 0 && _attackCountList.Count > 1)
         {
             foreach (var key in _attackCountList.Keys.ToList())
             {
@@ -686,6 +698,9 @@ public class WorldState : MonoBehaviour
     {
         if (TargetCurrentAttack == AttackType.None)
             return true;
+
+        bool perceptionCheck = PerceptionCheck();
+
         switch (TargetCurrentAttack)
         {
             case AttackType.UpperSlashRight:
@@ -707,6 +722,7 @@ public class WorldState : MonoBehaviour
                     return true;
                 break;
             case AttackType.Feint:
+
                 return true;
             case AttackType.None:
                 return true;
@@ -803,5 +819,10 @@ public class WorldState : MonoBehaviour
         TargetCurrentAttack = _target.GetComponent<AimingInput2>().CurrentAttackType;
     }
 
-   
+    private bool PerceptionCheck()
+    {
+        float check = Random.Range(0, 1f);
+        return (NpcPerception > check);
+    }
+
 }

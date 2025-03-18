@@ -38,9 +38,9 @@ public class StabAction : GoapAction
                 || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
             {
                 if (_startFromZero && currentWorldState.CurrentOpening.Size == Size.Small)
-                    Cost = 0.4f;
-                else if (!_startFromZero && (currentWorldState.CurrentOpening.Size == Size.Medium || currentWorldState.CurrentOpening.Size == Size.Large))
                     Cost = 0.3f;
+                else if (!_startFromZero && (currentWorldState.CurrentOpening.Size == Size.Medium || currentWorldState.CurrentOpening.Size == Size.Large))
+                    Cost = 0.2f;
             }
 
         }

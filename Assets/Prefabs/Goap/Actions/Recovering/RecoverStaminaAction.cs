@@ -9,8 +9,7 @@ public class RecoverStaminaAction : GoapAction
 
     public override void UpdateAction(WorldState currentWorldState)
     {
-        
-        
+                
          //_aiController.AttackGuardMode(false, false);
          //ActionCompleted();
          //return;
@@ -45,9 +44,7 @@ public class RecoverStaminaAction : GoapAction
     }
     public override bool IsInterupted(WorldState currentWorldState)
     {
-        return !currentWorldState.IsBlockInCorrectDirection()
-           && (currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange
-           || currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.InRange);
+        return AboutToBeHit(currentWorldState) || FamiliarAttack(currentWorldState);
 
     }
 }

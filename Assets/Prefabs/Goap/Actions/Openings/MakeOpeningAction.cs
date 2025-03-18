@@ -14,7 +14,11 @@ public class MakeOpeningAction : GoapAction
     public override void UpdateAction(WorldState currentWorldState)
     {
         if (_aiController.IsHoldingGuard())
+        {
+            ActionCompleted();
             return;
+        }
+
         //Set shield up in center
         float orientation = _animator.GetOrientation();
         Vector2 direction = new Vector2(Mathf.Cos(orientation), Mathf.Sin(orientation));

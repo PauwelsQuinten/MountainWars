@@ -109,4 +109,25 @@ public class GoapAction : MonoBehaviour, Actions
             StopCoroutine(_actionCoroutine);
         CancelAction();
     }
+
+
+    protected bool AboutToBeHit(WorldState currentWorldState)
+    {
+        return !currentWorldState.IsBlockInCorrectDirection()
+           && (currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange
+           || currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.InRange);
+    }
+
+    protected bool FamiliarAttack(WorldState currentWorldState)
+    {
+        bool parryMoveFound = false;
+        foreach (KeyValuePair<AttackType, int> att in currentWorldState._attackCountList)
+        {
+            if (att.Value >= 5 && currentWorldState.TargetCurrentAttack == att.Key)
+                parryMoveFound = true;
+        }
+        return parryMoveFound && (currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange
+           || currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.InRange);
+    }
+
 }

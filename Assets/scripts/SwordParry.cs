@@ -51,7 +51,6 @@ public class SwordParry : MonoBehaviour
         {
             FailParry();
         }
-        //else if (_parryState && _currentParryAngle >= _parryAngle)
         else if (_parryFase == ParryState.Parry && _currentParryAngle >= _parryAngle)
         {
             if(_staminaCost < _staminaManager.CurrentStamina)
@@ -97,6 +96,8 @@ public class SwordParry : MonoBehaviour
             //Debug.Log($"{Vector2.Distance(_startParryVector, _inputSwordMovement)}");
             if (Vector2.Distance(_startParryVector, _inputSwordMovement) < 0.1f)
             {
+                Debug.Log("start Disarm");
+
                 if (_staminaCost < _staminaManager.CurrentStamina)
                 {
                     _staminaManager.DepleteStamina(_staminaCost);
@@ -104,7 +105,6 @@ public class SwordParry : MonoBehaviour
                     
                     if (_attackPower <= _parryPower)
                     {
-                        Debug.Log("Disarm");
                         _attacker.GetComponent<HeldEquipment>().DropSword(_direction, true);
                         _attacker.GetComponent<AimingInput2>().SwordBroke();
                     }
@@ -118,6 +118,7 @@ public class SwordParry : MonoBehaviour
 
             if (_disarmTime >= _timeForDisarming)
             {
+                Debug.Log( $"fail Disarm, time {_disarmTime}");
                 _attacker = null;
                 _disarmTime = 0;
                 _parryFase = ParryState.Idle;
@@ -144,12 +145,13 @@ public class SwordParry : MonoBehaviour
             _parryState = isGoing;
             _direction = direction;
             _parryFase = ParryState.Parry;
+            Debug.Log("Time to start parry!!");
         }
         //else if (!isGoing && _parryState)
         else if (!isGoing && _parryFase == ParryState.Parry)
         {
             FailParry();
-            Debug.Log("Time up!!");
+            Debug.Log("Time to parry is up!!");
         }
         else if (!isGoing)
         {
@@ -173,7 +175,7 @@ public class SwordParry : MonoBehaviour
             return true;
         }
 
-        Debug.Log($"Faill, angle = {Mathf.Abs(angle )}, currentAngle= {_currentParryAngle}, length = {fullRot} ");
+        Debug.Log($"Faill parry, angle = {Mathf.Abs(angle )}, currentAngle= {_currentParryAngle}, length = {fullRot} ");
         return false;
     }
 

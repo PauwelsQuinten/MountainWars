@@ -1,11 +1,15 @@
+using System.Collections;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
+
+
 
 public class TurnBlockAction : GoapAction
 {
     AIController _aiController;
     private const float _baseCost = 0.4f;
     private const float _HighCost = 0.7f;
+
     public override void StartAction(WorldState currentWorldState)
     {
         //base.StartAction(currentWorldState);
@@ -18,6 +22,7 @@ public class TurnBlockAction : GoapAction
         float orientAngle = currentWorldState.GetOwner().GetComponent<WalkAnimate>().GetOrientation();
         var blockAngle = 0f;
         var targetWeaponOrientation = currentWorldState.TargetCurrentAttack;
+
 
         switch (targetWeaponOrientation)
         {
@@ -39,6 +44,7 @@ public class TurnBlockAction : GoapAction
                 ActionCompleted();
             
                 return;
+               
             default:
                 break;
         }
@@ -49,7 +55,7 @@ public class TurnBlockAction : GoapAction
         _aiController.AimAction_performed(blockVec, FightStyle.Shield);
         _aiController.AttackGuardMode(true, true);
         ActionCompleted();
-        Debug.Log($"block turned");
+        //Debug.Log($"block turned");
     }
 
     public override bool IsVallid(WorldState currentWorldState)
@@ -58,7 +64,7 @@ public class TurnBlockAction : GoapAction
             Cost = _baseCost;
         else
             Cost = _HighCost;
-        Debug.Log($"block cost = {Cost}");
+        //Debug.Log($"block cost = {Cost}");
         return true;
     }
 
@@ -71,4 +77,9 @@ public class TurnBlockAction : GoapAction
     {
         return false;
     }
+
+   
+        
+   
+
 }

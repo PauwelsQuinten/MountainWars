@@ -52,7 +52,7 @@ MonoBehaviour:
   _actionMaxRunTime: 3
   _equipmentToParryWith: 0
   _startFromRight: 0
-  _parrySpeed: 1.5
+  _parrySpeed: 1.4
 --- !u!114 &8396024233653514404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,11 +95,13 @@ MonoBehaviour:
   _behaviour: 10
   _stamina: 0
   _health: 0
+  _target: {fileID: 0}
   _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
   IsBleeding: 0
   Stamina: 0
   AttackCoolDown: 0
+  NpcPerception: 0
 --- !u!114 &2389779104276427239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +128,7 @@ MonoBehaviour:
   _targetShieldPossesion: 0
   _targetBehaviour: 0
   _hasTarget: 0
-  _targetDistance: 11
+  _targetDistance: 0
   _targetStamina: 0
   _targetHealth: 0
   _Targetopening: 0
@@ -142,8 +144,10 @@ MonoBehaviour:
   _behaviour: 0
   _stamina: 0
   _health: 0
+  _target: {fileID: 0}
   _isPlayerToAggressive: 0
   TargetCurrentAttack: 8
   IsBleeding: 0
   Stamina: 0
   AttackCoolDown: 0
+  NpcPerception: 0

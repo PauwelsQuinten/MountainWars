@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum GoapSwingState
+{
+    Start, Parry, Block, EndParry
+}
 public class SwordSwingAction : GoapAction
 {
     [SerializeField] float _swingSpeed = 1.5f;
@@ -16,12 +20,14 @@ public class SwordSwingAction : GoapAction
     [SerializeField] bool _randomDirection = false;
     [SerializeField] bool _isFeint = false;
     private bool _attackCoolDown = false;
+    private GoapSwingState _currentSwingState= GoapSwingState.Start;
 
     public override void StartAction(WorldState currentWorldState)
     {
         base.StartAction(currentWorldState);
         _progress = 0f;
         _SwingBack = false;
+        _currentSwingState = GoapSwingState.Start;
 
         _startFromRight = _randomDirection? UnityEngine.Random.Range(0, 2) == 0 : _startFromRight;
         if (_startFromRight)
@@ -60,14 +66,14 @@ public class SwordSwingAction : GoapAction
         {
             if (currentWorldState.CurrentOpening.Direction == OpeningDirection.Right
                 || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
-                Cost = 0.3f;
+                Cost = 0.35f;
         }
         else if (currentWorldState.AttackCoolDown <= 0f && _startFromRight 
             && currentWorldState._worldStateValues2[EWorldState.TargetOpening] == WorldStateValue.InPosesion)
         {
             if (currentWorldState.CurrentOpening.Direction == OpeningDirection.Left
                 || currentWorldState.CurrentOpening.Direction == OpeningDirection.Full)
-                Cost = 0.3f;
+                Cost = 0.35f;
         }
         else
             Cost = 1f;
@@ -93,9 +99,19 @@ public class SwordSwingAction : GoapAction
 
         _aiComp.AimAction_performed(rotatedVec, FightStyle.Sword);
 
-        //_attackComp.Direction = rotatedVec;
-        //float newangle = Mathf.Atan2(rotatedVec.y, rotatedVec.x);
-        //Debug.Log($"{newangle}");
+        switch(_currentSwingState)
+        {
+            case GoapSwingState.Start:
+                break;
+            case GoapSwingState.Parry:
+                break;
+            case GoapSwingState.Block:
+                break;
+            case GoapSwingState.EndParry:
+                break;
+                default:
+                break;
+        }
     }
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)

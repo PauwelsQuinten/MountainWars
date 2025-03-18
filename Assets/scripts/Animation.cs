@@ -77,7 +77,8 @@ public class WalkAnimate : MonoBehaviour
         //_animator.SetBool("LockOn", value);
         //
         //_target = value ? target : null;
-        
+        if (!target)
+            return;
         _target = target;
         _animator.SetBool("LockOn", _target != null);
     }

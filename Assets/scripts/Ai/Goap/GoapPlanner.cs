@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using RangeAttribute = UnityEngine.RangeAttribute;
 
 public enum CharacterMentality
 {
@@ -12,6 +13,8 @@ public enum CharacterMentality
 public class GoapPlanner : MonoBehaviour
 {
     [SerializeField] private CharacterMentality _characterMentality = CharacterMentality.Agresive;
+    [Range(0f, 1f)]
+    public float Perception = 0.8f;
     [SerializeField] private List<GoapAction>_allActionPrefabs;
     [SerializeField] private List<GoapGoal>_allGoalPrefabs;
     private List<GoapAction>_allActions = new List<GoapAction>();
@@ -43,7 +46,7 @@ public class GoapPlanner : MonoBehaviour
         _currentWorldState.UpdateWorldState();
 
         if (_activeGoal && _activeGoal.InteruptGoal(_currentWorldState)) //Placed for when getting a knockback
-            ResetPlan();
+            ResetPlan(true);
 
         if (_activeGoal == null || _actionPlan.Count == 0)
             _activeGoal = SelectCurrentGoal();
@@ -100,8 +103,11 @@ public class GoapPlanner : MonoBehaviour
         }
 
         if (_activeAction.IsInterupted(_currentWorldState))
-            _activeAction.ActionCompleted();
-                //ResetPlan();
+        {
+            //_activeAction.ActionCompleted();
+            ResetPlan(false);
+        }
+
 
     }
 
@@ -156,12 +162,12 @@ public class GoapPlanner : MonoBehaviour
         return true;
     }
 
-    private void ResetPlan()
+    private void ResetPlan(bool setGoalInvallid)
     {
         if (_activeAction)
             _activeAction.ActionCompleted();
         _activeAction = null;
-        if (_activeGoal)
+        if (_activeGoal && setGoalInvallid)
             _activeGoal.SetInvallid();
         _activeGoal = null;
         _actionPlan.Clear();

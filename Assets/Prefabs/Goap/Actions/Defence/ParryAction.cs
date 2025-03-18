@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class ParryAction : GoapAction
 {
@@ -63,6 +64,7 @@ public class ParryAction : GoapAction
 
         rotatedVec = rotatedVec.normalized; // Normalize after rotation
 
+        _swordParryComp.StartParry(true, currentWorldState._target, 0);// only will trigger once
         _aiController.AimAction_performed(rotatedVec, _fightStyle);
     }
 
@@ -70,7 +72,7 @@ public class ParryAction : GoapAction
     {
         foreach(KeyValuePair<AttackType, int> att in currentWorldState._attackCountList)
         {
-            if (att.Value > 0 && currentWorldState.TargetCurrentAttack == att.Key)
+            if (att.Value >= 5 && currentWorldState.TargetCurrentAttack == att.Key)
             {
                 Cost = 0f;
                 return true;
@@ -98,7 +100,7 @@ public class ParryAction : GoapAction
                 _swingBack = false;
                 _progress = 0;
                 ActionCompleted();
-                Debug.Log("Parry compleet");
+                Debug.Log("Parry action compleet");
                 return true;
             }
             else if (_progress >= _targetProgress || _progress <= -_targetProgress)

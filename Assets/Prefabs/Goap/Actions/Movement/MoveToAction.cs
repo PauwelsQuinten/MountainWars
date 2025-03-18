@@ -32,7 +32,7 @@ public class MoveToAction : GoapAction
         npcComp = npc.GetComponent<CharacterMovement>();
         aiComp = npc.GetComponent<AIController>();
 
-        switch(_MoveTo)
+        switch (_MoveTo)
         {
             case ObjectTarget.Weapon:
                 _foundSpecificEquipment = FindEquipmentOfType(EquipmentType.Weapon);
@@ -65,10 +65,10 @@ public class MoveToAction : GoapAction
         switch (_MoveTo)
         {
             case ObjectTarget.Player:
-                var target =  currentWorldState.GetTarget();
+                var target = currentWorldState.GetTarget();
                 if (target)
                     targetPos = target.transform.position;
-               
+
                 targetDir = targetPos - npcPos;
                 targetDir.Normalize();
                 break;
@@ -80,7 +80,7 @@ public class MoveToAction : GoapAction
                 targetDir = targetPos - npcPos;
                 targetDir.Normalize();
                 break;
-                
+
             case ObjectTarget.Shield:
                 if (_foundSpecificEquipment)
                     targetPos = _foundSpecificEquipment.transform.position;
@@ -88,7 +88,7 @@ public class MoveToAction : GoapAction
                 targetDir = targetPos - npcPos;
                 targetDir.Normalize();
                 break;
-                
+
             case ObjectTarget.Forward:
                 targetDir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
                 break;
@@ -99,7 +99,7 @@ public class MoveToAction : GoapAction
 
             case ObjectTarget.Side:
                 //angleRad *= _direction * 0.5f;
-                angleRad += _direction * Mathf.PI *0.5f;
+                angleRad += _direction * Mathf.PI * 0.5f;
                 targetDir = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0f);
                 break;
 
@@ -111,7 +111,7 @@ public class MoveToAction : GoapAction
 
     public override bool IsCompleted(WorldState currentWorldState, WorldState activeActionDesiredState)
     {
-        if(base.IsCompleted(currentWorldState, activeActionDesiredState))
+        if (base.IsCompleted(currentWorldState, activeActionDesiredState))
         {
             //npcComp.SetInputDirection(Vector2.zero);
             aiComp.MoveAction_performed(Vector2.zero);
@@ -123,15 +123,21 @@ public class MoveToAction : GoapAction
 
     public override bool IsInterupted(WorldState currentWorldState)
     {
-        if (!currentWorldState.IsBlockInCorrectDirection()
-           && (currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.OutOfRange
-           || currentWorldState._worldStateValues2[EWorldState.TargetDistance] == WorldStateValue.InRange))
-        {
-            //npcComp.SetInputDirection(Vector2.zero);
-            aiComp.MoveAction_performed(Vector2.zero);
-            return true;
-        }
-        return false;
+        return AboutToBeHit(currentWorldState) || FamiliarAttack(currentWorldState);
+
+    }
+
+    public override bool IsVallid(WorldState currentWorldState)
+    {
+        if (_MoveTo == ObjectTarget.Side)
+            Cost = Random.Range(0.5f, 1f);
+        //Cost = Random.Range(0.5f, 1.5f);
+        return true;
+    }
+
+    public override void CancelAction()
+    {
+        aiComp.MoveAction_performed(Vector2.zero);
     }
 
 
@@ -142,19 +148,11 @@ public class MoveToAction : GoapAction
 
         foreach (Equipment equipment in foundStuff)
         {
-            if(equipment.GetEquipmentType() == type && equipment.GetComponent<SphereCollider>().enabled)
+            if (equipment.GetEquipmentType() == type && equipment.GetComponent<SphereCollider>().enabled)
                 return equipment;
         }
         return null;
 
-    }
-
-    public override bool IsVallid(WorldState currentWorldState)
-    {
-        if (_MoveTo == ObjectTarget.Side)
-            Cost = Random.Range(0.5f, 1f);
-            //Cost = Random.Range(0.5f, 1.5f);
-        return true;
     }
 
 }
